@@ -8,7 +8,8 @@
 			"**/out/**",
 			"**/include/**",
 			"*.code-workspace",
-			"tsconfig.json"
+			"tsconfig.json",
+			"tsconfig.build.json"
 		]
 	},
 
@@ -20,7 +21,8 @@
 			"**/out/**",
 			"**/include/**",
 			"*.code-workspace",
-			"tsconfig.json"
+			"tsconfig.json",
+			"tsconfig.build.json"
 		],
 		"indentStyle": "tab",
 		"indentWidth": 4,
@@ -49,12 +51,7 @@
 
 	"linter": {
 		"enabled": true,
-		"ignore": [
-			".vscode/**",
-			"node_modules/**",
-			"*.code-workspace",
-			"tsconfig.json"
-		],
+		"ignore": [".vscode/**", "node_modules/**", "*.code-workspace", "tsconfig.json", "tsconfig.build.json"],
 		"rules": {
 			"recommended": true,
 			"suspicious": {
@@ -75,7 +72,7 @@
 
 	"overrides": [
 		{
-			"include": [".vscode/**", "*.code-workspace", "tsconfig.json"],
+			"include": [".vscode/**", "*.code-workspace", "tsconfig.json", "tsconfig.build.json"],
 			"json": {
 				"parser": {
 					"allowComments": true,

@@ -1,8 +1,0 @@
-name = "your-game-name"
-
-[[inputs]]
-codegen = true
-codegen-base-path = "images"
-codegen-path = "src/shared/assets.luau"
-glob = "images/**/*.png"
-packable = false

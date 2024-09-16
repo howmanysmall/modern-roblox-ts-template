@@ -100,6 +100,8 @@ export function getBindingApi<T>(binding: Binding<T>) {
 		if (name === "Symbol(BindingImpl)" || name.sub(1, 12) === "RoactBinding")
 			return value as unknown as BindingApi<T>;
 	}
+
+	return undefined;
 }
 
 /**
