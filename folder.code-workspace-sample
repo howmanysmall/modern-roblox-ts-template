@@ -1,0 +1,35 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "ModernTsTemplate",
+		},
+	],
+
+	"settings": {
+		"editor.fontFamily": "'Cascadia Code', 'JetBrains Mono', \"Ligalex Mono\", Consolas, 'Courier New', monospace",
+		"editor.fontLigatures": "'ss02', 'zero'",
+
+		"emmet.excludeLanguages": [
+			"markdown",
+			"typescript",
+			"lua",
+			"luau",
+			"typescriptreact",
+		],
+
+		"files.defaultLanguage": "typescript",
+
+		"roblox-ts.colorPicker.defaultOption": "fromRGB",
+		"roblox-ts.colorPicker.enabled": true,
+		"roblox-ts.command.parameters": [
+			"-w",
+			"--optimizedLoops",
+		],
+
+		"typescript.experimental.updateImportsOnPaste": true,
+		"typescript.inlayHints.enumMemberValues.enabled": true,
+		"typescript.inlayHints.parameterNames.enabled": "literals",
+		"typescript.tsdk": "node_modules/typescript/lib",
+	},
+}

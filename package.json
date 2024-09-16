@@ -1,0 +1,62 @@
+{
+	"name": "modern-ts-template",
+	"version": "1.0.0",
+	"description": "A template for rbxts projects.",
+	"main": "index.js",
+	"scripts": {
+		"build": "rbxts-build build",
+		"open": "rbxts-build open",
+		"start": "rbxts-build start",
+		"stop": "rbxts-build stop",
+		"sync": "rbxts-build sync",
+		"watch": "rbxtsc -w"
+	},
+	"rbxts-build": {
+		"rbxtscArgs": ["--verbose", "--optimizedLoops"],
+		"rojoBuildArgs": ["--output", "game.rbxl"],
+		"syncLocation": "src/global.d.ts",
+		"dev": false,
+		"wslUseExe": false,
+		"watchOnOpen": true
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.1",
+		"@rbxts/compiler-types": "3.0.0-types.0",
+		"@rbxts/types": "^1.0.806",
+		"@typescript-eslint/eslint-plugin": "^7.18.0",
+		"@typescript-eslint/parser": "^7.18.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-perfectionist": "^2.11.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"eslint-plugin-react-roblox-hooks": "^5.1.0-rbx.1",
+		"eslint-plugin-roblox-ts": "^0.0.36",
+		"eslint-plugin-unicorn": "^55.0.0",
+		"eslint": "^8.57.0",
+		"prettier": "^3.3.3",
+		"rbxts-build": "^2.4.0",
+		"rbxts-transformer-flamework": "^1.2.3",
+		"rbxts-transformer-services": "^1.1.1",
+		"roblox-ts": "^3.0.0",
+		"typescript": "^5.6.2"
+	},
+	"dependencies": {
+		"@flamework/components": "^1.2.3",
+		"@flamework/core": "^1.2.3",
+		"@flamework/networking": "^1.2.3",
+		"@rbxts/data-structures": "^1.1.0",
+		"@rbxts/jest-globals": "^0.1.0",
+		"@rbxts/jest": "^0.1.0",
+		"@rbxts/luau-polyfill": "^1.1.2",
+		"@rbxts/rbx-debug": "^1.0.1",
+		"@rbxts/rbxts-sleitnick-log": "^1.1.7",
+		"@rbxts/react-roblox": "^0.4.0",
+		"@rbxts/react-tree": "^1.0.1",
+		"@rbxts/react": "^0.4.0",
+		"@rbxts/services": "^1.5.5",
+		"@rbxts/t": "^3.1.1",
+		"@rbxts/ui-labs": "^2.2.0-ts.1"
+	}
+}

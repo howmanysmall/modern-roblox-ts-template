@@ -1,0 +1,17 @@
+{
+	"recommendations": [
+		"biomejs.biome",
+		"christian-kohler.path-intellisense",
+		"dbaeumer.vscode-eslint",
+		"evaera.vscode-rojo",
+		"filiptibell.rojo-viewer",
+		"flamework.flamework-vscode",
+		"ghmcadams.lintlens",
+		"idered.npm",
+		"johnnymorganz.luau-lsp",
+		"kampfkarren.roblox-lua-autofills",
+		"kampfkarren.selene-vscode",
+		"roblox-ts.vscode-roblox-ts",
+		"visualstudioexptteam.vscodeintellicode",
+	],
+}

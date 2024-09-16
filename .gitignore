@@ -1,0 +1,17 @@
+/node_modules
+/out
+/include
+*.tsbuildinfo
+flamework.build
+
+.ENV
+*.code-workspace
+
+# Roblox related
+/*.rbxlx.lock
+/*.rbxl.lock
+**/*.rbx[lm]*
+sourcemap.json
+
+# For you Mac users
+.DS_Store

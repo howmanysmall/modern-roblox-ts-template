@@ -1,0 +1,97 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.1/schema.json",
+	"organizeImports": {
+		"enabled": true,
+		"ignore": [
+			".vscode/**",
+			"**/node_modules/**",
+			"**/out/**",
+			"**/include/**",
+			"*.code-workspace",
+			"tsconfig.json"
+		]
+	},
+
+	"formatter": {
+		"enabled": true,
+		"ignore": [
+			".vscode/**",
+			"**/node_modules/**",
+			"**/out/**",
+			"**/include/**",
+			"*.code-workspace",
+			"tsconfig.json"
+		],
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineEnding": "lf",
+		"lineWidth": 120,
+		"formatWithErrors": true
+	},
+
+	"javascript": {
+		"formatter": {
+			"arrowParentheses": "always",
+			"bracketSameLine": false,
+			"bracketSpacing": true,
+			"enabled": false,
+			"indentStyle": "tab",
+			"indentWidth": 4,
+			"jsxQuoteStyle": "double",
+			"lineEnding": "lf",
+			"lineWidth": 120,
+			"quoteProperties": "asNeeded",
+			"quoteStyle": "double",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
+	},
+
+	"linter": {
+		"enabled": true,
+		"ignore": [
+			".vscode/**",
+			"node_modules/**",
+			"*.code-workspace",
+			"tsconfig.json"
+		],
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noAssignInExpressions": "off",
+				"noConfusingVoidType": "off",
+				"noShadowRestrictedNames": "off",
+				"noExplicitAny": "off",
+				"noExportsInTest": "off"
+			},
+
+			"style": {
+				"noNonNullAssertion": "off",
+				"noParameterAssign": "off",
+				"useImportType": "off"
+			}
+		}
+	},
+
+	"overrides": [
+		{
+			"include": [".vscode/**", "*.code-workspace", "tsconfig.json"],
+			"json": {
+				"parser": {
+					"allowComments": true,
+					"allowTrailingCommas": true
+				},
+				"formatter": {
+					"enabled": true,
+					"indentStyle": "tab",
+					"indentWidth": 4,
+					"lineWidth": 120,
+					"trailingCommas": "all"
+				},
+				"linter": {
+					"enabled": true
+				}
+			}
+		}
+	]
+}
