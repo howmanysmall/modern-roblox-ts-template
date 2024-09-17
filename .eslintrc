@@ -90,5 +90,6 @@
 			}
 		],
 		"perfectionist/sort-classes": "off"
-	}
+	},
+	"overrides": []
 }

@@ -1,4 +1,3 @@
-//!native
 //!optimize 2
 
 export interface Profiler {

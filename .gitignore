@@ -4,6 +4,8 @@
 *.tsbuildinfo
 flamework.build
 
+/dist
+
 .ENV
 *.code-workspace
 

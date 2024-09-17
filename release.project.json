@@ -1,12 +1,12 @@
 {
-	"name": "roblox-ts-game",
+	"name": "release-build",
 	"globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
 	"tree": {
 		"$className": "DataModel",
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
 			"TS": {
-				"$path": "out/server"
+				"$path": "dist/server"
 			}
 		},
 		"ReplicatedStorage": {
@@ -24,15 +24,19 @@
 				}
 			},
 			"TS": {
-				"$path": "out/shared"
+				"$path": "dist/shared"
 			},
-			"typescript-types": { "$path": "out/types" }
+			"typescript-types": {
+				"$path": "dist/types"
+			}
 		},
 		"StarterPlayer": {
 			"$className": "StarterPlayer",
 			"StarterPlayerScripts": {
 				"$className": "StarterPlayerScripts",
-				"TS": { "$path": "out/client" }
+				"TS": {
+					"$path": "dist/client"
+				}
 			}
 		},
 		"Workspace": {
@@ -52,13 +56,6 @@
 			"$properties": {
 				"RespectFilteringEnabled": true
 			}
-		},
-		"TestService": {
-			"$className": "TestService",
-			"$properties": {
-				"ExecuteWithStudioRun": true
-			},
-			"$path": "test"
 		}
 	}
 }

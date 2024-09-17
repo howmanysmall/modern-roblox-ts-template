@@ -49,12 +49,7 @@
 
 	"linter": {
 		"enabled": true,
-		"ignore": [
-			".vscode/**",
-			"node_modules/**",
-			"*.code-workspace",
-			"tsconfig.json"
-		],
+		"ignore": [".vscode/**", "node_modules/**", "*.code-workspace", "tsconfig.json"],
 		"rules": {
 			"recommended": true,
 			"suspicious": {
