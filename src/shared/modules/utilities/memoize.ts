@@ -3,7 +3,7 @@
 
 import { LFUCache, LRUCache } from "@rbxts/data-structures";
 
-export function memoize<T, U>(memoizeFunction: (index: T) => U) {
+export function memoize<T, U>(memoizeFunction: (index: T) => U): (index: T) => U {
 	const cache = new Map<T, U>();
 
 	function memoized(index: T): U {
@@ -18,7 +18,10 @@ export function memoize<T, U>(memoizeFunction: (index: T) => U) {
 	return memoized;
 }
 
-export function memoizeMemorySafe<T, U extends defined>(memoizeFunction: (index: T) => U, capacity = 15) {
+export function memoizeMemorySafe<T, U extends defined>(
+	memoizeFunction: (index: T) => U,
+	capacity = 15,
+): (index: T) => U {
 	const cache = new LFUCache<T, U>(capacity);
 
 	function memoized(index: T): U {
@@ -36,7 +39,7 @@ export function memoizeMemorySafe<T, U extends defined>(memoizeFunction: (index:
 export function memoizeMemorySafeRecent<T extends defined, U extends defined>(
 	memoizeFunction: (index: T) => U,
 	capacity = 15,
-) {
+): (index: T) => U {
 	const cache = new LRUCache<T, U>(capacity);
 
 	function memoized(index: T): U {

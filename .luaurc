@@ -1,7 +1,16 @@
 {
+	"aliases": {
+		"classes": ".lune/Classes",
+		"contexts": ".lune/Contexts",
+		"packages": ".lune/Packages",
+		"promises": ".lune/Promises",
+		"utilities": ".lune/Utilities",
+		"types": ".lune/Types",
+		"lune": "~/.lune/.typedefs/0.8.9"
+	},
 	"languageMode": "strict",
-	"aliases": {},
 	"lint": {
 		"*": true
-	}
+	},
+	"globals": []
 }

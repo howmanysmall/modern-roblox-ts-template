@@ -1,0 +1,23 @@
+{
+	"GetMethod": {
+		"body": [
+			"function getMethod<T extends object, K extends keyof T>(object: T, key: K): T[K] {",
+			"\treturn object[key];",
+			"}",
+		],
+		"description": "A function for getting a method from a class (rbxts doesn't support this without it).",
+		"prefix": ["get-method"],
+		"scope": "typescript,typescriptreact",
+	},
+	"StrictTypeError": {
+		"body": [
+			"const exception = new Error(\"${1:invalid!}\");",
+			"exception.name = \"StrictTypeError\";",
+			"Error.captureStackTrace(exception, getMethod(this, \"${2:methodName}\"));",
+			"throw exception;",
+		],
+		"description": "A strict type error.",
+		"prefix": ["strictTypeError", "strict-type-error", "stricttypeerror"],
+		"scope": "typescript,typescriptreact",
+	},
+}

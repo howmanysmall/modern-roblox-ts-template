@@ -5,3 +5,7 @@ interface ReplicatedStorage extends Instance {}
 interface ServerScriptService extends Instance {}
 
 interface ServerStorage extends Instance {}
+
+interface SoundService extends Instance {}
+
+interface LocalizationService extends Instance {}

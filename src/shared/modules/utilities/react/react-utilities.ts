@@ -1,16 +1,16 @@
 //!native
 //!optimize 2
 
-export function createNextLayoutOrder(startAt = 0) {
+export function createNextLayoutOrder(startAt = 0): () => number {
 	let layoutOrder = startAt;
-	function getNext() {
+	function getNext(): number {
 		return layoutOrder++;
 	}
 
 	return getNext;
 }
 
-export function createUniqueKey() {
+export function createUniqueKey(): (name: string) => string {
 	const names = new Map<string, number>();
 
 	function uniqueKeyGenerator(name: string): string {

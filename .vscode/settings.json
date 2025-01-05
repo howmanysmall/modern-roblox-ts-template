@@ -25,4 +25,5 @@
 		"source.fixAll.eslint": "explicit",
 		"source.removeUnusedImports": "explicit",
 	},
+	"typescript.inlayHints.functionLikeReturnTypes.enabled": true,
 }

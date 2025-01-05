@@ -1,105 +1,29 @@
 --!optimize 2
 --!strict
+--[=[ lunar
+	about = "Creates a benchmark file."
+	args = "[-h] [--luau] [--interp] [--init] <name>"
+]=]
 
-local FileSystemUtilities = require("./Utilities/FileSystemUtilities")
-local GenerateGuid = require("./Utilities/GenerateGuid")
+local ArgParse = require("@packages/ArgParse")
+local BenchmarkCreators = require("@utilities/BenchmarkCreators")
 
-local process = require("@lune/process")
-local stdio = require("@lune/stdio")
+local parser = ArgParse("create-benchmark", "Creates a benchmark file.")
 
-local fileName = stdio.prompt("text", "What do you want to call this benchmark?")
-if fileName == "" then
-	process.exit(0)
-end
+parser:flag("--luau", "Create a Luau benchmark.")
+parser:flag("--interp", "Make the benchmark interpreted mode.")
+parser:flag("--init", "Make the benchmark use the init format.")
+parser:argument("name", "The name of the benchmark", nil, nil)
 
-local shouldBeNative = stdio.prompt("confirm", "Do you want the code to be native?", true)
-local shouldBeFolder = stdio.prompt("confirm", "Do you want this to be the the init format?", false)
+local arguments: {
+	luau: boolean?,
+	interp: boolean?,
+	init: boolean?,
+	name: string,
+} = parser:parse()
 
-if shouldBeFolder then
-	FileSystemUtilities.SafeCreate(`{process.cwd}src/server/benchmarks/{fileName}.bench`, "Directory")
-	FileSystemUtilities.SafeCreate(
-		`{process.cwd}src/server/benchmarks/{fileName}.bench/index.ts`,
-		"File",
-		string.format([[%*//!nonstrict
-//!optimize 2
+local creator: typeof(BenchmarkCreators.Luau) = if arguments.luau
+	then BenchmarkCreators.Luau
+	else BenchmarkCreators.TypeScript
 
-import type { Benchmark, Profiler } from "../types";
-function createBenchmark<Arguments extends Array<undefined> | Array<unknown> = Array<unknown>>(
-	parameterGenerator: () => LuaTuple<Arguments extends void ? Array<undefined> : Arguments>,
-	functions: Record<
-		string,
-		(profiler: Profiler, ...benchmarkArguments: Arguments extends void ? Array<undefined> : Arguments) => void
-	>,
-): Benchmark<Arguments> {
-	return {
-		Functions: functions,
-		ParameterGenerator: parameterGenerator,
-	};
-}
-
-export = createBenchmark(() => $tuple(), {
-	"A": (profiler) => {},
-	"B": (profiler) => {},
-});
-]], if shouldBeNative then "//!native" else "")
-	)
-	FileSystemUtilities.SafeCreate(
-		`{process.cwd}src/server/benchmarks/{fileName}.bench/init.meta.json`,
-		"File",
-		string.format(
-			[[{
-	"properties": {
-		"Attributes": {
-			"BenchId": { "String": "%*" }
-		}
-	}
-}
-]],
-			string.upper(GenerateGuid())
-		)
-	)
-
-	process.exit(0)
-end
-
-FileSystemUtilities.SafeCreate(
-	`{process.cwd}src/server/benchmarks/{fileName}.bench.ts`,
-	"File",
-	string.format([[%*//!nonstrict
-//!optimize 2
-
-import type { Benchmark, Profiler } from "./types";
-function createBenchmark<Arguments extends Array<undefined> | Array<unknown> = Array<unknown>>(
-	parameterGenerator: () => LuaTuple<Arguments extends void ? Array<undefined> : Arguments>,
-	functions: Record<
-		string,
-		(profiler: Profiler, ...benchmarkArguments: Arguments extends void ? Array<undefined> : Arguments) => void
-	>,
-): Benchmark<Arguments> {
-	return {
-		Functions: functions,
-		ParameterGenerator: parameterGenerator,
-	};
-}
-
-export = createBenchmark(() => $tuple(), {
-	"A": (profiler) => {},
-	"B": (profiler) => {},
-});
-]], if shouldBeNative then "//!native" else "")
-)
-FileSystemUtilities.SafeCreate(
-	`{process.cwd}src/server/benchmarks/{fileName}.bench.meta.json`,
-	"File",
-	string.format(
-		[[{
-	"properties": {
-		"Attributes": {
-			"BenchId": { "String": "%*" }
-		}
-	}
-}
-]],
-		string.upper(GenerateGuid())
-	)
-)
+creator(arguments.name, not arguments.interp, not not arguments.init)

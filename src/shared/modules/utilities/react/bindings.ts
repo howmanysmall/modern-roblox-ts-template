@@ -94,7 +94,7 @@ export function joinAnyBindings(bindings: object): Binding<unknown> {
  * @param binding The binding to get the internal API of.
  * @returns The binding's API.
  */
-export function getBindingApi<T>(binding: Binding<T>) {
+export function getBindingApi<T>(binding: Binding<T>): BindingApi<T> | undefined {
 	for (const [key, value] of pairs(binding)) {
 		const name = `${key}`;
 		if (name === "Symbol(BindingImpl)" || name.sub(1, 12) === "RoactBinding")

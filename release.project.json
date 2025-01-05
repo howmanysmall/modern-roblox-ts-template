@@ -3,59 +3,128 @@
 	"globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
 	"tree": {
 		"$className": "DataModel",
+		"$ignoreUnknownInstances": true,
+
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
-			"TS": {
-				"$path": "dist/server"
-			}
+			"$ignoreUnknownInstances": true,
+			"TS": { "$path": "dist/server" }
 		},
+
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
+			"$ignoreUnknownInstances": true,
 			"rbxts_include": {
+				"$ignoreUnknownInstances": true,
 				"$path": "include",
 				"node_modules": {
 					"$className": "Folder",
-					"@rbxts": {
-						"$path": "node_modules/@rbxts"
-					},
-					"@flamework": {
-						"$path": "node_modules/@flamework"
-					}
+					"$ignoreUnknownInstances": true,
+					"@rbxts": { "$path": "node_modules/@rbxts" },
+					"@flamework": { "$path": "node_modules/@flamework" }
 				}
 			},
-			"TS": {
-				"$path": "dist/shared"
-			},
-			"typescript-types": {
-				"$path": "dist/types"
+
+			"TS": { "$path": "dist/shared" },
+			"typescript-types": { "$path": "dist/types" },
+			"assets": {
+				"$ignoreUnknownInstances": true,
+				"$path": "game-assets/ReplicatedStorage"
 			}
 		},
+
 		"StarterPlayer": {
 			"$className": "StarterPlayer",
+			"$ignoreUnknownInstances": true,
 			"StarterPlayerScripts": {
 				"$className": "StarterPlayerScripts",
-				"TS": {
-					"$path": "dist/client"
-				}
+				"$ignoreUnknownInstances": true,
+				"TS": { "$path": "dist/client" }
 			}
 		},
+
 		"Workspace": {
 			"$className": "Workspace",
+			"$ignoreUnknownInstances": true,
+			"$path": "game-assets/Workspace",
 			"$properties": {
-				"FilteringEnabled": true
+				"FilteringEnabled": true,
+				"ClientAnimatorThrottling": "Enabled",
+				"IKControlConstraintSupport": "Enabled",
+				"SignalBehavior": "Deferred",
+				"ModelStreamingBehavior": "Improved",
+				"PhysicsSteppingMethod": "Adaptive",
+				"StreamingEnabled": true,
+				"GlobalWind": [2.423, 0.919, 1.523]
 			}
 		},
+
+		"Lighting": {
+			"$className": "Lighting",
+			"$ignoreUnknownInstances": true,
+			"$path": "game-assets/Lighting",
+			"$properties": {
+				"Ambient": [0.2588235294117647, 0.1450980392156863, 0.0941176470588235],
+				"Brightness": 1.07,
+				"ClockTime": 14,
+				"TimeOfDay": "14:00:00",
+				"ColorShift_Bottom": [0, 0, 0],
+				"ColorShift_Top": [0.835, 0.529, 0.352],
+				"EnvironmentDiffuseScale": 1,
+				"EnvironmentSpecularScale": 1,
+				"GeographicLatitude": 0,
+				"GlobalShadows": true,
+				"OutdoorAmbient": [0.5490196078431373, 0.396078431372549, 0.3254901960784314],
+				"ShadowSoftness": 0.2,
+				"Technology": "Future"
+			}
+		},
+
 		"HttpService": {
 			"$className": "HttpService",
-			"$properties": {
-				"HttpEnabled": true
-			}
+			"$properties": { "HttpEnabled": true }
 		},
+
 		"SoundService": {
 			"$className": "SoundService",
+			"$ignoreUnknownInstances": true,
+			"$path": "game-assets/SoundService",
 			"$properties": {
-				"RespectFilteringEnabled": true
+				"RespectFilteringEnabled": true,
+				"VolumetricAudio": "Enabled"
 			}
+		},
+
+		"TextChatService": {
+			"$className": "TextChatService",
+			"$ignoreUnknownInstances": true,
+			"$properties": { "ChatVersion": "TextChatService" }
+		},
+
+		"ServerStorage": {
+			"$className": "ServerStorage",
+			"$ignoreUnknownInstances": true,
+			"assets": {
+				"$ignoreUnknownInstances": true,
+				"$path": "game-assets/ServerStorage"
+			}
+		},
+		"MaterialService": {
+			"$className": "MaterialService",
+			"$ignoreUnknownInstances": true,
+			"$path": "game-assets/MaterialService"
+		},
+
+		"TestService": {
+			"$className": "TestService",
+			"$properties": { "ExecuteWithStudioRun": true },
+			"$path": "test"
+		},
+
+		"LocalizationService": {
+			"$className": "LocalizationService",
+			"$ignoreUnknownInstances": true,
+			"$path": "game-assets/LocalizationService"
 		}
 	}
 }

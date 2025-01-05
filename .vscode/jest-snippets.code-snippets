@@ -1,0 +1,16 @@
+{
+	"Unit Test": {
+		"body": [
+			"//!optimize 2",
+			"",
+			"import { describe, expect, it } from \"@rbxts/jest-globals\";",
+			"",
+			"export = false;",
+			"",
+		],
+		"description": "A base unit test.",
+		"isFileTemplate": true,
+		"prefix": ["jest", "unittest", "unit-test"],
+		"scope": "typescript,typescriptreact",
+	},
+}

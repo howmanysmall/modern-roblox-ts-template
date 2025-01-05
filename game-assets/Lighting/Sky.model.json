@@ -1,0 +1,14 @@
+{
+	"ClassName": "Sky",
+	"Properties": {
+		"MoonTextureId": "rbxassetid://1345054856",
+		"SkyboxBk": "rbxassetid://6100050478",
+		"SkyboxDn": "rbxassetid://6100049801",
+		"SkyboxFt": "rbxassetid://6100049327",
+		"SkyboxLf": "rbxassetid://6100051088",
+		"SkyboxRt": "rbxassetid://6100051670",
+		"SkyboxUp": "rbxassetid://6100052590",
+		"SunAngularSize": 11,
+		"SunTextureId": "rbxassetid://1345009717"
+	}
+}

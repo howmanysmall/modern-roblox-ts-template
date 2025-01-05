@@ -7,17 +7,8 @@
 		"sourceType": "module",
 		"project": "./tsconfig.json"
 	},
-	"ignorePatterns": [
-		"/out"
-	],
-	"plugins": [
-		"@typescript-eslint",
-		"prettier",
-		"react-roblox-hooks",
-		"roblox-ts",
-		"unicorn",
-		"perfectionist"
-	],
+	"ignorePatterns": ["/out"],
+	"plugins": ["@typescript-eslint", "prettier", "react-roblox-hooks", "roblox-ts", "unicorn", "perfectionist"],
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -67,6 +58,8 @@
 		"unicorn/switch-case-braces": "off",
 		"unicorn/prefer-array-some": "off",
 		"unicorn/prefer-string-raw": "off",
+		"unicorn/prefer-top-level-await": "off",
+		"unicorn/throw-new-error": "off",
 
 		"perfectionist/sort-objects": [
 			"error",

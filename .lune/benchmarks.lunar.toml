@@ -1,0 +1,2 @@
+name = "benchmarks"
+script = ".lune/benchmarks/init.luau"

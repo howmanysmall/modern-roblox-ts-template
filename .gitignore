@@ -7,13 +7,18 @@ flamework.build
 /dist
 
 .ENV
+.env
 *.code-workspace
 
 # Roblox related
 /*.rbxlx.lock
 /*.rbxl.lock
-**/*.rbx[lm]*
+/*.rbx[lm]*
 sourcemap.json
 
 # For you Mac users
 .DS_Store
+
+*:Zone.Identifier
+
+/garbage

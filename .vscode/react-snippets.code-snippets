@@ -1,5 +1,5 @@
 {
-	"Functional Component": {
+	"Functional Component No Memo": {
 		"body": [
 			"//!optimize 2",
 			"",
@@ -11,7 +11,7 @@
 			"",
 		],
 		"description": "Create a Functional Component",
-		"prefix": "rofc",
+		"prefix": "rofcm",
 		"scope": "typescriptreact",
 	},
 	"Functional Component Memo": {
@@ -30,11 +30,11 @@
 			"",
 		],
 		"description": "Create a Functional Component",
-		"prefix": "rofcm",
+		"prefix": "rofc",
 		"scope": "typescriptreact",
 	},
 
-	"Functional Component with Props": {
+	"Functional Component with Props No Memo": {
 		"body": [
 			"//!optimize 2",
 			"",
@@ -48,7 +48,7 @@
 			"",
 		],
 		"description": "Create a Functional Component with Props",
-		"prefix": "rofcp",
+		"prefix": "rofcpm",
 		"scope": "typescriptreact",
 	},
 	"Functional Component with Props Memo": {
@@ -69,7 +69,7 @@
 			"",
 		],
 		"description": "Create a Functional Component with Props",
-		"prefix": "rofcpm",
+		"prefix": "rofcp",
 		"scope": "typescriptreact",
 	},
 
