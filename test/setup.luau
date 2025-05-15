@@ -1,3 +1,5 @@
+--!optimize 2
+
 for key in _G do
 	-- Clear registered modules to reset the roblox-ts runtime
 	if typeof(key) == "Instance" and key:IsA("ModuleScript") then

@@ -34,6 +34,7 @@ end
 local status, result = Jest.runCLI(script, {
 	all = true;
 	ci = false;
+	setupFiles = {script.Parent.setup};
 	verbose = true;
 }, roots):awaitStatus()
 -- print(`Jest tests completed with status {status}`)
