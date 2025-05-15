@@ -1,7 +1,7 @@
 --!optimize 2
 --!strict
 
-local Signal = require("./Signal")
+local Signal = require("@self/Signal")
 local roblox = require("@lune/roblox")
 
 local roblox_Instance_new = roblox.Instance.new

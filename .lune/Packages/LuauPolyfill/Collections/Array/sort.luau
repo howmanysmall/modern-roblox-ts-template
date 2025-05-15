@@ -1,7 +1,8 @@
 --!optimize 2
 --!strict
+
 local None = require("../Object/None")
-local types = require("../../ES7Types")
+local types = require("@packages/ES7Types")
 
 type Array<T> = types.Array<T>
 type Comparable = (any, any) -> number

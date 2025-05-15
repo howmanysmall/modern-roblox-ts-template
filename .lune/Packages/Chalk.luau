@@ -38,7 +38,7 @@ local function StringEncaseCRLFWithFirstIndex(value: string, prefix: string, pos
 	return returnValue
 end
 
-local ansiStyles: {[string]: {[string]: {number}}} = {
+local ANSI_STYLES: {[string]: {[string]: {number}}} = {
 	Modifier = {
 		Reset = {0, 0};
 		Bold = {1, 22};
@@ -111,7 +111,7 @@ type BaseStyle = {
 
 local styles: {[string]: BaseStyle} = {}
 
-for _, group in ansiStyles do
+for _, group in ANSI_STYLES do
 	for styleName, style in group do
 		styles[styleName] = {
 			Open = string.format(ANSI_16, ESC, style[1]);
@@ -120,10 +120,13 @@ for _, group in ansiStyles do
 	end
 end
 
-export type Styler = typeof(setmetatable({} :: BaseStyle, {} :: {
-	__call: (self: Styler, value: string) -> string,
-	__concat: (self: Styler, other: Styler) -> Styler,
-}))
+export type Styler = typeof(setmetatable(
+	{} :: BaseStyle,
+	{} :: {
+		__call: (self: Styler, value: string) -> string,
+		__concat: (self: Styler, other: Styler) -> Styler,
+	}
+))
 
 local CreateStyler: (open: string, close: string) -> Styler
 local ApplyStyle: (self: BaseStyle, value: string?) -> string
@@ -327,60 +330,63 @@ function Chalk.BgAnsi256(ansi: number): Styler
 	return CreateStyler(open, bgClose)
 end
 
-type Chalk = typeof(setmetatable({} :: {
-	Ansi: (ansi: number) -> Styler,
-	Ansi256: (ansi: number) -> Styler,
-	BgAnsi: (ansi: number) -> Styler,
-	BgAnsi256: (ansi: number) -> Styler,
-	BgBlack: Styler,
-	BgBlackBright: Styler,
-	BgBlue: Styler,
-	BgBlueBright: Styler,
-	BgCyan: Styler,
-	BgCyanBright: Styler,
-	BgGray: Styler,
-	BgGreen: Styler,
-	BgGreenBright: Styler,
-	BgGrey: Styler,
-	BgHex: (hex: string) -> Styler,
-	BgMagenta: Styler,
-	BgMagentaBright: Styler,
-	BgRed: Styler,
-	BgRedBright: Styler,
-	BgRgb: (red: number, green: number, blue: number) -> Styler,
-	BgWhite: Styler,
-	BgWhiteBright: Styler,
-	BgYellow: Styler,
-	BgYellowBright: Styler,
-	Black: Styler,
-	BlackBright: Styler,
-	Blue: Styler,
-	BlueBright: Styler,
-	Bold: Styler,
-	Cyan: Styler,
-	CyanBright: Styler,
-	Dim: Styler,
-	Gray: Styler,
-	Green: Styler,
-	GreenBright: Styler,
-	Grey: Styler,
-	Hex: (hex: string) -> Styler,
-	Hidden: Styler,
-	Inverse: Styler,
-	Italic: Styler,
-	Magenta: Styler,
-	MagentaBright: Styler,
-	Overline: Styler,
-	Red: Styler,
-	RedBright: Styler,
-	Reset: Styler,
-	Rgb: (red: number, green: number, blue: number) -> Styler,
-	Strikethrough: Styler,
-	Underline: Styler,
-	White: Styler,
-	WhiteBright: Styler,
-	Yellow: Styler,
-	YellowBright: Styler,
-}, {} :: {__call: (self: Chalk, value: unknown?) -> string}))
+type Chalk = typeof(setmetatable(
+	{} :: {
+		Ansi: (ansi: number) -> Styler,
+		Ansi256: (ansi: number) -> Styler,
+		BgAnsi: (ansi: number) -> Styler,
+		BgAnsi256: (ansi: number) -> Styler,
+		BgBlack: Styler,
+		BgBlackBright: Styler,
+		BgBlue: Styler,
+		BgBlueBright: Styler,
+		BgCyan: Styler,
+		BgCyanBright: Styler,
+		BgGray: Styler,
+		BgGreen: Styler,
+		BgGreenBright: Styler,
+		BgGrey: Styler,
+		BgHex: (hex: string) -> Styler,
+		BgMagenta: Styler,
+		BgMagentaBright: Styler,
+		BgRed: Styler,
+		BgRedBright: Styler,
+		BgRgb: (red: number, green: number, blue: number) -> Styler,
+		BgWhite: Styler,
+		BgWhiteBright: Styler,
+		BgYellow: Styler,
+		BgYellowBright: Styler,
+		Black: Styler,
+		BlackBright: Styler,
+		Blue: Styler,
+		BlueBright: Styler,
+		Bold: Styler,
+		Cyan: Styler,
+		CyanBright: Styler,
+		Dim: Styler,
+		Gray: Styler,
+		Green: Styler,
+		GreenBright: Styler,
+		Grey: Styler,
+		Hex: (hex: string) -> Styler,
+		Hidden: Styler,
+		Inverse: Styler,
+		Italic: Styler,
+		Magenta: Styler,
+		MagentaBright: Styler,
+		Overline: Styler,
+		Red: Styler,
+		RedBright: Styler,
+		Reset: Styler,
+		Rgb: (red: number, green: number, blue: number) -> Styler,
+		Strikethrough: Styler,
+		Underline: Styler,
+		White: Styler,
+		WhiteBright: Styler,
+		Yellow: Styler,
+		YellowBright: Styler,
+	},
+	{} :: {__call: (self: Chalk, value: unknown?) -> string}
+))
 
 return table.freeze(Chalk :: Chalk)

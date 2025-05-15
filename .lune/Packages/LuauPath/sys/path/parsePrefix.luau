@@ -1,5 +1,6 @@
 --!nolint LocalShadow
 --!optimize 2
+--# selene:allow(shadowing)
 
 -- https://github.com/rust-lang/rust/blob/master/library/std/src/sys/path/windows.rs
 

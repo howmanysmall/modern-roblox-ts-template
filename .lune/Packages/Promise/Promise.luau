@@ -12,7 +12,7 @@ local ERROR_NON_LIST = "Please pass a list of promises to %s"
 local ERROR_NON_FUNCTION = "Please pass a handler function to %s!"
 local MODE_KEY_METATABLE = {__mode = "k"}
 
-local function NoOperation() end
+local function NoOperation(): () end
 
 local function isCallable(value)
 	if type(value) == "function" then
@@ -131,10 +131,13 @@ do
 		}
 
 		for _, runtimeError in self:getErrorChain() do
-			table.insert(errorStrings, table.concat({
-				runtimeError.trace or runtimeError.error;
-				runtimeError.context;
-			}, "\n"))
+			table.insert(
+				errorStrings,
+				table.concat({
+					runtimeError.trace or runtimeError.error;
+					runtimeError.context;
+				}, "\n")
+			)
 		end
 
 		return table.concat(errorStrings, "\n")
@@ -1146,45 +1149,61 @@ local function AndThen(self, traceback, successHandler, failureHandler, useSprea
 	if useSpread then
 		if successHandler then
 			local oldSuccessHandler = successHandler
-			function successHandler(data)
-				if type(data) == "table" and data._fromAll then
-					return oldSuccessHandler(table.unpack(data))
+			function successHandler(...)
+				if select("#", ...) == 1 then
+					local data = (...)
+					local fromAll = false
+					if type(data) == "table" then
+						fromAll = not not data._fromAll
+						data._fromAll = nil
+					end
+
+					return if fromAll then oldSuccessHandler(table.unpack(data)) else oldSuccessHandler(data)
 				end
 
-				return oldSuccessHandler(data)
+				return oldSuccessHandler(...)
 			end
 		end
 
 		if failureHandler then
 			local oldFailureHandler = failureHandler
-			function failureHandler(data)
-				if type(data) == "table" and data._fromAll then
-					return oldFailureHandler(table.unpack(data))
+			function failureHandler(...)
+				if select("#", ...) == 1 then
+					local data = (...)
+					local fromAll = false
+					if type(data) == "table" then
+						fromAll = not not data._fromAll
+						data._fromAll = nil
+					end
+
+					return if fromAll then oldFailureHandler(table.unpack(data)) else oldFailureHandler(data)
 				end
 
-				return oldFailureHandler(data)
+				return oldFailureHandler(...)
 			end
 		end
 	else
 		if successHandler then
 			local oldSuccessHandler = successHandler
-			function successHandler(data)
+			function successHandler(...)
+				local data = (...)
 				if type(data) == "table" then
 					data._fromAll = nil
 				end
 
-				return oldSuccessHandler(data)
+				return oldSuccessHandler(...)
 			end
 		end
 
 		if failureHandler then
 			local oldFailureHandler = failureHandler
-			function failureHandler(data)
+			function failureHandler(...)
+				local data = (...)
 				if type(data) == "table" then
 					data._fromAll = nil
 				end
 
-				return oldFailureHandler(data)
+				return oldFailureHandler(...)
 			end
 		end
 	end
@@ -1650,9 +1669,35 @@ function Promise.prototype:WaitStatus()
 	end
 
 	if self.Status == Promise.Status.Resolved then
-		return self.Status, table.unpack(self._values, 1, self._valuesLength)
-	elseif self.Status == Promise.Status.Rejected then
-		return self.Status, table.unpack(self._values, 1, self._valuesLength)
+		local values = self._values
+		local valuesLength = self._valuesLength
+
+		local newValues = table.create(valuesLength)
+		for index = 1, valuesLength do
+			local value = values[index]
+			if type(value) == "table" then
+				value._fromAll = nil
+			end
+			newValues[index] = value -- Store the processed value into newValues
+		end
+
+		return self.Status, table.unpack(newValues, 1, valuesLength)
+	end
+
+	if self.Status == Promise.Status.Rejected then
+		local values = self._values
+		local valuesLength = self._valuesLength
+
+		local newValues = table.create(valuesLength)
+		for index = 1, valuesLength do
+			local value = values[index]
+			if type(value) == "table" then
+				value._fromAll = nil
+			end
+			newValues[index] = value -- Store the processed value into newValues
+		end
+
+		return self.Status, table.unpack(newValues, 1, valuesLength)
 	end
 
 	return self.Status

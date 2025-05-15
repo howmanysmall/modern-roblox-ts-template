@@ -1,7 +1,9 @@
 --!optimize 2
 --!strict
 
-local STRING_CASES: {[string]: string} = {}
+local STRING_CASES: {[string]: string} = {
+	["[Enum] Requested metatable is locked"] = "Enum";
+}
 
 local function TypeOf(value: any): string
 	local typeOf = typeof(value)

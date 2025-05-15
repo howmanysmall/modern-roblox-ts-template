@@ -4,8 +4,9 @@
 	A 'Symbol' is an opaque marker type, implemented to behave similarly to JS:
 	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 ]]
-local GlobalRegistry = require("./RegistryGlobal")
-local Symbol = require("./Symbol")
+
+local GlobalRegistry = require("@self/RegistryGlobal")
+local Symbol = require("@self/Symbol")
 
 export type Symbol = Symbol.Symbol
 local SymbolObject = setmetatable({}, {
@@ -19,5 +20,6 @@ local SymbolObject = setmetatable({}, {
 })
 
 SymbolObject.for_ = GlobalRegistry.getOrInit
+SymbolObject["for"] = GlobalRegistry.getOrInit
 
-return SymbolObject
+return table.freeze(SymbolObject)

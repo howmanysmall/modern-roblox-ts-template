@@ -10,16 +10,16 @@ type ProgressOptions = {
 }
 local BAR = utf8.char(9608)
 
-local function ProgressBar(Iteration: number, Total: number, Options: ProgressOptions?)
-	local TrueOptions: ProgressOptions = if Options then Options else {}
-	local Length = TrueOptions.Length or 100
-	local Surrounding = TrueOptions.Surrounding or "|"
+local function ProgressBar(iteration: number, total: number, options: ProgressOptions?): string
+	local trueOptions: ProgressOptions = if options then options else {}
+	local length = trueOptions.Length or 100
+	local surrounding = trueOptions.Surrounding or "|"
 
-	local FilledLength = math.floor(Length * Iteration // Total)
-	return `{TrueOptions.PrintStart or "\r"}{Surrounding}{string.rep(TrueOptions.Fill or BAR, FilledLength)}{string.rep(
+	local filledLength = length * iteration // total
+	return `{trueOptions.PrintStart or "\r"}{surrounding}{string.rep(trueOptions.Fill or BAR, filledLength)}{string.rep(
 		"-",
-		Length - FilledLength
-	)}{Surrounding}{TrueOptions.PrintEnd or "\r"}`
+		length - filledLength
+	)}{surrounding}{trueOptions.PrintEnd or "\r"}`
 end
 
 return ProgressBar

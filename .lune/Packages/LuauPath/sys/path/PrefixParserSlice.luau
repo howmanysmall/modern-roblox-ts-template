@@ -1,5 +1,6 @@
 --!nolint LocalShadow
 --!optimize 2
+--# selene:allow(shadowing)
 
 export type PrefixParserSlice = {
 	stripPrefix: (self: PrefixParserSlice, prefix: string) -> PrefixParserSlice?,

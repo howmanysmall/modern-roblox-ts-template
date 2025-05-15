@@ -1,12 +1,18 @@
 asset_dir = "assets"
-write_dir = "src/shared/"
+exclude_assets = ["**/.DS_Store", "**/.gitkeep", "**/Thumbs.db", ".gitkeep"]
+write_dir = "src/shared"
 
 [creator]
-id = 671465276
-type = "user"
+id = 16492520
+type = "user" # or group, but I have no api key
 
 [codegen]
 output_name = "assets"
 strip_extension = true
 style = "nested"
 typescript = true
+
+# [input]
+# output_path = "" # The directory path to output the generated code.
+# path = ""        # A glob pattern to match files to upload.
+# web = {}         # A map of paths relative to the input path to existing assets on Roblox. This is a {[string]: WebAsset}.

@@ -1,12 +1,12 @@
 --!optimize 2
 --!strict
+
 local Number = require("../Number")
 local findOr = require("./findOr")
 local slice = require("./slice")
-local types = require("../ES7Types")
 
 local MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER
-type Array<T> = types.Array<T>
+type Array<T> = {T}
 
 type Pattern = string | Array<string>
 

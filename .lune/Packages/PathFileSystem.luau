@@ -3,7 +3,6 @@
 
 local LuauPath = require("@packages/LuauPath")
 local LuauPolyfill = require("@packages/LuauPolyfill")
-
 local fs = require("@lune/fs")
 local process = require("@lune/process")
 
@@ -13,7 +12,7 @@ local Path = LuauPath.Path
 local console = LuauPolyfill.console
 
 export type AsPath = LuauPath.AsPath
-export type Contents = buffer | string
+export type Contents = string | buffer
 export type Metadata = fs.Metadata
 export type MetadataKind = fs.MetadataKind
 export type MetadataPermissions = fs.MetadataPermissions
@@ -62,10 +61,11 @@ function PathFileSystem.IsDirectorySafeSilent(path: AsPath): boolean
 	return if success then value else false
 end
 
-function PathFileSystem.IsFile(path: AsPath): boolean
+local function IsFile(path: AsPath): boolean
 	return fs.isFile(AsPathToString(path))
 end
-PathFileSystem.isFile = PathFileSystem.IsFile
+PathFileSystem.IsFile = IsFile
+PathFileSystem.isFile = IsFile
 function PathFileSystem.IsFileSafe(path: AsPath): boolean
 	local success, value = pcall(fs.isFile, AsPathToString(path))
 	if not success then
@@ -79,15 +79,17 @@ function PathFileSystem.IsFileSafeSilent(path: AsPath): boolean
 	return if success then value else value
 end
 
-function PathFileSystem.Metadata(path: AsPath): Metadata
+local function Metadata(path: AsPath): Metadata
 	return fs.metadata(AsPathToString(path))
 end
-PathFileSystem.metadata = PathFileSystem.Metadata
+PathFileSystem.Metadata = Metadata
+PathFileSystem.metadata = Metadata
 
-function PathFileSystem.Move(from: AsPath, to: AsPath, overwriteOrOptions: boolean | WriteOptions | nil): ()
+local function Move(from: AsPath, to: AsPath, overwriteOrOptions: boolean | WriteOptions | nil): ()
 	return fs.move(AsPathToString(from), AsPathToString(to), overwriteOrOptions)
 end
-PathFileSystem.move = PathFileSystem.Move
+PathFileSystem.Move = Move
+PathFileSystem.move = Move
 
 function PathFileSystem.ReadDirectory(path: AsPath): {string}
 	return fs.readDir(AsPathToString(path))
@@ -99,25 +101,40 @@ function PathFileSystem.ReadFile(path: AsPath): string
 end
 PathFileSystem.readFile = PathFileSystem.ReadFile
 
-function PathFileSystem.RemoveDirectory(path: AsPath): ()
+local function RemoveDirectory(path: AsPath): ()
 	return fs.removeDir(AsPathToString(path))
 end
-PathFileSystem.removeDir = PathFileSystem.RemoveDirectory
+PathFileSystem.RemoveDirectory = RemoveDirectory
+PathFileSystem.removeDir = RemoveDirectory
 
-function PathFileSystem.RemoveFile(path: AsPath): ()
+local function RemoveFile(path: AsPath): ()
 	return fs.removeFile(AsPathToString(path))
 end
-PathFileSystem.removeFile = PathFileSystem.RemoveFile
+PathFileSystem.RemoveFile = RemoveFile
+PathFileSystem.removeFile = RemoveFile
 
-function PathFileSystem.WriteFile(path: AsPath, contents: Contents): ()
+local function WriteFile(path: AsPath, contents: Contents): ()
 	return fs.writeFile(AsPathToString(path), contents)
 end
-PathFileSystem.writeFile = PathFileSystem.WriteFile
+PathFileSystem.WriteFile = WriteFile
+PathFileSystem.writeFile = WriteFile
 
-function PathFileSystem.WriteDirectory(path: AsPath): ()
+local function WriteDirectory(path: AsPath): ()
 	return fs.writeDir(AsPathToString(path))
 end
-PathFileSystem.writeDir = PathFileSystem.WriteDirectory
+PathFileSystem.WriteDirectory = WriteDirectory
+PathFileSystem.writeDir = WriteDirectory
+
+-- custom
+
+local function Exists(path: AsPath): boolean
+	return Metadata(path).exists
+end
+PathFileSystem.Exists = Exists
+
+function PathFileSystem.Rename(from: AsPath, to: AsPath): ()
+	return if Exists(from) and not Exists(to) then pcall(Move, from, to, false) else false
+end
 
 -- function PathFileSystem.Join(...: Path.AsPath) end
 
@@ -155,6 +172,9 @@ end
 
 function PathFileSystem.Exists(path: AsPath): boolean
 	return fs.isDir(AsPathToString(path)) or fs.isFile(AsPathToString(path))
+end
+function PathFileSystem.FastExists(path: AsPath): boolean
+	return fs.metadata(AsPathToString(path)).exists
 end
 
 function PathFileSystem.GetNoCurrentDirectoryPathOf(path: Path): Path
@@ -210,5 +230,78 @@ PathFileSystem.PathSeparator = if process.os == "windows" then "\\" else "/"
 _G.SYS_PATH_SEPARATOR = PathFileSystem.PathSeparator
 
 PathFileSystem.CWD = NormalizePath(Path.new(process.cwd))
+
+local function TrimArray(array: {string}): {string}
+	local newArray: {string} = array
+	if array[1] == "" then
+		newArray = table.clone(array)
+		table.remove(newArray, 1)
+	end
+
+	local length = #array
+	if array[length] == "" then
+		if newArray == array then
+			newArray = table.clone(array)
+		end
+		newArray[length] = nil
+	end
+
+	return newArray
+end
+
+local function GetPathSegments(asPath: AsPath): {Path}
+	local split = TrimArray(string.split(NormalizePath(AsPathToPath(asPath)):toString(), "/"))
+	local length = #split
+	local segments: {Path} = table.create(length)
+	for index, value in split do
+		segments[index] = Path.new(value)
+	end
+	return segments
+end
+PathFileSystem.GetPathSegments = GetPathSegments
+
+local function GetPathSegmentsEasy(asPath: AsPath): {string}
+	return TrimArray(string.split(NormalizePath(AsPathToPath(asPath)):toString(), "/"))
+end
+PathFileSystem.GetPathSegmentsEasy = GetPathSegmentsEasy
+
+-- local function AsArrayToPath(array: {string}): Path
+-- 	local path = Path.new(array[1])
+-- 	for index = 2, #array do
+-- 		path = path:join(array[index])
+-- 	end
+-- 	return path
+-- end
+
+function PathFileSystem.WriteUfsFile(asPath: AsPath, contents: Contents): Path
+	local path = AsPathToPath(asPath)
+	local segments = GetPathSegmentsEasy(path)
+
+	local length = #segments
+	if length < 2 then
+		WriteFile(path, contents)
+		return path
+	end
+
+	for index = 1, length - 1 do
+		local currentPath = Path.new(table.concat(segments, "/", 1, index))
+		if not IsDirectory(currentPath) then
+			WriteDirectory(currentPath)
+		end
+	end
+
+	WriteFile(path, contents)
+	return path
+end
+function PathFileSystem.UfsUnlink(...: AsPath): ()
+	for index = 1, select("#", ...) do
+		local path = select(index, ...)
+		if IsDirectory(path) then
+			RemoveDirectory(path)
+		elseif IsFile(path) then
+			RemoveFile(path)
+		end
+	end
+end
 
 return table.freeze(PathFileSystem)

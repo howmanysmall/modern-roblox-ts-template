@@ -1,8 +1,8 @@
 --!optimize 2
 --!strict
 
-local types = require("./ES7Types")
-type Function = types.Function
+local ES7Types = require("@packages/ES7Types")
+type Function = ES7Types.Function
 
 export type Error = {
 	name: string,

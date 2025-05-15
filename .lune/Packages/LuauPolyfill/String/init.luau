@@ -2,20 +2,20 @@
 --!strict
 
 return table.freeze({
-	charCodeAt = require("./charCodeAt");
-	endsWith = require("./endsWith");
-	findOr = require("./findOr");
-	includes = require("./includes");
-	indexOf = require("./indexOf");
-	lastIndexOf = require("./lastIndexOf");
-	slice = require("./slice");
-	split = require("./split");
-	startsWith = require("./startsWith");
-	substr = require("./substr");
-	trim = require("./trim");
-	trimEnd = require("./trimEnd");
-	trimStart = require("./trimStart");
+	charCodeAt = require("@self/charCodeAt");
+	endsWith = require("@self/endsWith");
+	findOr = require("@self/findOr");
+	includes = require("@self/includes");
+	indexOf = require("@self/indexOf");
+	lastIndexOf = require("@self/lastIndexOf");
+	slice = require("@self/slice");
+	split = require("@self/split");
+	startsWith = require("@self/startsWith");
+	substr = require("@self/substr");
+	trim = require("@self/trim");
+	trimEnd = require("@self/trimEnd");
+	trimStart = require("@self/trimStart");
 	-- aliases for trimEnd and trimStart
-	trimRight = require("./trimEnd");
-	trimLeft = require("./trimStart");
+	trimRight = require("@self/trimEnd");
+	trimLeft = require("@self/trimStart");
 })

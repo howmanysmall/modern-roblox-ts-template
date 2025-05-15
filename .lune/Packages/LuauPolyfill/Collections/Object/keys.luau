@@ -1,9 +1,12 @@
 --!optimize 2
+--!strict
+
+local ES7Types = require("@packages/ES7Types")
+local InstanceOf = require("@packages/InstanceOf")
 local Set = require("../Set")
-local instanceOf = require("../../InstanceOf")
-local types = require("../../ES7Types")
-type Array<T> = types.Array<T>
-type Set<T> = types.Set<T>
+
+type Array<T> = ES7Types.Array<T>
+type Set<T> = ES7Types.Set<T>
 type Table = {[any]: any}
 
 return function(value: Set<any> | Table | string): Array<string>
@@ -16,7 +19,7 @@ return function(value: Set<any> | Table | string): Array<string>
 	local keys
 	if valueType == "table" then
 		keys = {}
-		if instanceOf(value, Set) then
+		if InstanceOf(value, Set) then
 			return keys
 		end
 

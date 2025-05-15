@@ -1,8 +1,10 @@
 --!optimize 2
-local ES7Types = require("../../ES7Types")
-local Map = require("./Map")
-local coerceToMap = require("./coerceToMap")
-local coerceToTable = require("./coerceToTable")
+--!strict
+
+local ES7Types = require("@packages/ES7Types")
+local Map = require("@self/Map")
+local coerceToMap = require("@self/coerceToMap")
+local coerceToTable = require("@self/coerceToTable")
 
 export type Map<K, V> = ES7Types.Map<K, V>
 

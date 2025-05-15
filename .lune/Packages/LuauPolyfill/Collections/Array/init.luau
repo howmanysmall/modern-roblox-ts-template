@@ -1,30 +1,29 @@
 --!optimize 2
 --!strict
-local ES7Types = require("../../ES7Types")
 
-export type Array<T> = ES7Types.Array<T>
+export type Array<T> = {T}
 
 return table.freeze({
-	concat = require("./concat");
-	every = require("./every");
-	filter = require("./filter");
-	find = require("./find");
-	findIndex = require("./findIndex");
-	flat = require("./flat");
-	flatMap = require("./flatMap");
-	forEach = require("./forEach");
-	from = require("./from");
-	includes = require("./includes");
-	indexOf = require("./indexOf");
-	isArray = require("./isArray");
-	join = require("./join");
-	map = require("./map");
-	reduce = require("./reduce");
-	reverse = require("./reverse");
-	shift = require("./shift");
-	slice = require("./slice");
-	some = require("./some");
-	sort = require("./sort");
-	splice = require("./splice");
-	unshift = require("./unshift");
+	concat = require("@self/concat");
+	every = require("@self/every");
+	filter = require("@self/filter");
+	find = require("@self/find");
+	findIndex = require("@self/findIndex");
+	flat = require("@self/flat");
+	flatMap = require("@self/flatMap");
+	forEach = require("@self/forEach");
+	from = require("@self/from");
+	includes = require("@self/includes");
+	indexOf = require("@self/indexOf");
+	isArray = require("@self/isArray");
+	join = require("@self/join");
+	map = require("@self/map");
+	reduce = require("@self/reduce");
+	reverse = require("@self/reverse");
+	shift = require("@self/shift");
+	slice = require("@self/slice");
+	some = require("@self/some");
+	sort = require("@self/sort");
+	splice = require("@self/splice");
+	unshift = require("@self/unshift");
 })

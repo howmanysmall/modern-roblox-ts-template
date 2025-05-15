@@ -1,9 +1,9 @@
 --!optimize 2
 
-local Path = require("./Path")
+local Path = require("@self/Path")
 
 type PrefixEnum =
-	{type: "Verbatim", value: string}
+	| {type: "Verbatim", value: string}
 	| {type: "VerbatimUNC", hostName: string, shareName: string}
 	| {type: "VerbatimDisk", value: string}
 	| {type: "DeviceNS", value: string}
@@ -116,10 +116,10 @@ export type Path = {
 	clear: (self: Path) -> (),
 }
 
-return {
+return table.freeze({
 	Path = (Path :: never) :: {
 		new: (path: string) -> Path,
 		from: (path: AsPath) -> Path,
 		is: (value: unknown) -> boolean,
 	};
-}
+})

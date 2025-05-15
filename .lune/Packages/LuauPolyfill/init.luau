@@ -1,20 +1,21 @@
 --!optimize 2
 --!strict
 
-local AssertionError = require("./AssertionError")
-local Boolean = require("./Boolean")
-local Collections = require("./Collections")
-local Console = require("./Console")
-local Error = require("./Error")
-local Math = require("./Math")
-local Number = require("./Number")
-local PromiseModule = require("./Promise")
-local String = require("./String")
-local Symbol = require("./Symbol")
-local Timers = require("./Timers")
-local extends = require("./extends")
-local instanceof = require("./InstanceOf")
-local types = require("./ES7Types")
+local AssertionError = require("@self/AssertionError")
+local Boolean = require("@self/Boolean")
+local Collections = require("@self/Collections")
+local Console = require("@self/Console")
+local Error = require("@self/Error")
+local Math = require("@self/Math")
+local Number = require("@self/Number")
+local PromiseModule = require("@self/Promise")
+local String = require("@self/String")
+local Symbol = require("@self/Symbol")
+local Timers = require("@self/Timers")
+local encodeURIComponent = require("@self/encodeURIComponent")
+local extends = require("@self/extends")
+local instanceof = require("@packages/InstanceOf")
+local types = require("@packages/ES7Types")
 
 export type Array<T> = types.Array<T>
 export type AssertionError = AssertionError.AssertionError
@@ -49,11 +50,14 @@ return table.freeze({
 	WeakMap = Collections.WeakMap;
 	String = String;
 	Symbol = Symbol;
-	setTimeout = Timers.setTimeout;
-	clearTimeout = Timers.clearTimeout;
-	setInterval = Timers.setInterval;
+
 	clearInterval = Timers.clearInterval;
+	clearTimeout = Timers.clearTimeout;
+	encodeURIComponent = encodeURIComponent;
+	setInterval = Timers.setInterval;
+	setTimeout = Timers.setTimeout;
 	util = table.freeze({
+		encodeURIComponent = encodeURIComponent;
 		inspect = Collections.inspect;
 	});
 })

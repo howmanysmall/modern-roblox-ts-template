@@ -5,7 +5,7 @@ local Color3 = require("@contexts/Color3")
 local LuauPolyfill = require("@packages/LuauPolyfill")
 local TypeOf = require("@packages/TypeOf")
 
-local Colors = require("./Colors")
+local Colors = require("@self/Colors")
 
 local Error = LuauPolyfill.Error
 
@@ -52,7 +52,7 @@ type PrivateStatic = Static & {
 }
 
 local BrickColor = {} :: PolyfillBrickColor & Static
-local Private = BrickColor :: PolyfillBrickColor & PrivateStatic;
+local Private = BrickColor :: PolyfillBrickColor & PrivateStatic
 (BrickColor :: any).__index = BrickColor;
 (BrickColor :: any).ClassName = "BrickColor"
 

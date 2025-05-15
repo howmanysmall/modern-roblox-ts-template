@@ -11,18 +11,16 @@ local process = require("@lune/process")
 local stdio = require("@lune/stdio")
 
 local console = LuauPolyfill.console
-
 type Path = PathFileSystem.Path
 
-local isFunctionRaw = GreenTea.fn(GreenTea.args(), GreenTea.returns())
-local isBenchmark = GreenTea.build({
+local IsBenchmark = GreenTea.build({
 	BarGraphMultiplier = GreenTea.number({integer = true});
 	TimeThreshold = GreenTea.number();
-
-	Configure = GreenTea.optional(isFunctionRaw);
-	Run = isFunctionRaw;
+	Configure = GreenTea.optional(GreenTea.anyfn());
+	Run = GreenTea.anyfn();
 })
-type Benchmark = typeof(isBenchmark:type())
+
+type Benchmark = typeof(IsBenchmark:type())
 
 type BenchmarkEntry = {
 	Benchmark: Benchmark,
@@ -33,22 +31,36 @@ local benchmarks: {BenchmarkEntry} = {}
 local length = 0
 do
 	local BASE_PATH = PathFileSystem.CWD:join(".lune"):join("benchmarks")
+	if not PathFileSystem.IsDirectory(BASE_PATH) then
+		console.warn("No benchmarks directory found!")
+		process.exit(1)
+	end
 
 	local function GetPath(filePath: PathFileSystem.Path, isFolder: boolean): Path
 		return if isFolder then filePath:join("init") else filePath
 	end
 
-	for _, potentialBenchmark in PathFileSystem.ReadDirectory(BASE_PATH) do
-		-- all benchmarks should start with "Benchmark" so that way we don't include `init.luau` or `SpeedTester.luau`.
-		if not string.match(string.lower(potentialBenchmark), "^benchmark") then
+	for _, file in PathFileSystem.GetChildren(BASE_PATH) do
+		local fileName = file:fileName()
+		if not fileName then
+			console.warn(`File name not found for {file}?`)
 			continue
 		end
 
-		local file = BASE_PATH:join(potentialBenchmark)
-		local filePath = GetPath(file, PathFileSystem.IsDirectory(file))
+		if not string.match(string.lower(fileName), "^benchmark") then
+			continue
+		end
 
-		local success, value = pcall(function()
-			return require(filePath:toString()) :: never
+		-- local file = BASE_PATH:join(potentialBenchmark)
+		local filePath = GetPath(file, PathFileSystem.IsDirectory(file))
+		local requirePath = filePath:stripPrefix(BASE_PATH)
+		if not requirePath then
+			console.warn(`{filePath} could not be stripped of the prefix.`)
+			continue
+		end
+
+		local success, value = pcall(function(): any
+			return require(`./{requirePath:toString()}`) :: any
 		end)
 
 		if not success then
@@ -56,7 +68,7 @@ do
 			continue
 		end
 
-		local typeSuccess, typeError = isBenchmark:matches(value)
+		local typeSuccess, typeError = IsBenchmark:matches(value)
 		if not typeSuccess then
 			console.warn(`{filePath} failed to check - {typeError}`)
 			continue
@@ -65,11 +77,11 @@ do
 		length += 1
 		benchmarks[length] = {
 			Benchmark = value;
-			Name = string.gsub(potentialBenchmark, "%.luau?$", "");
+			Name = string.gsub(fileName, "%.luau?$", "");
 		}
 	end
 
-	table.sort(benchmarks, function(a, b)
+	table.sort(benchmarks, function(a: BenchmarkEntry, b: BenchmarkEntry): boolean
 		return a.Name < b.Name
 	end)
 end
@@ -79,20 +91,21 @@ for index, benchmark in benchmarks do
 	names[index] = benchmark.Name
 end
 
-local benchmark = stdio.prompt("select", "Which benchmark do you want to run?", names)
-if not benchmark then
+local index = stdio.prompt("select", "Which benchmark do you want to run?", names)
+if not index then
 	process.exit(1)
 end
 
-local benchmarkEntry = benchmarks[benchmark]
+local benchmarkEntry = benchmarks[index]
 if not benchmarkEntry then
 	console.warn("Invalid benchmark")
 	process.exit(1)
 end
 
-local configure = benchmarkEntry.Benchmark.Configure
+local benchmark = benchmarkEntry.Benchmark
+local configure = benchmark.Configure
 if configure then
-	configure()
+	configure(benchmark)
 end
 
-benchmarkEntry.Benchmark.Run()
+benchmark.Run()

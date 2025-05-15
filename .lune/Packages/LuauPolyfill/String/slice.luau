@@ -1,8 +1,9 @@
 --!optimize 2
 --!strict
-local function slice(str: string, startIndexStr: string | number, lastIndexStr: (string | number)?): string
-	local strLen, invalidBytePosition = utf8.len(str)
-	assert(strLen ~= nil, string.format("string `%*` has an invalid byte at position %*", str, invalidBytePosition))
+
+local function slice(value: string, startIndexStr: string | number, lastIndexStr: (string | number)?): string
+	local strLen, invalidBytePosition = utf8.len(value)
+	assert(strLen ~= nil, string.format("string `%*` has an invalid byte at position %*", value, invalidBytePosition))
 
 	local startIndex = tonumber(startIndexStr)
 	assert(type(startIndex) == "number", "startIndexStr should be a number")
@@ -29,11 +30,11 @@ local function slice(str: string, startIndexStr: string | number, lastIndexStr: 
 		lastIndex = strLen + 1
 	end
 
-	local startIndexByte = utf8.offset(str, startIndex) :: number
+	local startIndexByte = utf8.offset(value, startIndex) :: number
 	-- get char length of charset retunred at offset
-	local lastIndexByte = (utf8.offset(str, lastIndex) :: number) - 1
+	local lastIndexByte = (utf8.offset(value, lastIndex) :: number) - 1
 
-	return string.sub(str, startIndexByte, lastIndexByte)
+	return string.sub(value, startIndexByte, lastIndexByte)
 end
 
 return slice

@@ -29,8 +29,7 @@ type PrivateStatic = Static & {
 
 local Color3 = {} :: PolyfillColor3 & Static
 local Private = Color3 :: PolyfillColor3 & PrivateStatic;
-(Color3 :: any).__index = Color3;
-(Color3 :: any).ClassName = "Color3"
+(Color3 :: any).__index = Color3
 
 -- local function Lerp(start: number, finish: number, alpha: number)
 -- 	return start + (finish - start) * alpha

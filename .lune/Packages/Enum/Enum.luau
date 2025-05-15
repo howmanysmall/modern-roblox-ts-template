@@ -90,11 +90,15 @@ local function ConstructUserdata(__index, __newindex, __tostring)
 end
 
 local function ConstructEnumItem(name, value, enumContainer, lockedEnumContainer, enumStringStub, castables)
-	local item = ConstructUserdata(setmetatable({
-		EnumType = lockedEnumContainer;
-		Name = name;
-		Value = value;
-	}, ErrorIndex2), ReadOnlyNewIndex, enumStringStub .. name)
+	local item = ConstructUserdata(
+		setmetatable({
+			EnumType = lockedEnumContainer;
+			Name = name;
+			Value = value;
+		}, ErrorIndex2),
+		ReadOnlyNewIndex,
+		enumStringStub .. name
+	)
 
 	castables[name] = item
 	castables[value] = item

@@ -1,5 +1,6 @@
 --!optimize 2
 --!strict
+
 return function(value: any): boolean
 	if type(value) ~= "table" then
 		return false

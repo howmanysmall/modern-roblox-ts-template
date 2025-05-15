@@ -8,7 +8,7 @@ local function IsDeferred(): boolean
 		return cached
 	end
 
-	local success, value = pcall(function(): boolean
+	local success, value = pcall(function()
 		return game:GetService("Workspace").SignalBehavior.Name == "Deferred"
 	end)
 

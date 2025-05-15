@@ -11,7 +11,7 @@ local Path = PathFileSystem.Path
 type VsCodeSettings = {["luau-lsp.sourcemap.rojoProjectFile"]: string?}
 type CodeWorkspaceData = {settings: VsCodeSettings?}
 
-local VSCODE_SETTINGS = Path.new(".vscode"):join("settings.json")
+local VSCODE_SETTINGS = PathFileSystem.CWD:join(".vscode"):join("settings.json")
 
 type PathOption = Option.Option<PathFileSystem.Path>
 

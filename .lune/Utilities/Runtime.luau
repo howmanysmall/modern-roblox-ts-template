@@ -1,3 +1,4 @@
+--!native
 --!optimize 2
 --!strict
 
@@ -30,7 +31,7 @@ SOFTWARE.
 	in the custom Heartbeat implementation in lune/test.luau
 --]]
 
-local ThreadUtilities = require("@utilities/ThreadUtilities")
+local ThreadUtilities = require("@packages/ThreadUtilities")
 local task = require("@lune/task")
 
 type Subscription = {
@@ -47,7 +48,7 @@ local Runtime = {}
 local isRunning = false
 local subscriptions: {Subscription} = {}
 
-local function Loop()
+local function Loop(): ()
 	if isRunning then
 		return
 	end
@@ -80,7 +81,7 @@ function Runtime.Connect(_: unknown, callback: (deltaTime: number) -> ()): Conne
 
 	return {
 		Connected = true;
-		Disconnect = function(self)
+		Disconnect = function(self: Connection): ()
 			self.Connected = false
 			subscription.Connected = false
 		end;

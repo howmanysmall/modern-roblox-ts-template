@@ -1,24 +1,25 @@
 --!optimize 2
+--!strict
 
 --# selene: allow(bad_string_escape)
 
+local ES7Types = require("@packages/ES7Types")
+local InstanceOf = require("@packages/InstanceOf")
+
 -- ROBLOX upstream: https://github.com/nodejs/node/blob/v18.1.0/lib/internal/assert/assertion_error.js
 local Boolean = require("../Boolean")
-
 local Collections = require("../Collections")
 local Error = require("../Error")
 local String = require("../String")
-local instanceof = require("../InstanceOf")
-local types = require("../ES7Types")
 
 local Array = Collections.Array
 local Object = Collections.Object
 local inspect = Collections.inspect
 
+type Array<T> = ES7Types.Array<T>
 type Error = Error.Error
-type Array<T> = types.Array<T>
-type Object = types.Object
-type Function = types.Function
+type Function = ES7Types.Function
+type Object = ES7Types.Object
 
 -- ROBLOX deviation START: mock process to not change AssertionError internals
 local process = {
@@ -89,11 +90,11 @@ local function inspectValue(val)
 		compact = false;
 		customInspect = false;
 		depth = 1000;
+		getters = true;
 		maxArrayLength = math.huge; -- Assert compares only enumerable properties (with a few exceptions).
 		showHidden = false; -- Assert does not detect proxies currently.
 		showProxy = false;
 		sorted = true; -- Inspect getters as we also check them when comparing entries.
-		getters = true;
 	})
 end
 
@@ -428,9 +429,9 @@ function AssertionError.new(options: AssertionErrorOptions): AssertionError
 			and type(expected) == "table"
 			and expected ~= nil
 			and Array.indexOf(Object.keys(actual), "stack") ~= -1
-			and instanceof(actual, Error)
+			and InstanceOf(actual, Error)
 			and Array.indexOf(Object.keys(expected), "stack") ~= -1
-			and instanceof(expected, Error)
+			and InstanceOf(expected, Error)
 		then
 			actual = copyError(actual)
 			expected = copyError(expected)

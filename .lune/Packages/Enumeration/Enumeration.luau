@@ -97,11 +97,15 @@ local function ConstructEnumerationItem(
 	enumerationStringStub: string,
 	castables
 )
-	local item = ConstructUserdata(setmetatable({
-		EnumerationType = lockedEnumContainer;
-		Name = name;
-		Value = value;
-	}, ErrorIndex2), ReadOnlyNewIndex, enumerationStringStub .. name)
+	local item = ConstructUserdata(
+		setmetatable({
+			EnumerationType = lockedEnumContainer;
+			Name = name;
+			Value = value;
+		}, ErrorIndex2),
+		ReadOnlyNewIndex,
+		enumerationStringStub .. name
+	)
 
 	castables[name] = item
 	castables[value] = item
@@ -115,7 +119,7 @@ local IsEnumTypes = GreenTea.build(GreenTea.union(GreenTea.array(GreenTea.string
 	[GreenTea.string()] = GreenTea.number();
 }))
 
-local function MakeEnumeration(_, enumType: string, enumTypes: typeof(IsEnumTypes:type())): ()
+local function MakeEnumeration(_, enumType: string, enumTypes: typeof(IsEnumTypes:type()))
 	do
 		local typeSuccess0, typeError0 = IsString:matches(enumType)
 		if not typeSuccess0 then

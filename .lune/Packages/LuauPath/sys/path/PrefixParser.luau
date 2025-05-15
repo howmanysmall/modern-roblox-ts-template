@@ -1,5 +1,6 @@
 --!nolint LocalShadow
 --!optimize 2
+--# selene:allow(shadowing)
 
 local PrefixParserSlice = require("./PrefixParserSlice")
 

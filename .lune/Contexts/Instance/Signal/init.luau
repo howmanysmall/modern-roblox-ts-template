@@ -1,20 +1,20 @@
 --!optimize 2
 --!strict
 
-local IsDeferred = require("./IsDeferred")
-local ThreadUtilities = require("@utilities/ThreadUtilities")
+local FastDefer = require("@self/FastDefer")
+local IsDeferred = require("@self/IsDeferred")
 local task = require("@lune/task")
 
-local freeRunnerThread: thread?
+local FreeRunnerThread: thread?
 
-local function AcquireRunnerThreadAndCallEventHandler<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...): ()
-	local acquiredRunnerThread = freeRunnerThread
-	freeRunnerThread = nil
+local function AcquireRunnerThreadAndCallEventHandler<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...)
+	local acquiredRunnerThread = FreeRunnerThread
+	FreeRunnerThread = nil
 	callback(...)
-	freeRunnerThread = acquiredRunnerThread
+	FreeRunnerThread = acquiredRunnerThread
 end
 
-local function RunEventHandlerInFreeThread<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...): ()
+local function RunEventHandlerInFreeThread<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...)
 	AcquireRunnerThreadAndCallEventHandler(callback, ...)
 	while true do
 		AcquireRunnerThreadAndCallEventHandler(coroutine.yield())
@@ -51,8 +51,8 @@ type ConnectionStatic = {
 type ConnectionStaticPrivate = ConnectionStatic & {__tostring: (self: Connection) -> string}
 
 type SignalEvent<Function, Arguments...> = {
-	Connect: (self: SignalEvent<Function, Arguments...>, callback: Function) -> Connection,
-	Once: (self: SignalEvent<Function, Arguments...>, callback: Function) -> Connection,
+	Connect: (self: SignalEvent<Function, Arguments...>, Function: Function) -> Connection,
+	Once: (self: SignalEvent<Function, Arguments...>, Function: Function) -> Connection,
 	Wait: (self: SignalEvent<Function, Arguments...>) -> Arguments...,
 }
 type Private<Function, Arguments...> = {
@@ -88,7 +88,7 @@ type Private<Function, Arguments...> = {
 
 local Connection = {} :: Connection & ConnectionStatic
 local ConnectionPrivate = Connection :: ConnectionPrivate<any, ...any> & ConnectionStaticPrivate
-Connection.ClassName = "Connection";
+Connection.ClassName = "Connection"
 (Connection :: any).__index = Connection
 
 function Connection.new<Function, Arguments...>(signal: Private<Function, Arguments...>, callback: Function): Connection
@@ -101,7 +101,7 @@ function Connection.new<Function, Arguments...>(signal: Private<Function, Argume
 	}, Connection) :: never
 end
 
-function ConnectionPrivate:Disconnect(): ()
+function ConnectionPrivate:Disconnect()
 	if not self.Connected then
 		return
 	end
@@ -126,15 +126,15 @@ end
 Connection.disconnect = Connection.Disconnect
 Connection.Destroy = Connection.Disconnect
 
-function ConnectionPrivate:__tostring(): string
+function ConnectionPrivate:__tostring()
 	return "Connection"
 end
 
 local IS_DEFERRED = IsDeferred()
 
 type ClassicSignalEvent<Arguments...> = {
-	Connect: (self: ClassicSignalEvent<Arguments...>, callback: (Arguments...) -> ()) -> Connection,
-	Once: (self: ClassicSignalEvent<Arguments...>, callback: (Arguments...) -> ()) -> Connection,
+	Connect: (self: ClassicSignalEvent<Arguments...>, Function: (Arguments...) -> ()) -> Connection,
+	Once: (self: ClassicSignalEvent<Arguments...>, Function: (Arguments...) -> ()) -> Connection,
 	Wait: (self: ClassicSignalEvent<Arguments...>) -> Arguments...,
 }
 
@@ -142,13 +142,13 @@ export type Signal<Function, Arguments...> = {
 	DebugMode: boolean,
 	Event: SignalEvent<Function, Arguments...>,
 
-	Connect: (self: Signal<Function, Arguments...>, callback: Function) -> Connection,
-	Once: (self: Signal<Function, Arguments...>, callback: Function) -> Connection,
-	ConnectOnce: (self: Signal<Function, Arguments...>, callback: Function) -> Connection,
+	Connect: (self: Signal<Function, Arguments...>, Function: Function) -> Connection,
+	Once: (self: Signal<Function, Arguments...>, Function: Function) -> Connection,
+	ConnectOnce: (self: Signal<Function, Arguments...>, Function: Function) -> Connection,
 
-	ConnectClassic: (self: Signal<Function, Arguments...>, callback: Function) -> RBXScriptConnection,
-	OnceClassic: (self: Signal<Function, Arguments...>, callback: Function) -> RBXScriptConnection,
-	ConnectOnceClassic: (self: Signal<Function, Arguments...>, callback: Function) -> RBXScriptConnection,
+	ConnectClassic: (self: Signal<Function, Arguments...>, Function: Function) -> RBXScriptConnection,
+	OnceClassic: (self: Signal<Function, Arguments...>, Function: Function) -> RBXScriptConnection,
+	ConnectOnceClassic: (self: Signal<Function, Arguments...>, Function: Function) -> RBXScriptConnection,
 
 	GetConnections: (self: Signal<Function, Arguments...>) -> {Connection},
 	IsConnectedTo: (self: Signal<Function, Arguments...>) -> boolean,
@@ -170,13 +170,13 @@ export type ClassicSignal<T...> = {
 	DebugMode: boolean,
 	Event: ClassicSignalEvent<T...>,
 
-	Connect: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> Connection,
-	Once: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> Connection,
-	ConnectOnce: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> Connection,
+	Connect: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> Connection,
+	Once: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> Connection,
+	ConnectOnce: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> Connection,
 
-	ConnectClassic: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> RBXScriptConnection,
-	OnceClassic: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> RBXScriptConnection,
-	ConnectOnceClassic: (self: ClassicSignal<T...>, callback: (T...) -> ()) -> RBXScriptConnection,
+	ConnectClassic: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> RBXScriptConnection,
+	OnceClassic: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> RBXScriptConnection,
+	ConnectOnceClassic: (self: ClassicSignal<T...>, Function: (T...) -> ()) -> RBXScriptConnection,
 
 	GetConnections: (self: ClassicSignal<T...>) -> {Connection},
 	IsConnectedTo: (self: ClassicSignal<T...>) -> boolean,
@@ -205,7 +205,7 @@ type PrivateStatic = Static & {__tostring: (self: Private<any, ...any>) -> strin
 
 local Signal = {} :: Signal<any, ...any> & Static
 local Private = Signal :: Private<any, ...any> & PrivateStatic
-Signal.ClassName = "Signal";
+Signal.ClassName = "Signal"
 (Signal :: any).__index = Signal
 
 function Signal.new<Function, Arguments...>(janitor): Signal<Function, Arguments...>
@@ -338,18 +338,18 @@ function Private:Fire(...)
 	local item = self.HandlerListHead
 	while item do
 		if item.Connected then
-			if not freeRunnerThread then
-				freeRunnerThread = coroutine.create(RunEventHandlerInFreeThread)
+			if not FreeRunnerThread then
+				FreeRunnerThread = coroutine.create(RunEventHandlerInFreeThread)
 			end
 
-			task.spawn(freeRunnerThread :: thread, item.Function, ...)
+			task.spawn(FreeRunnerThread :: thread, item.Function, ...)
 		end
 
 		item = item.Next
 	end
 end
 
-local function DeferExecution<Function, Arguments...>(connection: ConnectionPrivate<any, Arguments...>, ...: Arguments...): ()
+local function DeferExecution<Function, Arguments...>(connection: ConnectionPrivate<any, Arguments...>, ...: Arguments...)
 	if connection.Connected then
 		connection.Function(...)
 	end
@@ -367,12 +367,13 @@ end
 function Private:FireDeferredUnsafe(...)
 	local item = self.HandlerListHead
 	while item do
-		ThreadUtilities.FastDefer(DeferExecution, item, ...)
+		FastDefer(DeferExecution, item, ...)
 		item = item.Next
 	end
 end
 
 Signal.FireBindable = if IS_DEFERRED then Signal.FireDeferred else Signal.Fire
+
 Signal.FireBindableUnsafe = if IS_DEFERRED then Signal.FireDeferredUnsafe else Signal.Fire
 
 function Private:Wait()

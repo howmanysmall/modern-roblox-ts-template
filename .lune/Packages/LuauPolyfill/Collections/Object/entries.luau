@@ -1,6 +1,7 @@
 --!optimize 2
 --!strict
-local types = require("../../ES7Types")
+
+local types = require("@packages/ES7Types")
 type Array<T> = types.Array<T>
 type Map<K, V> = types.Map<K, V>
 type Tuple<T, V> = types.Tuple<T, V>

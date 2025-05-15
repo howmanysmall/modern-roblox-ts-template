@@ -1,5 +1,6 @@
 --!optimize 2
 --!strict
+
 local function startsWith(value: string, substring: string, position: number?): boolean
 	if #substring == 0 then
 		return true

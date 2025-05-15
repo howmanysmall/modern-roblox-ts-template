@@ -1,20 +1,22 @@
 --!optimize 2
 --!strict
+
+local ES7Types = require("@packages/ES7Types")
+local InstanceOf = require("@packages/InstanceOf")
+
 local arrayForEach = require("../Array/forEach")
 local arrayMap = require("../Array/map")
-local instanceof = require("../../InstanceOf")
 local isArray = require("../Array/isArray")
-local types = require("../../ES7Types")
 
 local __DEV__ = _G.__DEV__
 
-type Object = types.Object
-type Array<T> = types.Array<T>
-type Table<T, V> = types.Table<T, V>
-type Tuple<T, V> = types.Tuple<T, V>
-type mapCallbackFn<K, V> = types.mapCallbackFn<K, V>
-type mapCallbackFnWithThisArg<K, V> = types.mapCallbackFnWithThisArg<K, V>
-type Map<K, V> = types.Map<K, V>
+type Object = ES7Types.Object
+type Array<T> = ES7Types.Array<T>
+type Table<T, V> = ES7Types.Table<T, V>
+type Tuple<T, V> = ES7Types.Tuple<T, V>
+type mapCallbackFn<K, V> = ES7Types.mapCallbackFn<K, V>
+type mapCallbackFnWithThisArg<K, V> = ES7Types.mapCallbackFnWithThisArg<K, V>
+type Map<K, V> = ES7Types.Map<K, V>
 
 type Map_Statics = {
 	new: <K, V>(iterable: Array<Array<any>>?) -> Map<K, V>,
@@ -57,7 +59,7 @@ function Map.new<K, V>(iterable: (Array<Array<any>> | Map<K, V>)?): Map<K, V>
 			-- always assign
 			map[key] = val
 		end
-	elseif instanceof(iterable, Map) then
+	elseif InstanceOf(iterable, Map) then
 		array = table.clone((iterable :: Map<K, V>)._array)
 		map = table.clone((iterable :: Map<K, V>)._map)
 	else
