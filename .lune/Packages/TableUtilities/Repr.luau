@@ -330,25 +330,25 @@ local FORMATTERS: {[string]: string | (value: any, reprOptions: RequiredReprSett
 
 		return table.concat(reprString) .. "}"
 	end;
-	userdata = function(newValue: any)
+	userdata = function(newValue: any): string
 		local metatable = getmetatable(newValue)
 		return if type(metatable) == "table" and type(rawget(metatable, "__tostring")) == "function"
 			then tostring(newValue)
 			else "<userdata>"
 	end;
-	buffer = function(newValue: buffer)
+	buffer = function(newValue: buffer): string
 		return "<buffer:" .. buffer.tostring(newValue) .. ">"
 	end;
-	vector = function(newValue: Vector3)
+	vector = function(newValue: vector): string
 		return string.format(
 			"vector(%*, %*, %*)",
-			IntegerOrFloat(newValue.X),
-			IntegerOrFloat(newValue.Y),
-			IntegerOrFloat(newValue.Z)
+			IntegerOrFloat(newValue.x),
+			IntegerOrFloat(newValue.y),
+			IntegerOrFloat(newValue.z)
 		)
 	end;
 
-	DateTime = function(newValue: DateTime, reprOptions)
+	DateTime = function(newValue: DateTime, reprOptions: RequiredReprSettings): string
 		local dateTimeFormatType = reprOptions.DateTimeFormatType
 
 		if type(dateTimeFormatType) == "table" then
@@ -406,7 +406,7 @@ local FORMATTERS: {[string]: string | (value: any, reprOptions: RequiredReprSett
 	["function"] = "<function>";
 	thread = "<thread>";
 
-	DatabaseEnum = function(newValue: roblox.DatabaseEnum, reprOptions): string
+	DatabaseEnum = function(newValue: roblox.DatabaseEnum, reprOptions: RequiredReprSettings): string
 		return Repr({
 			Item = newValue.Items;
 			Name = newValue.Name;

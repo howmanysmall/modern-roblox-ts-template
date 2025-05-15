@@ -22,7 +22,7 @@
 	@param ... ...{[unknown]: unknown} -- The tables to compare.
 	@return boolean -- Whether or not the tables are equal.
 ]=]
-local function EqualObjects(...: {[unknown]: unknown})
+local function EqualObjects(...: {[unknown]: unknown}): boolean
 	local firstItem = ...
 	for index = 2, select("#", ...) do
 		if firstItem ~= select(index, ...) then

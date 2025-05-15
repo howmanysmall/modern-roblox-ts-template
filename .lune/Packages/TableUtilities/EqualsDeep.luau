@@ -4,7 +4,7 @@
 local EqualObjects = require("./EqualObjects")
 
 --@native
-local function CompareDeep(a: unknown, b: unknown)
+local function CompareDeep(a: unknown, b: unknown): boolean
 	if type(a) ~= "table" or type(b) ~= "table" then
 		return a == b
 	end
@@ -47,7 +47,7 @@ end
 	@return boolean -- Whether the tables are equal.
 ]=]
 --@native
-local function EqualsDeep(...: {[unknown]: unknown})
+local function EqualsDeep(...: {[unknown]: unknown}): boolean
 	if EqualObjects(...) then
 		return true
 	end

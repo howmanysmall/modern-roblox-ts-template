@@ -4,6 +4,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local StarterPlayer = game:GetService("StarterPlayer")
+local TestService = game:GetService("TestService")
 local Jest = (require :: any)(ReplicatedStorage.rbxts_include.node_modules:FindFirstChild("@rbxts").JestLua.Jest)
 
 local processServiceExists, ProcessService = pcall(function()
@@ -32,6 +33,7 @@ local status, result = Jest.runCLI(script, {
 	all = true;
 	ci = false;
 	verbose = true;
+	setupFiles = {TestService:FindFirstChild("setup")};
 }, roots):awaitStatus()
 
 if status == "Rejected" then
