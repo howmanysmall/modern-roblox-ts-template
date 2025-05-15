@@ -1,7 +1,7 @@
 --!optimize 2
 --!strict
 -- https://programming-idioms.org/idiom/19/reverse-a-list/1314/lua
-local types = require("../../ES7Types")
+local types = require("@packages/ES7Types")
 type Array<T> = types.Array<T>
 
 return function<T>(t: Array<T>): Array<T>

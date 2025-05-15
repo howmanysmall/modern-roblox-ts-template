@@ -2,13 +2,13 @@
 --!strict
 --[=[ lunar
 	about = "Builds and runs the unit tests place file."
+	args = "[--dev] [<project>]"
 ]=]
 
+local ArgParse = require("@packages/ArgParse")
 local Chalk = require("@packages/Chalk")
 local Enum = require("@packages/Enum")
-local GetRojoLocation = require("@utilities/GetRojoLocation")
 local LuauPolyfill = require("@packages/LuauPolyfill")
-local Option = require("@packages/Option")
 local PathFileSystem = require("@packages/PathFileSystem")
 local ReducedInstance = require("@utilities/ReducedInstance")
 local Runtime = require("@utilities/Runtime")
@@ -18,9 +18,12 @@ local Color3 = require("@contexts/Color3")
 local DateTime = require("@contexts/DateTime")
 local Debug = require("@contexts/Debug")
 local Instance = require("@contexts/Instance")
+local NumberRange = require("@contexts/NumberRange")
 local Random = require("@contexts/Random")
-local Utf8 = require("@contexts/Utf8")
+local RaycastParams = require("@contexts/RaycastParams")
 local Vector3 = require("@contexts/Vector3")
+
+local TypeOf = require("@packages/TypeOf")
 
 local luau = require("@lune/luau")
 local process = require("@lune/process")
@@ -31,6 +34,9 @@ local task = require("@lune/task")
 local Path = PathFileSystem.Path
 local console = LuauPolyfill.console
 
+local NULL_MARKER = `__NULL_MARKER-{math.random()}-{math.random()}-NULL_MARKER__`
+
+local DEFAULT_PROJECT_FILE_PATH = Path.new("test.project.json")
 local WARN_COLOR = Chalk.Rgb(226, 124, 21)
 
 local function MakeJsonSafeForSerde(jsonString: string): string
@@ -45,13 +51,32 @@ local function Warn(...: unknown): ()
 	warn(WARN_COLOR(table.concat(arguments, " ")))
 end
 
+local parser =
+	ArgParse("run-unit-tests-local", "Runs the Jest unit tests within Lune. Faster, but not fully implemented.")
+parser:flag("--dev", "Sets __DEV__ to true.")
+parser:argument(
+	"project",
+	"The Rojo project file to build and run.",
+	DEFAULT_PROJECT_FILE_PATH:toString(),
+	function(value: string): string?
+		return if PathFileSystem.IsFileSafeSilent(value) then value else nil
+	end
+)
+
+local arguments: {
+	dev: boolean,
+	project: string?,
+} = parser:parse()
+
+if arguments.dev then
+	_G.__DEV__ = true
+end
+
 type Path = PathFileSystem.Path
 type RojoProject = {
 	name: string,
 	tree: any,
 }
-
-local DEFAULT_PROJECT_FILE_PATH = Path.new("test.project.json")
 
 local function ReadRojoProject(filePath: PathFileSystem.Path): RojoProject
 	assert(
@@ -68,24 +93,23 @@ end
 local function BuildProject(rojoProjectFilePath: PathFileSystem.Path)
 	local rojoProject = ReadRojoProject(rojoProjectFilePath)
 	local builtProjectFilePath = `{rojoProject.name}.rbxl`
+	local root = process.env.HOME or process.env.USERPROFILE
 
-	return GetRojoLocation():AndThen(function(rojoPath)
-		-- console.log(`Building project {rojoProjectFilePath} into {builtProjectFilePath} with Rojo...\n`)
-		local spawnResult = process.spawn(
-			rojoPath:toString(),
-			{"build", rojoProjectFilePath:toString(), "--output", builtProjectFilePath}
-		)
-		assert(spawnResult.ok, `Failed to build project [{builtProjectFilePath}]: {spawnResult.stderr}`)
+	local rojoPath = Path.new(root):join(".rokit"):join("bin"):join("rojo")
 
-		-- console.log(`Deserializing {builtProjectFilePath}...`)
-		local success, result = pcall(roblox.deserializePlace, PathFileSystem.ReadFile(builtProjectFilePath))
-		assert(success, `Failed to deserialize built project [{builtProjectFilePath}]: {result}`)
+	-- console.log(`Building project {rojoProjectFilePath} into {builtProjectFilePath} with Rojo...\n`)
+	local spawnResult =
+		process.exec(rojoPath:toString(), {"build", rojoProjectFilePath:toString(), "--output", builtProjectFilePath})
+	assert(spawnResult.ok, `Failed to build project [{builtProjectFilePath}]: {spawnResult.stderr}`)
 
-		return Option.Wrap(result)
-	end)
+	-- console.log(`Deserializing {builtProjectFilePath}...`)
+	local success, result = pcall(roblox.deserializePlace, PathFileSystem.ReadFile(builtProjectFilePath))
+	assert(success, `Failed to deserialize built project [{builtProjectFilePath}]: {result}`)
+
+	return result
 end
 
-local function ImplementRobloxMethods()
+local function ImplementRobloxMethods(): ()
 	roblox.implementMethod("Instance", "WaitForChild", function(self, ...)
 		local child = self:FindFirstChild(...)
 		assert(
@@ -115,57 +139,56 @@ local function ImplementRobloxMethods()
 		}
 	end)
 
-	-- RunService
-	do
-		local function postSimulation()
-			return {
-				Connect = Runtime.Connect;
-				Wait = function()
-					local thread = coroutine.running()
-					local connection: Runtime.Connection = nil
-					connection = Runtime:Connect(function(deltaTime)
-						connection:Disconnect()
-						coroutine.resume(thread, deltaTime)
-					end)
-					return coroutine.yield()
-				end;
-			}
-		end
-		roblox.implementProperty("RunService", "Heartbeat", postSimulation)
-		roblox.implementProperty("RunService", "PostSimulation", postSimulation)
-		roblox.implementMethod("RunService", "IsStudio", function()
-			return true
-		end)
-		roblox.implementMethod("RunService", "IsServer", function()
-			return true
-		end)
+	local function postSimulation()
+		return {
+			Connect = Runtime.Connect;
+			Wait = function()
+				local thread = coroutine.running()
+				local connection: Runtime.Connection = nil
+				connection = Runtime:Connect(function(deltaTime)
+					connection:Disconnect()
+					coroutine.resume(thread, deltaTime)
+				end)
+				return coroutine.yield()
+			end;
+		}
 	end
-
-	-- do
-	-- 	roblox.implementMethod("Players", "GetFriendsAsync", function(_, userId: number)
-	-- 		--
-	-- 	end)
-	-- end
-
-	-- HttpService
-	do
-		roblox.implementMethod("HttpService", "JSONEncode", function(_, data: unknown)
-			return serde.encode("json", data, false)
-		end)
-		roblox.implementMethod("HttpService", "JSONDecode", function(_, jsonString: string)
-			assert(type(jsonString) == "string", "HttpService.JSONDecode expects a string")
-			return serde.decode("json", jsonString)
-		end)
-	end
+	roblox.implementProperty("RunService", "Heartbeat", postSimulation)
+	roblox.implementProperty("RunService", "PostSimulation", postSimulation)
+	roblox.implementMethod("RunService", "IsStudio", function()
+		return true
+	end)
+	roblox.implementMethod("RunService", "IsServer", function()
+		return true
+	end)
 end
 
-local rojoProjectFilePath = Path.from(process.args[1] or DEFAULT_PROJECT_FILE_PATH)
+local rojoProjectFilePath = Path.from(arguments.project or DEFAULT_PROJECT_FILE_PATH)
 
-local game = BuildProject(rojoProjectFilePath):Unwrap()
+local game = BuildProject(rojoProjectFilePath)
 ImplementRobloxMethods()
 
 -- Declaring because it's needed by `loadScript`, but `loadScript` is also needed in `requireModule`. Defined later.
 local RequireModule
+
+local BAD_TYPES = {
+	["function"] = true;
+	thread = true;
+	userdata = true;
+}
+
+local function DeshitifyJsonTable(object: {[any]: any}): {[any]: any}
+	local newObject = table.clone(object)
+	for key, value in newObject do
+		local typeOf = type(value)
+		if typeOf == "table" then
+			newObject[key] = DeshitifyJsonTable(value)
+		elseif BAD_TYPES[typeOf] then
+			newObject[key] = NULL_MARKER
+		end
+	end
+	return newObject
+end
 
 -- DEPENDENTS: [TestService/Source/run.server.luau]
 -- ProcessService isn't implemented in Lune, so this creates a workable implementation of it by mapping it to process.exit
@@ -177,6 +200,25 @@ local gameWithContext = setmetatable({
 					process.exit(code)
 				end;
 			} :: any
+		end
+
+		if serviceName == "HttpService" then
+			return {
+				JSONEncode = function(_, data: any): string
+					if type(data) == "table" then
+						data = DeshitifyJsonTable(data)
+					end
+
+					return (string.gsub(serde.encode("json", data, false), string.format("%q", NULL_MARKER), "null"))
+				end;
+				JSONDecode = function(_, data: string): unknown
+					return serde.decode("json", data)
+				end;
+			}
+		end
+
+		if serviceName == "CoreScriptSyncService" then
+			return nil
 		end
 
 		return game:GetService(serviceName)
@@ -200,19 +242,36 @@ local function LoadScript(script: roblox.Instance): (((...any) -> ...any)?, stri
 			BrickColor = BrickColor;
 			Color3 = Color3;
 			DateTime = DateTime;
-			debug = Debug;
 			Enum = Enum;
-			game = gameWithContext;
 			Instance = Instance;
+			NumberRange = NumberRange;
 			Random = Random;
-			require = RequireModule;
-			script = script;
-			task = task;
-			tick = os.clock;
-			utf8 = Utf8;
+			RaycastParams = RaycastParams;
 			Vector3 = Vector3;
+
+			Axes = require("@contexts/Unimplemented/Axes");
+			CatalogSearchParams = require("@contexts/Unimplemented/CatalogSearchParams");
+			ColorSequence = require("@contexts/Unimplemented/ColorSequence");
+			Faces = require("@contexts/Unimplemented/Faces");
+			NumberSequence = require("@contexts/Unimplemented/NumberSequence");
+			OverlapParams = require("@contexts/Unimplemented/OverlapParams");
+			Path2DControlPoint = require("@contexts/Unimplemented/Path2DControlPoint");
+			PhysicalProperties = require("@contexts/Unimplemented/PhysicalProperties");
+
+			debug = Debug;
+			task = task;
+
+			require = RequireModule;
+			tick = os.clock;
+			typeof = TypeOf;
 			warn = Warn;
+
+			game = gameWithContext;
+			script = script;
+
+			-- idiot garbage
 			fs = require("@lune/fs");
+			LuneDateTime = require("@lune/datetime");
 		}, {__index = roblox}) :: any;
 	})
 
@@ -244,21 +303,18 @@ console.log("\n")
 -- console.log("Starting main...\n")
 local TestService = game:GetService("TestService")
 
-local execute: roblox.Instance? = TestService:FindFirstChild("Execute")
-
-if not execute then
-	for _, child in TestService:GetChildren() do
-		if child:IsA("Script") and string.find(child.Source, "runCLI") then
-			execute = child
-			break
-		end
-	end
-end
-
+local execute = TestService:FindFirstChild("Execute")
 assert(execute, "game.TestService.Execute not found")
 
 local callback, exception = LoadScript(ReducedInstance.Once(execute))
 assert(callback, exception)
+
+_G.__UNIT_TEST_CLEANUP__ = function(): ()
+	local withBenchmarks = PathFileSystem.CWD:join("WithBenchmarks.rbxl")
+	if PathFileSystem.IsFileSafe(withBenchmarks) then
+		PathFileSystem.RemoveFile(withBenchmarks)
+	end
+end
 
 -- console.log("Running tests from game.TestService.Execute...\n")
 callback()

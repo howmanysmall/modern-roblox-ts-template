@@ -1,5 +1,6 @@
 --!optimize 2
 --!strict
+
 type Match = {
 	index: number,
 	match: string,

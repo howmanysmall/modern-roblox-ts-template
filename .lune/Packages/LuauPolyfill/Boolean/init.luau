@@ -2,5 +2,5 @@
 --!strict
 
 return table.freeze({
-	toJSBoolean = require("./toJSBoolean");
+	toJSBoolean = require("@self/toJSBoolean");
 })

@@ -2,10 +2,10 @@
 --!nonstrict
 
 local arrayForEach = require("./Array/forEach")
-local arrayFromString = require("./Array/from/fromString")
+local arrayFromString = require("./Array/fromString")
 local inspect = require("./inspect")
 local isArray = require("./Array/isArray")
-local types = require("../ES7Types")
+local types = require("@packages/ES7Types")
 
 local __DEV__ = _G.__DEV__
 
@@ -35,7 +35,7 @@ local Set: Set<any> & Set_Statics = (
 			return result
 		end;
 	} :: any
-) :: Set<any> & Set_Statics;
+) :: Set<any> & Set_Statics
 (Set :: any).__index = Set
 
 function Set.new<T>(iterable: Array<T> | Set<T> | string | nil): Set<T>

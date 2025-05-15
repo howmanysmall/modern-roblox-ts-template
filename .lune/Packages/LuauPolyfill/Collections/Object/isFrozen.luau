@@ -1,10 +1,11 @@
 --!optimize 2
 --!strict
-local __DEV__ = _G.__DEV__
 
-local types = require("../../ES7Types")
+local types = require("@packages/ES7Types")
 type Array<T> = types.Array<T>
 type Object = types.Object
+
+local __DEV__ = _G.__DEV__
 
 return function(t: Object | Array<any>): boolean
 	if __DEV__ then

@@ -2,16 +2,13 @@
 -- https://github.com/rust-lang/rust/blob/bd7d328807a8bb15732ebb764e1ea3df4fbe3fd1/library/std/src/path.rs
 --!nolint LocalShadow
 --!optimize 2
-
-local Disk = require("@packages/LuauDisk")
+--# selene: allow(shadowing)
 
 local Component = require("./Component")
 local Components = require("./Components")
 local Prefix = require("./Prefix")
 local iterAfter = require("./iterAfter")
 local sysPath = require("./sys/path")
-
-local Array = Disk.Array
 
 local isSepByte = sysPath.isSepByte
 local parsePrefix = sysPath.parsePrefix
@@ -55,6 +52,23 @@ local function newAncestors(path: Path?): Ancestors
 	return setmetatable(self, AncestorsMetatable) :: any
 end
 
+local function FromFunction<T>(generator: (index: number) -> T?): {T}
+	local array = {}
+	local length = 0
+
+	while true do
+		local value = generator(length + 1)
+		if value == nil then
+			break
+		end
+
+		length += 1
+		array[length] = value
+	end
+
+	return array
+end
+
 local function Ancestors_next(self: Ancestors): Path?
 	local self: PrivateAncestors = self :: any
 	local next = self._next
@@ -65,7 +79,7 @@ Ancestors.next = Ancestors_next
 
 local function Ancestors_collect(self: Ancestors): {Path}
 	local self: PrivateAncestors = self :: any
-	return Array.fromFn(function()
+	return FromFunction(function()
 		return Ancestors_next(self)
 	end)
 end
@@ -187,6 +201,8 @@ local function hasPhysicalRoot(s: string, prefix: Prefix?): boolean
 end
 
 function Path.new(path: string): Path
+	-- fix stupid path
+
 	local self: Private = {
 		_inner = path;
 
@@ -219,7 +235,6 @@ end
 
 function Path:toString(): string
 	local self: PrivatePath = self :: any
-
 	return self._inner
 end
 
@@ -386,10 +401,12 @@ function Path:push(path: AsPath): ()
 	elseif comps:prefixVerbatim() and path._inner ~= "" then
 		local buf = comps:collect()
 		for _, c in path:components():collect() do
+			if c.type == "curDir" then
+				continue
+			end
+
 			if c.type == "rootDir" then
 				buf = {buf[1], c :: any}
-			elseif c.type == "curDir" then
-				-- do nothing
 			elseif c.type == "parentDir" then
 				local lastIndex = #buf
 				if lastIndex > 0 and buf[lastIndex].type == "normal" then
@@ -416,7 +433,7 @@ function Path:push(path: AsPath): ()
 				else true
 		end
 
-		self._inner = table.concat(res, "")
+		self._inner = table.concat(res)
 		return
 
 	-- `path` has a root but no prefix, e.g., `\windows` (Windows only)

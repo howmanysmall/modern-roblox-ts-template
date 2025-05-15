@@ -6,20 +6,17 @@ local LuauPolyfill = require("@packages/LuauPolyfill")
 local PathFileSystem = require("@packages/PathFileSystem")
 local serde = require("@lune/serde")
 
-local Error = LuauPolyfill.Error
 local console = LuauPolyfill.console
 
-local isMaybeStringDictionary = GreenTea.optional({[GreenTea.string()] = GreenTea.string()})
-local isMaybeStringArray = GreenTea.optional(GreenTea.array(GreenTea.string()))
 local isWallyPackage = GreenTea.build({
-	dependencies = isMaybeStringDictionary;
-	["dev-dependencies"] = isMaybeStringDictionary;
-	["server-dependencies"] = isMaybeStringDictionary;
+	dependencies = GreenTea.optional({[GreenTea.string()] = GreenTea.string()});
+	["dev-dependencies"] = GreenTea.optional({[GreenTea.string()] = GreenTea.string()});
+	["server-dependencies"] = GreenTea.optional({[GreenTea.string()] = GreenTea.string()});
 	package = {
-		authors = isMaybeStringArray;
+		authors = GreenTea.optional(GreenTea.array(GreenTea.string()));
 		description = GreenTea.optional(GreenTea.string());
-		exclude = isMaybeStringArray;
-		include = isMaybeStringArray;
+		exclude = GreenTea.optional(GreenTea.array(GreenTea.string()));
+		include = GreenTea.optional(GreenTea.array(GreenTea.string()));
 		license = GreenTea.optional(GreenTea.union(GreenTea.literal("MIT"), GreenTea.literal("Apache-2.0"))) :: nil | "MIT" | "Apache-2.0";
 		name = GreenTea.string();
 		private = GreenTea.optional(GreenTea.boolean());
@@ -38,11 +35,7 @@ local function ParsePrereleaseAndBuildWithSign(value: string): (string, string)
 	end
 
 	if prereleaseWithSign == nil and buildWithSign == nil then
-		local exception =
-			Error.new(string.format("The parameter %q must begin with + or - to denote a prerelease or a build", value))
-		exception.name = "InvalidPrereleaseBuildError"
-		Error.captureStackTrace(exception, ParsePrereleaseAndBuildWithSign)
-		error(exception)
+		error(string.format("The parameter %q must begin with + or - to denote a prerelease or a build", value))
 	end
 
 	return prereleaseWithSign :: string, buildWithSign :: string
@@ -55,15 +48,12 @@ local function ParsePrerelease(prereleaseWithSign: string?): string?
 
 	local prerelease = string.match(prereleaseWithSign, "^-(%w[%.%w-]*)$" :: string)
 	if prerelease == nil then
-		local exception = Error.new(
+		error(
 			string.format(
 				"The prerelease %q is not a slash followed by alphanumerics, dots and slashes",
 				prereleaseWithSign
 			)
 		)
-		exception.name = "InvalidPrereleaseError"
-		Error.captureStackTrace(exception, ParsePrerelease)
-		error(exception)
 	end
 
 	return prerelease
@@ -76,18 +66,13 @@ local function ParseBuild(buildWithSign: string?): string?
 
 	local build = string.match(buildWithSign, "^%+(%w[%.%w-]*)$" :: string)
 	if build == nil then
-		local exception = Error.new(
-			string.format("The build %q is not a + sign followed by alphanumerics, dots and slashes", buildWithSign)
-		)
-		exception.name = "InvalidBuildError"
-		Error.captureStackTrace(exception, ParseBuild)
-		error(exception)
+		error(string.format("The build %q is not a + sign followed by alphanumerics, dots and slashes", buildWithSign))
 	end
 
 	return build
 end
 
-type ParsedPrereleaseBuild = {
+type Option = {
 	Build: string,
 	Prerelease: string,
 } | {
@@ -95,7 +80,7 @@ type ParsedPrereleaseBuild = {
 	Prerelease: nil,
 }
 
-local function ParsePrereleaseAndBuild(value: string?): ParsedPrereleaseBuild
+local function ParsePrereleaseAndBuild(value: string?): Option
 	if not (value ~= "" and value) then
 		return {}
 	end
@@ -109,14 +94,11 @@ local function ParsePrereleaseAndBuild(value: string?): ParsedPrereleaseBuild
 	}
 end
 
-local function ParseVersion(value: string): (number, number, number, string?, string?)
+local function ParseVersion(value: string)
 	local stringMajor, stringMinor, stringPatch, stringPrereleaseAndBuild =
 		string.match(value, "^(%d+)%.?(%d*)%.?(%d*)(.-)$")
 	if stringMajor == nil then
-		local exception = Error.new(string.format("Could not extract version number(s) from %q", value))
-		exception.name = "InvalidVersionError"
-		Error.captureStackTrace(exception, ParseVersion)
-		error(exception)
+		error(string.format("Could not extract version number(s) from %q", value))
 	end
 
 	local major = tonumber(stringMajor) :: number
@@ -126,12 +108,12 @@ local function ParseVersion(value: string): (number, number, number, string?, st
 	return major, minor, patch, option.Prerelease, option.Build
 end
 
-local function _Compare(a: any, b: any): number
+local function _Compare(a: any, b: any)
 	return if a == b then 0 elseif a < b then -1 else 1
 end
 local Compare = (_Compare :: never) :: ((a: number, b: number) -> number) & ((a: string, b: string) -> number)
 
-local function CompareIds(selfId: string, otherId: string): number
+local function CompareIds(selfId: string, otherId: string)
 	if selfId == otherId then
 		return 0
 	end
@@ -161,7 +143,7 @@ local function CompareIds(selfId: string, otherId: string): number
 	return Compare(selfId, otherId)
 end
 
-local function SmallerIdList(selfIds: {string}, otherIds: {string}): boolean
+local function SmallerIdList(selfIds: {string}, otherIds: {string})
 	for index, value in selfIds do
 		local comparison = CompareIds(value, otherIds[index])
 		if comparison ~= 0 then
@@ -172,7 +154,7 @@ local function SmallerIdList(selfIds: {string}, otherIds: {string}): boolean
 	return #selfIds < #otherIds
 end
 
-local function SmallerPrerelease(mine: string?, other: string?): boolean
+local function SmallerPrerelease(mine: string?, other: string?)
 	if mine == other or not mine then
 		return false
 	end
@@ -184,22 +166,25 @@ local function SmallerPrerelease(mine: string?, other: string?): boolean
 	return SmallerIdList(string.split(mine, "."), string.split(other, "."))
 end
 
-export type SemanticVersion = typeof(setmetatable({} :: {
-	Major: number,
-	Minor: number,
-	Patch: number,
-	Prerelease: string?,
-	Build: string?,
+export type SemanticVersion = typeof(setmetatable(
+	{} :: {
+		Major: number,
+		Minor: number,
+		Patch: number,
+		Prerelease: string?,
+		Build: string?,
 
-	NextMajor: (self: SemanticVersion) -> SemanticVersion,
-	NextMinor: (self: SemanticVersion) -> SemanticVersion,
-	NextPatch: (self: SemanticVersion) -> SemanticVersion,
-}, {} :: {
-	__eq: (self: SemanticVersion, other: SemanticVersion) -> boolean,
-	__lt: (self: SemanticVersion, other: SemanticVersion) -> boolean,
-	__pow: (self: SemanticVersion, other: SemanticVersion) -> boolean,
-	__tostring: (self: SemanticVersion) -> string,
-}))
+		NextMajor: (self: SemanticVersion) -> SemanticVersion,
+		NextMinor: (self: SemanticVersion) -> SemanticVersion,
+		NextPatch: (self: SemanticVersion) -> SemanticVersion,
+	},
+	{} :: {
+		__eq: (self: SemanticVersion, other: SemanticVersion) -> boolean,
+		__lt: (self: SemanticVersion, other: SemanticVersion) -> boolean,
+		__pow: (self: SemanticVersion, other: SemanticVersion) -> boolean,
+		__tostring: (self: SemanticVersion) -> string,
+	}
+))
 
 type BaseStatics = {
 	ClassName: "SemanticVersion",
@@ -250,7 +235,7 @@ end
 
 local WALLY_TOML_PATH = PathFileSystem.Path.new("wally.toml")
 
-function SemanticVersion.FromWally(): SemanticVersion?
+function SemanticVersion.FromWally()
 	if not PathFileSystem.IsFileSafe(WALLY_TOML_PATH) then
 		return nil
 	end
@@ -288,13 +273,13 @@ function SemanticVersion:NextPatch(): SemanticVersion
 	return SemanticVersion.new(self.Major, self.Minor, self.Patch + 1)
 end
 
-function SemanticVersion:__eq(other: SemanticVersion): boolean
+function SemanticVersion:__eq(other)
 	return self.Major == other.Major
 		and self.Minor == other.Minor
 		and self.Patch == other.Patch
 		and self.Prerelease == other.Prerelease
 end
-function SemanticVersion:__lt(other: SemanticVersion): boolean
+function SemanticVersion:__lt(other)
 	if self.Major ~= other.Major then
 		return self.Major < other.Major
 	end
@@ -310,11 +295,11 @@ function SemanticVersion:__lt(other: SemanticVersion): boolean
 	return SmallerPrerelease(self.Prerelease, other.Prerelease)
 end
 
-function SemanticVersion:__pow(other: SemanticVersion): boolean
+function SemanticVersion:__pow(other)
 	return if self.Major == 0 then self == other else self.Major == other.Major and self.Minor <= other.Minor
 end
 
-function SemanticVersion:__tostring(): string
+function SemanticVersion:__tostring()
 	local stringBuilder = {string.format("%*.%*.%*", self.Major, self.Minor, self.Patch)}
 	local build = self.Build
 	local prerelease = self.Prerelease

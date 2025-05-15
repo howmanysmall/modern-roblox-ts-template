@@ -22,8 +22,25 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+local Debug = require("@packages/Debug")
+local GetArguments = require("@functions/GetArguments")
 local process = require("@lune/process")
 local stdio = require("@lune/stdio")
+
+-- local function StripAnsi(value: string): string
+-- 	return (string.gsub(value, "\27%[[%d;]*m", ""))
+-- end
+
+-- local function GetLength(object: {unknown} | string): number
+-- 	local typeOf = type(object)
+-- 	if typeOf == "table" then
+-- 		return #object
+-- 	end
+-- 	if typeOf == "string" then
+-- 		return #StripAnsi(object :: string)
+-- 	end
+-- 	return 0
+-- end
 
 local function deep_update(t1, t2)
 	for k, v in pairs(t2) do
@@ -121,7 +138,7 @@ local function typecheck(name, types, value)
 		end
 	end
 
-	error(("bad property '%s' (%s expected, got %s)"):format(name, table.concat(types, " or "), type(value)))
+	error(string.format("bad property '%*' (%* expected, got %*)", name, table.concat(types, " or "), type(value)))
 end
 
 local function typechecked(name, ...)
@@ -139,7 +156,7 @@ local multiname = {
 	function(self, value)
 		typecheck("name", {"string"}, value)
 
-		for alias in value:gmatch("%S+") do
+		for alias in string.gmatch(value, "%S+") do
 			self._name = self._name or alias
 			table.insert(self._aliases, alias)
 		end
@@ -166,14 +183,14 @@ local function parse_boundaries(str)
 		return 0, 1
 	end
 
-	if str:match("^%d+%-%d+$") then
-		local min, max = str:match("^(%d+)%-(%d+)$")
-		return tonumber(min), tonumber(max)
+	local minimum, maximum = string.match(str, "^(%d+)%-(%d+)$")
+	if minimum then
+		return tonumber(minimum), tonumber(maximum)
 	end
 
-	if str:match("^%d+%+$") then
-		local min = str:match("^(%d+)%+$")
-		return tonumber(min), math.huge
+	local newMinimum = string.match(str, "^(%d+)%+$")
+	if newMinimum then
+		return tonumber(newMinimum), math.huge
 	end
 
 	return
@@ -188,7 +205,7 @@ local function boundaries(name)
 			local min, max = parse_boundaries(value)
 
 			if not min then
-				error(("bad property '%s'"):format(name))
+				error(string.format("bad property '%*'", name))
 			end
 
 			self["_min" .. name], self["_max" .. name] = min, max
@@ -204,7 +221,7 @@ local option_action = {
 		typecheck("action", {"function", "string"}, value)
 
 		if type(value) == "string" and not actions[value] then
-			error(("unknown action '%s'"):format(value))
+			error(string.format("unknown action '%*'", value))
 		end
 	end;
 }
@@ -383,7 +400,7 @@ function Argument:_get_argument_list()
 	while i <= math.min(self._minargs, 3) do
 		local argname = self:_get_argname(i)
 
-		if self._default and self._defmode:find("a") then
+		if self._default and string.find(self._defmode, "a") then
 			argname = "[" .. argname .. "]"
 		end
 
@@ -410,8 +427,8 @@ end
 function Argument:_get_usage()
 	local usage = table.concat(self:_get_argument_list(), " ")
 
-	if self._default and self._defmode:find("u") then
-		if self._maxargs > 1 or (self._minargs == 1 and not self._defmode:find("a")) then
+	if self._default and string.find(self._defmode, "u") then
+		if self._maxargs > 1 or (self._minargs == 1 and not string.find(self._defmode, "a")) then
 			usage = "[" .. usage .. "]"
 		end
 	end
@@ -532,10 +549,10 @@ function Option:_get_label_lines()
 	local lines = {}
 
 	for i, alias in ipairs(self._aliases) do
-		local line = (" "):rep(longest_alias_length - #alias) .. alias .. " " .. argument_list_repr
+		local line = string.rep(" ", longest_alias_length - #alias) .. alias .. " " .. argument_list_repr
 
 		if i ~= #self._aliases then
-			line = line .. ","
+			line ..= ","
 		end
 
 		table.insert(lines, line)
@@ -551,9 +568,9 @@ end
 function Argument:_get_description()
 	if self._default and self._show_default then
 		if self._description then
-			return ("%s (default: %s)"):format(self._description, self._default)
+			return string.format("%* (default: %*)", self._description, self._default)
 		else
-			return ("default: %s"):format(self._default)
+			return string.format("default: %*", self._default)
 		end
 	else
 		return self._description or ""
@@ -584,14 +601,14 @@ function Option:_get_default_target()
 	local res
 
 	for _, alias in ipairs(self._aliases) do
-		if alias:sub(1, 1) == alias:sub(2, 2) then
-			res = alias:sub(3)
+		local first, second = string.byte(alias, 1, 2)
+		if first == second then
+			res = string.sub(alias, 3)
 			break
 		end
 	end
 
-	res = res or self._name:sub(2)
-	return (res:gsub("-", "_"))
+	return (string.gsub(res or string.sub(self._name, 2), "-", "_"))
 end
 
 function Option:_is_vararg()
@@ -619,7 +636,7 @@ function Parser:_update_charset(charset)
 
 	for _, option in ipairs(self._options) do
 		for _, alias in ipairs(option._aliases) do
-			charset[alias:sub(1, 1)] = true
+			charset[string.sub(alias, 1, 1)] = true
 		end
 	end
 
@@ -654,7 +671,10 @@ function Parser:mutex(...)
 
 	for i, element in ipairs(elements) do
 		local mt = getmetatable(element)
-		assert(mt == Option or mt == Argument, ("bad argument #%d to 'mutex' (Option or Argument expected)"):format(i))
+		assert(
+			mt == Option or mt == Argument,
+			string.format("bad argument #%* to 'mutex' (Option or Argument expected)", i)
+		)
 	end
 
 	table.insert(self._mutexes, elements)
@@ -662,16 +682,18 @@ function Parser:mutex(...)
 end
 
 function Parser:group(name, ...)
-	assert(type(name) == "string", ("bad argument #1 to 'group' (string expected, got %s)"):format(type(name)))
+	local typeOf = typeof(name)
+	Debug.Assert(typeOf == "string", "bad argument #1 to 'group' (string expected, got %s)", typeOf)
 
 	-- selene: allow(mixed_table)
 	local group = {name = name, ...}
 
-	for i, element in ipairs(group) do
-		local mt = getmetatable(element)
-		assert(
-			mt == Option or mt == Argument or mt == Command,
-			("bad argument #%d to 'group' (Option or Argument or Command expected)"):format(i + 1)
+	for index, element in ipairs(group) do
+		local metatable = getmetatable(element)
+		Debug.Assert(
+			metatable == Option or metatable == Argument or metatable == Command,
+			"bad argument #%* to 'group' (Option or Argument or Command expected)",
+			index + 1
 		)
 	end
 
@@ -689,12 +711,14 @@ function Parser:get_usage()
 	local usage_margin = self:_inherit_property("usage_margin", #usage_welcome)
 	local max_usage_width = self:_inherit_property("usage_max_width", 70)
 	local lines = {usage_welcome .. self:_get_fullname()}
+	local length = #lines
 
 	local function add(s)
-		if #lines[#lines] + 1 + #s <= max_usage_width then
-			lines[#lines] = lines[#lines] .. " " .. s
+		if #lines[length] + 1 + #s <= max_usage_width then
+			lines[length] ..= " " .. s
 		else
-			lines[#lines + 1] = (" "):rep(usage_margin) .. s
+			length += 1
+			lines[length] = string.rep(" ", usage_margin) .. s
 		end
 	end
 
@@ -821,12 +845,11 @@ local function split_lines(s)
 	end
 
 	local lines = {}
-
-	if s:sub(-1) ~= "\n" then
-		s = s .. "\n"
+	if string.byte(s, -1) ~= 10 then
+		s ..= "\n"
 	end
 
-	for line in s:gmatch("([^\n]*)\n") do
+	for line in string.gmatch(s, "([^\n]*)\n") do
 		table.insert(lines, line)
 	end
 
@@ -1517,8 +1540,7 @@ function Parser:error(msg)
 end
 
 -- Compatibility with strict.lua and other checkers:
-local default_cmdline = require("@lune/process").args
-
+local default_cmdline = GetArguments()
 function Parser:_parse(args, error_handler)
 	return ParseState(self, error_handler):parse(args or default_cmdline)
 end
@@ -1640,13 +1662,16 @@ type command = Parser & InMutex
 
 type command_target = Parser & InMutex
 
-type __callPlusType = typeof(setmetatable({} :: Parser, {} :: {
-	__call: (self: any, {
-		name: string?,
-		description: string?,
-		epilog: string?,
-	}) -> Parser,
-}))
+type __callPlusType = typeof(setmetatable(
+	{} :: Parser,
+	{} :: {
+		__call: (self: any, {
+			name: string?,
+			description: string?,
+			epilog: string?,
+		}) -> Parser,
+	}
+))
 
 type Parser = {
 	__index: Parser,
@@ -1702,19 +1727,26 @@ type Parser = {
 	help_description_margin: (self: Parser | __callPlusType, number) -> Parser,
 }
 
-return (argparse :: any) :: typeof(setmetatable({} :: {
-	version: string,
-}, {} :: {
-	__call: (
-		self: any,
-		name: string?,
-		description: string?,
-		epilog: string?
-	) -> typeof(setmetatable({} :: Parser, {} :: {
-		__call: (self: any, {
+return (argparse :: any) :: typeof(setmetatable(
+	{} :: {version: string},
+	{} :: {
+		__call: (
+			self: any,
 			name: string?,
 			description: string?,
-			epilog: string?,
-		}) -> Parser,
-	})),
-}))
+			epilog: string?
+		) -> typeof(setmetatable(
+			{} :: Parser,
+			{} :: {
+				__call: (
+					self: any,
+					options: {
+						name: string?,
+						description: string?,
+						epilog: string?,
+					}
+				) -> Parser,
+			}
+		)),
+	}
+))

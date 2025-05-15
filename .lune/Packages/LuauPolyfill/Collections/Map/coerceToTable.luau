@@ -1,8 +1,10 @@
 --!optimize 2
+--!strict
+
 local Map = require("./Map")
 local arrayReduce = require("../Array/reduce")
-local instanceOf = require("../../InstanceOf")
-local types = require("../../ES7Types")
+local instanceOf = require("@packages/InstanceOf")
+local types = require("@packages/ES7Types")
 
 type Map<K, V> = types.Map<K, V>
 type Table<K, V> = types.Table<K, V>

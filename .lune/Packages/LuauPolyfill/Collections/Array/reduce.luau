@@ -1,6 +1,7 @@
 --!optimize 2
 --!strict
-local types = require("../../ES7Types")
+
+local types = require("@packages/ES7Types")
 local __DEV__ = _G.__DEV__
 type Array<T> = types.Array<T>
 type reduceFn<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: Array<T>) -> U

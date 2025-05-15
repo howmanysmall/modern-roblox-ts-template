@@ -1,3 +1,7 @@
-#!/bin/zsh
+#!/bin/bash
 
-(trap 'kill 0' SIGINT; rojo serve default.project.json & wait)
+(
+	trap 'kill 0' SIGINT
+	rojo serve default.project.json &
+	wait
+)

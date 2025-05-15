@@ -2,12 +2,22 @@
 --!strict
 
 local task = require("@lune/task")
-local Object = require("../Collections").Object
 
-local makeIntervalImpl = require("./makeIntervalImpl")
-local makeTimerImpl = require("./makeTimerImpl")
+local MakeInterval = require("@self/makeIntervalImpl")
+local MakeTimer = require("@self/makeTimerImpl")
 
-export type Timeout = makeTimerImpl.Timeout
-export type Interval = makeIntervalImpl.Interval
+export type Timeout = MakeTimer.Timeout
+export type Interval = MakeInterval.Interval
 
-return Object.assign({}, makeTimerImpl(task.delay), makeIntervalImpl(task.delay))
+local Interval = MakeInterval(task.delay)
+local Timer = MakeTimer(task.delay)
+
+local Timers = table.freeze({
+	clearInterval = Interval.clearInterval;
+	setInterval = Interval.setInterval;
+
+	clearTimeout = Timer.clearTimeout;
+	setTimeout = Timer.setTimeout;
+})
+
+return Timers

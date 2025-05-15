@@ -1,7 +1,8 @@
 --!optimize 2
---!strict
+--!
+
 local None = require("./None")
-local types = require("../../ES7Types")
+local types = require("@packages/ES7Types")
 
 type Object = types.Object
 

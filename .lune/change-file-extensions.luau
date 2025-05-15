@@ -5,26 +5,20 @@
 	args = "<from-extension> <to-extension> <targets...>"
 ]=]
 
-local ArgParse = require("@packages/ArgParse")
 local LuauPolyfill = require("@packages/LuauPolyfill")
 local PathFileSystem = require("@packages/PathFileSystem")
+local process = require("@lune/process")
 
 local Path = PathFileSystem.Path
 local console = LuauPolyfill.console
-
 type Path = PathFileSystem.Path
 
-local parser = ArgParse("change-file-extensions", "Changes the file extensions of files in a directory.")
-
-parser:argument("from-extension", "The extension to change from.")
-parser:argument("to-extension", "The extension to change to.")
-parser:argument("targets", "The targets to change the extensions of.", nil, nil, "+")
-
-local arguments: {
-	["from-extension"]: string,
-	targets: {string},
-	["to-extension"]: string,
-} = parser:parse()
+local arguments = table.clone(process.args)
+if #arguments < 3 then
+	console.warn("You must pass in at least three arguments.")
+	console.log("Usage: lunar change-file-extensions <from-extension> <to-extension> <targets...>")
+	process.exit(1)
+end
 
 local function Extensionify(value: string): string
 	return if string.byte(value) == 46 then string.sub(value, 2) else value
@@ -33,13 +27,13 @@ local function Matchify(value: string): string
 	return "%." .. value .. "$"
 end
 
-local fromExtension = Extensionify(arguments["from-extension"])
-local toExtension = Extensionify(arguments["to-extension"])
+local fromExtension = Extensionify(table.remove(arguments, 1) :: string)
+local toExtension = Extensionify(table.remove(arguments, 1) :: string)
 
 local FixFile: (path: Path) -> ()
 local FixDirectory: (path: Path) -> ()
 
-local function FixUnknown(path: Path): ()
+local function FixUnknown(path: Path)
 	if PathFileSystem.IsFileSafeSilent(path) then
 		FixFile(path)
 	else
@@ -47,7 +41,7 @@ local function FixUnknown(path: Path): ()
 	end
 end
 
-function FixFile(path): ()
+function FixFile(path: Path): ()
 	local extension = path:extension()
 	if not extension or extension ~= fromExtension then
 		return
@@ -68,12 +62,12 @@ function FixFile(path): ()
 	PathFileSystem.Move(path, parent:join((string.gsub(fileName, Matchify(fromExtension), "." .. toExtension))))
 end
 
-function FixDirectory(path): ()
+function FixDirectory(path: Path): ()
 	for _, file in PathFileSystem.ReadDirectory(path) do
 		FixUnknown(path:join(file))
 	end
 end
 
-for _, target in arguments.targets do
-	FixUnknown(Path.new(target))
+for _, argument in arguments do
+	FixUnknown(Path.new(argument))
 end

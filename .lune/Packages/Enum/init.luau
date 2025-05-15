@@ -1,7 +1,7 @@
 --!nocheck
 --!optimize 2
 
-local Enum = require("./Enum")
+local Enum = require("@self/Enum")
 
 type SimpleResult<T, E> = {
 	Success: true,
@@ -27,17 +27,17 @@ type Enums<Values, ArrayValues> = {
 	GetEnums: (self: Enums<Values, ArrayValues>) -> {ArrayValues},
 } & Values
 
-export type AccessModifierTypeItem =
-	EnumItem<number, AccessModifierType, "Allow">
+export type AccessModifierType =
+	| EnumItem<number, AccessModifierType, "Allow">
 	| EnumItem<number, AccessModifierType, "Deny">
-export type AccessModifierType = EnumObject<{
+export type AccessModifierTypeRoot = EnumObject<{
 	Allow: EnumItem<number, AccessModifierType, "Allow">,
 	Deny: EnumItem<number, AccessModifierType, "Deny">,
-}, AccessModifierTypeItem>
+}, AccessModifierType>
 Enum.AccessModifierType = {"Allow", "Deny"}
 
-export type AccessoryTypeItem =
-	EnumItem<number, AccessoryType, "Unknown">
+export type AccessoryType =
+	| EnumItem<number, AccessoryType, "Unknown">
 	| EnumItem<number, AccessoryType, "Hat">
 	| EnumItem<number, AccessoryType, "Hair">
 	| EnumItem<number, AccessoryType, "Face">
@@ -57,7 +57,7 @@ export type AccessoryTypeItem =
 	| EnumItem<number, AccessoryType, "DressSkirt">
 	| EnumItem<number, AccessoryType, "Eyebrow">
 	| EnumItem<number, AccessoryType, "Eyelash">
-export type AccessoryType = EnumObject<{
+export type AccessoryTypeRoot = EnumObject<{
 	Unknown: EnumItem<number, AccessoryType, "Unknown">,
 	Hat: EnumItem<number, AccessoryType, "Hat">,
 	Hair: EnumItem<number, AccessoryType, "Hair">,
@@ -78,7 +78,7 @@ export type AccessoryType = EnumObject<{
 	DressSkirt: EnumItem<number, AccessoryType, "DressSkirt">,
 	Eyebrow: EnumItem<number, AccessoryType, "Eyebrow">,
 	Eyelash: EnumItem<number, AccessoryType, "Eyelash">,
-}, AccessoryTypeItem>
+}, AccessoryType>
 Enum.AccessoryType = {
 	"Unknown";
 	"Hat";
@@ -102,102 +102,148 @@ Enum.AccessoryType = {
 	"Eyelash";
 }
 
-export type ActionOnStopSyncItem =
-	EnumItem<number, ActionOnStopSync, "AlwaysAsk">
+export type ActionOnAutoResumeSync =
+	| EnumItem<number, ActionOnAutoResumeSync, "DontResume">
+	| EnumItem<number, ActionOnAutoResumeSync, "KeepStudio">
+	| EnumItem<number, ActionOnAutoResumeSync, "KeepLocal">
+export type ActionOnAutoResumeSyncRoot = EnumObject<{
+	DontResume: EnumItem<number, ActionOnAutoResumeSync, "DontResume">,
+	KeepStudio: EnumItem<number, ActionOnAutoResumeSync, "KeepStudio">,
+	KeepLocal: EnumItem<number, ActionOnAutoResumeSync, "KeepLocal">,
+}, ActionOnAutoResumeSync>
+Enum.ActionOnAutoResumeSync = {"DontResume", "KeepStudio", "KeepLocal"}
+
+export type ActionOnStopSync =
+	| EnumItem<number, ActionOnStopSync, "AlwaysAsk">
 	| EnumItem<number, ActionOnStopSync, "KeepLocalFiles">
 	| EnumItem<number, ActionOnStopSync, "DeleteLocalFiles">
-export type ActionOnStopSync = EnumObject<{
+export type ActionOnStopSyncRoot = EnumObject<{
 	AlwaysAsk: EnumItem<number, ActionOnStopSync, "AlwaysAsk">,
 	KeepLocalFiles: EnumItem<number, ActionOnStopSync, "KeepLocalFiles">,
 	DeleteLocalFiles: EnumItem<number, ActionOnStopSync, "DeleteLocalFiles">,
-}, ActionOnStopSyncItem>
+}, ActionOnStopSync>
 Enum.ActionOnStopSync = {"AlwaysAsk", "KeepLocalFiles", "DeleteLocalFiles"}
 
-export type ActionTypeItem =
-	EnumItem<number, ActionType, "Nothing">
+export type ActionType =
+	| EnumItem<number, ActionType, "Nothing">
 	| EnumItem<number, ActionType, "Pause">
 	| EnumItem<number, ActionType, "Lose">
 	| EnumItem<number, ActionType, "Draw">
 	| EnumItem<number, ActionType, "Win">
-export type ActionType = EnumObject<{
+export type ActionTypeRoot = EnumObject<{
 	Nothing: EnumItem<number, ActionType, "Nothing">,
 	Pause: EnumItem<number, ActionType, "Pause">,
 	Lose: EnumItem<number, ActionType, "Lose">,
 	Draw: EnumItem<number, ActionType, "Draw">,
 	Win: EnumItem<number, ActionType, "Win">,
-}, ActionTypeItem>
+}, ActionType>
 Enum.ActionType = {"Nothing", "Pause", "Lose", "Draw", "Win"}
 
-export type ActuatorRelativeToItem =
-	EnumItem<number, ActuatorRelativeTo, "Attachment0">
+export type ActuatorRelativeTo =
+	| EnumItem<number, ActuatorRelativeTo, "Attachment0">
 	| EnumItem<number, ActuatorRelativeTo, "Attachment1">
 	| EnumItem<number, ActuatorRelativeTo, "World">
-export type ActuatorRelativeTo = EnumObject<{
+export type ActuatorRelativeToRoot = EnumObject<{
 	Attachment0: EnumItem<number, ActuatorRelativeTo, "Attachment0">,
 	Attachment1: EnumItem<number, ActuatorRelativeTo, "Attachment1">,
 	World: EnumItem<number, ActuatorRelativeTo, "World">,
-}, ActuatorRelativeToItem>
+}, ActuatorRelativeTo>
 Enum.ActuatorRelativeTo = {"Attachment0", "Attachment1", "World"}
 
-export type ActuatorTypeItem =
-	EnumItem<number, ActuatorType, "None">
+export type ActuatorType =
+	| EnumItem<number, ActuatorType, "None">
 	| EnumItem<number, ActuatorType, "Motor">
 	| EnumItem<number, ActuatorType, "Servo">
-export type ActuatorType = EnumObject<{
+export type ActuatorTypeRoot = EnumObject<{
 	None: EnumItem<number, ActuatorType, "None">,
 	Motor: EnumItem<number, ActuatorType, "Motor">,
 	Servo: EnumItem<number, ActuatorType, "Servo">,
-}, ActuatorTypeItem>
+}, ActuatorType>
 Enum.ActuatorType = {"None", "Motor", "Servo"}
 
-export type AdEventTypeItem =
-	EnumItem<number, AdEventType, "VideoLoaded">
+export type AdAvailabilityResult =
+	| EnumItem<number, AdAvailabilityResult, "IsAvailable">
+	| EnumItem<number, AdAvailabilityResult, "DeviceIneligible">
+	| EnumItem<number, AdAvailabilityResult, "ExperienceIneligible">
+	| EnumItem<number, AdAvailabilityResult, "InternalError">
+	| EnumItem<number, AdAvailabilityResult, "NoFill">
+	| EnumItem<number, AdAvailabilityResult, "PlayerIneligible">
+	| EnumItem<number, AdAvailabilityResult, "PublisherIneligible">
+export type AdAvailabilityResultRoot = EnumObject<{
+	IsAvailable: EnumItem<number, AdAvailabilityResult, "IsAvailable">,
+	DeviceIneligible: EnumItem<number, AdAvailabilityResult, "DeviceIneligible">,
+	ExperienceIneligible: EnumItem<number, AdAvailabilityResult, "ExperienceIneligible">,
+	InternalError: EnumItem<number, AdAvailabilityResult, "InternalError">,
+	NoFill: EnumItem<number, AdAvailabilityResult, "NoFill">,
+	PlayerIneligible: EnumItem<number, AdAvailabilityResult, "PlayerIneligible">,
+	PublisherIneligible: EnumItem<number, AdAvailabilityResult, "PublisherIneligible">,
+}, AdAvailabilityResult>
+Enum.AdAvailabilityResult = {
+	IsAvailable = 1;
+	DeviceIneligible = 2;
+	ExperienceIneligible = 3;
+	InternalError = 4;
+	NoFill = 5;
+	PlayerIneligible = 6;
+	PublisherIneligible = 7;
+}
+
+export type AdEventType =
+	| EnumItem<number, AdEventType, "VideoLoaded">
 	| EnumItem<number, AdEventType, "VideoRemoved">
 	| EnumItem<number, AdEventType, "UserCompletedVideo">
 	| EnumItem<number, AdEventType, "RewardedAdLoaded">
 	| EnumItem<number, AdEventType, "RewardedAdGrant">
 	| EnumItem<number, AdEventType, "RewardedAdUnloaded">
-export type AdEventType = EnumObject<{
+export type AdEventTypeRoot = EnumObject<{
 	VideoLoaded: EnumItem<number, AdEventType, "VideoLoaded">,
 	VideoRemoved: EnumItem<number, AdEventType, "VideoRemoved">,
 	UserCompletedVideo: EnumItem<number, AdEventType, "UserCompletedVideo">,
 	RewardedAdLoaded: EnumItem<number, AdEventType, "RewardedAdLoaded">,
 	RewardedAdGrant: EnumItem<number, AdEventType, "RewardedAdGrant">,
 	RewardedAdUnloaded: EnumItem<number, AdEventType, "RewardedAdUnloaded">,
-}, AdEventTypeItem>
+}, AdEventType>
 Enum.AdEventType =
 	{"VideoLoaded", "VideoRemoved", "UserCompletedVideo", "RewardedAdLoaded", "RewardedAdGrant", "RewardedAdUnloaded"}
 
-export type AdShapeItem = EnumItem<number, AdShape, "HorizontalRectangle">
-export type AdShape = EnumObject<{
+export type AdFormat = | EnumItem<number, AdFormat, "RewardedVideo">
+export type AdFormatRoot = EnumObject<{
+	RewardedVideo: EnumItem<number, AdFormat, "RewardedVideo">,
+}, AdFormat>
+Enum.AdFormat = {"RewardedVideo"}
+
+export type AdShape = | EnumItem<number, AdShape, "HorizontalRectangle">
+export type AdShapeRoot = EnumObject<{
 	HorizontalRectangle: EnumItem<number, AdShape, "HorizontalRectangle">,
-}, AdShapeItem>
+}, AdShape>
 Enum.AdShape = {
 	HorizontalRectangle = 1;
 }
 
-export type AdTeleportMethodItem =
-	EnumItem<number, AdTeleportMethod, "Undefined">
+export type AdTeleportMethod =
+	| EnumItem<number, AdTeleportMethod, "Undefined">
 	| EnumItem<number, AdTeleportMethod, "PortalForward">
 	| EnumItem<number, AdTeleportMethod, "InGameMenuBackButton">
 	| EnumItem<number, AdTeleportMethod, "UIBackButton">
-export type AdTeleportMethod = EnumObject<{
+export type AdTeleportMethodRoot = EnumObject<{
 	Undefined: EnumItem<number, AdTeleportMethod, "Undefined">,
 	PortalForward: EnumItem<number, AdTeleportMethod, "PortalForward">,
 	InGameMenuBackButton: EnumItem<number, AdTeleportMethod, "InGameMenuBackButton">,
 	UIBackButton: EnumItem<number, AdTeleportMethod, "UIBackButton">,
-}, AdTeleportMethodItem>
+}, AdTeleportMethod>
 Enum.AdTeleportMethod = {"Undefined", "PortalForward", "InGameMenuBackButton", "UIBackButton"}
 
-export type AdUIEventTypeItem =
-	EnumItem<number, AdUIEventType, "AdLabelClicked">
+export type AdUIEventType =
+	| EnumItem<number, AdUIEventType, "AdLabelClicked">
 	| EnumItem<number, AdUIEventType, "VolumeButtonClicked">
 	| EnumItem<number, AdUIEventType, "FullscreenButtonClicked">
 	| EnumItem<number, AdUIEventType, "PlayButtonClicked">
 	| EnumItem<number, AdUIEventType, "PauseButtonClicked">
 	| EnumItem<number, AdUIEventType, "CloseButtonClicked">
 	| EnumItem<number, AdUIEventType, "WhyThisAdClicked">
-export type AdUIEventType = EnumObject<{
+	| EnumItem<number, AdUIEventType, "PlayEventTriggered">
+	| EnumItem<number, AdUIEventType, "PauseEventTriggered">
+export type AdUIEventTypeRoot = EnumObject<{
 	AdLabelClicked: EnumItem<number, AdUIEventType, "AdLabelClicked">,
 	VolumeButtonClicked: EnumItem<number, AdUIEventType, "VolumeButtonClicked">,
 	FullscreenButtonClicked: EnumItem<number, AdUIEventType, "FullscreenButtonClicked">,
@@ -205,7 +251,9 @@ export type AdUIEventType = EnumObject<{
 	PauseButtonClicked: EnumItem<number, AdUIEventType, "PauseButtonClicked">,
 	CloseButtonClicked: EnumItem<number, AdUIEventType, "CloseButtonClicked">,
 	WhyThisAdClicked: EnumItem<number, AdUIEventType, "WhyThisAdClicked">,
-}, AdUIEventTypeItem>
+	PlayEventTriggered: EnumItem<number, AdUIEventType, "PlayEventTriggered">,
+	PauseEventTriggered: EnumItem<number, AdUIEventType, "PauseEventTriggered">,
+}, AdUIEventType>
 Enum.AdUIEventType = {
 	"AdLabelClicked";
 	"VolumeButtonClicked";
@@ -214,155 +262,161 @@ Enum.AdUIEventType = {
 	"PauseButtonClicked";
 	"CloseButtonClicked";
 	"WhyThisAdClicked";
+	"PlayEventTriggered";
+	"PauseEventTriggered";
 }
 
-export type AdUITypeItem =
-	EnumItem<number, AdUIType, "None">
+export type AdUIType =
+	| EnumItem<number, AdUIType, "None">
 	| EnumItem<number, AdUIType, "Image">
 	| EnumItem<number, AdUIType, "Video">
-export type AdUIType = EnumObject<{
+export type AdUITypeRoot = EnumObject<{
 	None: EnumItem<number, AdUIType, "None">,
 	Image: EnumItem<number, AdUIType, "Image">,
 	Video: EnumItem<number, AdUIType, "Video">,
-}, AdUITypeItem>
+}, AdUIType>
 Enum.AdUIType = {"None", "Image", "Video"}
 
-export type AdUnitStatusItem = EnumItem<number, AdUnitStatus, "Inactive"> | EnumItem<number, AdUnitStatus, "Active">
-export type AdUnitStatus = EnumObject<{
+export type AdUnitStatus = | EnumItem<number, AdUnitStatus, "Inactive"> | EnumItem<number, AdUnitStatus, "Active">
+export type AdUnitStatusRoot = EnumObject<{
 	Inactive: EnumItem<number, AdUnitStatus, "Inactive">,
 	Active: EnumItem<number, AdUnitStatus, "Active">,
-}, AdUnitStatusItem>
+}, AdUnitStatus>
 Enum.AdUnitStatus = {"Inactive", "Active"}
 
-export type AdornCullingModeItem =
-	EnumItem<number, AdornCullingMode, "Automatic">
+export type AdornCullingMode =
+	| EnumItem<number, AdornCullingMode, "Automatic">
 	| EnumItem<number, AdornCullingMode, "Never">
-export type AdornCullingMode = EnumObject<{
+export type AdornCullingModeRoot = EnumObject<{
 	Automatic: EnumItem<number, AdornCullingMode, "Automatic">,
 	Never: EnumItem<number, AdornCullingMode, "Never">,
-}, AdornCullingModeItem>
+}, AdornCullingMode>
 Enum.AdornCullingMode = {"Automatic", "Never"}
 
-export type AlignTypeItem =
-	EnumItem<number, AlignType, "Parallel">
+export type AlignType =
+	| EnumItem<number, AlignType, "Parallel">
 	| EnumItem<number, AlignType, "Perpendicular">
 	| EnumItem<number, AlignType, "PrimaryAxisParallel">
 	| EnumItem<number, AlignType, "PrimaryAxisPerpendicular">
 	| EnumItem<number, AlignType, "PrimaryAxisLookAt">
 	| EnumItem<number, AlignType, "AllAxes">
-export type AlignType = EnumObject<{
+export type AlignTypeRoot = EnumObject<{
 	Parallel: EnumItem<number, AlignType, "Parallel">,
 	Perpendicular: EnumItem<number, AlignType, "Perpendicular">,
 	PrimaryAxisParallel: EnumItem<number, AlignType, "PrimaryAxisParallel">,
 	PrimaryAxisPerpendicular: EnumItem<number, AlignType, "PrimaryAxisPerpendicular">,
 	PrimaryAxisLookAt: EnumItem<number, AlignType, "PrimaryAxisLookAt">,
 	AllAxes: EnumItem<number, AlignType, "AllAxes">,
-}, AlignTypeItem>
+}, AlignType>
 Enum.AlignType =
 	{"Parallel", "Perpendicular", "PrimaryAxisParallel", "PrimaryAxisPerpendicular", "PrimaryAxisLookAt", "AllAxes"}
 
-export type AlphaModeItem = EnumItem<number, AlphaMode, "Overlay"> | EnumItem<number, AlphaMode, "Transparency">
-export type AlphaMode = EnumObject<{
+export type AlphaMode =
+	| EnumItem<number, AlphaMode, "Overlay">
+	| EnumItem<number, AlphaMode, "Transparency">
+	| EnumItem<number, AlphaMode, "TintMask">
+export type AlphaModeRoot = EnumObject<{
 	Overlay: EnumItem<number, AlphaMode, "Overlay">,
 	Transparency: EnumItem<number, AlphaMode, "Transparency">,
-}, AlphaModeItem>
-Enum.AlphaMode = {"Overlay", "Transparency"}
+	TintMask: EnumItem<number, AlphaMode, "TintMask">,
+}, AlphaMode>
+Enum.AlphaMode = {"Overlay", "Transparency", "TintMask"}
 
-export type AnalyticsCustomFieldKeysItem =
-	EnumItem<number, AnalyticsCustomFieldKeys, "CustomField01">
+export type AnalyticsCustomFieldKeys =
+	| EnumItem<number, AnalyticsCustomFieldKeys, "CustomField01">
 	| EnumItem<number, AnalyticsCustomFieldKeys, "CustomField02">
 	| EnumItem<number, AnalyticsCustomFieldKeys, "CustomField03">
-export type AnalyticsCustomFieldKeys = EnumObject<{
+export type AnalyticsCustomFieldKeysRoot = EnumObject<{
 	CustomField01: EnumItem<number, AnalyticsCustomFieldKeys, "CustomField01">,
 	CustomField02: EnumItem<number, AnalyticsCustomFieldKeys, "CustomField02">,
 	CustomField03: EnumItem<number, AnalyticsCustomFieldKeys, "CustomField03">,
-}, AnalyticsCustomFieldKeysItem>
+}, AnalyticsCustomFieldKeys>
 Enum.AnalyticsCustomFieldKeys = {"CustomField01", "CustomField02", "CustomField03"}
 
-export type AnalyticsEconomyActionItem =
-	EnumItem<number, AnalyticsEconomyAction, "Default">
+export type AnalyticsEconomyAction =
+	| EnumItem<number, AnalyticsEconomyAction, "Default">
 	| EnumItem<number, AnalyticsEconomyAction, "Acquire">
 	| EnumItem<number, AnalyticsEconomyAction, "Spend">
-export type AnalyticsEconomyAction = EnumObject<{
+export type AnalyticsEconomyActionRoot = EnumObject<{
 	Default: EnumItem<number, AnalyticsEconomyAction, "Default">,
 	Acquire: EnumItem<number, AnalyticsEconomyAction, "Acquire">,
 	Spend: EnumItem<number, AnalyticsEconomyAction, "Spend">,
-}, AnalyticsEconomyActionItem>
+}, AnalyticsEconomyAction>
 Enum.AnalyticsEconomyAction = {"Default", "Acquire", "Spend"}
 
-export type AnalyticsEconomyFlowTypeItem =
-	EnumItem<number, AnalyticsEconomyFlowType, "Sink">
+export type AnalyticsEconomyFlowType =
+	| EnumItem<number, AnalyticsEconomyFlowType, "Sink">
 	| EnumItem<number, AnalyticsEconomyFlowType, "Source">
-export type AnalyticsEconomyFlowType = EnumObject<{
+export type AnalyticsEconomyFlowTypeRoot = EnumObject<{
 	Sink: EnumItem<number, AnalyticsEconomyFlowType, "Sink">,
 	Source: EnumItem<number, AnalyticsEconomyFlowType, "Source">,
-}, AnalyticsEconomyFlowTypeItem>
+}, AnalyticsEconomyFlowType>
 Enum.AnalyticsEconomyFlowType = {"Sink", "Source"}
 
-export type AnalyticsEconomyTransactionTypeItem =
-	EnumItem<number, AnalyticsEconomyTransactionType, "IAP">
+export type AnalyticsEconomyTransactionType =
+	| EnumItem<number, AnalyticsEconomyTransactionType, "IAP">
 	| EnumItem<number, AnalyticsEconomyTransactionType, "Shop">
 	| EnumItem<number, AnalyticsEconomyTransactionType, "Gameplay">
 	| EnumItem<number, AnalyticsEconomyTransactionType, "ContextualPurchase">
 	| EnumItem<number, AnalyticsEconomyTransactionType, "TimedReward">
 	| EnumItem<number, AnalyticsEconomyTransactionType, "Onboarding">
-export type AnalyticsEconomyTransactionType = EnumObject<{
+export type AnalyticsEconomyTransactionTypeRoot = EnumObject<{
 	IAP: EnumItem<number, AnalyticsEconomyTransactionType, "IAP">,
 	Shop: EnumItem<number, AnalyticsEconomyTransactionType, "Shop">,
 	Gameplay: EnumItem<number, AnalyticsEconomyTransactionType, "Gameplay">,
 	ContextualPurchase: EnumItem<number, AnalyticsEconomyTransactionType, "ContextualPurchase">,
 	TimedReward: EnumItem<number, AnalyticsEconomyTransactionType, "TimedReward">,
 	Onboarding: EnumItem<number, AnalyticsEconomyTransactionType, "Onboarding">,
-}, AnalyticsEconomyTransactionTypeItem>
+}, AnalyticsEconomyTransactionType>
 Enum.AnalyticsEconomyTransactionType = {"IAP", "Shop", "Gameplay", "ContextualPurchase", "TimedReward", "Onboarding"}
 
-export type AnalyticsLogLevelItem =
-	EnumItem<number, AnalyticsLogLevel, "Trace">
+export type AnalyticsLogLevel =
+	| EnumItem<number, AnalyticsLogLevel, "Trace">
 	| EnumItem<number, AnalyticsLogLevel, "Debug">
 	| EnumItem<number, AnalyticsLogLevel, "Information">
 	| EnumItem<number, AnalyticsLogLevel, "Warning">
 	| EnumItem<number, AnalyticsLogLevel, "Error">
 	| EnumItem<number, AnalyticsLogLevel, "Fatal">
-export type AnalyticsLogLevel = EnumObject<{
+export type AnalyticsLogLevelRoot = EnumObject<{
 	Trace: EnumItem<number, AnalyticsLogLevel, "Trace">,
 	Debug: EnumItem<number, AnalyticsLogLevel, "Debug">,
 	Information: EnumItem<number, AnalyticsLogLevel, "Information">,
 	Warning: EnumItem<number, AnalyticsLogLevel, "Warning">,
 	Error: EnumItem<number, AnalyticsLogLevel, "Error">,
 	Fatal: EnumItem<number, AnalyticsLogLevel, "Fatal">,
-}, AnalyticsLogLevelItem>
+}, AnalyticsLogLevel>
 Enum.AnalyticsLogLevel = {"Trace", "Debug", "Information", "Warning", "Error", "Fatal"}
 
-export type AnalyticsProgressionStatusItem =
-	EnumItem<number, AnalyticsProgressionStatus, "Default">
+export type AnalyticsProgressionStatus =
+	| EnumItem<number, AnalyticsProgressionStatus, "Default">
 	| EnumItem<number, AnalyticsProgressionStatus, "Begin">
 	| EnumItem<number, AnalyticsProgressionStatus, "Complete">
 	| EnumItem<number, AnalyticsProgressionStatus, "Abandon">
 	| EnumItem<number, AnalyticsProgressionStatus, "Fail">
-export type AnalyticsProgressionStatus = EnumObject<{
+export type AnalyticsProgressionStatusRoot = EnumObject<{
 	Default: EnumItem<number, AnalyticsProgressionStatus, "Default">,
 	Begin: EnumItem<number, AnalyticsProgressionStatus, "Begin">,
 	Complete: EnumItem<number, AnalyticsProgressionStatus, "Complete">,
 	Abandon: EnumItem<number, AnalyticsProgressionStatus, "Abandon">,
 	Fail: EnumItem<number, AnalyticsProgressionStatus, "Fail">,
-}, AnalyticsProgressionStatusItem>
+}, AnalyticsProgressionStatus>
 Enum.AnalyticsProgressionStatus = {"Default", "Begin", "Complete", "Abandon", "Fail"}
 
-export type AnalyticsProgressionTypeItem =
-	EnumItem<number, AnalyticsProgressionType, "Custom">
+export type AnalyticsProgressionType =
+	| EnumItem<number, AnalyticsProgressionType, "Custom">
 	| EnumItem<number, AnalyticsProgressionType, "Start">
 	| EnumItem<number, AnalyticsProgressionType, "Fail">
 	| EnumItem<number, AnalyticsProgressionType, "Complete">
-export type AnalyticsProgressionType = EnumObject<{
+export type AnalyticsProgressionTypeRoot = EnumObject<{
 	Custom: EnumItem<number, AnalyticsProgressionType, "Custom">,
 	Start: EnumItem<number, AnalyticsProgressionType, "Start">,
 	Fail: EnumItem<number, AnalyticsProgressionType, "Fail">,
 	Complete: EnumItem<number, AnalyticsProgressionType, "Complete">,
-}, AnalyticsProgressionTypeItem>
+}, AnalyticsProgressionType>
 Enum.AnalyticsProgressionType = {"Custom", "Start", "Fail", "Complete"}
 
-export type AnimationClipFromVideoStatusItem =
-	EnumItem<number, AnimationClipFromVideoStatus, "Initializing">
+export type AnimationClipFromVideoStatus =
+	| EnumItem<number, AnimationClipFromVideoStatus, "Initializing">
 	| EnumItem<number, AnimationClipFromVideoStatus, "Pending">
 	| EnumItem<number, AnimationClipFromVideoStatus, "Processing">
 	| EnumItem<number, AnimationClipFromVideoStatus, "ErrorGeneric">
@@ -374,7 +428,7 @@ export type AnimationClipFromVideoStatusItem =
 	| EnumItem<number, AnimationClipFromVideoStatus, "Cancelled">
 	| EnumItem<number, AnimationClipFromVideoStatus, "ErrorMultiplePeople">
 	| EnumItem<number, AnimationClipFromVideoStatus, "ErrorUploadingVideo">
-export type AnimationClipFromVideoStatus = EnumObject<{
+export type AnimationClipFromVideoStatusRoot = EnumObject<{
 	Initializing: EnumItem<number, AnimationClipFromVideoStatus, "Initializing">,
 	Pending: EnumItem<number, AnimationClipFromVideoStatus, "Pending">,
 	Processing: EnumItem<number, AnimationClipFromVideoStatus, "Processing">,
@@ -387,7 +441,7 @@ export type AnimationClipFromVideoStatus = EnumObject<{
 	Cancelled: EnumItem<number, AnimationClipFromVideoStatus, "Cancelled">,
 	ErrorMultiplePeople: EnumItem<number, AnimationClipFromVideoStatus, "ErrorMultiplePeople">,
 	ErrorUploadingVideo: EnumItem<number, AnimationClipFromVideoStatus, "ErrorUploadingVideo">,
-}, AnimationClipFromVideoStatusItem>
+}, AnimationClipFromVideoStatus>
 Enum.AnimationClipFromVideoStatus = {
 	Initializing = 0;
 	Pending = 1;
@@ -403,15 +457,15 @@ Enum.AnimationClipFromVideoStatus = {
 	ErrorUploadingVideo = 2001;
 }
 
-export type AnimationPriorityItem =
-	EnumItem<number, AnimationPriority, "Idle">
+export type AnimationPriority =
+	| EnumItem<number, AnimationPriority, "Idle">
 	| EnumItem<number, AnimationPriority, "Movement">
 	| EnumItem<number, AnimationPriority, "Action">
 	| EnumItem<number, AnimationPriority, "Action2">
 	| EnumItem<number, AnimationPriority, "Action3">
 	| EnumItem<number, AnimationPriority, "Action4">
 	| EnumItem<number, AnimationPriority, "Core">
-export type AnimationPriority = EnumObject<{
+export type AnimationPriorityRoot = EnumObject<{
 	Idle: EnumItem<number, AnimationPriority, "Idle">,
 	Movement: EnumItem<number, AnimationPriority, "Movement">,
 	Action: EnumItem<number, AnimationPriority, "Action">,
@@ -419,7 +473,7 @@ export type AnimationPriority = EnumObject<{
 	Action3: EnumItem<number, AnimationPriority, "Action3">,
 	Action4: EnumItem<number, AnimationPriority, "Action4">,
 	Core: EnumItem<number, AnimationPriority, "Core">,
-}, AnimationPriorityItem>
+}, AnimationPriority>
 Enum.AnimationPriority = {
 	Idle = 0;
 	Movement = 1;
@@ -430,43 +484,73 @@ Enum.AnimationPriority = {
 	Core = 1000;
 }
 
-export type AnimatorRetargetingModeItem =
-	EnumItem<number, AnimatorRetargetingMode, "Default">
+export type AnimatorRetargetingMode =
+	| EnumItem<number, AnimatorRetargetingMode, "Default">
 	| EnumItem<number, AnimatorRetargetingMode, "Disabled">
 	| EnumItem<number, AnimatorRetargetingMode, "Enabled">
-export type AnimatorRetargetingMode = EnumObject<{
+export type AnimatorRetargetingModeRoot = EnumObject<{
 	Default: EnumItem<number, AnimatorRetargetingMode, "Default">,
 	Disabled: EnumItem<number, AnimatorRetargetingMode, "Disabled">,
 	Enabled: EnumItem<number, AnimatorRetargetingMode, "Enabled">,
-}, AnimatorRetargetingModeItem>
+}, AnimatorRetargetingMode>
 Enum.AnimatorRetargetingMode = {"Default", "Disabled", "Enabled"}
 
-export type AnnotationEditingModeItem =
-	EnumItem<number, AnnotationEditingMode, "None">
+export type AnnotationEditingMode =
+	| EnumItem<number, AnnotationEditingMode, "None">
 	| EnumItem<number, AnnotationEditingMode, "PlacingNew">
 	| EnumItem<number, AnnotationEditingMode, "WritingNew">
-export type AnnotationEditingMode = EnumObject<{
+export type AnnotationEditingModeRoot = EnumObject<{
 	None: EnumItem<number, AnnotationEditingMode, "None">,
 	PlacingNew: EnumItem<number, AnnotationEditingMode, "PlacingNew">,
 	WritingNew: EnumItem<number, AnnotationEditingMode, "WritingNew">,
-}, AnnotationEditingModeItem>
+}, AnnotationEditingMode>
 Enum.AnnotationEditingMode = {"None", "PlacingNew", "WritingNew"}
 
-export type AppLifecycleManagerStateItem =
-	EnumItem<number, AppLifecycleManagerState, "Detached">
+export type AnnotationRequestStatus =
+	| EnumItem<number, AnnotationRequestStatus, "Success">
+	| EnumItem<number, AnnotationRequestStatus, "Loading">
+	| EnumItem<number, AnnotationRequestStatus, "ErrorInternalFailure">
+	| EnumItem<number, AnnotationRequestStatus, "ErrorNotFound">
+	| EnumItem<number, AnnotationRequestStatus, "ErrorModerated">
+export type AnnotationRequestStatusRoot = EnumObject<{
+	Success: EnumItem<number, AnnotationRequestStatus, "Success">,
+	Loading: EnumItem<number, AnnotationRequestStatus, "Loading">,
+	ErrorInternalFailure: EnumItem<number, AnnotationRequestStatus, "ErrorInternalFailure">,
+	ErrorNotFound: EnumItem<number, AnnotationRequestStatus, "ErrorNotFound">,
+	ErrorModerated: EnumItem<number, AnnotationRequestStatus, "ErrorModerated">,
+}, AnnotationRequestStatus>
+Enum.AnnotationRequestStatus = {"Success", "Loading", "ErrorInternalFailure", "ErrorNotFound", "ErrorModerated"}
+
+export type AnnotationRequestType =
+	| EnumItem<number, AnnotationRequestType, "Unknown">
+	| EnumItem<number, AnnotationRequestType, "Create">
+	| EnumItem<number, AnnotationRequestType, "Resolve">
+	| EnumItem<number, AnnotationRequestType, "Delete">
+	| EnumItem<number, AnnotationRequestType, "Edit">
+export type AnnotationRequestTypeRoot = EnumObject<{
+	Unknown: EnumItem<number, AnnotationRequestType, "Unknown">,
+	Create: EnumItem<number, AnnotationRequestType, "Create">,
+	Resolve: EnumItem<number, AnnotationRequestType, "Resolve">,
+	Delete: EnumItem<number, AnnotationRequestType, "Delete">,
+	Edit: EnumItem<number, AnnotationRequestType, "Edit">,
+}, AnnotationRequestType>
+Enum.AnnotationRequestType = {"Unknown", "Create", "Resolve", "Delete", "Edit"}
+
+export type AppLifecycleManagerState =
+	| EnumItem<number, AppLifecycleManagerState, "Detached">
 	| EnumItem<number, AppLifecycleManagerState, "Active">
 	| EnumItem<number, AppLifecycleManagerState, "Inactive">
 	| EnumItem<number, AppLifecycleManagerState, "Hidden">
-export type AppLifecycleManagerState = EnumObject<{
+export type AppLifecycleManagerStateRoot = EnumObject<{
 	Detached: EnumItem<number, AppLifecycleManagerState, "Detached">,
 	Active: EnumItem<number, AppLifecycleManagerState, "Active">,
 	Inactive: EnumItem<number, AppLifecycleManagerState, "Inactive">,
 	Hidden: EnumItem<number, AppLifecycleManagerState, "Hidden">,
-}, AppLifecycleManagerStateItem>
+}, AppLifecycleManagerState>
 Enum.AppLifecycleManagerState = {"Detached", "Active", "Inactive", "Hidden"}
 
-export type AppShellActionTypeItem =
-	EnumItem<number, AppShellActionType, "None">
+export type AppShellActionType =
+	| EnumItem<number, AppShellActionType, "None">
 	| EnumItem<number, AppShellActionType, "OpenApp">
 	| EnumItem<number, AppShellActionType, "TapChatTab">
 	| EnumItem<number, AppShellActionType, "TapConversationEntry">
@@ -477,7 +561,7 @@ export type AppShellActionTypeItem =
 	| EnumItem<number, AppShellActionType, "GamePageLoaded">
 	| EnumItem<number, AppShellActionType, "HomePageLoaded">
 	| EnumItem<number, AppShellActionType, "AvatarEditorPageLoaded">
-export type AppShellActionType = EnumObject<{
+export type AppShellActionTypeRoot = EnumObject<{
 	None: EnumItem<number, AppShellActionType, "None">,
 	OpenApp: EnumItem<number, AppShellActionType, "OpenApp">,
 	TapChatTab: EnumItem<number, AppShellActionType, "TapChatTab">,
@@ -489,7 +573,7 @@ export type AppShellActionType = EnumObject<{
 	GamePageLoaded: EnumItem<number, AppShellActionType, "GamePageLoaded">,
 	HomePageLoaded: EnumItem<number, AppShellActionType, "HomePageLoaded">,
 	AvatarEditorPageLoaded: EnumItem<number, AppShellActionType, "AvatarEditorPageLoaded">,
-}, AppShellActionTypeItem>
+}, AppShellActionType>
 Enum.AppShellActionType = {
 	"None";
 	"OpenApp";
@@ -504,15 +588,15 @@ Enum.AppShellActionType = {
 	"AvatarEditorPageLoaded";
 }
 
-export type AppShellFeatureItem =
-	EnumItem<number, AppShellFeature, "None">
+export type AppShellFeature =
+	| EnumItem<number, AppShellFeature, "None">
 	| EnumItem<number, AppShellFeature, "Chat">
 	| EnumItem<number, AppShellFeature, "AvatarEditor">
 	| EnumItem<number, AppShellFeature, "GamePage">
 	| EnumItem<number, AppShellFeature, "HomePage">
 	| EnumItem<number, AppShellFeature, "More">
 	| EnumItem<number, AppShellFeature, "Landing">
-export type AppShellFeature = EnumObject<{
+export type AppShellFeatureRoot = EnumObject<{
 	None: EnumItem<number, AppShellFeature, "None">,
 	Chat: EnumItem<number, AppShellFeature, "Chat">,
 	AvatarEditor: EnumItem<number, AppShellFeature, "AvatarEditor">,
@@ -520,68 +604,68 @@ export type AppShellFeature = EnumObject<{
 	HomePage: EnumItem<number, AppShellFeature, "HomePage">,
 	More: EnumItem<number, AppShellFeature, "More">,
 	Landing: EnumItem<number, AppShellFeature, "Landing">,
-}, AppShellFeatureItem>
+}, AppShellFeature>
 Enum.AppShellFeature = {"None", "Chat", "AvatarEditor", "GamePage", "HomePage", "More", "Landing"}
 
-export type AppUpdateStatusItem =
-	EnumItem<number, AppUpdateStatus, "Unknown">
+export type AppUpdateStatus =
+	| EnumItem<number, AppUpdateStatus, "Unknown">
 	| EnumItem<number, AppUpdateStatus, "NotSupported">
 	| EnumItem<number, AppUpdateStatus, "Failed">
 	| EnumItem<number, AppUpdateStatus, "NotAvailable">
 	| EnumItem<number, AppUpdateStatus, "Available">
 	| EnumItem<number, AppUpdateStatus, "AvailableBoundChannel">
-export type AppUpdateStatus = EnumObject<{
+export type AppUpdateStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, AppUpdateStatus, "Unknown">,
 	NotSupported: EnumItem<number, AppUpdateStatus, "NotSupported">,
 	Failed: EnumItem<number, AppUpdateStatus, "Failed">,
 	NotAvailable: EnumItem<number, AppUpdateStatus, "NotAvailable">,
 	Available: EnumItem<number, AppUpdateStatus, "Available">,
 	AvailableBoundChannel: EnumItem<number, AppUpdateStatus, "AvailableBoundChannel">,
-}, AppUpdateStatusItem>
+}, AppUpdateStatus>
 Enum.AppUpdateStatus = {"Unknown", "NotSupported", "Failed", "NotAvailable", "Available", "AvailableBoundChannel"}
 
-export type ApplyStrokeModeItem =
-	EnumItem<number, ApplyStrokeMode, "Contextual">
+export type ApplyStrokeMode =
+	| EnumItem<number, ApplyStrokeMode, "Contextual">
 	| EnumItem<number, ApplyStrokeMode, "Border">
-export type ApplyStrokeMode = EnumObject<{
+export type ApplyStrokeModeRoot = EnumObject<{
 	Contextual: EnumItem<number, ApplyStrokeMode, "Contextual">,
 	Border: EnumItem<number, ApplyStrokeMode, "Border">,
-}, ApplyStrokeModeItem>
+}, ApplyStrokeMode>
 Enum.ApplyStrokeMode = {"Contextual", "Border"}
 
-export type AspectTypeItem =
-	EnumItem<number, AspectType, "FitWithinMaxSize">
+export type AspectType =
+	| EnumItem<number, AspectType, "FitWithinMaxSize">
 	| EnumItem<number, AspectType, "ScaleWithParentSize">
-export type AspectType = EnumObject<{
+export type AspectTypeRoot = EnumObject<{
 	FitWithinMaxSize: EnumItem<number, AspectType, "FitWithinMaxSize">,
 	ScaleWithParentSize: EnumItem<number, AspectType, "ScaleWithParentSize">,
-}, AspectTypeItem>
+}, AspectType>
 Enum.AspectType = {"FitWithinMaxSize", "ScaleWithParentSize"}
 
-export type AssetCreatorTypeItem = EnumItem<number, AssetCreatorType, "User"> | EnumItem<number, AssetCreatorType, "Group">
-export type AssetCreatorType = EnumObject<{
+export type AssetCreatorType = | EnumItem<number, AssetCreatorType, "User"> | EnumItem<number, AssetCreatorType, "Group">
+export type AssetCreatorTypeRoot = EnumObject<{
 	User: EnumItem<number, AssetCreatorType, "User">,
 	Group: EnumItem<number, AssetCreatorType, "Group">,
-}, AssetCreatorTypeItem>
+}, AssetCreatorType>
 Enum.AssetCreatorType = {"User", "Group"}
 
-export type AssetFetchStatusItem =
-	EnumItem<number, AssetFetchStatus, "Success">
+export type AssetFetchStatus =
+	| EnumItem<number, AssetFetchStatus, "Success">
 	| EnumItem<number, AssetFetchStatus, "Failure">
 	| EnumItem<number, AssetFetchStatus, "None">
 	| EnumItem<number, AssetFetchStatus, "Loading">
 	| EnumItem<number, AssetFetchStatus, "TimedOut">
-export type AssetFetchStatus = EnumObject<{
+export type AssetFetchStatusRoot = EnumObject<{
 	Success: EnumItem<number, AssetFetchStatus, "Success">,
 	Failure: EnumItem<number, AssetFetchStatus, "Failure">,
 	None: EnumItem<number, AssetFetchStatus, "None">,
 	Loading: EnumItem<number, AssetFetchStatus, "Loading">,
 	TimedOut: EnumItem<number, AssetFetchStatus, "TimedOut">,
-}, AssetFetchStatusItem>
+}, AssetFetchStatus>
 Enum.AssetFetchStatus = {"Success", "Failure", "None", "Loading", "TimedOut"}
 
-export type AssetTypeItem =
-	EnumItem<number, AssetType, "Image">
+export type AssetType =
+	| EnumItem<number, AssetType, "Image">
 	| EnumItem<number, AssetType, "TShirt">
 	| EnumItem<number, AssetType, "Audio">
 	| EnumItem<number, AssetType, "Mesh">
@@ -640,7 +724,7 @@ export type AssetTypeItem =
 	| EnumItem<number, AssetType, "EyelashAccessory">
 	| EnumItem<number, AssetType, "MoodAnimation">
 	| EnumItem<number, AssetType, "DynamicHead">
-export type AssetType = EnumObject<{
+export type AssetTypeRoot = EnumObject<{
 	Image: EnumItem<number, AssetType, "Image">,
 	TShirt: EnumItem<number, AssetType, "TShirt">,
 	Audio: EnumItem<number, AssetType, "Audio">,
@@ -700,7 +784,7 @@ export type AssetType = EnumObject<{
 	EyelashAccessory: EnumItem<number, AssetType, "EyelashAccessory">,
 	MoodAnimation: EnumItem<number, AssetType, "MoodAnimation">,
 	DynamicHead: EnumItem<number, AssetType, "DynamicHead">,
-}, AssetTypeItem>
+}, AssetType>
 Enum.AssetType = {
 	Image = 1;
 	TShirt = 2;
@@ -763,34 +847,57 @@ Enum.AssetType = {
 	DynamicHead = 79;
 }
 
-export type AssetTypeVerificationItem =
-	EnumItem<number, AssetTypeVerification, "Default">
+export type AssetTypeVerification =
+	| EnumItem<number, AssetTypeVerification, "Default">
 	| EnumItem<number, AssetTypeVerification, "ClientOnly">
 	| EnumItem<number, AssetTypeVerification, "Always">
-export type AssetTypeVerification = EnumObject<{
+export type AssetTypeVerificationRoot = EnumObject<{
 	Default: EnumItem<number, AssetTypeVerification, "Default">,
 	ClientOnly: EnumItem<number, AssetTypeVerification, "ClientOnly">,
 	Always: EnumItem<number, AssetTypeVerification, "Always">,
-}, AssetTypeVerificationItem>
+}, AssetTypeVerification>
 Enum.AssetTypeVerification = {
 	Default = 1;
 	ClientOnly = 2;
 	Always = 3;
 }
 
-export type AudioApiRolloutItem =
-	EnumItem<number, AudioApiRollout, "Disabled">
+export type AudioApiRollout =
+	| EnumItem<number, AudioApiRollout, "Disabled">
 	| EnumItem<number, AudioApiRollout, "Automatic">
 	| EnumItem<number, AudioApiRollout, "Enabled">
-export type AudioApiRollout = EnumObject<{
+export type AudioApiRolloutRoot = EnumObject<{
 	Disabled: EnumItem<number, AudioApiRollout, "Disabled">,
 	Automatic: EnumItem<number, AudioApiRollout, "Automatic">,
 	Enabled: EnumItem<number, AudioApiRollout, "Enabled">,
-}, AudioApiRolloutItem>
+}, AudioApiRollout>
 Enum.AudioApiRollout = {"Disabled", "Automatic", "Enabled"}
 
-export type AudioFilterTypeItem =
-	EnumItem<number, AudioFilterType, "Peak">
+export type AudioCaptureMode = export
+type AudioCaptureModeRoot = EnumObject<{}, AudioCaptureMode>
+Enum.AudioCaptureMode = {}
+
+export type AudioChannelLayout =
+	| EnumItem<number, AudioChannelLayout, "Mono">
+	| EnumItem<number, AudioChannelLayout, "Stereo">
+	| EnumItem<number, AudioChannelLayout, "Quad">
+	| EnumItem<number, AudioChannelLayout, "Surround_5">
+	| EnumItem<number, AudioChannelLayout, "Surround_5_1">
+	| EnumItem<number, AudioChannelLayout, "Surround_7_1">
+	| EnumItem<number, AudioChannelLayout, "Surround_7_1_4">
+export type AudioChannelLayoutRoot = EnumObject<{
+	Mono: EnumItem<number, AudioChannelLayout, "Mono">,
+	Stereo: EnumItem<number, AudioChannelLayout, "Stereo">,
+	Quad: EnumItem<number, AudioChannelLayout, "Quad">,
+	Surround_5: EnumItem<number, AudioChannelLayout, "Surround_5">,
+	Surround_5_1: EnumItem<number, AudioChannelLayout, "Surround_5_1">,
+	Surround_7_1: EnumItem<number, AudioChannelLayout, "Surround_7_1">,
+	Surround_7_1_4: EnumItem<number, AudioChannelLayout, "Surround_7_1_4">,
+}, AudioChannelLayout>
+Enum.AudioChannelLayout = {"Mono", "Stereo", "Quad", "Surround_5", "Surround_5_1", "Surround_7_1", "Surround_7_1_4"}
+
+export type AudioFilterType =
+	| EnumItem<number, AudioFilterType, "Peak">
 	| EnumItem<number, AudioFilterType, "LowShelf">
 	| EnumItem<number, AudioFilterType, "HighShelf">
 	| EnumItem<number, AudioFilterType, "Lowpass12dB">
@@ -801,7 +908,8 @@ export type AudioFilterTypeItem =
 	| EnumItem<number, AudioFilterType, "Highpass48dB">
 	| EnumItem<number, AudioFilterType, "Bandpass">
 	| EnumItem<number, AudioFilterType, "Notch">
-export type AudioFilterType = EnumObject<{
+	| EnumItem<number, AudioFilterType, "Lowpass6dB">
+export type AudioFilterTypeRoot = EnumObject<{
 	Peak: EnumItem<number, AudioFilterType, "Peak">,
 	LowShelf: EnumItem<number, AudioFilterType, "LowShelf">,
 	HighShelf: EnumItem<number, AudioFilterType, "HighShelf">,
@@ -813,7 +921,8 @@ export type AudioFilterType = EnumObject<{
 	Highpass48dB: EnumItem<number, AudioFilterType, "Highpass48dB">,
 	Bandpass: EnumItem<number, AudioFilterType, "Bandpass">,
 	Notch: EnumItem<number, AudioFilterType, "Notch">,
-}, AudioFilterTypeItem>
+	Lowpass6dB: EnumItem<number, AudioFilterType, "Lowpass6dB">,
+}, AudioFilterType>
 Enum.AudioFilterType = {
 	"Peak";
 	"LowShelf";
@@ -826,55 +935,65 @@ Enum.AudioFilterType = {
 	"Highpass48dB";
 	"Bandpass";
 	"Notch";
+	"Lowpass6dB";
 }
 
-export type AudioSubTypeItem = EnumItem<number, AudioSubType, "Music"> | EnumItem<number, AudioSubType, "SoundEffect">
-export type AudioSubType = EnumObject<{
+export type AudioSimulationFidelity =
+	| EnumItem<number, AudioSimulationFidelity, "None">
+	| EnumItem<number, AudioSimulationFidelity, "Automatic">
+export type AudioSimulationFidelityRoot = EnumObject<{
+	None: EnumItem<number, AudioSimulationFidelity, "None">,
+	Automatic: EnumItem<number, AudioSimulationFidelity, "Automatic">,
+}, AudioSimulationFidelity>
+Enum.AudioSimulationFidelity = {"None", "Automatic"}
+
+export type AudioSubType = | EnumItem<number, AudioSubType, "Music"> | EnumItem<number, AudioSubType, "SoundEffect">
+export type AudioSubTypeRoot = EnumObject<{
 	Music: EnumItem<number, AudioSubType, "Music">,
 	SoundEffect: EnumItem<number, AudioSubType, "SoundEffect">,
-}, AudioSubTypeItem>
+}, AudioSubType>
 Enum.AudioSubType = {
 	Music = 1;
 	SoundEffect = 2;
 }
 
-export type AudioWindowSizeItem =
-	EnumItem<number, AudioWindowSize, "Small">
+export type AudioWindowSize =
+	| EnumItem<number, AudioWindowSize, "Small">
 	| EnumItem<number, AudioWindowSize, "Medium">
 	| EnumItem<number, AudioWindowSize, "Large">
-export type AudioWindowSize = EnumObject<{
+export type AudioWindowSizeRoot = EnumObject<{
 	Small: EnumItem<number, AudioWindowSize, "Small">,
 	Medium: EnumItem<number, AudioWindowSize, "Medium">,
 	Large: EnumItem<number, AudioWindowSize, "Large">,
-}, AudioWindowSizeItem>
+}, AudioWindowSize>
 Enum.AudioWindowSize = {"Small", "Medium", "Large"}
 
-export type AutoIndentRuleItem =
-	EnumItem<number, AutoIndentRule, "Off">
+export type AutoIndentRule =
+	| EnumItem<number, AutoIndentRule, "Off">
 	| EnumItem<number, AutoIndentRule, "Absolute">
 	| EnumItem<number, AutoIndentRule, "Relative">
-export type AutoIndentRule = EnumObject<{
+export type AutoIndentRuleRoot = EnumObject<{
 	Off: EnumItem<number, AutoIndentRule, "Off">,
 	Absolute: EnumItem<number, AutoIndentRule, "Absolute">,
 	Relative: EnumItem<number, AutoIndentRule, "Relative">,
-}, AutoIndentRuleItem>
+}, AutoIndentRule>
 Enum.AutoIndentRule = {"Off", "Absolute", "Relative"}
 
-export type AutomaticSizeItem =
-	EnumItem<number, AutomaticSize, "None">
+export type AutomaticSize =
+	| EnumItem<number, AutomaticSize, "None">
 	| EnumItem<number, AutomaticSize, "X">
 	| EnumItem<number, AutomaticSize, "Y">
 	| EnumItem<number, AutomaticSize, "XY">
-export type AutomaticSize = EnumObject<{
+export type AutomaticSizeRoot = EnumObject<{
 	None: EnumItem<number, AutomaticSize, "None">,
 	X: EnumItem<number, AutomaticSize, "X">,
 	Y: EnumItem<number, AutomaticSize, "Y">,
 	XY: EnumItem<number, AutomaticSize, "XY">,
-}, AutomaticSizeItem>
+}, AutomaticSize>
 Enum.AutomaticSize = {"None", "X", "Y", "XY"}
 
-export type AvatarAssetTypeItem =
-	EnumItem<number, AvatarAssetType, "TShirt">
+export type AvatarAssetType =
+	| EnumItem<number, AvatarAssetType, "TShirt">
 	| EnumItem<number, AvatarAssetType, "Hat">
 	| EnumItem<number, AvatarAssetType, "Shirt">
 	| EnumItem<number, AvatarAssetType, "Pants">
@@ -914,7 +1033,7 @@ export type AvatarAssetTypeItem =
 	| EnumItem<number, AvatarAssetType, "EyelashAccessory">
 	| EnumItem<number, AvatarAssetType, "MoodAnimation">
 	| EnumItem<number, AvatarAssetType, "DynamicHead">
-export type AvatarAssetType = EnumObject<{
+export type AvatarAssetTypeRoot = EnumObject<{
 	TShirt: EnumItem<number, AvatarAssetType, "TShirt">,
 	Hat: EnumItem<number, AvatarAssetType, "Hat">,
 	Shirt: EnumItem<number, AvatarAssetType, "Shirt">,
@@ -955,7 +1074,7 @@ export type AvatarAssetType = EnumObject<{
 	EyelashAccessory: EnumItem<number, AvatarAssetType, "EyelashAccessory">,
 	MoodAnimation: EnumItem<number, AvatarAssetType, "MoodAnimation">,
 	DynamicHead: EnumItem<number, AvatarAssetType, "DynamicHead">,
-}, AvatarAssetTypeItem>
+}, AvatarAssetType>
 Enum.AvatarAssetType = {
 	TShirt = 2;
 	Hat = 8;
@@ -999,8 +1118,8 @@ Enum.AvatarAssetType = {
 	DynamicHead = 79;
 }
 
-export type AvatarChatServiceFeatureItem =
-	EnumItem<number, AvatarChatServiceFeature, "None">
+export type AvatarChatServiceFeature =
+	| EnumItem<number, AvatarChatServiceFeature, "None">
 	| EnumItem<number, AvatarChatServiceFeature, "UniverseAudio">
 	| EnumItem<number, AvatarChatServiceFeature, "UniverseVideo">
 	| EnumItem<number, AvatarChatServiceFeature, "PlaceAudio">
@@ -1011,7 +1130,7 @@ export type AvatarChatServiceFeatureItem =
 	| EnumItem<number, AvatarChatServiceFeature, "UserVideo">
 	| EnumItem<number, AvatarChatServiceFeature, "UserBanned">
 	| EnumItem<number, AvatarChatServiceFeature, "UserVerifiedForVoice">
-export type AvatarChatServiceFeature = EnumObject<{
+export type AvatarChatServiceFeatureRoot = EnumObject<{
 	None: EnumItem<number, AvatarChatServiceFeature, "None">,
 	UniverseAudio: EnumItem<number, AvatarChatServiceFeature, "UniverseAudio">,
 	UniverseVideo: EnumItem<number, AvatarChatServiceFeature, "UniverseVideo">,
@@ -1023,7 +1142,7 @@ export type AvatarChatServiceFeature = EnumObject<{
 	UserVideo: EnumItem<number, AvatarChatServiceFeature, "UserVideo">,
 	UserBanned: EnumItem<number, AvatarChatServiceFeature, "UserBanned">,
 	UserVerifiedForVoice: EnumItem<number, AvatarChatServiceFeature, "UserVerifiedForVoice">,
-}, AvatarChatServiceFeatureItem>
+}, AvatarChatServiceFeature>
 Enum.AvatarChatServiceFeature = {
 	None = 0;
 	UniverseAudio = 1;
@@ -1038,28 +1157,28 @@ Enum.AvatarChatServiceFeature = {
 	UserVerifiedForVoice = 512;
 }
 
-export type AvatarContextMenuOptionItem =
-	EnumItem<number, AvatarContextMenuOption, "Friend">
+export type AvatarContextMenuOption =
+	| EnumItem<number, AvatarContextMenuOption, "Friend">
 	| EnumItem<number, AvatarContextMenuOption, "Chat">
 	| EnumItem<number, AvatarContextMenuOption, "Emote">
 	| EnumItem<number, AvatarContextMenuOption, "InspectMenu">
-export type AvatarContextMenuOption = EnumObject<{
+export type AvatarContextMenuOptionRoot = EnumObject<{
 	Friend: EnumItem<number, AvatarContextMenuOption, "Friend">,
 	Chat: EnumItem<number, AvatarContextMenuOption, "Chat">,
 	Emote: EnumItem<number, AvatarContextMenuOption, "Emote">,
 	InspectMenu: EnumItem<number, AvatarContextMenuOption, "InspectMenu">,
-}, AvatarContextMenuOptionItem>
+}, AvatarContextMenuOption>
 Enum.AvatarContextMenuOption = {"Friend", "Chat", "Emote", "InspectMenu"}
 
-export type AvatarGenerationErrorItem =
-	EnumItem<number, AvatarGenerationError, "None">
+export type AvatarGenerationError =
+	| EnumItem<number, AvatarGenerationError, "None">
 	| EnumItem<number, AvatarGenerationError, "Unknown">
 	| EnumItem<number, AvatarGenerationError, "DownloadFailed">
 	| EnumItem<number, AvatarGenerationError, "Canceled">
 	| EnumItem<number, AvatarGenerationError, "Offensive">
 	| EnumItem<number, AvatarGenerationError, "Timeout">
 	| EnumItem<number, AvatarGenerationError, "JobNotFound">
-export type AvatarGenerationError = EnumObject<{
+export type AvatarGenerationErrorRoot = EnumObject<{
 	None: EnumItem<number, AvatarGenerationError, "None">,
 	Unknown: EnumItem<number, AvatarGenerationError, "Unknown">,
 	DownloadFailed: EnumItem<number, AvatarGenerationError, "DownloadFailed">,
@@ -1067,110 +1186,251 @@ export type AvatarGenerationError = EnumObject<{
 	Offensive: EnumItem<number, AvatarGenerationError, "Offensive">,
 	Timeout: EnumItem<number, AvatarGenerationError, "Timeout">,
 	JobNotFound: EnumItem<number, AvatarGenerationError, "JobNotFound">,
-}, AvatarGenerationErrorItem>
+}, AvatarGenerationError>
 Enum.AvatarGenerationError = {"None", "Unknown", "DownloadFailed", "Canceled", "Offensive", "Timeout", "JobNotFound"}
 
-export type AvatarItemTypeItem = EnumItem<number, AvatarItemType, "Asset"> | EnumItem<number, AvatarItemType, "Bundle">
-export type AvatarItemType = EnumObject<{
+export type AvatarItemType = | EnumItem<number, AvatarItemType, "Asset"> | EnumItem<number, AvatarItemType, "Bundle">
+export type AvatarItemTypeRoot = EnumObject<{
 	Asset: EnumItem<number, AvatarItemType, "Asset">,
 	Bundle: EnumItem<number, AvatarItemType, "Bundle">,
-}, AvatarItemTypeItem>
+}, AvatarItemType>
 Enum.AvatarItemType = {
 	Asset = 1;
 	Bundle = 2;
 }
 
-export type AvatarJointUpgradeItem =
-	EnumItem<number, AvatarJointUpgrade, "Default">
-	| EnumItem<number, AvatarJointUpgrade, "Enabled">
-	| EnumItem<number, AvatarJointUpgrade, "Disabled">
-export type AvatarJointUpgrade = EnumObject<{
-	Default: EnumItem<number, AvatarJointUpgrade, "Default">,
-	Enabled: EnumItem<number, AvatarJointUpgrade, "Enabled">,
-	Disabled: EnumItem<number, AvatarJointUpgrade, "Disabled">,
-}, AvatarJointUpgradeItem>
-Enum.AvatarJointUpgrade = {"Default", "Enabled", "Disabled"}
-
-export type AvatarPromptResultItem =
-	EnumItem<number, AvatarPromptResult, "Success">
+export type AvatarPromptResult =
+	| EnumItem<number, AvatarPromptResult, "Success">
 	| EnumItem<number, AvatarPromptResult, "PermissionDenied">
 	| EnumItem<number, AvatarPromptResult, "Failed">
-export type AvatarPromptResult = EnumObject<{
+export type AvatarPromptResultRoot = EnumObject<{
 	Success: EnumItem<number, AvatarPromptResult, "Success">,
 	PermissionDenied: EnumItem<number, AvatarPromptResult, "PermissionDenied">,
 	Failed: EnumItem<number, AvatarPromptResult, "Failed">,
-}, AvatarPromptResultItem>
+}, AvatarPromptResult>
 Enum.AvatarPromptResult = {
 	Success = 1;
 	PermissionDenied = 2;
 	Failed = 3;
 }
 
-export type AvatarThumbnailCustomizationTypeItem =
-	EnumItem<number, AvatarThumbnailCustomizationType, "Closeup">
+export type AvatarSettingsAccessoryLimitMethod =
+	| EnumItem<number, AvatarSettingsAccessoryLimitMethod, "Scale">
+	| EnumItem<number, AvatarSettingsAccessoryLimitMethod, "Remove">
+export type AvatarSettingsAccessoryLimitMethodRoot = EnumObject<{
+	Scale: EnumItem<number, AvatarSettingsAccessoryLimitMethod, "Scale">,
+	Remove: EnumItem<number, AvatarSettingsAccessoryLimitMethod, "Remove">,
+}, AvatarSettingsAccessoryLimitMethod>
+Enum.AvatarSettingsAccessoryLimitMethod = {"Scale", "Remove"}
+
+export type AvatarSettingsAccessoryMode =
+	| EnumItem<number, AvatarSettingsAccessoryMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsAccessoryMode, "CustomLimit">
+export type AvatarSettingsAccessoryModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsAccessoryMode, "PlayerChoice">,
+	CustomLimit: EnumItem<number, AvatarSettingsAccessoryMode, "CustomLimit">,
+}, AvatarSettingsAccessoryMode>
+Enum.AvatarSettingsAccessoryMode = {"PlayerChoice", "CustomLimit"}
+
+export type AvatarSettingsAnimationClipsMode =
+	| EnumItem<number, AvatarSettingsAnimationClipsMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsAnimationClipsMode, "CustomClips">
+export type AvatarSettingsAnimationClipsModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsAnimationClipsMode, "PlayerChoice">,
+	CustomClips: EnumItem<number, AvatarSettingsAnimationClipsMode, "CustomClips">,
+}, AvatarSettingsAnimationClipsMode>
+Enum.AvatarSettingsAnimationClipsMode = {"PlayerChoice", "CustomClips"}
+
+export type AvatarSettingsAnimationPacksMode =
+	| EnumItem<number, AvatarSettingsAnimationPacksMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsAnimationPacksMode, "StandardR15">
+	| EnumItem<number, AvatarSettingsAnimationPacksMode, "StandardR6">
+export type AvatarSettingsAnimationPacksModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsAnimationPacksMode, "PlayerChoice">,
+	StandardR15: EnumItem<number, AvatarSettingsAnimationPacksMode, "StandardR15">,
+	StandardR6: EnumItem<number, AvatarSettingsAnimationPacksMode, "StandardR6">,
+}, AvatarSettingsAnimationPacksMode>
+Enum.AvatarSettingsAnimationPacksMode = {"PlayerChoice", "StandardR15", "StandardR6"}
+
+export type AvatarSettingsAppearanceMode =
+	| EnumItem<number, AvatarSettingsAppearanceMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsAppearanceMode, "CustomParts">
+	| EnumItem<number, AvatarSettingsAppearanceMode, "CustomBody">
+export type AvatarSettingsAppearanceModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsAppearanceMode, "PlayerChoice">,
+	CustomParts: EnumItem<number, AvatarSettingsAppearanceMode, "CustomParts">,
+	CustomBody: EnumItem<number, AvatarSettingsAppearanceMode, "CustomBody">,
+}, AvatarSettingsAppearanceMode>
+Enum.AvatarSettingsAppearanceMode = {"PlayerChoice", "CustomParts", "CustomBody"}
+
+export type AvatarSettingsBuildMode =
+	| EnumItem<number, AvatarSettingsBuildMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsBuildMode, "CustomBuild">
+export type AvatarSettingsBuildModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsBuildMode, "PlayerChoice">,
+	CustomBuild: EnumItem<number, AvatarSettingsBuildMode, "CustomBuild">,
+}, AvatarSettingsBuildMode>
+Enum.AvatarSettingsBuildMode = {"PlayerChoice", "CustomBuild"}
+
+export type AvatarSettingsClothingMode =
+	| EnumItem<number, AvatarSettingsClothingMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsClothingMode, "CustomLimit">
+export type AvatarSettingsClothingModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsClothingMode, "PlayerChoice">,
+	CustomLimit: EnumItem<number, AvatarSettingsClothingMode, "CustomLimit">,
+}, AvatarSettingsClothingMode>
+Enum.AvatarSettingsClothingMode = {"PlayerChoice", "CustomLimit"}
+
+export type AvatarSettingsCollisionMode =
+	| EnumItem<number, AvatarSettingsCollisionMode, "Default">
+	| EnumItem<number, AvatarSettingsCollisionMode, "SingleCollider">
+	| EnumItem<number, AvatarSettingsCollisionMode, "Legacy">
+export type AvatarSettingsCollisionModeRoot = EnumObject<{
+	Default: EnumItem<number, AvatarSettingsCollisionMode, "Default">,
+	SingleCollider: EnumItem<number, AvatarSettingsCollisionMode, "SingleCollider">,
+	Legacy: EnumItem<number, AvatarSettingsCollisionMode, "Legacy">,
+}, AvatarSettingsCollisionMode>
+Enum.AvatarSettingsCollisionMode = {"Default", "SingleCollider", "Legacy"}
+
+export type AvatarSettingsCustomAccessoryMode =
+	| EnumItem<number, AvatarSettingsCustomAccessoryMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsCustomAccessoryMode, "CustomAccessories">
+export type AvatarSettingsCustomAccessoryModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsCustomAccessoryMode, "PlayerChoice">,
+	CustomAccessories: EnumItem<number, AvatarSettingsCustomAccessoryMode, "CustomAccessories">,
+}, AvatarSettingsCustomAccessoryMode>
+Enum.AvatarSettingsCustomAccessoryMode = {"PlayerChoice", "CustomAccessories"}
+
+export type AvatarSettingsCustomBodyType =
+	| EnumItem<number, AvatarSettingsCustomBodyType, "AvatarReference">
+	| EnumItem<number, AvatarSettingsCustomBodyType, "BundleId">
+export type AvatarSettingsCustomBodyTypeRoot = EnumObject<{
+	AvatarReference: EnumItem<number, AvatarSettingsCustomBodyType, "AvatarReference">,
+	BundleId: EnumItem<number, AvatarSettingsCustomBodyType, "BundleId">,
+}, AvatarSettingsCustomBodyType>
+Enum.AvatarSettingsCustomBodyType = {"AvatarReference", "BundleId"}
+
+export type AvatarSettingsCustomClothingMode =
+	| EnumItem<number, AvatarSettingsCustomClothingMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsCustomClothingMode, "CustomClothing">
+export type AvatarSettingsCustomClothingModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsCustomClothingMode, "PlayerChoice">,
+	CustomClothing: EnumItem<number, AvatarSettingsCustomClothingMode, "CustomClothing">,
+}, AvatarSettingsCustomClothingMode>
+Enum.AvatarSettingsCustomClothingMode = {"PlayerChoice", "CustomClothing"}
+
+export type AvatarSettingsHitAndTouchDetectionMode =
+	| EnumItem<number, AvatarSettingsHitAndTouchDetectionMode, "UseParts">
+	| EnumItem<number, AvatarSettingsHitAndTouchDetectionMode, "UseCollider">
+export type AvatarSettingsHitAndTouchDetectionModeRoot = EnumObject<{
+	UseParts: EnumItem<number, AvatarSettingsHitAndTouchDetectionMode, "UseParts">,
+	UseCollider: EnumItem<number, AvatarSettingsHitAndTouchDetectionMode, "UseCollider">,
+}, AvatarSettingsHitAndTouchDetectionMode>
+Enum.AvatarSettingsHitAndTouchDetectionMode = {"UseParts", "UseCollider"}
+
+export type AvatarSettingsJumpMode =
+	| EnumItem<number, AvatarSettingsJumpMode, "JumpHeight">
+	| EnumItem<number, AvatarSettingsJumpMode, "JumpPower">
+export type AvatarSettingsJumpModeRoot = EnumObject<{
+	JumpHeight: EnumItem<number, AvatarSettingsJumpMode, "JumpHeight">,
+	JumpPower: EnumItem<number, AvatarSettingsJumpMode, "JumpPower">,
+}, AvatarSettingsJumpMode>
+Enum.AvatarSettingsJumpMode = {"JumpHeight", "JumpPower"}
+
+export type AvatarSettingsLegacyCollisionMode =
+	| EnumItem<number, AvatarSettingsLegacyCollisionMode, "R6Colliders">
+	| EnumItem<number, AvatarSettingsLegacyCollisionMode, "InnerBoxColliders">
+export type AvatarSettingsLegacyCollisionModeRoot = EnumObject<{
+	R6Colliders: EnumItem<number, AvatarSettingsLegacyCollisionMode, "R6Colliders">,
+	InnerBoxColliders: EnumItem<number, AvatarSettingsLegacyCollisionMode, "InnerBoxColliders">,
+}, AvatarSettingsLegacyCollisionMode>
+Enum.AvatarSettingsLegacyCollisionMode = {"R6Colliders", "InnerBoxColliders"}
+
+export type AvatarSettingsScaleMode =
+	| EnumItem<number, AvatarSettingsScaleMode, "PlayerChoice">
+	| EnumItem<number, AvatarSettingsScaleMode, "CustomScale">
+export type AvatarSettingsScaleModeRoot = EnumObject<{
+	PlayerChoice: EnumItem<number, AvatarSettingsScaleMode, "PlayerChoice">,
+	CustomScale: EnumItem<number, AvatarSettingsScaleMode, "CustomScale">,
+}, AvatarSettingsScaleMode>
+Enum.AvatarSettingsScaleMode = {"PlayerChoice", "CustomScale"}
+
+export type AvatarThumbnailCustomizationType =
+	| EnumItem<number, AvatarThumbnailCustomizationType, "Closeup">
 	| EnumItem<number, AvatarThumbnailCustomizationType, "FullBody">
-export type AvatarThumbnailCustomizationType = EnumObject<{
+export type AvatarThumbnailCustomizationTypeRoot = EnumObject<{
 	Closeup: EnumItem<number, AvatarThumbnailCustomizationType, "Closeup">,
 	FullBody: EnumItem<number, AvatarThumbnailCustomizationType, "FullBody">,
-}, AvatarThumbnailCustomizationTypeItem>
+}, AvatarThumbnailCustomizationType>
 Enum.AvatarThumbnailCustomizationType = {
 	Closeup = 1;
 	FullBody = 2;
 }
 
-export type AvatarUnificationModeItem =
-	EnumItem<number, AvatarUnificationMode, "Default">
+export type AvatarUnificationMode =
+	| EnumItem<number, AvatarUnificationMode, "Default">
 	| EnumItem<number, AvatarUnificationMode, "Disabled">
 	| EnumItem<number, AvatarUnificationMode, "Enabled">
-export type AvatarUnificationMode = EnumObject<{
+export type AvatarUnificationModeRoot = EnumObject<{
 	Default: EnumItem<number, AvatarUnificationMode, "Default">,
 	Disabled: EnumItem<number, AvatarUnificationMode, "Disabled">,
 	Enabled: EnumItem<number, AvatarUnificationMode, "Enabled">,
-}, AvatarUnificationModeItem>
+}, AvatarUnificationMode>
 Enum.AvatarUnificationMode = {"Default", "Disabled", "Enabled"}
 
-export type AxisItem = EnumItem<number, Axis, "X"> | EnumItem<number, Axis, "Y"> | EnumItem<number, Axis, "Z">
-export type Axis = EnumObject<{
+export type Axis = | EnumItem<number, Axis, "X"> | EnumItem<number, Axis, "Y"> | EnumItem<number, Axis, "Z">
+export type AxisRoot = EnumObject<{
 	X: EnumItem<number, Axis, "X">,
 	Y: EnumItem<number, Axis, "Y">,
 	Z: EnumItem<number, Axis, "Z">,
-}, AxisItem>
+}, Axis>
 Enum.Axis = {"X", "Y", "Z"}
 
-export type BinTypeItem =
-	EnumItem<number, BinType, "Script">
+export type BenefitType =
+	| EnumItem<number, BenefitType, "DeveloperProduct">
+	| EnumItem<number, BenefitType, "AvatarAsset">
+	| EnumItem<number, BenefitType, "AvatarBundle">
+export type BenefitTypeRoot = EnumObject<{
+	DeveloperProduct: EnumItem<number, BenefitType, "DeveloperProduct">,
+	AvatarAsset: EnumItem<number, BenefitType, "AvatarAsset">,
+	AvatarBundle: EnumItem<number, BenefitType, "AvatarBundle">,
+}, BenefitType>
+Enum.BenefitType = {"DeveloperProduct", "AvatarAsset", "AvatarBundle"}
+
+export type BinType =
+	| EnumItem<number, BinType, "Script">
 	| EnumItem<number, BinType, "GameTool">
 	| EnumItem<number, BinType, "Grab">
 	| EnumItem<number, BinType, "Clone">
 	| EnumItem<number, BinType, "Hammer">
-export type BinType = EnumObject<{
+export type BinTypeRoot = EnumObject<{
 	Script: EnumItem<number, BinType, "Script">,
 	GameTool: EnumItem<number, BinType, "GameTool">,
 	Grab: EnumItem<number, BinType, "Grab">,
 	Clone: EnumItem<number, BinType, "Clone">,
 	Hammer: EnumItem<number, BinType, "Hammer">,
-}, BinTypeItem>
+}, BinType>
 Enum.BinType = {"Script", "GameTool", "Grab", "Clone", "Hammer"}
 
-export type BodyPartItem =
-	EnumItem<number, BodyPart, "Head">
+export type BodyPart =
+	| EnumItem<number, BodyPart, "Head">
 	| EnumItem<number, BodyPart, "Torso">
 	| EnumItem<number, BodyPart, "LeftArm">
 	| EnumItem<number, BodyPart, "RightArm">
 	| EnumItem<number, BodyPart, "LeftLeg">
 	| EnumItem<number, BodyPart, "RightLeg">
-export type BodyPart = EnumObject<{
+export type BodyPartRoot = EnumObject<{
 	Head: EnumItem<number, BodyPart, "Head">,
 	Torso: EnumItem<number, BodyPart, "Torso">,
 	LeftArm: EnumItem<number, BodyPart, "LeftArm">,
 	RightArm: EnumItem<number, BodyPart, "RightArm">,
 	LeftLeg: EnumItem<number, BodyPart, "LeftLeg">,
 	RightLeg: EnumItem<number, BodyPart, "RightLeg">,
-}, BodyPartItem>
+}, BodyPart>
 Enum.BodyPart = {"Head", "Torso", "LeftArm", "RightArm", "LeftLeg", "RightLeg"}
 
-export type BodyPartR15Item =
-	EnumItem<number, BodyPartR15, "Head">
+export type BodyPartR15 =
+	| EnumItem<number, BodyPartR15, "Head">
 	| EnumItem<number, BodyPartR15, "UpperTorso">
 	| EnumItem<number, BodyPartR15, "LowerTorso">
 	| EnumItem<number, BodyPartR15, "LeftFoot">
@@ -1187,7 +1447,7 @@ export type BodyPartR15Item =
 	| EnumItem<number, BodyPartR15, "RightUpperArm">
 	| EnumItem<number, BodyPartR15, "RootPart">
 	| EnumItem<number, BodyPartR15, "Unknown">
-export type BodyPartR15 = EnumObject<{
+export type BodyPartR15Root = EnumObject<{
 	Head: EnumItem<number, BodyPartR15, "Head">,
 	UpperTorso: EnumItem<number, BodyPartR15, "UpperTorso">,
 	LowerTorso: EnumItem<number, BodyPartR15, "LowerTorso">,
@@ -1205,7 +1465,7 @@ export type BodyPartR15 = EnumObject<{
 	RightUpperArm: EnumItem<number, BodyPartR15, "RightUpperArm">,
 	RootPart: EnumItem<number, BodyPartR15, "RootPart">,
 	Unknown: EnumItem<number, BodyPartR15, "Unknown">,
-}, BodyPartR15Item>
+}, BodyPartR15>
 Enum.BodyPartR15 = {
 	Head = 0;
 	UpperTorso = 1;
@@ -1226,63 +1486,63 @@ Enum.BodyPartR15 = {
 	Unknown = 17;
 }
 
-export type BorderModeItem =
-	EnumItem<number, BorderMode, "Outline">
+export type BorderMode =
+	| EnumItem<number, BorderMode, "Outline">
 	| EnumItem<number, BorderMode, "Middle">
 	| EnumItem<number, BorderMode, "Inset">
-export type BorderMode = EnumObject<{
+export type BorderModeRoot = EnumObject<{
 	Outline: EnumItem<number, BorderMode, "Outline">,
 	Middle: EnumItem<number, BorderMode, "Middle">,
 	Inset: EnumItem<number, BorderMode, "Inset">,
-}, BorderModeItem>
+}, BorderMode>
 Enum.BorderMode = {"Outline", "Middle", "Inset"}
 
-export type BreakReasonItem =
-	EnumItem<number, BreakReason, "Other">
+export type BreakReason =
+	| EnumItem<number, BreakReason, "Other">
 	| EnumItem<number, BreakReason, "Error">
 	| EnumItem<number, BreakReason, "SpecialBreakpoint">
 	| EnumItem<number, BreakReason, "UserBreakpoint">
-export type BreakReason = EnumObject<{
+export type BreakReasonRoot = EnumObject<{
 	Other: EnumItem<number, BreakReason, "Other">,
 	Error: EnumItem<number, BreakReason, "Error">,
 	SpecialBreakpoint: EnumItem<number, BreakReason, "SpecialBreakpoint">,
 	UserBreakpoint: EnumItem<number, BreakReason, "UserBreakpoint">,
-}, BreakReasonItem>
+}, BreakReason>
 Enum.BreakReason = {"Other", "Error", "SpecialBreakpoint", "UserBreakpoint"}
 
-export type BreakpointRemoveReasonItem =
-	EnumItem<number, BreakpointRemoveReason, "Requested">
+export type BreakpointRemoveReason =
+	| EnumItem<number, BreakpointRemoveReason, "Requested">
 	| EnumItem<number, BreakpointRemoveReason, "ScriptChanged">
 	| EnumItem<number, BreakpointRemoveReason, "ScriptRemoved">
-export type BreakpointRemoveReason = EnumObject<{
+export type BreakpointRemoveReasonRoot = EnumObject<{
 	Requested: EnumItem<number, BreakpointRemoveReason, "Requested">,
 	ScriptChanged: EnumItem<number, BreakpointRemoveReason, "ScriptChanged">,
 	ScriptRemoved: EnumItem<number, BreakpointRemoveReason, "ScriptRemoved">,
-}, BreakpointRemoveReasonItem>
+}, BreakpointRemoveReason>
 Enum.BreakpointRemoveReason = {"Requested", "ScriptChanged", "ScriptRemoved"}
 
-export type BulkMoveModeItem =
-	EnumItem<number, BulkMoveMode, "FireAllEvents">
+export type BulkMoveMode =
+	| EnumItem<number, BulkMoveMode, "FireAllEvents">
 	| EnumItem<number, BulkMoveMode, "FireCFrameChanged">
-export type BulkMoveMode = EnumObject<{
+export type BulkMoveModeRoot = EnumObject<{
 	FireAllEvents: EnumItem<number, BulkMoveMode, "FireAllEvents">,
 	FireCFrameChanged: EnumItem<number, BulkMoveMode, "FireCFrameChanged">,
-}, BulkMoveModeItem>
+}, BulkMoveMode>
 Enum.BulkMoveMode = {"FireAllEvents", "FireCFrameChanged"}
 
-export type BundleTypeItem =
-	EnumItem<number, BundleType, "BodyParts">
+export type BundleType =
+	| EnumItem<number, BundleType, "BodyParts">
 	| EnumItem<number, BundleType, "Animations">
 	| EnumItem<number, BundleType, "Shoes">
 	| EnumItem<number, BundleType, "DynamicHead">
 	| EnumItem<number, BundleType, "DynamicHeadAvatar">
-export type BundleType = EnumObject<{
+export type BundleTypeRoot = EnumObject<{
 	BodyParts: EnumItem<number, BundleType, "BodyParts">,
 	Animations: EnumItem<number, BundleType, "Animations">,
 	Shoes: EnumItem<number, BundleType, "Shoes">,
 	DynamicHead: EnumItem<number, BundleType, "DynamicHead">,
 	DynamicHeadAvatar: EnumItem<number, BundleType, "DynamicHeadAvatar">,
-}, BundleTypeItem>
+}, BundleType>
 Enum.BundleType = {
 	BodyParts = 1;
 	Animations = 2;
@@ -1291,31 +1551,31 @@ Enum.BundleType = {
 	DynamicHeadAvatar = 5;
 }
 
-export type ButtonItem = EnumItem<number, Button, "Dismount"> | EnumItem<number, Button, "Jump">
-export type Button = EnumObject<{
+export type Button = | EnumItem<number, Button, "Dismount"> | EnumItem<number, Button, "Jump">
+export type ButtonRoot = EnumObject<{
 	Dismount: EnumItem<number, Button, "Dismount">,
 	Jump: EnumItem<number, Button, "Jump">,
-}, ButtonItem>
+}, Button>
 Enum.Button = {
 	Dismount = 8;
 	Jump = 32;
 }
 
-export type ButtonStyleItem =
-	EnumItem<number, ButtonStyle, "Custom">
+export type ButtonStyle =
+	| EnumItem<number, ButtonStyle, "Custom">
 	| EnumItem<number, ButtonStyle, "RobloxButtonDefault">
 	| EnumItem<number, ButtonStyle, "RobloxButton">
 	| EnumItem<number, ButtonStyle, "RobloxRoundButton">
 	| EnumItem<number, ButtonStyle, "RobloxRoundDefaultButton">
 	| EnumItem<number, ButtonStyle, "RobloxRoundDropdownButton">
-export type ButtonStyle = EnumObject<{
+export type ButtonStyleRoot = EnumObject<{
 	Custom: EnumItem<number, ButtonStyle, "Custom">,
 	RobloxButtonDefault: EnumItem<number, ButtonStyle, "RobloxButtonDefault">,
 	RobloxButton: EnumItem<number, ButtonStyle, "RobloxButton">,
 	RobloxRoundButton: EnumItem<number, ButtonStyle, "RobloxRoundButton">,
 	RobloxRoundDefaultButton: EnumItem<number, ButtonStyle, "RobloxRoundDefaultButton">,
 	RobloxRoundDropdownButton: EnumItem<number, ButtonStyle, "RobloxRoundDropdownButton">,
-}, ButtonStyleItem>
+}, ButtonStyle>
 Enum.ButtonStyle = {
 	"Custom";
 	"RobloxButtonDefault";
@@ -1325,51 +1585,40 @@ Enum.ButtonStyle = {
 	"RobloxRoundDropdownButton";
 }
 
-export type CSGAsyncDynamicCollisionItem =
-	EnumItem<number, CSGAsyncDynamicCollision, "Default">
-	| EnumItem<number, CSGAsyncDynamicCollision, "Disabled">
-	| EnumItem<number, CSGAsyncDynamicCollision, "Enabled">
-export type CSGAsyncDynamicCollision = EnumObject<{
-	Default: EnumItem<number, CSGAsyncDynamicCollision, "Default">,
-	Disabled: EnumItem<number, CSGAsyncDynamicCollision, "Disabled">,
-	Enabled: EnumItem<number, CSGAsyncDynamicCollision, "Enabled">,
-}, CSGAsyncDynamicCollisionItem>
-Enum.CSGAsyncDynamicCollision = {"Default", "Disabled", "Enabled"}
-
-export type CageTypeItem = EnumItem<number, CageType, "Inner"> | EnumItem<number, CageType, "Outer">
-export type CageType = EnumObject<{
+export type CageType = | EnumItem<number, CageType, "Inner"> | EnumItem<number, CageType, "Outer">
+export type CageTypeRoot = EnumObject<{
 	Inner: EnumItem<number, CageType, "Inner">,
 	Outer: EnumItem<number, CageType, "Outer">,
-}, CageTypeItem>
+}, CageType>
 Enum.CageType = {"Inner", "Outer"}
 
-export type CameraModeItem = EnumItem<number, CameraMode, "Classic"> | EnumItem<number, CameraMode, "LockFirstPerson">
-export type CameraMode = EnumObject<{
+export type CameraMode = | EnumItem<number, CameraMode, "Classic"> | EnumItem<number, CameraMode, "LockFirstPerson">
+export type CameraModeRoot = EnumObject<{
 	Classic: EnumItem<number, CameraMode, "Classic">,
 	LockFirstPerson: EnumItem<number, CameraMode, "LockFirstPerson">,
-}, CameraModeItem>
+}, CameraMode>
 Enum.CameraMode = {"Classic", "LockFirstPerson"}
 
-export type CameraPanModeItem = EnumItem<number, CameraPanMode, "Classic"> | EnumItem<number, CameraPanMode, "EdgeBump">
-export type CameraPanMode = EnumObject<{
+export type CameraPanMode = | EnumItem<number, CameraPanMode, "Classic"> | EnumItem<number, CameraPanMode, "EdgeBump">
+export type CameraPanModeRoot = EnumObject<{
 	Classic: EnumItem<number, CameraPanMode, "Classic">,
 	EdgeBump: EnumItem<number, CameraPanMode, "EdgeBump">,
-}, CameraPanModeItem>
+}, CameraPanMode>
 Enum.CameraPanMode = {"Classic", "EdgeBump"}
 
-export type CameraSpeedAdjustBindingItem =
-	EnumItem<number, CameraSpeedAdjustBinding, "None">
+export type CameraSpeedAdjustBinding =
+	| EnumItem<number, CameraSpeedAdjustBinding, "None">
 	| EnumItem<number, CameraSpeedAdjustBinding, "RmbScroll">
 	| EnumItem<number, CameraSpeedAdjustBinding, "AltScroll">
-export type CameraSpeedAdjustBinding = EnumObject<{
+export type CameraSpeedAdjustBindingRoot = EnumObject<{
 	None: EnumItem<number, CameraSpeedAdjustBinding, "None">,
 	RmbScroll: EnumItem<number, CameraSpeedAdjustBinding, "RmbScroll">,
 	AltScroll: EnumItem<number, CameraSpeedAdjustBinding, "AltScroll">,
-}, CameraSpeedAdjustBindingItem>
+}, CameraSpeedAdjustBinding>
 Enum.CameraSpeedAdjustBinding = {"None", "RmbScroll", "AltScroll"}
 
-export type CameraTypeItem =
-	EnumItem<number, CameraType, "Fixed">
+export type CameraType =
+	| EnumItem<number, CameraType, "Fixed">
 	| EnumItem<number, CameraType, "Attach">
 	| EnumItem<number, CameraType, "Watch">
 	| EnumItem<number, CameraType, "Track">
@@ -1377,7 +1626,7 @@ export type CameraTypeItem =
 	| EnumItem<number, CameraType, "Custom">
 	| EnumItem<number, CameraType, "Scriptable">
 	| EnumItem<number, CameraType, "Orbital">
-export type CameraType = EnumObject<{
+export type CameraTypeRoot = EnumObject<{
 	Fixed: EnumItem<number, CameraType, "Fixed">,
 	Attach: EnumItem<number, CameraType, "Attach">,
 	Watch: EnumItem<number, CameraType, "Watch">,
@@ -1386,24 +1635,24 @@ export type CameraType = EnumObject<{
 	Custom: EnumItem<number, CameraType, "Custom">,
 	Scriptable: EnumItem<number, CameraType, "Scriptable">,
 	Orbital: EnumItem<number, CameraType, "Orbital">,
-}, CameraTypeItem>
+}, CameraType>
 Enum.CameraType = {"Fixed", "Attach", "Watch", "Track", "Follow", "Custom", "Scriptable", "Orbital"}
 
-export type CatalogCategoryFilterItem =
-	EnumItem<number, CatalogCategoryFilter, "None">
+export type CatalogCategoryFilter =
+	| EnumItem<number, CatalogCategoryFilter, "None">
 	| EnumItem<number, CatalogCategoryFilter, "Featured">
 	| EnumItem<number, CatalogCategoryFilter, "Collectibles">
 	| EnumItem<number, CatalogCategoryFilter, "CommunityCreations">
 	| EnumItem<number, CatalogCategoryFilter, "Premium">
 	| EnumItem<number, CatalogCategoryFilter, "Recommended">
-export type CatalogCategoryFilter = EnumObject<{
+export type CatalogCategoryFilterRoot = EnumObject<{
 	None: EnumItem<number, CatalogCategoryFilter, "None">,
 	Featured: EnumItem<number, CatalogCategoryFilter, "Featured">,
 	Collectibles: EnumItem<number, CatalogCategoryFilter, "Collectibles">,
 	CommunityCreations: EnumItem<number, CatalogCategoryFilter, "CommunityCreations">,
 	Premium: EnumItem<number, CatalogCategoryFilter, "Premium">,
 	Recommended: EnumItem<number, CatalogCategoryFilter, "Recommended">,
-}, CatalogCategoryFilterItem>
+}, CatalogCategoryFilter>
 Enum.CatalogCategoryFilter = {
 	None = 1;
 	Featured = 2;
@@ -1413,21 +1662,21 @@ Enum.CatalogCategoryFilter = {
 	Recommended = 6;
 }
 
-export type CatalogSortAggregationItem =
-	EnumItem<number, CatalogSortAggregation, "Past12Hours">
+export type CatalogSortAggregation =
+	| EnumItem<number, CatalogSortAggregation, "Past12Hours">
 	| EnumItem<number, CatalogSortAggregation, "PastDay">
 	| EnumItem<number, CatalogSortAggregation, "Past3Days">
 	| EnumItem<number, CatalogSortAggregation, "PastWeek">
 	| EnumItem<number, CatalogSortAggregation, "PastMonth">
 	| EnumItem<number, CatalogSortAggregation, "AllTime">
-export type CatalogSortAggregation = EnumObject<{
+export type CatalogSortAggregationRoot = EnumObject<{
 	Past12Hours: EnumItem<number, CatalogSortAggregation, "Past12Hours">,
 	PastDay: EnumItem<number, CatalogSortAggregation, "PastDay">,
 	Past3Days: EnumItem<number, CatalogSortAggregation, "Past3Days">,
 	PastWeek: EnumItem<number, CatalogSortAggregation, "PastWeek">,
 	PastMonth: EnumItem<number, CatalogSortAggregation, "PastMonth">,
 	AllTime: EnumItem<number, CatalogSortAggregation, "AllTime">,
-}, CatalogSortAggregationItem>
+}, CatalogSortAggregation>
 Enum.CatalogSortAggregation = {
 	Past12Hours = 1;
 	PastDay = 2;
@@ -1437,21 +1686,21 @@ Enum.CatalogSortAggregation = {
 	AllTime = 6;
 }
 
-export type CatalogSortTypeItem =
-	EnumItem<number, CatalogSortType, "Relevance">
+export type CatalogSortType =
+	| EnumItem<number, CatalogSortType, "Relevance">
 	| EnumItem<number, CatalogSortType, "PriceHighToLow">
 	| EnumItem<number, CatalogSortType, "PriceLowToHigh">
 	| EnumItem<number, CatalogSortType, "MostFavorited">
 	| EnumItem<number, CatalogSortType, "RecentlyCreated">
 	| EnumItem<number, CatalogSortType, "Bestselling">
-export type CatalogSortType = EnumObject<{
+export type CatalogSortTypeRoot = EnumObject<{
 	Relevance: EnumItem<number, CatalogSortType, "Relevance">,
 	PriceHighToLow: EnumItem<number, CatalogSortType, "PriceHighToLow">,
 	PriceLowToHigh: EnumItem<number, CatalogSortType, "PriceLowToHigh">,
 	MostFavorited: EnumItem<number, CatalogSortType, "MostFavorited">,
 	RecentlyCreated: EnumItem<number, CatalogSortType, "RecentlyCreated">,
 	Bestselling: EnumItem<number, CatalogSortType, "Bestselling">,
-}, CatalogSortTypeItem>
+}, CatalogSortType>
 Enum.CatalogSortType = {
 	Relevance = 1;
 	PriceHighToLow = 2;
@@ -1461,23 +1710,23 @@ Enum.CatalogSortType = {
 	Bestselling = 7;
 }
 
-export type CellBlockItem =
-	EnumItem<number, CellBlock, "Solid">
+export type CellBlock =
+	| EnumItem<number, CellBlock, "Solid">
 	| EnumItem<number, CellBlock, "VerticalWedge">
 	| EnumItem<number, CellBlock, "CornerWedge">
 	| EnumItem<number, CellBlock, "InverseCornerWedge">
 	| EnumItem<number, CellBlock, "HorizontalWedge">
-export type CellBlock = EnumObject<{
+export type CellBlockRoot = EnumObject<{
 	Solid: EnumItem<number, CellBlock, "Solid">,
 	VerticalWedge: EnumItem<number, CellBlock, "VerticalWedge">,
 	CornerWedge: EnumItem<number, CellBlock, "CornerWedge">,
 	InverseCornerWedge: EnumItem<number, CellBlock, "InverseCornerWedge">,
 	HorizontalWedge: EnumItem<number, CellBlock, "HorizontalWedge">,
-}, CellBlockItem>
+}, CellBlock>
 Enum.CellBlock = {"Solid", "VerticalWedge", "CornerWedge", "InverseCornerWedge", "HorizontalWedge"}
 
-export type CellMaterialItem =
-	EnumItem<number, CellMaterial, "Empty">
+export type CellMaterial =
+	| EnumItem<number, CellMaterial, "Empty">
 	| EnumItem<number, CellMaterial, "Grass">
 	| EnumItem<number, CellMaterial, "Sand">
 	| EnumItem<number, CellMaterial, "Brick">
@@ -1495,7 +1744,7 @@ export type CellMaterialItem =
 	| EnumItem<number, CellMaterial, "RedPlastic">
 	| EnumItem<number, CellMaterial, "BluePlastic">
 	| EnumItem<number, CellMaterial, "Water">
-export type CellMaterial = EnumObject<{
+export type CellMaterialRoot = EnumObject<{
 	Empty: EnumItem<number, CellMaterial, "Empty">,
 	Grass: EnumItem<number, CellMaterial, "Grass">,
 	Sand: EnumItem<number, CellMaterial, "Sand">,
@@ -1514,7 +1763,7 @@ export type CellMaterial = EnumObject<{
 	RedPlastic: EnumItem<number, CellMaterial, "RedPlastic">,
 	BluePlastic: EnumItem<number, CellMaterial, "BluePlastic">,
 	Water: EnumItem<number, CellMaterial, "Water">,
-}, CellMaterialItem>
+}, CellMaterial>
 Enum.CellMaterial = {
 	"Empty";
 	"Grass";
@@ -1536,30 +1785,30 @@ Enum.CellMaterial = {
 	"Water";
 }
 
-export type CellOrientationItem =
-	EnumItem<number, CellOrientation, "NegZ">
+export type CellOrientation =
+	| EnumItem<number, CellOrientation, "NegZ">
 	| EnumItem<number, CellOrientation, "X">
 	| EnumItem<number, CellOrientation, "Z">
 	| EnumItem<number, CellOrientation, "NegX">
-export type CellOrientation = EnumObject<{
+export type CellOrientationRoot = EnumObject<{
 	NegZ: EnumItem<number, CellOrientation, "NegZ">,
 	X: EnumItem<number, CellOrientation, "X">,
 	Z: EnumItem<number, CellOrientation, "Z">,
 	NegX: EnumItem<number, CellOrientation, "NegX">,
-}, CellOrientationItem>
+}, CellOrientation>
 Enum.CellOrientation = {"NegZ", "X", "Z", "NegX"}
 
-export type CenterDialogTypeItem =
-	EnumItem<number, CenterDialogType, "UnsolicitedDialog">
+export type CenterDialogType =
+	| EnumItem<number, CenterDialogType, "UnsolicitedDialog">
 	| EnumItem<number, CenterDialogType, "PlayerInitiatedDialog">
 	| EnumItem<number, CenterDialogType, "ModalDialog">
 	| EnumItem<number, CenterDialogType, "QuitDialog">
-export type CenterDialogType = EnumObject<{
+export type CenterDialogTypeRoot = EnumObject<{
 	UnsolicitedDialog: EnumItem<number, CenterDialogType, "UnsolicitedDialog">,
 	PlayerInitiatedDialog: EnumItem<number, CenterDialogType, "PlayerInitiatedDialog">,
 	ModalDialog: EnumItem<number, CenterDialogType, "ModalDialog">,
 	QuitDialog: EnumItem<number, CenterDialogType, "QuitDialog">,
-}, CenterDialogTypeItem>
+}, CenterDialogType>
 Enum.CenterDialogType = {
 	UnsolicitedDialog = 1;
 	PlayerInitiatedDialog = 2;
@@ -1567,30 +1816,30 @@ Enum.CenterDialogType = {
 	QuitDialog = 4;
 }
 
-export type CharacterControlModeItem =
-	EnumItem<number, CharacterControlMode, "Default">
+export type CharacterControlMode =
+	| EnumItem<number, CharacterControlMode, "Default">
 	| EnumItem<number, CharacterControlMode, "Legacy">
 	| EnumItem<number, CharacterControlMode, "NoCharacterController">
 	| EnumItem<number, CharacterControlMode, "LuaCharacterController">
-export type CharacterControlMode = EnumObject<{
+export type CharacterControlModeRoot = EnumObject<{
 	Default: EnumItem<number, CharacterControlMode, "Default">,
 	Legacy: EnumItem<number, CharacterControlMode, "Legacy">,
 	NoCharacterController: EnumItem<number, CharacterControlMode, "NoCharacterController">,
 	LuaCharacterController: EnumItem<number, CharacterControlMode, "LuaCharacterController">,
-}, CharacterControlModeItem>
+}, CharacterControlMode>
 Enum.CharacterControlMode = {"Default", "Legacy", "NoCharacterController", "LuaCharacterController"}
 
-export type ChatCallbackTypeItem =
-	EnumItem<number, ChatCallbackType, "OnCreatingChatWindow">
+export type ChatCallbackType =
+	| EnumItem<number, ChatCallbackType, "OnCreatingChatWindow">
 	| EnumItem<number, ChatCallbackType, "OnClientSendingMessage">
 	| EnumItem<number, ChatCallbackType, "OnClientFormattingMessage">
 	| EnumItem<number, ChatCallbackType, "OnServerReceivingMessage">
-export type ChatCallbackType = EnumObject<{
+export type ChatCallbackTypeRoot = EnumObject<{
 	OnCreatingChatWindow: EnumItem<number, ChatCallbackType, "OnCreatingChatWindow">,
 	OnClientSendingMessage: EnumItem<number, ChatCallbackType, "OnClientSendingMessage">,
 	OnClientFormattingMessage: EnumItem<number, ChatCallbackType, "OnClientFormattingMessage">,
 	OnServerReceivingMessage: EnumItem<number, ChatCallbackType, "OnServerReceivingMessage">,
-}, ChatCallbackTypeItem>
+}, ChatCallbackType>
 Enum.ChatCallbackType = {
 	OnCreatingChatWindow = 1;
 	OnClientSendingMessage = 2;
@@ -1598,147 +1847,160 @@ Enum.ChatCallbackType = {
 	OnServerReceivingMessage = 17;
 }
 
-export type ChatColorItem =
-	EnumItem<number, ChatColor, "Blue">
+export type ChatColor =
+	| EnumItem<number, ChatColor, "Blue">
 	| EnumItem<number, ChatColor, "Green">
 	| EnumItem<number, ChatColor, "Red">
 	| EnumItem<number, ChatColor, "White">
-export type ChatColor = EnumObject<{
+export type ChatColorRoot = EnumObject<{
 	Blue: EnumItem<number, ChatColor, "Blue">,
 	Green: EnumItem<number, ChatColor, "Green">,
 	Red: EnumItem<number, ChatColor, "Red">,
 	White: EnumItem<number, ChatColor, "White">,
-}, ChatColorItem>
+}, ChatColor>
 Enum.ChatColor = {"Blue", "Green", "Red", "White"}
 
-export type ChatModeItem = EnumItem<number, ChatMode, "Menu"> | EnumItem<number, ChatMode, "TextAndMenu">
-export type ChatMode = EnumObject<{
+export type ChatMode = | EnumItem<number, ChatMode, "Menu"> | EnumItem<number, ChatMode, "TextAndMenu">
+export type ChatModeRoot = EnumObject<{
 	Menu: EnumItem<number, ChatMode, "Menu">,
 	TextAndMenu: EnumItem<number, ChatMode, "TextAndMenu">,
-}, ChatModeItem>
+}, ChatMode>
 Enum.ChatMode = {"Menu", "TextAndMenu"}
 
-export type ChatPrivacyModeItem =
-	EnumItem<number, ChatPrivacyMode, "AllUsers">
+export type ChatPrivacyMode =
+	| EnumItem<number, ChatPrivacyMode, "AllUsers">
 	| EnumItem<number, ChatPrivacyMode, "NoOne">
 	| EnumItem<number, ChatPrivacyMode, "Friends">
-export type ChatPrivacyMode = EnumObject<{
+export type ChatPrivacyModeRoot = EnumObject<{
 	AllUsers: EnumItem<number, ChatPrivacyMode, "AllUsers">,
 	NoOne: EnumItem<number, ChatPrivacyMode, "NoOne">,
 	Friends: EnumItem<number, ChatPrivacyMode, "Friends">,
-}, ChatPrivacyModeItem>
+}, ChatPrivacyMode>
 Enum.ChatPrivacyMode = {"AllUsers", "NoOne", "Friends"}
 
-export type ChatRestrictionStatusItem =
-	EnumItem<number, ChatRestrictionStatus, "Unknown">
+export type ChatRestrictionStatus =
+	| EnumItem<number, ChatRestrictionStatus, "Unknown">
 	| EnumItem<number, ChatRestrictionStatus, "NotRestricted">
 	| EnumItem<number, ChatRestrictionStatus, "Restricted">
-export type ChatRestrictionStatus = EnumObject<{
+export type ChatRestrictionStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, ChatRestrictionStatus, "Unknown">,
 	NotRestricted: EnumItem<number, ChatRestrictionStatus, "NotRestricted">,
 	Restricted: EnumItem<number, ChatRestrictionStatus, "Restricted">,
-}, ChatRestrictionStatusItem>
+}, ChatRestrictionStatus>
 Enum.ChatRestrictionStatus = {"Unknown", "NotRestricted", "Restricted"}
 
-export type ChatStyleItem =
-	EnumItem<number, ChatStyle, "Classic">
+export type ChatStyle =
+	| EnumItem<number, ChatStyle, "Classic">
 	| EnumItem<number, ChatStyle, "Bubble">
 	| EnumItem<number, ChatStyle, "ClassicAndBubble">
-export type ChatStyle = EnumObject<{
+export type ChatStyleRoot = EnumObject<{
 	Classic: EnumItem<number, ChatStyle, "Classic">,
 	Bubble: EnumItem<number, ChatStyle, "Bubble">,
 	ClassicAndBubble: EnumItem<number, ChatStyle, "ClassicAndBubble">,
-}, ChatStyleItem>
+}, ChatStyle>
 Enum.ChatStyle = {"Classic", "Bubble", "ClassicAndBubble"}
 
-export type ChatVersionItem =
-	EnumItem<number, ChatVersion, "LegacyChatService">
+export type ChatVersion =
+	| EnumItem<number, ChatVersion, "LegacyChatService">
 	| EnumItem<number, ChatVersion, "TextChatService">
-export type ChatVersion = EnumObject<{
+export type ChatVersionRoot = EnumObject<{
 	LegacyChatService: EnumItem<number, ChatVersion, "LegacyChatService">,
 	TextChatService: EnumItem<number, ChatVersion, "TextChatService">,
-}, ChatVersionItem>
+}, ChatVersion>
 Enum.ChatVersion = {"LegacyChatService", "TextChatService"}
 
-export type ClientAnimatorThrottlingModeItem =
-	EnumItem<number, ClientAnimatorThrottlingMode, "Default">
+export type ClientAnimatorThrottlingMode =
+	| EnumItem<number, ClientAnimatorThrottlingMode, "Default">
 	| EnumItem<number, ClientAnimatorThrottlingMode, "Disabled">
 	| EnumItem<number, ClientAnimatorThrottlingMode, "Enabled">
-export type ClientAnimatorThrottlingMode = EnumObject<{
+export type ClientAnimatorThrottlingModeRoot = EnumObject<{
 	Default: EnumItem<number, ClientAnimatorThrottlingMode, "Default">,
 	Disabled: EnumItem<number, ClientAnimatorThrottlingMode, "Disabled">,
 	Enabled: EnumItem<number, ClientAnimatorThrottlingMode, "Enabled">,
-}, ClientAnimatorThrottlingModeItem>
+}, ClientAnimatorThrottlingMode>
 Enum.ClientAnimatorThrottlingMode = {"Default", "Disabled", "Enabled"}
 
-export type CloseReasonItem =
-	EnumItem<number, CloseReason, "Unknown">
+export type CloseReason =
+	| EnumItem<number, CloseReason, "Unknown">
 	| EnumItem<number, CloseReason, "RobloxMaintenance">
 	| EnumItem<number, CloseReason, "DeveloperShutdown">
 	| EnumItem<number, CloseReason, "DeveloperUpdate">
 	| EnumItem<number, CloseReason, "ServerEmpty">
 	| EnumItem<number, CloseReason, "OutOfMemory">
-export type CloseReason = EnumObject<{
+export type CloseReasonRoot = EnumObject<{
 	Unknown: EnumItem<number, CloseReason, "Unknown">,
 	RobloxMaintenance: EnumItem<number, CloseReason, "RobloxMaintenance">,
 	DeveloperShutdown: EnumItem<number, CloseReason, "DeveloperShutdown">,
 	DeveloperUpdate: EnumItem<number, CloseReason, "DeveloperUpdate">,
 	ServerEmpty: EnumItem<number, CloseReason, "ServerEmpty">,
 	OutOfMemory: EnumItem<number, CloseReason, "OutOfMemory">,
-}, CloseReasonItem>
+}, CloseReason>
 Enum.CloseReason =
 	{"Unknown", "RobloxMaintenance", "DeveloperShutdown", "DeveloperUpdate", "ServerEmpty", "OutOfMemory"}
 
-export type CollaboratorStatusItem =
-	EnumItem<number, CollaboratorStatus, "None">
+export type CollaboratorStatus =
+	| EnumItem<number, CollaboratorStatus, "None">
 	| EnumItem<number, CollaboratorStatus, "Editing3D">
 	| EnumItem<number, CollaboratorStatus, "Scripting">
 	| EnumItem<number, CollaboratorStatus, "PrivateScripting">
-export type CollaboratorStatus = EnumObject<{
+export type CollaboratorStatusRoot = EnumObject<{
 	None: EnumItem<number, CollaboratorStatus, "None">,
 	Editing3D: EnumItem<number, CollaboratorStatus, "Editing3D">,
 	Scripting: EnumItem<number, CollaboratorStatus, "Scripting">,
 	PrivateScripting: EnumItem<number, CollaboratorStatus, "PrivateScripting">,
-}, CollaboratorStatusItem>
+}, CollaboratorStatus>
 Enum.CollaboratorStatus = {"None", "Editing3D", "Scripting", "PrivateScripting"}
 
-export type CollisionFidelityItem =
-	EnumItem<number, CollisionFidelity, "Default">
+export type CollisionFidelity =
+	| EnumItem<number, CollisionFidelity, "Default">
 	| EnumItem<number, CollisionFidelity, "Hull">
 	| EnumItem<number, CollisionFidelity, "Box">
 	| EnumItem<number, CollisionFidelity, "PreciseConvexDecomposition">
-export type CollisionFidelity = EnumObject<{
+export type CollisionFidelityRoot = EnumObject<{
 	Default: EnumItem<number, CollisionFidelity, "Default">,
 	Hull: EnumItem<number, CollisionFidelity, "Hull">,
 	Box: EnumItem<number, CollisionFidelity, "Box">,
 	PreciseConvexDecomposition: EnumItem<number, CollisionFidelity, "PreciseConvexDecomposition">,
-}, CollisionFidelityItem>
+}, CollisionFidelity>
 Enum.CollisionFidelity = {"Default", "Hull", "Box", "PreciseConvexDecomposition"}
 
-export type CommandPermissionItem =
-	EnumItem<number, CommandPermission, "Plugin">
+export type CommandPermission =
+	| EnumItem<number, CommandPermission, "Plugin">
 	| EnumItem<number, CommandPermission, "LocalUser">
-export type CommandPermission = EnumObject<{
+export type CommandPermissionRoot = EnumObject<{
 	Plugin: EnumItem<number, CommandPermission, "Plugin">,
 	LocalUser: EnumItem<number, CommandPermission, "LocalUser">,
-}, CommandPermissionItem>
+}, CommandPermission>
 Enum.CommandPermission = {"Plugin", "LocalUser"}
 
-export type CompileTargetItem =
-	EnumItem<number, CompileTarget, "Client">
+export type CompileTarget =
+	| EnumItem<number, CompileTarget, "Client">
 	| EnumItem<number, CompileTarget, "CoreScript">
 	| EnumItem<number, CompileTarget, "Studio">
 	| EnumItem<number, CompileTarget, "CoreScriptRaw">
-export type CompileTarget = EnumObject<{
+export type CompileTargetRoot = EnumObject<{
 	Client: EnumItem<number, CompileTarget, "Client">,
 	CoreScript: EnumItem<number, CompileTarget, "CoreScript">,
 	Studio: EnumItem<number, CompileTarget, "Studio">,
 	CoreScriptRaw: EnumItem<number, CompileTarget, "CoreScriptRaw">,
-}, CompileTargetItem>
+}, CompileTarget>
 Enum.CompileTarget = {"Client", "CoreScript", "Studio", "CoreScriptRaw"}
 
-export type CompletionItemKindItem =
-	EnumItem<number, CompletionItemKind, "Text">
+export type CompletionAcceptanceBehavior =
+	| EnumItem<number, CompletionAcceptanceBehavior, "Insert">
+	| EnumItem<number, CompletionAcceptanceBehavior, "Replace">
+	| EnumItem<number, CompletionAcceptanceBehavior, "ReplaceOnEnterInsertOnTab">
+	| EnumItem<number, CompletionAcceptanceBehavior, "InsertOnEnterReplaceOnTab">
+export type CompletionAcceptanceBehaviorRoot = EnumObject<{
+	Insert: EnumItem<number, CompletionAcceptanceBehavior, "Insert">,
+	Replace: EnumItem<number, CompletionAcceptanceBehavior, "Replace">,
+	ReplaceOnEnterInsertOnTab: EnumItem<number, CompletionAcceptanceBehavior, "ReplaceOnEnterInsertOnTab">,
+	InsertOnEnterReplaceOnTab: EnumItem<number, CompletionAcceptanceBehavior, "InsertOnEnterReplaceOnTab">,
+}, CompletionAcceptanceBehavior>
+Enum.CompletionAcceptanceBehavior = {"Insert", "Replace", "ReplaceOnEnterInsertOnTab", "InsertOnEnterReplaceOnTab"}
+
+export type CompletionItemKind =
+	| EnumItem<number, CompletionItemKind, "Text">
 	| EnumItem<number, CompletionItemKind, "Method">
 	| EnumItem<number, CompletionItemKind, "Function">
 	| EnumItem<number, CompletionItemKind, "Constructor">
@@ -1763,7 +2025,7 @@ export type CompletionItemKindItem =
 	| EnumItem<number, CompletionItemKind, "Event">
 	| EnumItem<number, CompletionItemKind, "Operator">
 	| EnumItem<number, CompletionItemKind, "TypeParameter">
-export type CompletionItemKind = EnumObject<{
+export type CompletionItemKindRoot = EnumObject<{
 	Text: EnumItem<number, CompletionItemKind, "Text">,
 	Method: EnumItem<number, CompletionItemKind, "Method">,
 	Function: EnumItem<number, CompletionItemKind, "Function">,
@@ -1789,7 +2051,7 @@ export type CompletionItemKind = EnumObject<{
 	Event: EnumItem<number, CompletionItemKind, "Event">,
 	Operator: EnumItem<number, CompletionItemKind, "Operator">,
 	TypeParameter: EnumItem<number, CompletionItemKind, "TypeParameter">,
-}, CompletionItemKindItem>
+}, CompletionItemKind>
 Enum.CompletionItemKind = {
 	Text = 1;
 	Method = 2;
@@ -1818,8 +2080,8 @@ Enum.CompletionItemKind = {
 	TypeParameter = 25;
 }
 
-export type CompletionItemTagItem =
-	EnumItem<number, CompletionItemTag, "Deprecated">
+export type CompletionItemTag =
+	| EnumItem<number, CompletionItemTag, "Deprecated">
 	| EnumItem<number, CompletionItemTag, "IncorrectIndexType">
 	| EnumItem<number, CompletionItemTag, "PluginPermissions">
 	| EnumItem<number, CompletionItemTag, "CommandLinePermissions">
@@ -1830,7 +2092,7 @@ export type CompletionItemTagItem =
 	| EnumItem<number, CompletionItemTag, "ClientServerBoundaryViolation">
 	| EnumItem<number, CompletionItemTag, "Invalidated">
 	| EnumItem<number, CompletionItemTag, "PutCursorBeforeEnd">
-export type CompletionItemTag = EnumObject<{
+export type CompletionItemTagRoot = EnumObject<{
 	Deprecated: EnumItem<number, CompletionItemTag, "Deprecated">,
 	IncorrectIndexType: EnumItem<number, CompletionItemTag, "IncorrectIndexType">,
 	PluginPermissions: EnumItem<number, CompletionItemTag, "PluginPermissions">,
@@ -1842,7 +2104,7 @@ export type CompletionItemTag = EnumObject<{
 	ClientServerBoundaryViolation: EnumItem<number, CompletionItemTag, "ClientServerBoundaryViolation">,
 	Invalidated: EnumItem<number, CompletionItemTag, "Invalidated">,
 	PutCursorBeforeEnd: EnumItem<number, CompletionItemTag, "PutCursorBeforeEnd">,
-}, CompletionItemTagItem>
+}, CompletionItemTag>
 Enum.CompletionItemTag = {
 	Deprecated = 1;
 	IncorrectIndexType = 2;
@@ -1857,49 +2119,58 @@ Enum.CompletionItemTag = {
 	PutCursorBeforeEnd = 11;
 }
 
-export type CompletionTriggerKindItem =
-	EnumItem<number, CompletionTriggerKind, "Invoked">
+export type CompletionTriggerKind =
+	| EnumItem<number, CompletionTriggerKind, "Invoked">
 	| EnumItem<number, CompletionTriggerKind, "TriggerCharacter">
 	| EnumItem<number, CompletionTriggerKind, "TriggerForIncompleteCompletions">
-export type CompletionTriggerKind = EnumObject<{
+export type CompletionTriggerKindRoot = EnumObject<{
 	Invoked: EnumItem<number, CompletionTriggerKind, "Invoked">,
 	TriggerCharacter: EnumItem<number, CompletionTriggerKind, "TriggerCharacter">,
 	TriggerForIncompleteCompletions: EnumItem<number, CompletionTriggerKind, "TriggerForIncompleteCompletions">,
-}, CompletionTriggerKindItem>
+}, CompletionTriggerKind>
 Enum.CompletionTriggerKind = {
 	Invoked = 1;
 	TriggerCharacter = 2;
 	TriggerForIncompleteCompletions = 3;
 }
 
-export type ComputerCameraMovementModeItem =
-	EnumItem<number, ComputerCameraMovementMode, "Default">
+export type ComputerCameraMovementMode =
+	| EnumItem<number, ComputerCameraMovementMode, "Default">
 	| EnumItem<number, ComputerCameraMovementMode, "Classic">
 	| EnumItem<number, ComputerCameraMovementMode, "Follow">
 	| EnumItem<number, ComputerCameraMovementMode, "Orbital">
 	| EnumItem<number, ComputerCameraMovementMode, "CameraToggle">
-export type ComputerCameraMovementMode = EnumObject<{
+export type ComputerCameraMovementModeRoot = EnumObject<{
 	Default: EnumItem<number, ComputerCameraMovementMode, "Default">,
 	Classic: EnumItem<number, ComputerCameraMovementMode, "Classic">,
 	Follow: EnumItem<number, ComputerCameraMovementMode, "Follow">,
 	Orbital: EnumItem<number, ComputerCameraMovementMode, "Orbital">,
 	CameraToggle: EnumItem<number, ComputerCameraMovementMode, "CameraToggle">,
-}, ComputerCameraMovementModeItem>
+}, ComputerCameraMovementMode>
 Enum.ComputerCameraMovementMode = {"Default", "Classic", "Follow", "Orbital", "CameraToggle"}
 
-export type ComputerMovementModeItem =
-	EnumItem<number, ComputerMovementMode, "Default">
+export type ComputerMovementMode =
+	| EnumItem<number, ComputerMovementMode, "Default">
 	| EnumItem<number, ComputerMovementMode, "KeyboardMouse">
 	| EnumItem<number, ComputerMovementMode, "ClickToMove">
-export type ComputerMovementMode = EnumObject<{
+export type ComputerMovementModeRoot = EnumObject<{
 	Default: EnumItem<number, ComputerMovementMode, "Default">,
 	KeyboardMouse: EnumItem<number, ComputerMovementMode, "KeyboardMouse">,
 	ClickToMove: EnumItem<number, ComputerMovementMode, "ClickToMove">,
-}, ComputerMovementModeItem>
+}, ComputerMovementMode>
 Enum.ComputerMovementMode = {"Default", "KeyboardMouse", "ClickToMove"}
 
-export type ConnectionErrorItem =
-	EnumItem<number, ConnectionError, "OK">
+export type ConfigSnapshotErrorState =
+	| EnumItem<number, ConfigSnapshotErrorState, "None">
+	| EnumItem<number, ConfigSnapshotErrorState, "LoadFailed">
+export type ConfigSnapshotErrorStateRoot = EnumObject<{
+	None: EnumItem<number, ConfigSnapshotErrorState, "None">,
+	LoadFailed: EnumItem<number, ConfigSnapshotErrorState, "LoadFailed">,
+}, ConfigSnapshotErrorState>
+Enum.ConfigSnapshotErrorState = {"None", "LoadFailed"}
+
+export type ConnectionError =
+	| EnumItem<number, ConnectionError, "OK">
 	| EnumItem<number, ConnectionError, "Unknown">
 	| EnumItem<number, ConnectionError, "DisconnectErrors">
 	| EnumItem<number, ConnectionError, "DisconnectBadhash">
@@ -1946,6 +2217,9 @@ export type ConnectionErrorItem =
 	| EnumItem<number, ConnectionError, "NetworkSecurity">
 	| EnumItem<number, ConnectionError, "ReplacementReady">
 	| EnumItem<number, ConnectionError, "ServerEmpty">
+	| EnumItem<number, ConnectionError, "PhantomFreeze">
+	| EnumItem<number, ConnectionError, "AndroidAnticheatKick">
+	| EnumItem<number, ConnectionError, "AndroidEmulatorKick">
 	| EnumItem<number, ConnectionError, "PlacelaunchErrors">
 	| EnumItem<number, ConnectionError, "PlacelaunchDisabled">
 	| EnumItem<number, ConnectionError, "PlacelaunchError">
@@ -1971,7 +2245,7 @@ export type ConnectionErrorItem =
 	| EnumItem<number, ConnectionError, "TeleportUnauthorized">
 	| EnumItem<number, ConnectionError, "TeleportFlooded">
 	| EnumItem<number, ConnectionError, "TeleportIsTeleporting">
-export type ConnectionError = EnumObject<{
+export type ConnectionErrorRoot = EnumObject<{
 	OK: EnumItem<number, ConnectionError, "OK">,
 	Unknown: EnumItem<number, ConnectionError, "Unknown">,
 	DisconnectErrors: EnumItem<number, ConnectionError, "DisconnectErrors">,
@@ -2019,6 +2293,9 @@ export type ConnectionError = EnumObject<{
 	NetworkSecurity: EnumItem<number, ConnectionError, "NetworkSecurity">,
 	ReplacementReady: EnumItem<number, ConnectionError, "ReplacementReady">,
 	ServerEmpty: EnumItem<number, ConnectionError, "ServerEmpty">,
+	PhantomFreeze: EnumItem<number, ConnectionError, "PhantomFreeze">,
+	AndroidAnticheatKick: EnumItem<number, ConnectionError, "AndroidAnticheatKick">,
+	AndroidEmulatorKick: EnumItem<number, ConnectionError, "AndroidEmulatorKick">,
 	PlacelaunchErrors: EnumItem<number, ConnectionError, "PlacelaunchErrors">,
 	PlacelaunchDisabled: EnumItem<number, ConnectionError, "PlacelaunchDisabled">,
 	PlacelaunchError: EnumItem<number, ConnectionError, "PlacelaunchError">,
@@ -2044,7 +2321,7 @@ export type ConnectionError = EnumObject<{
 	TeleportUnauthorized: EnumItem<number, ConnectionError, "TeleportUnauthorized">,
 	TeleportFlooded: EnumItem<number, ConnectionError, "TeleportFlooded">,
 	TeleportIsTeleporting: EnumItem<number, ConnectionError, "TeleportIsTeleporting">,
-}, ConnectionErrorItem>
+}, ConnectionError>
 Enum.ConnectionError = {
 	OK = 0;
 	Unknown = 1;
@@ -2093,6 +2370,9 @@ Enum.ConnectionError = {
 	NetworkSecurity = 300;
 	ReplacementReady = 301;
 	ServerEmpty = 302;
+	PhantomFreeze = 303;
+	AndroidAnticheatKick = 304;
+	AndroidEmulatorKick = 305;
 	PlacelaunchErrors = 512;
 	PlacelaunchDisabled = 515;
 	PlacelaunchError = 516;
@@ -2120,59 +2400,59 @@ Enum.ConnectionError = {
 	TeleportIsTeleporting = 775;
 }
 
-export type ConnectionStateItem =
-	EnumItem<number, ConnectionState, "Connected">
+export type ConnectionState =
+	| EnumItem<number, ConnectionState, "Connected">
 	| EnumItem<number, ConnectionState, "Disconnected">
-export type ConnectionState = EnumObject<{
+export type ConnectionStateRoot = EnumObject<{
 	Connected: EnumItem<number, ConnectionState, "Connected">,
 	Disconnected: EnumItem<number, ConnectionState, "Disconnected">,
-}, ConnectionStateItem>
+}, ConnectionState>
 Enum.ConnectionState = {"Connected", "Disconnected"}
 
-export type ContentSourceTypeItem =
-	EnumItem<number, ContentSourceType, "None">
+export type ContentSourceType =
+	| EnumItem<number, ContentSourceType, "None">
 	| EnumItem<number, ContentSourceType, "Uri">
 	| EnumItem<number, ContentSourceType, "Object">
-export type ContentSourceType = EnumObject<{
+export type ContentSourceTypeRoot = EnumObject<{
 	None: EnumItem<number, ContentSourceType, "None">,
 	Uri: EnumItem<number, ContentSourceType, "Uri">,
 	Object: EnumItem<number, ContentSourceType, "Object">,
-}, ContentSourceTypeItem>
+}, ContentSourceType>
 Enum.ContentSourceType = {"None", "Uri", "Object"}
 
-export type ContextActionPriorityItem =
-	EnumItem<number, ContextActionPriority, "Low">
+export type ContextActionPriority =
+	| EnumItem<number, ContextActionPriority, "Low">
 	| EnumItem<number, ContextActionPriority, "Medium">
 	| EnumItem<number, ContextActionPriority, "High">
-export type ContextActionPriority = EnumObject<{
+export type ContextActionPriorityRoot = EnumObject<{
 	Low: EnumItem<number, ContextActionPriority, "Low">,
 	Medium: EnumItem<number, ContextActionPriority, "Medium">,
 	High: EnumItem<number, ContextActionPriority, "High">,
-}, ContextActionPriorityItem>
+}, ContextActionPriority>
 Enum.ContextActionPriority = {
 	Low = 1000;
 	Medium = 2000;
 	High = 3000;
 }
 
-export type ContextActionResultItem =
-	EnumItem<number, ContextActionResult, "Sink">
+export type ContextActionResult =
+	| EnumItem<number, ContextActionResult, "Sink">
 	| EnumItem<number, ContextActionResult, "Pass">
-export type ContextActionResult = EnumObject<{
+export type ContextActionResultRoot = EnumObject<{
 	Sink: EnumItem<number, ContextActionResult, "Sink">,
 	Pass: EnumItem<number, ContextActionResult, "Pass">,
-}, ContextActionResultItem>
+}, ContextActionResult>
 Enum.ContextActionResult = {"Sink", "Pass"}
 
-export type ControlModeItem = EnumItem<number, ControlMode, "Classic"> | EnumItem<number, ControlMode, "MouseLockSwitch">
-export type ControlMode = EnumObject<{
+export type ControlMode = | EnumItem<number, ControlMode, "Classic"> | EnumItem<number, ControlMode, "MouseLockSwitch">
+export type ControlModeRoot = EnumObject<{
 	Classic: EnumItem<number, ControlMode, "Classic">,
 	MouseLockSwitch: EnumItem<number, ControlMode, "MouseLockSwitch">,
-}, ControlModeItem>
+}, ControlMode>
 Enum.ControlMode = {"Classic", "MouseLockSwitch"}
 
-export type CoreGuiTypeItem =
-	EnumItem<number, CoreGuiType, "PlayerList">
+export type CoreGuiType =
+	| EnumItem<number, CoreGuiType, "PlayerList">
 	| EnumItem<number, CoreGuiType, "Health">
 	| EnumItem<number, CoreGuiType, "Backpack">
 	| EnumItem<number, CoreGuiType, "Chat">
@@ -2180,7 +2460,7 @@ export type CoreGuiTypeItem =
 	| EnumItem<number, CoreGuiType, "EmotesMenu">
 	| EnumItem<number, CoreGuiType, "SelfView">
 	| EnumItem<number, CoreGuiType, "Captures">
-export type CoreGuiType = EnumObject<{
+export type CoreGuiTypeRoot = EnumObject<{
 	PlayerList: EnumItem<number, CoreGuiType, "PlayerList">,
 	Health: EnumItem<number, CoreGuiType, "Health">,
 	Backpack: EnumItem<number, CoreGuiType, "Backpack">,
@@ -2189,66 +2469,84 @@ export type CoreGuiType = EnumObject<{
 	EmotesMenu: EnumItem<number, CoreGuiType, "EmotesMenu">,
 	SelfView: EnumItem<number, CoreGuiType, "SelfView">,
 	Captures: EnumItem<number, CoreGuiType, "Captures">,
-}, CoreGuiTypeItem>
+}, CoreGuiType>
 Enum.CoreGuiType = {"PlayerList", "Health", "Backpack", "Chat", "All", "EmotesMenu", "SelfView", "Captures"}
 
-export type CreateOutfitFailureItem =
-	EnumItem<number, CreateOutfitFailure, "InvalidName">
+export type CreateAssetResult =
+	| EnumItem<number, CreateAssetResult, "Success">
+	| EnumItem<number, CreateAssetResult, "PermissionDenied">
+	| EnumItem<number, CreateAssetResult, "UploadFailed">
+	| EnumItem<number, CreateAssetResult, "Unknown">
+export type CreateAssetResultRoot = EnumObject<{
+	Success: EnumItem<number, CreateAssetResult, "Success">,
+	PermissionDenied: EnumItem<number, CreateAssetResult, "PermissionDenied">,
+	UploadFailed: EnumItem<number, CreateAssetResult, "UploadFailed">,
+	Unknown: EnumItem<number, CreateAssetResult, "Unknown">,
+}, CreateAssetResult>
+Enum.CreateAssetResult = {
+	Success = 1;
+	PermissionDenied = 2;
+	UploadFailed = 3;
+	Unknown = 4;
+}
+
+export type CreateOutfitFailure =
+	| EnumItem<number, CreateOutfitFailure, "InvalidName">
 	| EnumItem<number, CreateOutfitFailure, "OutfitLimitReached">
 	| EnumItem<number, CreateOutfitFailure, "Other">
-export type CreateOutfitFailure = EnumObject<{
+export type CreateOutfitFailureRoot = EnumObject<{
 	InvalidName: EnumItem<number, CreateOutfitFailure, "InvalidName">,
 	OutfitLimitReached: EnumItem<number, CreateOutfitFailure, "OutfitLimitReached">,
 	Other: EnumItem<number, CreateOutfitFailure, "Other">,
-}, CreateOutfitFailureItem>
+}, CreateOutfitFailure>
 Enum.CreateOutfitFailure = {
 	InvalidName = 1;
 	OutfitLimitReached = 2;
 	Other = 3;
 }
 
-export type CreatorTypeItem = EnumItem<number, CreatorType, "User"> | EnumItem<number, CreatorType, "Group">
-export type CreatorType = EnumObject<{
+export type CreatorType = | EnumItem<number, CreatorType, "User"> | EnumItem<number, CreatorType, "Group">
+export type CreatorTypeRoot = EnumObject<{
 	User: EnumItem<number, CreatorType, "User">,
 	Group: EnumItem<number, CreatorType, "Group">,
-}, CreatorTypeItem>
+}, CreatorType>
 Enum.CreatorType = {"User", "Group"}
 
-export type CreatorTypeFilterItem =
-	EnumItem<number, CreatorTypeFilter, "User">
+export type CreatorTypeFilter =
+	| EnumItem<number, CreatorTypeFilter, "User">
 	| EnumItem<number, CreatorTypeFilter, "Group">
 	| EnumItem<number, CreatorTypeFilter, "All">
-export type CreatorTypeFilter = EnumObject<{
+export type CreatorTypeFilterRoot = EnumObject<{
 	User: EnumItem<number, CreatorTypeFilter, "User">,
 	Group: EnumItem<number, CreatorTypeFilter, "Group">,
 	All: EnumItem<number, CreatorTypeFilter, "All">,
-}, CreatorTypeFilterItem>
+}, CreatorTypeFilter>
 Enum.CreatorTypeFilter = {"User", "Group", "All"}
 
-export type CurrencyTypeItem =
-	EnumItem<number, CurrencyType, "Default">
+export type CurrencyType =
+	| EnumItem<number, CurrencyType, "Default">
 	| EnumItem<number, CurrencyType, "Robux">
 	| EnumItem<number, CurrencyType, "Tix">
-export type CurrencyType = EnumObject<{
+export type CurrencyTypeRoot = EnumObject<{
 	Default: EnumItem<number, CurrencyType, "Default">,
 	Robux: EnumItem<number, CurrencyType, "Robux">,
 	Tix: EnumItem<number, CurrencyType, "Tix">,
-}, CurrencyTypeItem>
+}, CurrencyType>
 Enum.CurrencyType = {"Default", "Robux", "Tix"}
 
-export type CustomCameraModeItem =
-	EnumItem<number, CustomCameraMode, "Default">
+export type CustomCameraMode =
+	| EnumItem<number, CustomCameraMode, "Default">
 	| EnumItem<number, CustomCameraMode, "Classic">
 	| EnumItem<number, CustomCameraMode, "Follow">
-export type CustomCameraMode = EnumObject<{
+export type CustomCameraModeRoot = EnumObject<{
 	Default: EnumItem<number, CustomCameraMode, "Default">,
 	Classic: EnumItem<number, CustomCameraMode, "Classic">,
 	Follow: EnumItem<number, CustomCameraMode, "Follow">,
-}, CustomCameraModeItem>
+}, CustomCameraMode>
 Enum.CustomCameraMode = {"Default", "Classic", "Follow"}
 
-export type DataStoreRequestTypeItem =
-	EnumItem<number, DataStoreRequestType, "GetAsync">
+export type DataStoreRequestType =
+	| EnumItem<number, DataStoreRequestType, "GetAsync">
 	| EnumItem<number, DataStoreRequestType, "SetIncrementAsync">
 	| EnumItem<number, DataStoreRequestType, "UpdateAsync">
 	| EnumItem<number, DataStoreRequestType, "GetSortedAsync">
@@ -2257,7 +2555,7 @@ export type DataStoreRequestTypeItem =
 	| EnumItem<number, DataStoreRequestType, "ListAsync">
 	| EnumItem<number, DataStoreRequestType, "GetVersionAsync">
 	| EnumItem<number, DataStoreRequestType, "RemoveVersionAsync">
-export type DataStoreRequestType = EnumObject<{
+export type DataStoreRequestTypeRoot = EnumObject<{
 	GetAsync: EnumItem<number, DataStoreRequestType, "GetAsync">,
 	SetIncrementAsync: EnumItem<number, DataStoreRequestType, "SetIncrementAsync">,
 	UpdateAsync: EnumItem<number, DataStoreRequestType, "UpdateAsync">,
@@ -2267,7 +2565,7 @@ export type DataStoreRequestType = EnumObject<{
 	ListAsync: EnumItem<number, DataStoreRequestType, "ListAsync">,
 	GetVersionAsync: EnumItem<number, DataStoreRequestType, "GetVersionAsync">,
 	RemoveVersionAsync: EnumItem<number, DataStoreRequestType, "RemoveVersionAsync">,
-}, DataStoreRequestTypeItem>
+}, DataStoreRequestType>
 Enum.DataStoreRequestType = {
 	"GetAsync";
 	"SetIncrementAsync";
@@ -2280,8 +2578,8 @@ Enum.DataStoreRequestType = {
 	"RemoveVersionAsync";
 }
 
-export type DebuggerEndReasonItem =
-	EnumItem<number, DebuggerEndReason, "ClientRequest">
+export type DebuggerEndReason =
+	| EnumItem<number, DebuggerEndReason, "ClientRequest">
 	| EnumItem<number, DebuggerEndReason, "Timeout">
 	| EnumItem<number, DebuggerEndReason, "InvalidHost">
 	| EnumItem<number, DebuggerEndReason, "Disconnected">
@@ -2289,7 +2587,7 @@ export type DebuggerEndReasonItem =
 	| EnumItem<number, DebuggerEndReason, "ServerProtocolMismatch">
 	| EnumItem<number, DebuggerEndReason, "ConfigurationFailed">
 	| EnumItem<number, DebuggerEndReason, "RpcError">
-export type DebuggerEndReason = EnumObject<{
+export type DebuggerEndReasonRoot = EnumObject<{
 	ClientRequest: EnumItem<number, DebuggerEndReason, "ClientRequest">,
 	Timeout: EnumItem<number, DebuggerEndReason, "Timeout">,
 	InvalidHost: EnumItem<number, DebuggerEndReason, "InvalidHost">,
@@ -2298,7 +2596,7 @@ export type DebuggerEndReason = EnumObject<{
 	ServerProtocolMismatch: EnumItem<number, DebuggerEndReason, "ServerProtocolMismatch">,
 	ConfigurationFailed: EnumItem<number, DebuggerEndReason, "ConfigurationFailed">,
 	RpcError: EnumItem<number, DebuggerEndReason, "RpcError">,
-}, DebuggerEndReasonItem>
+}, DebuggerEndReason>
 Enum.DebuggerEndReason = {
 	"ClientRequest";
 	"Timeout";
@@ -2310,43 +2608,43 @@ Enum.DebuggerEndReason = {
 	"RpcError";
 }
 
-export type DebuggerExceptionBreakModeItem =
-	EnumItem<number, DebuggerExceptionBreakMode, "Never">
+export type DebuggerExceptionBreakMode =
+	| EnumItem<number, DebuggerExceptionBreakMode, "Never">
 	| EnumItem<number, DebuggerExceptionBreakMode, "Always">
 	| EnumItem<number, DebuggerExceptionBreakMode, "Unhandled">
-export type DebuggerExceptionBreakMode = EnumObject<{
+export type DebuggerExceptionBreakModeRoot = EnumObject<{
 	Never: EnumItem<number, DebuggerExceptionBreakMode, "Never">,
 	Always: EnumItem<number, DebuggerExceptionBreakMode, "Always">,
 	Unhandled: EnumItem<number, DebuggerExceptionBreakMode, "Unhandled">,
-}, DebuggerExceptionBreakModeItem>
+}, DebuggerExceptionBreakMode>
 Enum.DebuggerExceptionBreakMode = {"Never", "Always", "Unhandled"}
 
-export type DebuggerFrameTypeItem = EnumItem<number, DebuggerFrameType, "C"> | EnumItem<number, DebuggerFrameType, "Lua">
-export type DebuggerFrameType = EnumObject<{
+export type DebuggerFrameType = | EnumItem<number, DebuggerFrameType, "C"> | EnumItem<number, DebuggerFrameType, "Lua">
+export type DebuggerFrameTypeRoot = EnumObject<{
 	C: EnumItem<number, DebuggerFrameType, "C">,
 	Lua: EnumItem<number, DebuggerFrameType, "Lua">,
-}, DebuggerFrameTypeItem>
+}, DebuggerFrameType>
 Enum.DebuggerFrameType = {"C", "Lua"}
 
-export type DebuggerPauseReasonItem =
-	EnumItem<number, DebuggerPauseReason, "Unknown">
+export type DebuggerPauseReason =
+	| EnumItem<number, DebuggerPauseReason, "Unknown">
 	| EnumItem<number, DebuggerPauseReason, "Requested">
 	| EnumItem<number, DebuggerPauseReason, "Breakpoint">
 	| EnumItem<number, DebuggerPauseReason, "Exception">
 	| EnumItem<number, DebuggerPauseReason, "SingleStep">
 	| EnumItem<number, DebuggerPauseReason, "Entrypoint">
-export type DebuggerPauseReason = EnumObject<{
+export type DebuggerPauseReasonRoot = EnumObject<{
 	Unknown: EnumItem<number, DebuggerPauseReason, "Unknown">,
 	Requested: EnumItem<number, DebuggerPauseReason, "Requested">,
 	Breakpoint: EnumItem<number, DebuggerPauseReason, "Breakpoint">,
 	Exception: EnumItem<number, DebuggerPauseReason, "Exception">,
 	SingleStep: EnumItem<number, DebuggerPauseReason, "SingleStep">,
 	Entrypoint: EnumItem<number, DebuggerPauseReason, "Entrypoint">,
-}, DebuggerPauseReasonItem>
+}, DebuggerPauseReason>
 Enum.DebuggerPauseReason = {"Unknown", "Requested", "Breakpoint", "Exception", "SingleStep", "Entrypoint"}
 
-export type DebuggerStatusItem =
-	EnumItem<number, DebuggerStatus, "Success">
+export type DebuggerStatus =
+	| EnumItem<number, DebuggerStatus, "Success">
 	| EnumItem<number, DebuggerStatus, "Timeout">
 	| EnumItem<number, DebuggerStatus, "ConnectionLost">
 	| EnumItem<number, DebuggerStatus, "InvalidResponse">
@@ -2355,7 +2653,7 @@ export type DebuggerStatusItem =
 	| EnumItem<number, DebuggerStatus, "RpcError">
 	| EnumItem<number, DebuggerStatus, "InvalidArgument">
 	| EnumItem<number, DebuggerStatus, "ConnectionClosed">
-export type DebuggerStatus = EnumObject<{
+export type DebuggerStatusRoot = EnumObject<{
 	Success: EnumItem<number, DebuggerStatus, "Success">,
 	Timeout: EnumItem<number, DebuggerStatus, "Timeout">,
 	ConnectionLost: EnumItem<number, DebuggerStatus, "ConnectionLost">,
@@ -2365,7 +2663,7 @@ export type DebuggerStatus = EnumObject<{
 	RpcError: EnumItem<number, DebuggerStatus, "RpcError">,
 	InvalidArgument: EnumItem<number, DebuggerStatus, "InvalidArgument">,
 	ConnectionClosed: EnumItem<number, DebuggerStatus, "ConnectionClosed">,
-}, DebuggerStatusItem>
+}, DebuggerStatus>
 Enum.DebuggerStatus = {
 	"Success";
 	"Timeout";
@@ -2378,76 +2676,65 @@ Enum.DebuggerStatus = {
 	"ConnectionClosed";
 }
 
-export type DecreaseMinimumPartDensityModeItem =
-	EnumItem<number, DecreaseMinimumPartDensityMode, "Default">
-	| EnumItem<number, DecreaseMinimumPartDensityMode, "Disabled">
-	| EnumItem<number, DecreaseMinimumPartDensityMode, "Enabled">
-export type DecreaseMinimumPartDensityMode = EnumObject<{
-	Default: EnumItem<number, DecreaseMinimumPartDensityMode, "Default">,
-	Disabled: EnumItem<number, DecreaseMinimumPartDensityMode, "Disabled">,
-	Enabled: EnumItem<number, DecreaseMinimumPartDensityMode, "Enabled">,
-}, DecreaseMinimumPartDensityModeItem>
-Enum.DecreaseMinimumPartDensityMode = {"Default", "Disabled", "Enabled"}
-
-export type DevCameraOcclusionModeItem =
-	EnumItem<number, DevCameraOcclusionMode, "Zoom">
+export type DevCameraOcclusionMode =
+	| EnumItem<number, DevCameraOcclusionMode, "Zoom">
 	| EnumItem<number, DevCameraOcclusionMode, "Invisicam">
-export type DevCameraOcclusionMode = EnumObject<{
+export type DevCameraOcclusionModeRoot = EnumObject<{
 	Zoom: EnumItem<number, DevCameraOcclusionMode, "Zoom">,
 	Invisicam: EnumItem<number, DevCameraOcclusionMode, "Invisicam">,
-}, DevCameraOcclusionModeItem>
+}, DevCameraOcclusionMode>
 Enum.DevCameraOcclusionMode = {"Zoom", "Invisicam"}
 
-export type DevComputerCameraMovementModeItem =
-	EnumItem<number, DevComputerCameraMovementMode, "UserChoice">
+export type DevComputerCameraMovementMode =
+	| EnumItem<number, DevComputerCameraMovementMode, "UserChoice">
 	| EnumItem<number, DevComputerCameraMovementMode, "Classic">
 	| EnumItem<number, DevComputerCameraMovementMode, "Follow">
 	| EnumItem<number, DevComputerCameraMovementMode, "Orbital">
 	| EnumItem<number, DevComputerCameraMovementMode, "CameraToggle">
-export type DevComputerCameraMovementMode = EnumObject<{
+export type DevComputerCameraMovementModeRoot = EnumObject<{
 	UserChoice: EnumItem<number, DevComputerCameraMovementMode, "UserChoice">,
 	Classic: EnumItem<number, DevComputerCameraMovementMode, "Classic">,
 	Follow: EnumItem<number, DevComputerCameraMovementMode, "Follow">,
 	Orbital: EnumItem<number, DevComputerCameraMovementMode, "Orbital">,
 	CameraToggle: EnumItem<number, DevComputerCameraMovementMode, "CameraToggle">,
-}, DevComputerCameraMovementModeItem>
+}, DevComputerCameraMovementMode>
 Enum.DevComputerCameraMovementMode = {"UserChoice", "Classic", "Follow", "Orbital", "CameraToggle"}
 
-export type DevComputerMovementModeItem =
-	EnumItem<number, DevComputerMovementMode, "UserChoice">
+export type DevComputerMovementMode =
+	| EnumItem<number, DevComputerMovementMode, "UserChoice">
 	| EnumItem<number, DevComputerMovementMode, "KeyboardMouse">
 	| EnumItem<number, DevComputerMovementMode, "ClickToMove">
 	| EnumItem<number, DevComputerMovementMode, "Scriptable">
-export type DevComputerMovementMode = EnumObject<{
+export type DevComputerMovementModeRoot = EnumObject<{
 	UserChoice: EnumItem<number, DevComputerMovementMode, "UserChoice">,
 	KeyboardMouse: EnumItem<number, DevComputerMovementMode, "KeyboardMouse">,
 	ClickToMove: EnumItem<number, DevComputerMovementMode, "ClickToMove">,
 	Scriptable: EnumItem<number, DevComputerMovementMode, "Scriptable">,
-}, DevComputerMovementModeItem>
+}, DevComputerMovementMode>
 Enum.DevComputerMovementMode = {"UserChoice", "KeyboardMouse", "ClickToMove", "Scriptable"}
 
-export type DevTouchCameraMovementModeItem =
-	EnumItem<number, DevTouchCameraMovementMode, "UserChoice">
+export type DevTouchCameraMovementMode =
+	| EnumItem<number, DevTouchCameraMovementMode, "UserChoice">
 	| EnumItem<number, DevTouchCameraMovementMode, "Classic">
 	| EnumItem<number, DevTouchCameraMovementMode, "Follow">
 	| EnumItem<number, DevTouchCameraMovementMode, "Orbital">
-export type DevTouchCameraMovementMode = EnumObject<{
+export type DevTouchCameraMovementModeRoot = EnumObject<{
 	UserChoice: EnumItem<number, DevTouchCameraMovementMode, "UserChoice">,
 	Classic: EnumItem<number, DevTouchCameraMovementMode, "Classic">,
 	Follow: EnumItem<number, DevTouchCameraMovementMode, "Follow">,
 	Orbital: EnumItem<number, DevTouchCameraMovementMode, "Orbital">,
-}, DevTouchCameraMovementModeItem>
+}, DevTouchCameraMovementMode>
 Enum.DevTouchCameraMovementMode = {"UserChoice", "Classic", "Follow", "Orbital"}
 
-export type DevTouchMovementModeItem =
-	EnumItem<number, DevTouchMovementMode, "UserChoice">
+export type DevTouchMovementMode =
+	| EnumItem<number, DevTouchMovementMode, "UserChoice">
 	| EnumItem<number, DevTouchMovementMode, "Thumbstick">
 	| EnumItem<number, DevTouchMovementMode, "DPad">
 	| EnumItem<number, DevTouchMovementMode, "Thumbpad">
 	| EnumItem<number, DevTouchMovementMode, "ClickToMove">
 	| EnumItem<number, DevTouchMovementMode, "Scriptable">
 	| EnumItem<number, DevTouchMovementMode, "DynamicThumbstick">
-export type DevTouchMovementMode = EnumObject<{
+export type DevTouchMovementModeRoot = EnumObject<{
 	UserChoice: EnumItem<number, DevTouchMovementMode, "UserChoice">,
 	Thumbstick: EnumItem<number, DevTouchMovementMode, "Thumbstick">,
 	DPad: EnumItem<number, DevTouchMovementMode, "DPad">,
@@ -2455,12 +2742,12 @@ export type DevTouchMovementMode = EnumObject<{
 	ClickToMove: EnumItem<number, DevTouchMovementMode, "ClickToMove">,
 	Scriptable: EnumItem<number, DevTouchMovementMode, "Scriptable">,
 	DynamicThumbstick: EnumItem<number, DevTouchMovementMode, "DynamicThumbstick">,
-}, DevTouchMovementModeItem>
+}, DevTouchMovementMode>
 Enum.DevTouchMovementMode =
 	{"UserChoice", "Thumbstick", "DPad", "Thumbpad", "ClickToMove", "Scriptable", "DynamicThumbstick"}
 
-export type DeveloperMemoryTagItem =
-	EnumItem<number, DeveloperMemoryTag, "Internal">
+export type DeveloperMemoryTag =
+	| EnumItem<number, DeveloperMemoryTag, "Internal">
 	| EnumItem<number, DeveloperMemoryTag, "HttpCache">
 	| EnumItem<number, DeveloperMemoryTag, "Instances">
 	| EnumItem<number, DeveloperMemoryTag, "Signals">
@@ -2483,7 +2770,7 @@ export type DeveloperMemoryTagItem =
 	| EnumItem<number, DeveloperMemoryTag, "Animation">
 	| EnumItem<number, DeveloperMemoryTag, "Navigation">
 	| EnumItem<number, DeveloperMemoryTag, "GeometryCSG">
-export type DeveloperMemoryTag = EnumObject<{
+export type DeveloperMemoryTagRoot = EnumObject<{
 	Internal: EnumItem<number, DeveloperMemoryTag, "Internal">,
 	HttpCache: EnumItem<number, DeveloperMemoryTag, "HttpCache">,
 	Instances: EnumItem<number, DeveloperMemoryTag, "Instances">,
@@ -2507,7 +2794,7 @@ export type DeveloperMemoryTag = EnumObject<{
 	Animation: EnumItem<number, DeveloperMemoryTag, "Animation">,
 	Navigation: EnumItem<number, DeveloperMemoryTag, "Navigation">,
 	GeometryCSG: EnumItem<number, DeveloperMemoryTag, "GeometryCSG">,
-}, DeveloperMemoryTagItem>
+}, DeveloperMemoryTag>
 Enum.DeveloperMemoryTag = {
 	Internal = 0;
 	HttpCache = 1;
@@ -2534,89 +2821,104 @@ Enum.DeveloperMemoryTag = {
 	GeometryCSG = 24;
 }
 
-export type DeviceFeatureTypeItem = EnumItem<number, DeviceFeatureType, "DeviceCapture">
-export type DeviceFeatureType = EnumObject<{
+export type DeviceFeatureType = | EnumItem<number, DeviceFeatureType, "DeviceCapture">
+export type DeviceFeatureTypeRoot = EnumObject<{
 	DeviceCapture: EnumItem<number, DeviceFeatureType, "DeviceCapture">,
-}, DeviceFeatureTypeItem>
+}, DeviceFeatureType>
 Enum.DeviceFeatureType = {"DeviceCapture"}
 
-export type DeviceLevelItem =
-	EnumItem<number, DeviceLevel, "Low">
+export type DeviceForm =
+	| EnumItem<number, DeviceForm, "Console">
+	| EnumItem<number, DeviceForm, "Phone">
+	| EnumItem<number, DeviceForm, "Tablet">
+	| EnumItem<number, DeviceForm, "Desktop">
+	| EnumItem<number, DeviceForm, "VR">
+export type DeviceFormRoot = EnumObject<{
+	Console: EnumItem<number, DeviceForm, "Console">,
+	Phone: EnumItem<number, DeviceForm, "Phone">,
+	Tablet: EnumItem<number, DeviceForm, "Tablet">,
+	Desktop: EnumItem<number, DeviceForm, "Desktop">,
+	VR: EnumItem<number, DeviceForm, "VR">,
+}, DeviceForm>
+Enum.DeviceForm = {"Console", "Phone", "Tablet", "Desktop", "VR"}
+
+export type DeviceLevel =
+	| EnumItem<number, DeviceLevel, "Low">
 	| EnumItem<number, DeviceLevel, "Medium">
 	| EnumItem<number, DeviceLevel, "High">
-export type DeviceLevel = EnumObject<{
+export type DeviceLevelRoot = EnumObject<{
 	Low: EnumItem<number, DeviceLevel, "Low">,
 	Medium: EnumItem<number, DeviceLevel, "Medium">,
 	High: EnumItem<number, DeviceLevel, "High">,
-}, DeviceLevelItem>
+}, DeviceLevel>
 Enum.DeviceLevel = {"Low", "Medium", "High"}
 
-export type DeviceTypeItem =
-	EnumItem<number, DeviceType, "Unknown">
+export type DeviceType =
+	| EnumItem<number, DeviceType, "Unknown">
 	| EnumItem<number, DeviceType, "Desktop">
 	| EnumItem<number, DeviceType, "Tablet">
 	| EnumItem<number, DeviceType, "Phone">
-export type DeviceType = EnumObject<{
+export type DeviceTypeRoot = EnumObject<{
 	Unknown: EnumItem<number, DeviceType, "Unknown">,
 	Desktop: EnumItem<number, DeviceType, "Desktop">,
 	Tablet: EnumItem<number, DeviceType, "Tablet">,
 	Phone: EnumItem<number, DeviceType, "Phone">,
-}, DeviceTypeItem>
+}, DeviceType>
 Enum.DeviceType = {"Unknown", "Desktop", "Tablet", "Phone"}
 
-export type DialogBehaviorTypeItem =
-	EnumItem<number, DialogBehaviorType, "SinglePlayer">
+export type DialogBehaviorType =
+	| EnumItem<number, DialogBehaviorType, "SinglePlayer">
 	| EnumItem<number, DialogBehaviorType, "MultiplePlayers">
-export type DialogBehaviorType = EnumObject<{
+export type DialogBehaviorTypeRoot = EnumObject<{
 	SinglePlayer: EnumItem<number, DialogBehaviorType, "SinglePlayer">,
 	MultiplePlayers: EnumItem<number, DialogBehaviorType, "MultiplePlayers">,
-}, DialogBehaviorTypeItem>
+}, DialogBehaviorType>
 Enum.DialogBehaviorType = {"SinglePlayer", "MultiplePlayers"}
 
-export type DialogPurposeItem =
-	EnumItem<number, DialogPurpose, "Quest">
+export type DialogPurpose =
+	| EnumItem<number, DialogPurpose, "Quest">
 	| EnumItem<number, DialogPurpose, "Help">
 	| EnumItem<number, DialogPurpose, "Shop">
-export type DialogPurpose = EnumObject<{
+export type DialogPurposeRoot = EnumObject<{
 	Quest: EnumItem<number, DialogPurpose, "Quest">,
 	Help: EnumItem<number, DialogPurpose, "Help">,
 	Shop: EnumItem<number, DialogPurpose, "Shop">,
-}, DialogPurposeItem>
+}, DialogPurpose>
 Enum.DialogPurpose = {"Quest", "Help", "Shop"}
 
-export type DialogToneItem =
-	EnumItem<number, DialogTone, "Neutral">
+export type DialogTone =
+	| EnumItem<number, DialogTone, "Neutral">
 	| EnumItem<number, DialogTone, "Friendly">
 	| EnumItem<number, DialogTone, "Enemy">
-export type DialogTone = EnumObject<{
+export type DialogToneRoot = EnumObject<{
 	Neutral: EnumItem<number, DialogTone, "Neutral">,
 	Friendly: EnumItem<number, DialogTone, "Friendly">,
 	Enemy: EnumItem<number, DialogTone, "Enemy">,
-}, DialogToneItem>
+}, DialogTone>
 Enum.DialogTone = {"Neutral", "Friendly", "Enemy"}
 
-export type DominantAxisItem = EnumItem<number, DominantAxis, "Width"> | EnumItem<number, DominantAxis, "Height">
-export type DominantAxis = EnumObject<{
+export type DominantAxis = | EnumItem<number, DominantAxis, "Width"> | EnumItem<number, DominantAxis, "Height">
+export type DominantAxisRoot = EnumObject<{
 	Width: EnumItem<number, DominantAxis, "Width">,
 	Height: EnumItem<number, DominantAxis, "Height">,
-}, DominantAxisItem>
+}, DominantAxis>
 Enum.DominantAxis = {"Width", "Height"}
 
-export type DraftStatusCodeItem =
-	EnumItem<number, DraftStatusCode, "OK">
+export type DraftStatusCode =
+	| EnumItem<number, DraftStatusCode, "OK">
 	| EnumItem<number, DraftStatusCode, "DraftOutdated">
 	| EnumItem<number, DraftStatusCode, "ScriptRemoved">
 	| EnumItem<number, DraftStatusCode, "DraftCommitted">
-export type DraftStatusCode = EnumObject<{
+export type DraftStatusCodeRoot = EnumObject<{
 	OK: EnumItem<number, DraftStatusCode, "OK">,
 	DraftOutdated: EnumItem<number, DraftStatusCode, "DraftOutdated">,
 	ScriptRemoved: EnumItem<number, DraftStatusCode, "ScriptRemoved">,
 	DraftCommitted: EnumItem<number, DraftStatusCode, "DraftCommitted">,
-}, DraftStatusCodeItem>
+}, DraftStatusCode>
 Enum.DraftStatusCode = {"OK", "DraftOutdated", "ScriptRemoved", "DraftCommitted"}
 
-export type DragDetectorDragStyleItem =
-	EnumItem<number, DragDetectorDragStyle, "TranslateLine">
+export type DragDetectorDragStyle =
+	| EnumItem<number, DragDetectorDragStyle, "TranslateLine">
 	| EnumItem<number, DragDetectorDragStyle, "TranslatePlane">
 	| EnumItem<number, DragDetectorDragStyle, "TranslatePlaneOrLine">
 	| EnumItem<number, DragDetectorDragStyle, "TranslateLineOrPlane">
@@ -2625,7 +2927,7 @@ export type DragDetectorDragStyleItem =
 	| EnumItem<number, DragDetectorDragStyle, "RotateTrackball">
 	| EnumItem<number, DragDetectorDragStyle, "Scriptable">
 	| EnumItem<number, DragDetectorDragStyle, "BestForDevice">
-export type DragDetectorDragStyle = EnumObject<{
+export type DragDetectorDragStyleRoot = EnumObject<{
 	TranslateLine: EnumItem<number, DragDetectorDragStyle, "TranslateLine">,
 	TranslatePlane: EnumItem<number, DragDetectorDragStyle, "TranslatePlane">,
 	TranslatePlaneOrLine: EnumItem<number, DragDetectorDragStyle, "TranslatePlaneOrLine">,
@@ -2635,7 +2937,7 @@ export type DragDetectorDragStyle = EnumObject<{
 	RotateTrackball: EnumItem<number, DragDetectorDragStyle, "RotateTrackball">,
 	Scriptable: EnumItem<number, DragDetectorDragStyle, "Scriptable">,
 	BestForDevice: EnumItem<number, DragDetectorDragStyle, "BestForDevice">,
-}, DragDetectorDragStyleItem>
+}, DragDetectorDragStyle>
 Enum.DragDetectorDragStyle = {
 	"TranslateLine";
 	"TranslatePlane";
@@ -2648,59 +2950,70 @@ Enum.DragDetectorDragStyle = {
 	"BestForDevice";
 }
 
-export type DragDetectorPermissionPolicyItem =
-	EnumItem<number, DragDetectorPermissionPolicy, "Nobody">
+export type DragDetectorPermissionPolicy =
+	| EnumItem<number, DragDetectorPermissionPolicy, "Nobody">
 	| EnumItem<number, DragDetectorPermissionPolicy, "Everybody">
 	| EnumItem<number, DragDetectorPermissionPolicy, "Scriptable">
-export type DragDetectorPermissionPolicy = EnumObject<{
+export type DragDetectorPermissionPolicyRoot = EnumObject<{
 	Nobody: EnumItem<number, DragDetectorPermissionPolicy, "Nobody">,
 	Everybody: EnumItem<number, DragDetectorPermissionPolicy, "Everybody">,
 	Scriptable: EnumItem<number, DragDetectorPermissionPolicy, "Scriptable">,
-}, DragDetectorPermissionPolicyItem>
+}, DragDetectorPermissionPolicy>
 Enum.DragDetectorPermissionPolicy = {"Nobody", "Everybody", "Scriptable"}
 
-export type DragDetectorResponseStyleItem =
-	EnumItem<number, DragDetectorResponseStyle, "Geometric">
+export type DragDetectorResponseStyle =
+	| EnumItem<number, DragDetectorResponseStyle, "Geometric">
 	| EnumItem<number, DragDetectorResponseStyle, "Physical">
 	| EnumItem<number, DragDetectorResponseStyle, "Custom">
-export type DragDetectorResponseStyle = EnumObject<{
+export type DragDetectorResponseStyleRoot = EnumObject<{
 	Geometric: EnumItem<number, DragDetectorResponseStyle, "Geometric">,
 	Physical: EnumItem<number, DragDetectorResponseStyle, "Physical">,
 	Custom: EnumItem<number, DragDetectorResponseStyle, "Custom">,
-}, DragDetectorResponseStyleItem>
+}, DragDetectorResponseStyle>
 Enum.DragDetectorResponseStyle = {"Geometric", "Physical", "Custom"}
 
-export type DraggerCoordinateSpaceItem =
-	EnumItem<number, DraggerCoordinateSpace, "Object">
+export type DraggerCoordinateSpace =
+	| EnumItem<number, DraggerCoordinateSpace, "Object">
 	| EnumItem<number, DraggerCoordinateSpace, "World">
-export type DraggerCoordinateSpace = EnumObject<{
+export type DraggerCoordinateSpaceRoot = EnumObject<{
 	Object: EnumItem<number, DraggerCoordinateSpace, "Object">,
 	World: EnumItem<number, DraggerCoordinateSpace, "World">,
-}, DraggerCoordinateSpaceItem>
+}, DraggerCoordinateSpace>
 Enum.DraggerCoordinateSpace = {"Object", "World"}
 
-export type DraggerMovementModeItem =
-	EnumItem<number, DraggerMovementMode, "Geometric">
+export type DraggerMovementMode =
+	| EnumItem<number, DraggerMovementMode, "Geometric">
 	| EnumItem<number, DraggerMovementMode, "Physical">
-export type DraggerMovementMode = EnumObject<{
+export type DraggerMovementModeRoot = EnumObject<{
 	Geometric: EnumItem<number, DraggerMovementMode, "Geometric">,
 	Physical: EnumItem<number, DraggerMovementMode, "Physical">,
-}, DraggerMovementModeItem>
+}, DraggerMovementMode>
 Enum.DraggerMovementMode = {"Geometric", "Physical"}
 
-export type EasingDirectionItem =
-	EnumItem<number, EasingDirection, "In">
+export type DraggingScrollBar =
+	| EnumItem<number, DraggingScrollBar, "None">
+	| EnumItem<number, DraggingScrollBar, "Horizontal">
+	| EnumItem<number, DraggingScrollBar, "Vertical">
+export type DraggingScrollBarRoot = EnumObject<{
+	None: EnumItem<number, DraggingScrollBar, "None">,
+	Horizontal: EnumItem<number, DraggingScrollBar, "Horizontal">,
+	Vertical: EnumItem<number, DraggingScrollBar, "Vertical">,
+}, DraggingScrollBar>
+Enum.DraggingScrollBar = {"None", "Horizontal", "Vertical"}
+
+export type EasingDirection =
+	| EnumItem<number, EasingDirection, "In">
 	| EnumItem<number, EasingDirection, "Out">
 	| EnumItem<number, EasingDirection, "InOut">
-export type EasingDirection = EnumObject<{
+export type EasingDirectionRoot = EnumObject<{
 	In: EnumItem<number, EasingDirection, "In">,
 	Out: EnumItem<number, EasingDirection, "Out">,
 	InOut: EnumItem<number, EasingDirection, "InOut">,
-}, EasingDirectionItem>
+}, EasingDirection>
 Enum.EasingDirection = {"In", "Out", "InOut"}
 
-export type EasingStyleItem =
-	EnumItem<number, EasingStyle, "Linear">
+export type EasingStyle =
+	| EnumItem<number, EasingStyle, "Linear">
 	| EnumItem<number, EasingStyle, "Sine">
 	| EnumItem<number, EasingStyle, "Back">
 	| EnumItem<number, EasingStyle, "Quad">
@@ -2711,7 +3024,7 @@ export type EasingStyleItem =
 	| EnumItem<number, EasingStyle, "Exponential">
 	| EnumItem<number, EasingStyle, "Circular">
 	| EnumItem<number, EasingStyle, "Cubic">
-export type EasingStyle = EnumObject<{
+export type EasingStyleRoot = EnumObject<{
 	Linear: EnumItem<number, EasingStyle, "Linear">,
 	Sine: EnumItem<number, EasingStyle, "Sine">,
 	Back: EnumItem<number, EasingStyle, "Back">,
@@ -2723,41 +3036,41 @@ export type EasingStyle = EnumObject<{
 	Exponential: EnumItem<number, EasingStyle, "Exponential">,
 	Circular: EnumItem<number, EasingStyle, "Circular">,
 	Cubic: EnumItem<number, EasingStyle, "Cubic">,
-}, EasingStyleItem>
+}, EasingStyle>
 Enum.EasingStyle =
 	{"Linear", "Sine", "Back", "Quad", "Quart", "Quint", "Bounce", "Elastic", "Exponential", "Circular", "Cubic"}
 
-export type EditableStatusItem =
-	EnumItem<number, EditableStatus, "Unknown">
+export type EditableStatus =
+	| EnumItem<number, EditableStatus, "Unknown">
 	| EnumItem<number, EditableStatus, "Allowed">
 	| EnumItem<number, EditableStatus, "Disallowed">
-export type EditableStatus = EnumObject<{
+export type EditableStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, EditableStatus, "Unknown">,
 	Allowed: EnumItem<number, EditableStatus, "Allowed">,
 	Disallowed: EnumItem<number, EditableStatus, "Disallowed">,
-}, EditableStatusItem>
+}, EditableStatus>
 Enum.EditableStatus = {"Unknown", "Allowed", "Disallowed"}
 
-export type ElasticBehaviorItem =
-	EnumItem<number, ElasticBehavior, "WhenScrollable">
+export type ElasticBehavior =
+	| EnumItem<number, ElasticBehavior, "WhenScrollable">
 	| EnumItem<number, ElasticBehavior, "Always">
 	| EnumItem<number, ElasticBehavior, "Never">
-export type ElasticBehavior = EnumObject<{
+export type ElasticBehaviorRoot = EnumObject<{
 	WhenScrollable: EnumItem<number, ElasticBehavior, "WhenScrollable">,
 	Always: EnumItem<number, ElasticBehavior, "Always">,
 	Never: EnumItem<number, ElasticBehavior, "Never">,
-}, ElasticBehaviorItem>
+}, ElasticBehavior>
 Enum.ElasticBehavior = {"WhenScrollable", "Always", "Never"}
 
-export type EnviromentalPhysicsThrottleItem =
-	EnumItem<number, EnviromentalPhysicsThrottle, "DefaultAuto">
+export type EnviromentalPhysicsThrottle =
+	| EnumItem<number, EnviromentalPhysicsThrottle, "DefaultAuto">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Disabled">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Always">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Skip2">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Skip4">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Skip8">
 	| EnumItem<number, EnviromentalPhysicsThrottle, "Skip16">
-export type EnviromentalPhysicsThrottle = EnumObject<{
+export type EnviromentalPhysicsThrottleRoot = EnumObject<{
 	DefaultAuto: EnumItem<number, EnviromentalPhysicsThrottle, "DefaultAuto">,
 	Disabled: EnumItem<number, EnviromentalPhysicsThrottle, "Disabled">,
 	Always: EnumItem<number, EnviromentalPhysicsThrottle, "Always">,
@@ -2765,49 +3078,60 @@ export type EnviromentalPhysicsThrottle = EnumObject<{
 	Skip4: EnumItem<number, EnviromentalPhysicsThrottle, "Skip4">,
 	Skip8: EnumItem<number, EnviromentalPhysicsThrottle, "Skip8">,
 	Skip16: EnumItem<number, EnviromentalPhysicsThrottle, "Skip16">,
-}, EnviromentalPhysicsThrottleItem>
+}, EnviromentalPhysicsThrottle>
 Enum.EnviromentalPhysicsThrottle = {"DefaultAuto", "Disabled", "Always", "Skip2", "Skip4", "Skip8", "Skip16"}
 
-export type ExperienceAuthScopeItem =
-	EnumItem<number, ExperienceAuthScope, "DefaultScope">
+export type ExperienceAuthScope =
+	| EnumItem<number, ExperienceAuthScope, "DefaultScope">
 	| EnumItem<number, ExperienceAuthScope, "CreatorAssetsCreate">
-export type ExperienceAuthScope = EnumObject<{
+export type ExperienceAuthScopeRoot = EnumObject<{
 	DefaultScope: EnumItem<number, ExperienceAuthScope, "DefaultScope">,
 	CreatorAssetsCreate: EnumItem<number, ExperienceAuthScope, "CreatorAssetsCreate">,
-}, ExperienceAuthScopeItem>
+}, ExperienceAuthScope>
 Enum.ExperienceAuthScope = {"DefaultScope", "CreatorAssetsCreate"}
 
-export type ExplosionTypeItem = EnumItem<number, ExplosionType, "NoCraters"> | EnumItem<number, ExplosionType, "Craters">
-export type ExplosionType = EnumObject<{
+export type ExplosionType = | EnumItem<number, ExplosionType, "NoCraters"> | EnumItem<number, ExplosionType, "Craters">
+export type ExplosionTypeRoot = EnumObject<{
 	NoCraters: EnumItem<number, ExplosionType, "NoCraters">,
 	Craters: EnumItem<number, ExplosionType, "Craters">,
-}, ExplosionTypeItem>
+}, ExplosionType>
 Enum.ExplosionType = {"NoCraters", "Craters"}
 
-export type FACSDataLodItem =
-	EnumItem<number, FACSDataLod, "LOD0">
+export type FACSDataLod =
+	| EnumItem<number, FACSDataLod, "LOD0">
 	| EnumItem<number, FACSDataLod, "LOD1">
 	| EnumItem<number, FACSDataLod, "LODCount">
-export type FACSDataLod = EnumObject<{
+export type FACSDataLodRoot = EnumObject<{
 	LOD0: EnumItem<number, FACSDataLod, "LOD0">,
 	LOD1: EnumItem<number, FACSDataLod, "LOD1">,
 	LODCount: EnumItem<number, FACSDataLod, "LODCount">,
-}, FACSDataLodItem>
+}, FACSDataLod>
 Enum.FACSDataLod = {"LOD0", "LOD1", "LODCount"}
 
-export type FacialAnimationStreamingStateItem =
-	EnumItem<number, FacialAnimationStreamingState, "None">
+export type FacialAgeEstimationResultType =
+	| EnumItem<number, FacialAgeEstimationResultType, "Complete">
+	| EnumItem<number, FacialAgeEstimationResultType, "Cancel">
+	| EnumItem<number, FacialAgeEstimationResultType, "Error">
+export type FacialAgeEstimationResultTypeRoot = EnumObject<{
+	Complete: EnumItem<number, FacialAgeEstimationResultType, "Complete">,
+	Cancel: EnumItem<number, FacialAgeEstimationResultType, "Cancel">,
+	Error: EnumItem<number, FacialAgeEstimationResultType, "Error">,
+}, FacialAgeEstimationResultType>
+Enum.FacialAgeEstimationResultType = {"Complete", "Cancel", "Error"}
+
+export type FacialAnimationStreamingState =
+	| EnumItem<number, FacialAnimationStreamingState, "None">
 	| EnumItem<number, FacialAnimationStreamingState, "Audio">
 	| EnumItem<number, FacialAnimationStreamingState, "Video">
 	| EnumItem<number, FacialAnimationStreamingState, "Place">
 	| EnumItem<number, FacialAnimationStreamingState, "Server">
-export type FacialAnimationStreamingState = EnumObject<{
+export type FacialAnimationStreamingStateRoot = EnumObject<{
 	None: EnumItem<number, FacialAnimationStreamingState, "None">,
 	Audio: EnumItem<number, FacialAnimationStreamingState, "Audio">,
 	Video: EnumItem<number, FacialAnimationStreamingState, "Video">,
 	Place: EnumItem<number, FacialAnimationStreamingState, "Place">,
 	Server: EnumItem<number, FacialAnimationStreamingState, "Server">,
-}, FacialAnimationStreamingStateItem>
+}, FacialAnimationStreamingState>
 Enum.FacialAnimationStreamingState = {
 	None = 0;
 	Audio = 1;
@@ -2816,26 +3140,197 @@ Enum.FacialAnimationStreamingState = {
 	Server = 8;
 }
 
-export type FieldOfViewModeItem =
-	EnumItem<number, FieldOfViewMode, "Vertical">
+export type FacsActionUnit =
+	| EnumItem<number, FacsActionUnit, "ChinRaiserUpperLip">
+	| EnumItem<number, FacsActionUnit, "ChinRaiser">
+	| EnumItem<number, FacsActionUnit, "FlatPucker">
+	| EnumItem<number, FacsActionUnit, "Funneler">
+	| EnumItem<number, FacsActionUnit, "LowerLipSuck">
+	| EnumItem<number, FacsActionUnit, "LipPresser">
+	| EnumItem<number, FacsActionUnit, "LipsTogether">
+	| EnumItem<number, FacsActionUnit, "MouthLeft">
+	| EnumItem<number, FacsActionUnit, "MouthRight">
+	| EnumItem<number, FacsActionUnit, "Pucker">
+	| EnumItem<number, FacsActionUnit, "UpperLipSuck">
+	| EnumItem<number, FacsActionUnit, "LeftCheekPuff">
+	| EnumItem<number, FacsActionUnit, "LeftDimpler">
+	| EnumItem<number, FacsActionUnit, "LeftLipCornerDown">
+	| EnumItem<number, FacsActionUnit, "LeftLowerLipDepressor">
+	| EnumItem<number, FacsActionUnit, "LeftLipCornerPuller">
+	| EnumItem<number, FacsActionUnit, "LeftLipStretcher">
+	| EnumItem<number, FacsActionUnit, "LeftUpperLipRaiser">
+	| EnumItem<number, FacsActionUnit, "RightCheekPuff">
+	| EnumItem<number, FacsActionUnit, "RightDimpler">
+	| EnumItem<number, FacsActionUnit, "RightLipCornerDown">
+	| EnumItem<number, FacsActionUnit, "RightLowerLipDepressor">
+	| EnumItem<number, FacsActionUnit, "RightLipCornerPuller">
+	| EnumItem<number, FacsActionUnit, "RightLipStretcher">
+	| EnumItem<number, FacsActionUnit, "RightUpperLipRaiser">
+	| EnumItem<number, FacsActionUnit, "JawDrop">
+	| EnumItem<number, FacsActionUnit, "JawLeft">
+	| EnumItem<number, FacsActionUnit, "JawRight">
+	| EnumItem<number, FacsActionUnit, "Corrugator">
+	| EnumItem<number, FacsActionUnit, "LeftBrowLowerer">
+	| EnumItem<number, FacsActionUnit, "LeftOuterBrowRaiser">
+	| EnumItem<number, FacsActionUnit, "LeftNoseWrinkler">
+	| EnumItem<number, FacsActionUnit, "LeftInnerBrowRaiser">
+	| EnumItem<number, FacsActionUnit, "RightBrowLowerer">
+	| EnumItem<number, FacsActionUnit, "RightOuterBrowRaiser">
+	| EnumItem<number, FacsActionUnit, "RightInnerBrowRaiser">
+	| EnumItem<number, FacsActionUnit, "RightNoseWrinkler">
+	| EnumItem<number, FacsActionUnit, "EyesLookDown">
+	| EnumItem<number, FacsActionUnit, "EyesLookLeft">
+	| EnumItem<number, FacsActionUnit, "EyesLookUp">
+	| EnumItem<number, FacsActionUnit, "EyesLookRight">
+	| EnumItem<number, FacsActionUnit, "LeftCheekRaiser">
+	| EnumItem<number, FacsActionUnit, "LeftEyeUpperLidRaiser">
+	| EnumItem<number, FacsActionUnit, "LeftEyeClosed">
+	| EnumItem<number, FacsActionUnit, "RightCheekRaiser">
+	| EnumItem<number, FacsActionUnit, "RightEyeUpperLidRaiser">
+	| EnumItem<number, FacsActionUnit, "RightEyeClosed">
+	| EnumItem<number, FacsActionUnit, "TongueDown">
+	| EnumItem<number, FacsActionUnit, "TongueOut">
+	| EnumItem<number, FacsActionUnit, "TongueUp">
+export type FacsActionUnitRoot = EnumObject<{
+	ChinRaiserUpperLip: EnumItem<number, FacsActionUnit, "ChinRaiserUpperLip">,
+	ChinRaiser: EnumItem<number, FacsActionUnit, "ChinRaiser">,
+	FlatPucker: EnumItem<number, FacsActionUnit, "FlatPucker">,
+	Funneler: EnumItem<number, FacsActionUnit, "Funneler">,
+	LowerLipSuck: EnumItem<number, FacsActionUnit, "LowerLipSuck">,
+	LipPresser: EnumItem<number, FacsActionUnit, "LipPresser">,
+	LipsTogether: EnumItem<number, FacsActionUnit, "LipsTogether">,
+	MouthLeft: EnumItem<number, FacsActionUnit, "MouthLeft">,
+	MouthRight: EnumItem<number, FacsActionUnit, "MouthRight">,
+	Pucker: EnumItem<number, FacsActionUnit, "Pucker">,
+	UpperLipSuck: EnumItem<number, FacsActionUnit, "UpperLipSuck">,
+	LeftCheekPuff: EnumItem<number, FacsActionUnit, "LeftCheekPuff">,
+	LeftDimpler: EnumItem<number, FacsActionUnit, "LeftDimpler">,
+	LeftLipCornerDown: EnumItem<number, FacsActionUnit, "LeftLipCornerDown">,
+	LeftLowerLipDepressor: EnumItem<number, FacsActionUnit, "LeftLowerLipDepressor">,
+	LeftLipCornerPuller: EnumItem<number, FacsActionUnit, "LeftLipCornerPuller">,
+	LeftLipStretcher: EnumItem<number, FacsActionUnit, "LeftLipStretcher">,
+	LeftUpperLipRaiser: EnumItem<number, FacsActionUnit, "LeftUpperLipRaiser">,
+	RightCheekPuff: EnumItem<number, FacsActionUnit, "RightCheekPuff">,
+	RightDimpler: EnumItem<number, FacsActionUnit, "RightDimpler">,
+	RightLipCornerDown: EnumItem<number, FacsActionUnit, "RightLipCornerDown">,
+	RightLowerLipDepressor: EnumItem<number, FacsActionUnit, "RightLowerLipDepressor">,
+	RightLipCornerPuller: EnumItem<number, FacsActionUnit, "RightLipCornerPuller">,
+	RightLipStretcher: EnumItem<number, FacsActionUnit, "RightLipStretcher">,
+	RightUpperLipRaiser: EnumItem<number, FacsActionUnit, "RightUpperLipRaiser">,
+	JawDrop: EnumItem<number, FacsActionUnit, "JawDrop">,
+	JawLeft: EnumItem<number, FacsActionUnit, "JawLeft">,
+	JawRight: EnumItem<number, FacsActionUnit, "JawRight">,
+	Corrugator: EnumItem<number, FacsActionUnit, "Corrugator">,
+	LeftBrowLowerer: EnumItem<number, FacsActionUnit, "LeftBrowLowerer">,
+	LeftOuterBrowRaiser: EnumItem<number, FacsActionUnit, "LeftOuterBrowRaiser">,
+	LeftNoseWrinkler: EnumItem<number, FacsActionUnit, "LeftNoseWrinkler">,
+	LeftInnerBrowRaiser: EnumItem<number, FacsActionUnit, "LeftInnerBrowRaiser">,
+	RightBrowLowerer: EnumItem<number, FacsActionUnit, "RightBrowLowerer">,
+	RightOuterBrowRaiser: EnumItem<number, FacsActionUnit, "RightOuterBrowRaiser">,
+	RightInnerBrowRaiser: EnumItem<number, FacsActionUnit, "RightInnerBrowRaiser">,
+	RightNoseWrinkler: EnumItem<number, FacsActionUnit, "RightNoseWrinkler">,
+	EyesLookDown: EnumItem<number, FacsActionUnit, "EyesLookDown">,
+	EyesLookLeft: EnumItem<number, FacsActionUnit, "EyesLookLeft">,
+	EyesLookUp: EnumItem<number, FacsActionUnit, "EyesLookUp">,
+	EyesLookRight: EnumItem<number, FacsActionUnit, "EyesLookRight">,
+	LeftCheekRaiser: EnumItem<number, FacsActionUnit, "LeftCheekRaiser">,
+	LeftEyeUpperLidRaiser: EnumItem<number, FacsActionUnit, "LeftEyeUpperLidRaiser">,
+	LeftEyeClosed: EnumItem<number, FacsActionUnit, "LeftEyeClosed">,
+	RightCheekRaiser: EnumItem<number, FacsActionUnit, "RightCheekRaiser">,
+	RightEyeUpperLidRaiser: EnumItem<number, FacsActionUnit, "RightEyeUpperLidRaiser">,
+	RightEyeClosed: EnumItem<number, FacsActionUnit, "RightEyeClosed">,
+	TongueDown: EnumItem<number, FacsActionUnit, "TongueDown">,
+	TongueOut: EnumItem<number, FacsActionUnit, "TongueOut">,
+	TongueUp: EnumItem<number, FacsActionUnit, "TongueUp">,
+}, FacsActionUnit>
+Enum.FacsActionUnit = {
+	"ChinRaiserUpperLip";
+	"ChinRaiser";
+	"FlatPucker";
+	"Funneler";
+	"LowerLipSuck";
+	"LipPresser";
+	"LipsTogether";
+	"MouthLeft";
+	"MouthRight";
+	"Pucker";
+	"UpperLipSuck";
+	"LeftCheekPuff";
+	"LeftDimpler";
+	"LeftLipCornerDown";
+	"LeftLowerLipDepressor";
+	"LeftLipCornerPuller";
+	"LeftLipStretcher";
+	"LeftUpperLipRaiser";
+	"RightCheekPuff";
+	"RightDimpler";
+	"RightLipCornerDown";
+	"RightLowerLipDepressor";
+	"RightLipCornerPuller";
+	"RightLipStretcher";
+	"RightUpperLipRaiser";
+	"JawDrop";
+	"JawLeft";
+	"JawRight";
+	"Corrugator";
+	"LeftBrowLowerer";
+	"LeftOuterBrowRaiser";
+	"LeftNoseWrinkler";
+	"LeftInnerBrowRaiser";
+	"RightBrowLowerer";
+	"RightOuterBrowRaiser";
+	"RightInnerBrowRaiser";
+	"RightNoseWrinkler";
+	"EyesLookDown";
+	"EyesLookLeft";
+	"EyesLookUp";
+	"EyesLookRight";
+	"LeftCheekRaiser";
+	"LeftEyeUpperLidRaiser";
+	"LeftEyeClosed";
+	"RightCheekRaiser";
+	"RightEyeUpperLidRaiser";
+	"RightEyeClosed";
+	"TongueDown";
+	"TongueOut";
+	"TongueUp";
+}
+
+export type FeedRankingScoreType =
+	| EnumItem<number, FeedRankingScoreType, "Content">
+	| EnumItem<number, FeedRankingScoreType, "Final">
+	| EnumItem<number, FeedRankingScoreType, "GameJoin">
+	| EnumItem<number, FeedRankingScoreType, "Interaction">
+	| EnumItem<number, FeedRankingScoreType, "Sharing">
+export type FeedRankingScoreTypeRoot = EnumObject<{
+	Content: EnumItem<number, FeedRankingScoreType, "Content">,
+	Final: EnumItem<number, FeedRankingScoreType, "Final">,
+	GameJoin: EnumItem<number, FeedRankingScoreType, "GameJoin">,
+	Interaction: EnumItem<number, FeedRankingScoreType, "Interaction">,
+	Sharing: EnumItem<number, FeedRankingScoreType, "Sharing">,
+}, FeedRankingScoreType>
+Enum.FeedRankingScoreType = {"Content", "Final", "GameJoin", "Interaction", "Sharing"}
+
+export type FieldOfViewMode =
+	| EnumItem<number, FieldOfViewMode, "Vertical">
 	| EnumItem<number, FieldOfViewMode, "Diagonal">
 	| EnumItem<number, FieldOfViewMode, "MaxAxis">
-export type FieldOfViewMode = EnumObject<{
+export type FieldOfViewModeRoot = EnumObject<{
 	Vertical: EnumItem<number, FieldOfViewMode, "Vertical">,
 	Diagonal: EnumItem<number, FieldOfViewMode, "Diagonal">,
 	MaxAxis: EnumItem<number, FieldOfViewMode, "MaxAxis">,
-}, FieldOfViewModeItem>
+}, FieldOfViewMode>
 Enum.FieldOfViewMode = {"Vertical", "Diagonal", "MaxAxis"}
 
-export type FillDirectionItem = EnumItem<number, FillDirection, "Horizontal"> | EnumItem<number, FillDirection, "Vertical">
-export type FillDirection = EnumObject<{
+export type FillDirection = | EnumItem<number, FillDirection, "Horizontal"> | EnumItem<number, FillDirection, "Vertical">
+export type FillDirectionRoot = EnumObject<{
 	Horizontal: EnumItem<number, FillDirection, "Horizontal">,
 	Vertical: EnumItem<number, FillDirection, "Vertical">,
-}, FillDirectionItem>
+}, FillDirection>
 Enum.FillDirection = {"Horizontal", "Vertical"}
 
-export type FilterErrorTypeItem =
-	EnumItem<number, FilterErrorType, "BackslashNotEscapingAnything">
+export type FilterErrorType =
+	| EnumItem<number, FilterErrorType, "BackslashNotEscapingAnything">
 	| EnumItem<number, FilterErrorType, "BadBespokeFilter">
 	| EnumItem<number, FilterErrorType, "BadName">
 	| EnumItem<number, FilterErrorType, "IncompleteOr">
@@ -2854,7 +3349,7 @@ export type FilterErrorTypeItem =
 	| EnumItem<number, FilterErrorType, "UnfinishedQuote">
 	| EnumItem<number, FilterErrorType, "UnknownBespokeFilter">
 	| EnumItem<number, FilterErrorType, "WildcardInProperty">
-export type FilterErrorType = EnumObject<{
+export type FilterErrorTypeRoot = EnumObject<{
 	BackslashNotEscapingAnything: EnumItem<number, FilterErrorType, "BackslashNotEscapingAnything">,
 	BadBespokeFilter: EnumItem<number, FilterErrorType, "BadBespokeFilter">,
 	BadName: EnumItem<number, FilterErrorType, "BadName">,
@@ -2874,7 +3369,7 @@ export type FilterErrorType = EnumObject<{
 	UnfinishedQuote: EnumItem<number, FilterErrorType, "UnfinishedQuote">,
 	UnknownBespokeFilter: EnumItem<number, FilterErrorType, "UnknownBespokeFilter">,
 	WildcardInProperty: EnumItem<number, FilterErrorType, "WildcardInProperty">,
-}, FilterErrorTypeItem>
+}, FilterErrorType>
 Enum.FilterErrorType = {
 	"BackslashNotEscapingAnything";
 	"BadBespokeFilter";
@@ -2897,44 +3392,44 @@ Enum.FilterErrorType = {
 	"WildcardInProperty";
 }
 
-export type FilterResultItem = EnumItem<number, FilterResult, "Accepted"> | EnumItem<number, FilterResult, "Rejected">
-export type FilterResult = EnumObject<{
+export type FilterResult = | EnumItem<number, FilterResult, "Accepted"> | EnumItem<number, FilterResult, "Rejected">
+export type FilterResultRoot = EnumObject<{
 	Accepted: EnumItem<number, FilterResult, "Accepted">,
 	Rejected: EnumItem<number, FilterResult, "Rejected">,
-}, FilterResultItem>
+}, FilterResult>
 Enum.FilterResult = {"Accepted", "Rejected"}
 
-export type FinishRecordingOperationItem =
-	EnumItem<number, FinishRecordingOperation, "Cancel">
+export type FinishRecordingOperation =
+	| EnumItem<number, FinishRecordingOperation, "Cancel">
 	| EnumItem<number, FinishRecordingOperation, "Commit">
 	| EnumItem<number, FinishRecordingOperation, "Append">
-export type FinishRecordingOperation = EnumObject<{
+export type FinishRecordingOperationRoot = EnumObject<{
 	Cancel: EnumItem<number, FinishRecordingOperation, "Cancel">,
 	Commit: EnumItem<number, FinishRecordingOperation, "Commit">,
 	Append: EnumItem<number, FinishRecordingOperation, "Append">,
-}, FinishRecordingOperationItem>
+}, FinishRecordingOperation>
 Enum.FinishRecordingOperation = {"Cancel", "Commit", "Append"}
 
-export type FluidFidelityItem =
-	EnumItem<number, FluidFidelity, "Automatic">
+export type FluidFidelity =
+	| EnumItem<number, FluidFidelity, "Automatic">
 	| EnumItem<number, FluidFidelity, "UseCollisionGeometry">
 	| EnumItem<number, FluidFidelity, "UsePreciseGeometry">
-export type FluidFidelity = EnumObject<{
+export type FluidFidelityRoot = EnumObject<{
 	Automatic: EnumItem<number, FluidFidelity, "Automatic">,
 	UseCollisionGeometry: EnumItem<number, FluidFidelity, "UseCollisionGeometry">,
 	UsePreciseGeometry: EnumItem<number, FluidFidelity, "UsePreciseGeometry">,
-}, FluidFidelityItem>
+}, FluidFidelity>
 Enum.FluidFidelity = {"Automatic", "UseCollisionGeometry", "UsePreciseGeometry"}
 
-export type FluidForcesItem = EnumItem<number, FluidForces, "Default"> | EnumItem<number, FluidForces, "Experimental">
-export type FluidForces = EnumObject<{
+export type FluidForces = | EnumItem<number, FluidForces, "Default"> | EnumItem<number, FluidForces, "Experimental">
+export type FluidForcesRoot = EnumObject<{
 	Default: EnumItem<number, FluidForces, "Default">,
 	Experimental: EnumItem<number, FluidForces, "Experimental">,
-}, FluidForcesItem>
+}, FluidForces>
 Enum.FluidForces = {"Default", "Experimental"}
 
-export type FontItem =
-	EnumItem<number, Font, "Legacy">
+export type Font =
+	| EnumItem<number, Font, "Legacy">
 	| EnumItem<number, Font, "Arial">
 	| EnumItem<number, Font, "ArialBold">
 	| EnumItem<number, Font, "SourceSans">
@@ -2987,7 +3482,7 @@ export type FontItem =
 	| EnumItem<number, Font, "Arimo">
 	| EnumItem<number, Font, "ArimoBold">
 	| EnumItem<number, Font, "Unknown">
-export type Font = EnumObject<{
+export type FontRoot = EnumObject<{
 	Legacy: EnumItem<number, Font, "Legacy">,
 	Arial: EnumItem<number, Font, "Arial">,
 	ArialBold: EnumItem<number, Font, "ArialBold">,
@@ -3041,7 +3536,7 @@ export type Font = EnumObject<{
 	Arimo: EnumItem<number, Font, "Arimo">,
 	ArimoBold: EnumItem<number, Font, "ArimoBold">,
 	Unknown: EnumItem<number, Font, "Unknown">,
-}, FontItem>
+}, Font>
 Enum.Font = {
 	Legacy = 0;
 	Arial = 1;
@@ -3098,8 +3593,8 @@ Enum.Font = {
 	Unknown = 100;
 }
 
-export type FontSizeItem =
-	EnumItem<number, FontSize, "Size8">
+export type FontSize =
+	| EnumItem<number, FontSize, "Size8">
 	| EnumItem<number, FontSize, "Size9">
 	| EnumItem<number, FontSize, "Size10">
 	| EnumItem<number, FontSize, "Size11">
@@ -3114,7 +3609,7 @@ export type FontSizeItem =
 	| EnumItem<number, FontSize, "Size42">
 	| EnumItem<number, FontSize, "Size60">
 	| EnumItem<number, FontSize, "Size96">
-export type FontSize = EnumObject<{
+export type FontSizeRoot = EnumObject<{
 	Size8: EnumItem<number, FontSize, "Size8">,
 	Size9: EnumItem<number, FontSize, "Size9">,
 	Size10: EnumItem<number, FontSize, "Size10">,
@@ -3130,7 +3625,7 @@ export type FontSize = EnumObject<{
 	Size42: EnumItem<number, FontSize, "Size42">,
 	Size60: EnumItem<number, FontSize, "Size60">,
 	Size96: EnumItem<number, FontSize, "Size96">,
-}, FontSizeItem>
+}, FontSize>
 Enum.FontSize = {
 	"Size8";
 	"Size9";
@@ -3149,15 +3644,15 @@ Enum.FontSize = {
 	"Size96";
 }
 
-export type FontStyleItem = EnumItem<number, FontStyle, "Normal"> | EnumItem<number, FontStyle, "Italic">
-export type FontStyle = EnumObject<{
+export type FontStyle = | EnumItem<number, FontStyle, "Normal"> | EnumItem<number, FontStyle, "Italic">
+export type FontStyleRoot = EnumObject<{
 	Normal: EnumItem<number, FontStyle, "Normal">,
 	Italic: EnumItem<number, FontStyle, "Italic">,
-}, FontStyleItem>
+}, FontStyle>
 Enum.FontStyle = {"Normal", "Italic"}
 
-export type FontWeightItem =
-	EnumItem<number, FontWeight, "Thin">
+export type FontWeight =
+	| EnumItem<number, FontWeight, "Thin">
 	| EnumItem<number, FontWeight, "ExtraLight">
 	| EnumItem<number, FontWeight, "Light">
 	| EnumItem<number, FontWeight, "Regular">
@@ -3166,7 +3661,7 @@ export type FontWeightItem =
 	| EnumItem<number, FontWeight, "Bold">
 	| EnumItem<number, FontWeight, "ExtraBold">
 	| EnumItem<number, FontWeight, "Heavy">
-export type FontWeight = EnumObject<{
+export type FontWeightRoot = EnumObject<{
 	Thin: EnumItem<number, FontWeight, "Thin">,
 	ExtraLight: EnumItem<number, FontWeight, "ExtraLight">,
 	Light: EnumItem<number, FontWeight, "Light">,
@@ -3176,7 +3671,7 @@ export type FontWeight = EnumObject<{
 	Bold: EnumItem<number, FontWeight, "Bold">,
 	ExtraBold: EnumItem<number, FontWeight, "ExtraBold">,
 	Heavy: EnumItem<number, FontWeight, "Heavy">,
-}, FontWeightItem>
+}, FontWeight>
 Enum.FontWeight = {
 	Thin = 100;
 	ExtraLight = 200;
@@ -3189,37 +3684,35 @@ Enum.FontWeight = {
 	Heavy = 900;
 }
 
-export type ForceLimitModeItem =
-	EnumItem<number, ForceLimitMode, "Magnitude">
-	| EnumItem<number, ForceLimitMode, "PerAxis">
-export type ForceLimitMode = EnumObject<{
+export type ForceLimitMode = | EnumItem<number, ForceLimitMode, "Magnitude"> | EnumItem<number, ForceLimitMode, "PerAxis">
+export type ForceLimitModeRoot = EnumObject<{
 	Magnitude: EnumItem<number, ForceLimitMode, "Magnitude">,
 	PerAxis: EnumItem<number, ForceLimitMode, "PerAxis">,
-}, ForceLimitModeItem>
+}, ForceLimitMode>
 Enum.ForceLimitMode = {"Magnitude", "PerAxis"}
 
-export type FormFactorItem =
-	EnumItem<number, FormFactor, "Symmetric">
+export type FormFactor =
+	| EnumItem<number, FormFactor, "Symmetric">
 	| EnumItem<number, FormFactor, "Brick">
 	| EnumItem<number, FormFactor, "Plate">
 	| EnumItem<number, FormFactor, "Custom">
-export type FormFactor = EnumObject<{
+export type FormFactorRoot = EnumObject<{
 	Symmetric: EnumItem<number, FormFactor, "Symmetric">,
 	Brick: EnumItem<number, FormFactor, "Brick">,
 	Plate: EnumItem<number, FormFactor, "Plate">,
 	Custom: EnumItem<number, FormFactor, "Custom">,
-}, FormFactorItem>
+}, FormFactor>
 Enum.FormFactor = {"Symmetric", "Brick", "Plate", "Custom"}
 
-export type FrameStyleItem =
-	EnumItem<number, FrameStyle, "Custom">
+export type FrameStyle =
+	| EnumItem<number, FrameStyle, "Custom">
 	| EnumItem<number, FrameStyle, "ChatBlue">
 	| EnumItem<number, FrameStyle, "RobloxSquare">
 	| EnumItem<number, FrameStyle, "RobloxRound">
 	| EnumItem<number, FrameStyle, "ChatGreen">
 	| EnumItem<number, FrameStyle, "ChatRed">
 	| EnumItem<number, FrameStyle, "DropShadow">
-export type FrameStyle = EnumObject<{
+export type FrameStyleRoot = EnumObject<{
 	Custom: EnumItem<number, FrameStyle, "Custom">,
 	ChatBlue: EnumItem<number, FrameStyle, "ChatBlue">,
 	RobloxSquare: EnumItem<number, FrameStyle, "RobloxSquare">,
@@ -3227,94 +3720,94 @@ export type FrameStyle = EnumObject<{
 	ChatGreen: EnumItem<number, FrameStyle, "ChatGreen">,
 	ChatRed: EnumItem<number, FrameStyle, "ChatRed">,
 	DropShadow: EnumItem<number, FrameStyle, "DropShadow">,
-}, FrameStyleItem>
+}, FrameStyle>
 Enum.FrameStyle = {"Custom", "ChatBlue", "RobloxSquare", "RobloxRound", "ChatGreen", "ChatRed", "DropShadow"}
 
-export type FramerateManagerModeItem =
-	EnumItem<number, FramerateManagerMode, "Automatic">
+export type FramerateManagerMode =
+	| EnumItem<number, FramerateManagerMode, "Automatic">
 	| EnumItem<number, FramerateManagerMode, "On">
 	| EnumItem<number, FramerateManagerMode, "Off">
-export type FramerateManagerMode = EnumObject<{
+export type FramerateManagerModeRoot = EnumObject<{
 	Automatic: EnumItem<number, FramerateManagerMode, "Automatic">,
 	On: EnumItem<number, FramerateManagerMode, "On">,
 	Off: EnumItem<number, FramerateManagerMode, "Off">,
-}, FramerateManagerModeItem>
+}, FramerateManagerMode>
 Enum.FramerateManagerMode = {"Automatic", "On", "Off"}
 
-export type FriendRequestEventItem =
-	EnumItem<number, FriendRequestEvent, "Issue">
+export type FriendRequestEvent =
+	| EnumItem<number, FriendRequestEvent, "Issue">
 	| EnumItem<number, FriendRequestEvent, "Revoke">
 	| EnumItem<number, FriendRequestEvent, "Accept">
 	| EnumItem<number, FriendRequestEvent, "Deny">
-export type FriendRequestEvent = EnumObject<{
+export type FriendRequestEventRoot = EnumObject<{
 	Issue: EnumItem<number, FriendRequestEvent, "Issue">,
 	Revoke: EnumItem<number, FriendRequestEvent, "Revoke">,
 	Accept: EnumItem<number, FriendRequestEvent, "Accept">,
 	Deny: EnumItem<number, FriendRequestEvent, "Deny">,
-}, FriendRequestEventItem>
+}, FriendRequestEvent>
 Enum.FriendRequestEvent = {"Issue", "Revoke", "Accept", "Deny"}
 
-export type FriendStatusItem =
-	EnumItem<number, FriendStatus, "Unknown">
+export type FriendStatus =
+	| EnumItem<number, FriendStatus, "Unknown">
 	| EnumItem<number, FriendStatus, "NotFriend">
 	| EnumItem<number, FriendStatus, "Friend">
 	| EnumItem<number, FriendStatus, "FriendRequestSent">
 	| EnumItem<number, FriendStatus, "FriendRequestReceived">
-export type FriendStatus = EnumObject<{
+export type FriendStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, FriendStatus, "Unknown">,
 	NotFriend: EnumItem<number, FriendStatus, "NotFriend">,
 	Friend: EnumItem<number, FriendStatus, "Friend">,
 	FriendRequestSent: EnumItem<number, FriendStatus, "FriendRequestSent">,
 	FriendRequestReceived: EnumItem<number, FriendStatus, "FriendRequestReceived">,
-}, FriendStatusItem>
+}, FriendStatus>
 Enum.FriendStatus = {"Unknown", "NotFriend", "Friend", "FriendRequestSent", "FriendRequestReceived"}
 
-export type FunctionalTestResultItem =
-	EnumItem<number, FunctionalTestResult, "Passed">
+export type FunctionalTestResult =
+	| EnumItem<number, FunctionalTestResult, "Passed">
 	| EnumItem<number, FunctionalTestResult, "Warning">
 	| EnumItem<number, FunctionalTestResult, "Error">
-export type FunctionalTestResult = EnumObject<{
+export type FunctionalTestResultRoot = EnumObject<{
 	Passed: EnumItem<number, FunctionalTestResult, "Passed">,
 	Warning: EnumItem<number, FunctionalTestResult, "Warning">,
 	Error: EnumItem<number, FunctionalTestResult, "Error">,
-}, FunctionalTestResultItem>
+}, FunctionalTestResult>
 Enum.FunctionalTestResult = {"Passed", "Warning", "Error"}
 
-export type GameAvatarTypeItem =
-	EnumItem<number, GameAvatarType, "R6">
+export type GameAvatarType =
+	| EnumItem<number, GameAvatarType, "R6">
 	| EnumItem<number, GameAvatarType, "R15">
 	| EnumItem<number, GameAvatarType, "PlayerChoice">
-export type GameAvatarType = EnumObject<{
+export type GameAvatarTypeRoot = EnumObject<{
 	R6: EnumItem<number, GameAvatarType, "R6">,
 	R15: EnumItem<number, GameAvatarType, "R15">,
 	PlayerChoice: EnumItem<number, GameAvatarType, "PlayerChoice">,
-}, GameAvatarTypeItem>
+}, GameAvatarType>
 Enum.GameAvatarType = {"R6", "R15", "PlayerChoice"}
 
-export type GamepadTypeItem =
-	EnumItem<number, GamepadType, "Unknown">
+export type GamepadType =
+	| EnumItem<number, GamepadType, "Unknown">
 	| EnumItem<number, GamepadType, "PS4">
 	| EnumItem<number, GamepadType, "PS5">
 	| EnumItem<number, GamepadType, "XboxOne">
-export type GamepadType = EnumObject<{
+export type GamepadTypeRoot = EnumObject<{
 	Unknown: EnumItem<number, GamepadType, "Unknown">,
 	PS4: EnumItem<number, GamepadType, "PS4">,
 	PS5: EnumItem<number, GamepadType, "PS5">,
 	XboxOne: EnumItem<number, GamepadType, "XboxOne">,
-}, GamepadTypeItem>
+}, GamepadType>
 Enum.GamepadType = {"Unknown", "PS4", "PS5", "XboxOne"}
 
-export type GearGenreSettingItem =
-	EnumItem<number, GearGenreSetting, "AllGenres">
+export type GearGenreSetting =
+	| EnumItem<number, GearGenreSetting, "AllGenres">
 	| EnumItem<number, GearGenreSetting, "MatchingGenreOnly">
-export type GearGenreSetting = EnumObject<{
+export type GearGenreSettingRoot = EnumObject<{
 	AllGenres: EnumItem<number, GearGenreSetting, "AllGenres">,
 	MatchingGenreOnly: EnumItem<number, GearGenreSetting, "MatchingGenreOnly">,
-}, GearGenreSettingItem>
+}, GearGenreSetting>
 Enum.GearGenreSetting = {"AllGenres", "MatchingGenreOnly"}
 
-export type GearTypeItem =
-	EnumItem<number, GearType, "MeleeWeapons">
+export type GearType =
+	| EnumItem<number, GearType, "MeleeWeapons">
 	| EnumItem<number, GearType, "RangedWeapons">
 	| EnumItem<number, GearType, "Explosives">
 	| EnumItem<number, GearType, "PowerUps">
@@ -3323,7 +3816,7 @@ export type GearTypeItem =
 	| EnumItem<number, GearType, "SocialItems">
 	| EnumItem<number, GearType, "BuildingTools">
 	| EnumItem<number, GearType, "Transport">
-export type GearType = EnumObject<{
+export type GearTypeRoot = EnumObject<{
 	MeleeWeapons: EnumItem<number, GearType, "MeleeWeapons">,
 	RangedWeapons: EnumItem<number, GearType, "RangedWeapons">,
 	Explosives: EnumItem<number, GearType, "Explosives">,
@@ -3333,7 +3826,7 @@ export type GearType = EnumObject<{
 	SocialItems: EnumItem<number, GearType, "SocialItems">,
 	BuildingTools: EnumItem<number, GearType, "BuildingTools">,
 	Transport: EnumItem<number, GearType, "Transport">,
-}, GearTypeItem>
+}, GearType>
 Enum.GearType = {
 	"MeleeWeapons";
 	"RangedWeapons";
@@ -3346,8 +3839,8 @@ Enum.GearType = {
 	"Transport";
 }
 
-export type GenreItem =
-	EnumItem<number, Genre, "All">
+export type Genre =
+	| EnumItem<number, Genre, "All">
 	| EnumItem<number, Genre, "TownAndCity">
 	| EnumItem<number, Genre, "Fantasy">
 	| EnumItem<number, Genre, "SciFi">
@@ -3361,7 +3854,7 @@ export type GenreItem =
 	| EnumItem<number, Genre, "War">
 	| EnumItem<number, Genre, "SkatePark">
 	| EnumItem<number, Genre, "Tutorial">
-export type Genre = EnumObject<{
+export type GenreRoot = EnumObject<{
 	All: EnumItem<number, Genre, "All">,
 	TownAndCity: EnumItem<number, Genre, "TownAndCity">,
 	Fantasy: EnumItem<number, Genre, "Fantasy">,
@@ -3376,7 +3869,7 @@ export type Genre = EnumObject<{
 	War: EnumItem<number, Genre, "War">,
 	SkatePark: EnumItem<number, Genre, "SkatePark">,
 	Tutorial: EnumItem<number, Genre, "Tutorial">,
-}, GenreItem>
+}, Genre>
 Enum.Genre = {
 	"All";
 	"TownAndCity";
@@ -3394,21 +3887,21 @@ Enum.Genre = {
 	"Tutorial";
 }
 
-export type GraphicsModeItem =
-	EnumItem<number, GraphicsMode, "Automatic">
+export type GraphicsMode =
+	| EnumItem<number, GraphicsMode, "Automatic">
 	| EnumItem<number, GraphicsMode, "Direct3D11">
 	| EnumItem<number, GraphicsMode, "OpenGL">
 	| EnumItem<number, GraphicsMode, "Metal">
 	| EnumItem<number, GraphicsMode, "Vulkan">
 	| EnumItem<number, GraphicsMode, "NoGraphics">
-export type GraphicsMode = EnumObject<{
+export type GraphicsModeRoot = EnumObject<{
 	Automatic: EnumItem<number, GraphicsMode, "Automatic">,
 	Direct3D11: EnumItem<number, GraphicsMode, "Direct3D11">,
 	OpenGL: EnumItem<number, GraphicsMode, "OpenGL">,
 	Metal: EnumItem<number, GraphicsMode, "Metal">,
 	Vulkan: EnumItem<number, GraphicsMode, "Vulkan">,
 	NoGraphics: EnumItem<number, GraphicsMode, "NoGraphics">,
-}, GraphicsModeItem>
+}, GraphicsMode>
 Enum.GraphicsMode = {
 	Automatic = 1;
 	Direct3D11 = 2;
@@ -3418,141 +3911,143 @@ Enum.GraphicsMode = {
 	NoGraphics = 9;
 }
 
-export type GraphicsOptimizationModeItem =
-	EnumItem<number, GraphicsOptimizationMode, "Performance">
+export type GraphicsOptimizationMode =
+	| EnumItem<number, GraphicsOptimizationMode, "Performance">
 	| EnumItem<number, GraphicsOptimizationMode, "Balanced">
 	| EnumItem<number, GraphicsOptimizationMode, "Quality">
-export type GraphicsOptimizationMode = EnumObject<{
+export type GraphicsOptimizationModeRoot = EnumObject<{
 	Performance: EnumItem<number, GraphicsOptimizationMode, "Performance">,
 	Balanced: EnumItem<number, GraphicsOptimizationMode, "Balanced">,
 	Quality: EnumItem<number, GraphicsOptimizationMode, "Quality">,
-}, GraphicsOptimizationModeItem>
+}, GraphicsOptimizationMode>
 Enum.GraphicsOptimizationMode = {"Performance", "Balanced", "Quality"}
 
-export type GuiStateItem =
-	EnumItem<number, GuiState, "Idle">
+export type GuiState =
+	| EnumItem<number, GuiState, "Idle">
 	| EnumItem<number, GuiState, "Hover">
 	| EnumItem<number, GuiState, "Press">
 	| EnumItem<number, GuiState, "NonInteractable">
-export type GuiState = EnumObject<{
+export type GuiStateRoot = EnumObject<{
 	Idle: EnumItem<number, GuiState, "Idle">,
 	Hover: EnumItem<number, GuiState, "Hover">,
 	Press: EnumItem<number, GuiState, "Press">,
 	NonInteractable: EnumItem<number, GuiState, "NonInteractable">,
-}, GuiStateItem>
+}, GuiState>
 Enum.GuiState = {"Idle", "Hover", "Press", "NonInteractable"}
 
-export type GuiTypeItem =
-	EnumItem<number, GuiType, "Core">
+export type GuiType =
+	| EnumItem<number, GuiType, "Core">
 	| EnumItem<number, GuiType, "Custom">
 	| EnumItem<number, GuiType, "PlayerNameplates">
 	| EnumItem<number, GuiType, "CustomBillboards">
 	| EnumItem<number, GuiType, "CoreBillboards">
-export type GuiType = EnumObject<{
+export type GuiTypeRoot = EnumObject<{
 	Core: EnumItem<number, GuiType, "Core">,
 	Custom: EnumItem<number, GuiType, "Custom">,
 	PlayerNameplates: EnumItem<number, GuiType, "PlayerNameplates">,
 	CustomBillboards: EnumItem<number, GuiType, "CustomBillboards">,
 	CoreBillboards: EnumItem<number, GuiType, "CoreBillboards">,
-}, GuiTypeItem>
+}, GuiType>
 Enum.GuiType = {"Core", "Custom", "PlayerNameplates", "CustomBillboards", "CoreBillboards"}
 
-export type HandlesStyleItem = EnumItem<number, HandlesStyle, "Resize"> | EnumItem<number, HandlesStyle, "Movement">
-export type HandlesStyle = EnumObject<{
+export type HandlesStyle = | EnumItem<number, HandlesStyle, "Resize"> | EnumItem<number, HandlesStyle, "Movement">
+export type HandlesStyleRoot = EnumObject<{
 	Resize: EnumItem<number, HandlesStyle, "Resize">,
 	Movement: EnumItem<number, HandlesStyle, "Movement">,
-}, HandlesStyleItem>
+}, HandlesStyle>
 Enum.HandlesStyle = {"Resize", "Movement"}
 
-export type HapticEffectTypeItem =
-	EnumItem<number, HapticEffectType, "UIHover">
+export type HapticEffectType =
+	| EnumItem<number, HapticEffectType, "Custom">
+	| EnumItem<number, HapticEffectType, "UIHover">
 	| EnumItem<number, HapticEffectType, "UIClick">
 	| EnumItem<number, HapticEffectType, "UINotification">
 	| EnumItem<number, HapticEffectType, "GameplayExplosion">
 	| EnumItem<number, HapticEffectType, "GameplayCollision">
-export type HapticEffectType = EnumObject<{
+export type HapticEffectTypeRoot = EnumObject<{
+	Custom: EnumItem<number, HapticEffectType, "Custom">,
 	UIHover: EnumItem<number, HapticEffectType, "UIHover">,
 	UIClick: EnumItem<number, HapticEffectType, "UIClick">,
 	UINotification: EnumItem<number, HapticEffectType, "UINotification">,
 	GameplayExplosion: EnumItem<number, HapticEffectType, "GameplayExplosion">,
 	GameplayCollision: EnumItem<number, HapticEffectType, "GameplayCollision">,
-}, HapticEffectTypeItem>
-Enum.HapticEffectType = {"UIHover", "UIClick", "UINotification", "GameplayExplosion", "GameplayCollision"}
+}, HapticEffectType>
+Enum.HapticEffectType = {"Custom", "UIHover", "UIClick", "UINotification", "GameplayExplosion", "GameplayCollision"}
 
-export type HighlightDepthModeItem =
-	EnumItem<number, HighlightDepthMode, "AlwaysOnTop">
+export type HighlightDepthMode =
+	| EnumItem<number, HighlightDepthMode, "AlwaysOnTop">
 	| EnumItem<number, HighlightDepthMode, "Occluded">
-export type HighlightDepthMode = EnumObject<{
+export type HighlightDepthModeRoot = EnumObject<{
 	AlwaysOnTop: EnumItem<number, HighlightDepthMode, "AlwaysOnTop">,
 	Occluded: EnumItem<number, HighlightDepthMode, "Occluded">,
-}, HighlightDepthModeItem>
+}, HighlightDepthMode>
 Enum.HighlightDepthMode = {"AlwaysOnTop", "Occluded"}
 
-export type HorizontalAlignmentItem =
-	EnumItem<number, HorizontalAlignment, "Center">
+export type HorizontalAlignment =
+	| EnumItem<number, HorizontalAlignment, "Center">
 	| EnumItem<number, HorizontalAlignment, "Left">
 	| EnumItem<number, HorizontalAlignment, "Right">
-export type HorizontalAlignment = EnumObject<{
+export type HorizontalAlignmentRoot = EnumObject<{
 	Center: EnumItem<number, HorizontalAlignment, "Center">,
 	Left: EnumItem<number, HorizontalAlignment, "Left">,
 	Right: EnumItem<number, HorizontalAlignment, "Right">,
-}, HorizontalAlignmentItem>
+}, HorizontalAlignment>
 Enum.HorizontalAlignment = {"Center", "Left", "Right"}
 
-export type HoverAnimateSpeedItem =
-	EnumItem<number, HoverAnimateSpeed, "VerySlow">
+export type HoverAnimateSpeed =
+	| EnumItem<number, HoverAnimateSpeed, "VerySlow">
 	| EnumItem<number, HoverAnimateSpeed, "Slow">
 	| EnumItem<number, HoverAnimateSpeed, "Medium">
 	| EnumItem<number, HoverAnimateSpeed, "Fast">
 	| EnumItem<number, HoverAnimateSpeed, "VeryFast">
-export type HoverAnimateSpeed = EnumObject<{
+export type HoverAnimateSpeedRoot = EnumObject<{
 	VerySlow: EnumItem<number, HoverAnimateSpeed, "VerySlow">,
 	Slow: EnumItem<number, HoverAnimateSpeed, "Slow">,
 	Medium: EnumItem<number, HoverAnimateSpeed, "Medium">,
 	Fast: EnumItem<number, HoverAnimateSpeed, "Fast">,
 	VeryFast: EnumItem<number, HoverAnimateSpeed, "VeryFast">,
-}, HoverAnimateSpeedItem>
+}, HoverAnimateSpeed>
 Enum.HoverAnimateSpeed = {"VerySlow", "Slow", "Medium", "Fast", "VeryFast"}
 
-export type HttpCachePolicyItem =
-	EnumItem<number, HttpCachePolicy, "None">
+export type HttpCachePolicy =
+	| EnumItem<number, HttpCachePolicy, "None">
 	| EnumItem<number, HttpCachePolicy, "Full">
 	| EnumItem<number, HttpCachePolicy, "DataOnly">
 	| EnumItem<number, HttpCachePolicy, "Default">
 	| EnumItem<number, HttpCachePolicy, "InternalRedirectRefresh">
-export type HttpCachePolicy = EnumObject<{
+export type HttpCachePolicyRoot = EnumObject<{
 	None: EnumItem<number, HttpCachePolicy, "None">,
 	Full: EnumItem<number, HttpCachePolicy, "Full">,
 	DataOnly: EnumItem<number, HttpCachePolicy, "DataOnly">,
 	Default: EnumItem<number, HttpCachePolicy, "Default">,
 	InternalRedirectRefresh: EnumItem<number, HttpCachePolicy, "InternalRedirectRefresh">,
-}, HttpCachePolicyItem>
+}, HttpCachePolicy>
 Enum.HttpCachePolicy = {"None", "Full", "DataOnly", "Default", "InternalRedirectRefresh"}
 
-export type HttpCompressionItem = EnumItem<number, HttpCompression, "None"> | EnumItem<number, HttpCompression, "Gzip">
-export type HttpCompression = EnumObject<{
+export type HttpCompression = | EnumItem<number, HttpCompression, "None"> | EnumItem<number, HttpCompression, "Gzip">
+export type HttpCompressionRoot = EnumObject<{
 	None: EnumItem<number, HttpCompression, "None">,
 	Gzip: EnumItem<number, HttpCompression, "Gzip">,
-}, HttpCompressionItem>
+}, HttpCompression>
 Enum.HttpCompression = {"None", "Gzip"}
 
-export type HttpContentTypeItem =
-	EnumItem<number, HttpContentType, "ApplicationJson">
+export type HttpContentType =
+	| EnumItem<number, HttpContentType, "ApplicationJson">
 	| EnumItem<number, HttpContentType, "ApplicationXml">
 	| EnumItem<number, HttpContentType, "ApplicationUrlEncoded">
 	| EnumItem<number, HttpContentType, "TextPlain">
 	| EnumItem<number, HttpContentType, "TextXml">
-export type HttpContentType = EnumObject<{
+export type HttpContentTypeRoot = EnumObject<{
 	ApplicationJson: EnumItem<number, HttpContentType, "ApplicationJson">,
 	ApplicationXml: EnumItem<number, HttpContentType, "ApplicationXml">,
 	ApplicationUrlEncoded: EnumItem<number, HttpContentType, "ApplicationUrlEncoded">,
 	TextPlain: EnumItem<number, HttpContentType, "TextPlain">,
 	TextXml: EnumItem<number, HttpContentType, "TextXml">,
-}, HttpContentTypeItem>
+}, HttpContentType>
 Enum.HttpContentType = {"ApplicationJson", "ApplicationXml", "ApplicationUrlEncoded", "TextPlain", "TextXml"}
 
-export type HttpErrorItem =
-	EnumItem<number, HttpError, "OK">
+export type HttpError =
+	| EnumItem<number, HttpError, "OK">
 	| EnumItem<number, HttpError, "InvalidUrl">
 	| EnumItem<number, HttpError, "DnsResolve">
 	| EnumItem<number, HttpError, "ConnectFail">
@@ -3565,7 +4060,9 @@ export type HttpErrorItem =
 	| EnumItem<number, HttpError, "SslConnectFail">
 	| EnumItem<number, HttpError, "SslVerificationFail">
 	| EnumItem<number, HttpError, "Unknown">
-export type HttpError = EnumObject<{
+	| EnumItem<number, HttpError, "ConnectionClosed">
+	| EnumItem<number, HttpError, "ServerProtocolError">
+export type HttpErrorRoot = EnumObject<{
 	OK: EnumItem<number, HttpError, "OK">,
 	InvalidUrl: EnumItem<number, HttpError, "InvalidUrl">,
 	DnsResolve: EnumItem<number, HttpError, "DnsResolve">,
@@ -3579,7 +4076,9 @@ export type HttpError = EnumObject<{
 	SslConnectFail: EnumItem<number, HttpError, "SslConnectFail">,
 	SslVerificationFail: EnumItem<number, HttpError, "SslVerificationFail">,
 	Unknown: EnumItem<number, HttpError, "Unknown">,
-}, HttpErrorItem>
+	ConnectionClosed: EnumItem<number, HttpError, "ConnectionClosed">,
+	ServerProtocolError: EnumItem<number, HttpError, "ServerProtocolError">,
+}, HttpError>
 Enum.HttpError = {
 	"OK";
 	"InvalidUrl";
@@ -3594,17 +4093,19 @@ Enum.HttpError = {
 	"SslConnectFail";
 	"SslVerificationFail";
 	"Unknown";
+	"ConnectionClosed";
+	"ServerProtocolError";
 }
 
-export type HttpRequestTypeItem =
-	EnumItem<number, HttpRequestType, "Default">
+export type HttpRequestType =
+	| EnumItem<number, HttpRequestType, "Default">
 	| EnumItem<number, HttpRequestType, "MarketplaceService">
 	| EnumItem<number, HttpRequestType, "Players">
 	| EnumItem<number, HttpRequestType, "Chat">
 	| EnumItem<number, HttpRequestType, "Avatar">
 	| EnumItem<number, HttpRequestType, "Analytics">
 	| EnumItem<number, HttpRequestType, "Localization">
-export type HttpRequestType = EnumObject<{
+export type HttpRequestTypeRoot = EnumObject<{
 	Default: EnumItem<number, HttpRequestType, "Default">,
 	MarketplaceService: EnumItem<number, HttpRequestType, "MarketplaceService">,
 	Players: EnumItem<number, HttpRequestType, "Players">,
@@ -3612,7 +4113,7 @@ export type HttpRequestType = EnumObject<{
 	Avatar: EnumItem<number, HttpRequestType, "Avatar">,
 	Analytics: EnumItem<number, HttpRequestType, "Analytics">,
 	Localization: EnumItem<number, HttpRequestType, "Localization">,
-}, HttpRequestTypeItem>
+}, HttpRequestType>
 Enum.HttpRequestType = {
 	Default = 0;
 	MarketplaceService = 2;
@@ -3623,46 +4124,46 @@ Enum.HttpRequestType = {
 	Localization = 25;
 }
 
-export type HumanoidCollisionTypeItem =
-	EnumItem<number, HumanoidCollisionType, "OuterBox">
+export type HumanoidCollisionType =
+	| EnumItem<number, HumanoidCollisionType, "OuterBox">
 	| EnumItem<number, HumanoidCollisionType, "InnerBox">
-export type HumanoidCollisionType = EnumObject<{
+export type HumanoidCollisionTypeRoot = EnumObject<{
 	OuterBox: EnumItem<number, HumanoidCollisionType, "OuterBox">,
 	InnerBox: EnumItem<number, HumanoidCollisionType, "InnerBox">,
-}, HumanoidCollisionTypeItem>
+}, HumanoidCollisionType>
 Enum.HumanoidCollisionType = {"OuterBox", "InnerBox"}
 
-export type HumanoidDisplayDistanceTypeItem =
-	EnumItem<number, HumanoidDisplayDistanceType, "Viewer">
+export type HumanoidDisplayDistanceType =
+	| EnumItem<number, HumanoidDisplayDistanceType, "Viewer">
 	| EnumItem<number, HumanoidDisplayDistanceType, "Subject">
 	| EnumItem<number, HumanoidDisplayDistanceType, "None">
-export type HumanoidDisplayDistanceType = EnumObject<{
+export type HumanoidDisplayDistanceTypeRoot = EnumObject<{
 	Viewer: EnumItem<number, HumanoidDisplayDistanceType, "Viewer">,
 	Subject: EnumItem<number, HumanoidDisplayDistanceType, "Subject">,
 	None: EnumItem<number, HumanoidDisplayDistanceType, "None">,
-}, HumanoidDisplayDistanceTypeItem>
+}, HumanoidDisplayDistanceType>
 Enum.HumanoidDisplayDistanceType = {"Viewer", "Subject", "None"}
 
-export type HumanoidHealthDisplayTypeItem =
-	EnumItem<number, HumanoidHealthDisplayType, "DisplayWhenDamaged">
+export type HumanoidHealthDisplayType =
+	| EnumItem<number, HumanoidHealthDisplayType, "DisplayWhenDamaged">
 	| EnumItem<number, HumanoidHealthDisplayType, "AlwaysOn">
 	| EnumItem<number, HumanoidHealthDisplayType, "AlwaysOff">
-export type HumanoidHealthDisplayType = EnumObject<{
+export type HumanoidHealthDisplayTypeRoot = EnumObject<{
 	DisplayWhenDamaged: EnumItem<number, HumanoidHealthDisplayType, "DisplayWhenDamaged">,
 	AlwaysOn: EnumItem<number, HumanoidHealthDisplayType, "AlwaysOn">,
 	AlwaysOff: EnumItem<number, HumanoidHealthDisplayType, "AlwaysOff">,
-}, HumanoidHealthDisplayTypeItem>
+}, HumanoidHealthDisplayType>
 Enum.HumanoidHealthDisplayType = {"DisplayWhenDamaged", "AlwaysOn", "AlwaysOff"}
 
-export type HumanoidRigTypeItem = EnumItem<number, HumanoidRigType, "R6"> | EnumItem<number, HumanoidRigType, "R15">
-export type HumanoidRigType = EnumObject<{
+export type HumanoidRigType = | EnumItem<number, HumanoidRigType, "R6"> | EnumItem<number, HumanoidRigType, "R15">
+export type HumanoidRigTypeRoot = EnumObject<{
 	R6: EnumItem<number, HumanoidRigType, "R6">,
 	R15: EnumItem<number, HumanoidRigType, "R15">,
-}, HumanoidRigTypeItem>
+}, HumanoidRigType>
 Enum.HumanoidRigType = {"R6", "R15"}
 
-export type HumanoidStateTypeItem =
-	EnumItem<number, HumanoidStateType, "FallingDown">
+export type HumanoidStateType =
+	| EnumItem<number, HumanoidStateType, "FallingDown">
 	| EnumItem<number, HumanoidStateType, "Ragdoll">
 	| EnumItem<number, HumanoidStateType, "GettingUp">
 	| EnumItem<number, HumanoidStateType, "Jumping">
@@ -3679,7 +4180,7 @@ export type HumanoidStateTypeItem =
 	| EnumItem<number, HumanoidStateType, "Dead">
 	| EnumItem<number, HumanoidStateType, "Physics">
 	| EnumItem<number, HumanoidStateType, "None">
-export type HumanoidStateType = EnumObject<{
+export type HumanoidStateTypeRoot = EnumObject<{
 	FallingDown: EnumItem<number, HumanoidStateType, "FallingDown">,
 	Ragdoll: EnumItem<number, HumanoidStateType, "Ragdoll">,
 	GettingUp: EnumItem<number, HumanoidStateType, "GettingUp">,
@@ -3697,7 +4198,7 @@ export type HumanoidStateType = EnumObject<{
 	Dead: EnumItem<number, HumanoidStateType, "Dead">,
 	Physics: EnumItem<number, HumanoidStateType, "Physics">,
 	None: EnumItem<number, HumanoidStateType, "None">,
-}, HumanoidStateTypeItem>
+}, HumanoidStateType>
 Enum.HumanoidStateType = {
 	FallingDown = 0;
 	Ragdoll = 1;
@@ -3718,50 +4219,50 @@ Enum.HumanoidStateType = {
 	None = 18;
 }
 
-export type IKCollisionsModeItem =
-	EnumItem<number, IKCollisionsMode, "NoCollisions">
+export type IKCollisionsMode =
+	| EnumItem<number, IKCollisionsMode, "NoCollisions">
 	| EnumItem<number, IKCollisionsMode, "OtherMechanismsAnchored">
 	| EnumItem<number, IKCollisionsMode, "IncludeContactedMechanisms">
-export type IKCollisionsMode = EnumObject<{
+export type IKCollisionsModeRoot = EnumObject<{
 	NoCollisions: EnumItem<number, IKCollisionsMode, "NoCollisions">,
 	OtherMechanismsAnchored: EnumItem<number, IKCollisionsMode, "OtherMechanismsAnchored">,
 	IncludeContactedMechanisms: EnumItem<number, IKCollisionsMode, "IncludeContactedMechanisms">,
-}, IKCollisionsModeItem>
+}, IKCollisionsMode>
 Enum.IKCollisionsMode = {"NoCollisions", "OtherMechanismsAnchored", "IncludeContactedMechanisms"}
 
-export type IKControlConstraintSupportItem =
-	EnumItem<number, IKControlConstraintSupport, "Default">
+export type IKControlConstraintSupport =
+	| EnumItem<number, IKControlConstraintSupport, "Default">
 	| EnumItem<number, IKControlConstraintSupport, "Disabled">
 	| EnumItem<number, IKControlConstraintSupport, "Enabled">
-export type IKControlConstraintSupport = EnumObject<{
+export type IKControlConstraintSupportRoot = EnumObject<{
 	Default: EnumItem<number, IKControlConstraintSupport, "Default">,
 	Disabled: EnumItem<number, IKControlConstraintSupport, "Disabled">,
 	Enabled: EnumItem<number, IKControlConstraintSupport, "Enabled">,
-}, IKControlConstraintSupportItem>
+}, IKControlConstraintSupport>
 Enum.IKControlConstraintSupport = {"Default", "Disabled", "Enabled"}
 
-export type IKControlTypeItem =
-	EnumItem<number, IKControlType, "Transform">
+export type IKControlType =
+	| EnumItem<number, IKControlType, "Transform">
 	| EnumItem<number, IKControlType, "Position">
 	| EnumItem<number, IKControlType, "Rotation">
 	| EnumItem<number, IKControlType, "LookAt">
-export type IKControlType = EnumObject<{
+export type IKControlTypeRoot = EnumObject<{
 	Transform: EnumItem<number, IKControlType, "Transform">,
 	Position: EnumItem<number, IKControlType, "Position">,
 	Rotation: EnumItem<number, IKControlType, "Rotation">,
 	LookAt: EnumItem<number, IKControlType, "LookAt">,
-}, IKControlTypeItem>
+}, IKControlType>
 Enum.IKControlType = {"Transform", "Position", "Rotation", "LookAt"}
 
-export type IXPLoadingStatusItem =
-	EnumItem<number, IXPLoadingStatus, "None">
+export type IXPLoadingStatus =
+	| EnumItem<number, IXPLoadingStatus, "None">
 	| EnumItem<number, IXPLoadingStatus, "Pending">
 	| EnumItem<number, IXPLoadingStatus, "Initialized">
 	| EnumItem<number, IXPLoadingStatus, "ErrorInvalidUser">
 	| EnumItem<number, IXPLoadingStatus, "ErrorConnection">
 	| EnumItem<number, IXPLoadingStatus, "ErrorJsonParse">
 	| EnumItem<number, IXPLoadingStatus, "ErrorTimedOut">
-export type IXPLoadingStatus = EnumObject<{
+export type IXPLoadingStatusRoot = EnumObject<{
 	None: EnumItem<number, IXPLoadingStatus, "None">,
 	Pending: EnumItem<number, IXPLoadingStatus, "Pending">,
 	Initialized: EnumItem<number, IXPLoadingStatus, "Initialized">,
@@ -3769,38 +4270,38 @@ export type IXPLoadingStatus = EnumObject<{
 	ErrorConnection: EnumItem<number, IXPLoadingStatus, "ErrorConnection">,
 	ErrorJsonParse: EnumItem<number, IXPLoadingStatus, "ErrorJsonParse">,
 	ErrorTimedOut: EnumItem<number, IXPLoadingStatus, "ErrorTimedOut">,
-}, IXPLoadingStatusItem>
+}, IXPLoadingStatus>
 Enum.IXPLoadingStatus =
 	{"None", "Pending", "Initialized", "ErrorInvalidUser", "ErrorConnection", "ErrorJsonParse", "ErrorTimedOut"}
 
-export type ImageAlphaTypeItem =
-	EnumItem<number, ImageAlphaType, "Default">
+export type ImageAlphaType =
+	| EnumItem<number, ImageAlphaType, "Default">
 	| EnumItem<number, ImageAlphaType, "LockCanvasAlpha">
 	| EnumItem<number, ImageAlphaType, "LockCanvasColor">
-export type ImageAlphaType = EnumObject<{
+export type ImageAlphaTypeRoot = EnumObject<{
 	Default: EnumItem<number, ImageAlphaType, "Default">,
 	LockCanvasAlpha: EnumItem<number, ImageAlphaType, "LockCanvasAlpha">,
 	LockCanvasColor: EnumItem<number, ImageAlphaType, "LockCanvasColor">,
-}, ImageAlphaTypeItem>
+}, ImageAlphaType>
 Enum.ImageAlphaType = {
 	Default = 1;
 	LockCanvasAlpha = 2;
 	LockCanvasColor = 3;
 }
 
-export type ImageCombineTypeItem =
-	EnumItem<number, ImageCombineType, "BlendSourceOver">
+export type ImageCombineType =
+	| EnumItem<number, ImageCombineType, "BlendSourceOver">
 	| EnumItem<number, ImageCombineType, "Overwrite">
 	| EnumItem<number, ImageCombineType, "Add">
 	| EnumItem<number, ImageCombineType, "Multiply">
 	| EnumItem<number, ImageCombineType, "AlphaBlend">
-export type ImageCombineType = EnumObject<{
+export type ImageCombineTypeRoot = EnumObject<{
 	BlendSourceOver: EnumItem<number, ImageCombineType, "BlendSourceOver">,
 	Overwrite: EnumItem<number, ImageCombineType, "Overwrite">,
 	Add: EnumItem<number, ImageCombineType, "Add">,
 	Multiply: EnumItem<number, ImageCombineType, "Multiply">,
 	AlphaBlend: EnumItem<number, ImageCombineType, "AlphaBlend">,
-}, ImageCombineTypeItem>
+}, ImageCombineType>
 Enum.ImageCombineType = {
 	BlendSourceOver = 1;
 	Overwrite = 2;
@@ -3809,129 +4310,143 @@ Enum.ImageCombineType = {
 	AlphaBlend = 5;
 }
 
-export type InOutItem =
-	EnumItem<number, InOut, "Edge">
+export type InOut =
+	| EnumItem<number, InOut, "Edge">
 	| EnumItem<number, InOut, "Inset">
 	| EnumItem<number, InOut, "Center">
-export type InOut = EnumObject<{
+export type InOutRoot = EnumObject<{
 	Edge: EnumItem<number, InOut, "Edge">,
 	Inset: EnumItem<number, InOut, "Inset">,
 	Center: EnumItem<number, InOut, "Center">,
-}, InOutItem>
+}, InOut>
 Enum.InOut = {"Edge", "Inset", "Center"}
 
-export type InfoTypeItem =
-	EnumItem<number, InfoType, "Asset">
+export type InfoType =
+	| EnumItem<number, InfoType, "Asset">
 	| EnumItem<number, InfoType, "Product">
 	| EnumItem<number, InfoType, "GamePass">
 	| EnumItem<number, InfoType, "Subscription">
 	| EnumItem<number, InfoType, "Bundle">
-export type InfoType = EnumObject<{
+export type InfoTypeRoot = EnumObject<{
 	Asset: EnumItem<number, InfoType, "Asset">,
 	Product: EnumItem<number, InfoType, "Product">,
 	GamePass: EnumItem<number, InfoType, "GamePass">,
 	Subscription: EnumItem<number, InfoType, "Subscription">,
 	Bundle: EnumItem<number, InfoType, "Bundle">,
-}, InfoTypeItem>
+}, InfoType>
 Enum.InfoType = {"Asset", "Product", "GamePass", "Subscription", "Bundle"}
 
-export type InitialDockStateItem =
-	EnumItem<number, InitialDockState, "Top">
+export type InitialDockState =
+	| EnumItem<number, InitialDockState, "Top">
 	| EnumItem<number, InitialDockState, "Bottom">
 	| EnumItem<number, InitialDockState, "Left">
 	| EnumItem<number, InitialDockState, "Right">
 	| EnumItem<number, InitialDockState, "Float">
-export type InitialDockState = EnumObject<{
+export type InitialDockStateRoot = EnumObject<{
 	Top: EnumItem<number, InitialDockState, "Top">,
 	Bottom: EnumItem<number, InitialDockState, "Bottom">,
 	Left: EnumItem<number, InitialDockState, "Left">,
 	Right: EnumItem<number, InitialDockState, "Right">,
 	Float: EnumItem<number, InitialDockState, "Float">,
-}, InitialDockStateItem>
+}, InitialDockState>
 Enum.InitialDockState = {"Top", "Bottom", "Left", "Right", "Float"}
 
-export type InputTypeItem =
-	EnumItem<number, InputType, "NoInput">
+export type InputActionType =
+	| EnumItem<number, InputActionType, "Bool">
+	| EnumItem<number, InputActionType, "Direction1D">
+	| EnumItem<number, InputActionType, "Direction2D">
+export type InputActionTypeRoot = EnumObject<{
+	Bool: EnumItem<number, InputActionType, "Bool">,
+	Direction1D: EnumItem<number, InputActionType, "Direction1D">,
+	Direction2D: EnumItem<number, InputActionType, "Direction2D">,
+}, InputActionType>
+Enum.InputActionType = {"Bool", "Direction1D", "Direction2D"}
+
+export type InputType =
+	| EnumItem<number, InputType, "NoInput">
 	| EnumItem<number, InputType, "Constant">
 	| EnumItem<number, InputType, "Sin">
-export type InputType = EnumObject<{
+export type InputTypeRoot = EnumObject<{
 	NoInput: EnumItem<number, InputType, "NoInput">,
 	Constant: EnumItem<number, InputType, "Constant">,
 	Sin: EnumItem<number, InputType, "Sin">,
-}, InputTypeItem>
+}, InputType>
 Enum.InputType = {
 	NoInput = 0;
 	Constant = 12;
 	Sin = 13;
 }
 
-export type IntentItem = EnumItem<number, Intent, "Realistic"> | EnumItem<number, Intent, "Flat">
-export type Intent = EnumObject<{
-	Realistic: EnumItem<number, Intent, "Realistic">,
-	Flat: EnumItem<number, Intent, "Flat">,
-}, IntentItem>
-Enum.Intent = {"Realistic", "Flat"}
+export type IntermediateMeshGenerationResult = | EnumItem<
+	number,
+	IntermediateMeshGenerationResult,
+	"HighQualityMesh"
+>
+export type IntermediateMeshGenerationResultRoot = EnumObject<{
+	HighQualityMesh: EnumItem<number, IntermediateMeshGenerationResult, "HighQualityMesh">,
+}, IntermediateMeshGenerationResult>
+Enum.IntermediateMeshGenerationResult = {"HighQualityMesh"}
 
-export type InterpolationThrottlingModeItem =
-	EnumItem<number, InterpolationThrottlingMode, "Default">
+export type InterpolationThrottlingMode =
+	| EnumItem<number, InterpolationThrottlingMode, "Default">
 	| EnumItem<number, InterpolationThrottlingMode, "Disabled">
 	| EnumItem<number, InterpolationThrottlingMode, "Enabled">
-export type InterpolationThrottlingMode = EnumObject<{
+export type InterpolationThrottlingModeRoot = EnumObject<{
 	Default: EnumItem<number, InterpolationThrottlingMode, "Default">,
 	Disabled: EnumItem<number, InterpolationThrottlingMode, "Disabled">,
 	Enabled: EnumItem<number, InterpolationThrottlingMode, "Enabled">,
-}, InterpolationThrottlingModeItem>
+}, InterpolationThrottlingMode>
 Enum.InterpolationThrottlingMode = {"Default", "Disabled", "Enabled"}
 
-export type InviteStateItem =
-	EnumItem<number, InviteState, "Placed">
+export type InviteState =
+	| EnumItem<number, InviteState, "Placed">
 	| EnumItem<number, InviteState, "Accepted">
 	| EnumItem<number, InviteState, "Declined">
 	| EnumItem<number, InviteState, "Missed">
-export type InviteState = EnumObject<{
+export type InviteStateRoot = EnumObject<{
 	Placed: EnumItem<number, InviteState, "Placed">,
 	Accepted: EnumItem<number, InviteState, "Accepted">,
 	Declined: EnumItem<number, InviteState, "Declined">,
 	Missed: EnumItem<number, InviteState, "Missed">,
-}, InviteStateItem>
+}, InviteState>
 Enum.InviteState = {"Placed", "Accepted", "Declined", "Missed"}
 
-export type ItemLineAlignmentItem =
-	EnumItem<number, ItemLineAlignment, "Automatic">
+export type ItemLineAlignment =
+	| EnumItem<number, ItemLineAlignment, "Automatic">
 	| EnumItem<number, ItemLineAlignment, "Start">
 	| EnumItem<number, ItemLineAlignment, "Center">
 	| EnumItem<number, ItemLineAlignment, "End">
 	| EnumItem<number, ItemLineAlignment, "Stretch">
-export type ItemLineAlignment = EnumObject<{
+export type ItemLineAlignmentRoot = EnumObject<{
 	Automatic: EnumItem<number, ItemLineAlignment, "Automatic">,
 	Start: EnumItem<number, ItemLineAlignment, "Start">,
 	Center: EnumItem<number, ItemLineAlignment, "Center">,
 	End: EnumItem<number, ItemLineAlignment, "End">,
 	Stretch: EnumItem<number, ItemLineAlignment, "Stretch">,
-}, ItemLineAlignmentItem>
+}, ItemLineAlignment>
 Enum.ItemLineAlignment = {"Automatic", "Start", "Center", "End", "Stretch"}
 
-export type JoinSourceItem = EnumItem<number, JoinSource, "CreatedItemAttribution">
-export type JoinSource = EnumObject<{
+export type JoinSource = | EnumItem<number, JoinSource, "CreatedItemAttribution">
+export type JoinSourceRoot = EnumObject<{
 	CreatedItemAttribution: EnumItem<number, JoinSource, "CreatedItemAttribution">,
-}, JoinSourceItem>
+}, JoinSource>
 Enum.JoinSource = {
 	CreatedItemAttribution = 1;
 }
 
-export type JointCreationModeItem =
-	EnumItem<number, JointCreationMode, "All">
+export type JointCreationMode =
+	| EnumItem<number, JointCreationMode, "All">
 	| EnumItem<number, JointCreationMode, "Surface">
 	| EnumItem<number, JointCreationMode, "None">
-export type JointCreationMode = EnumObject<{
+export type JointCreationModeRoot = EnumObject<{
 	All: EnumItem<number, JointCreationMode, "All">,
 	Surface: EnumItem<number, JointCreationMode, "Surface">,
 	None: EnumItem<number, JointCreationMode, "None">,
-}, JointCreationModeItem>
+}, JointCreationMode>
 Enum.JointCreationMode = {"All", "Surface", "None"}
 
-export type KeyCodeItem =
-	EnumItem<number, KeyCode, "Unknown">
+export type KeyCode =
+	| EnumItem<number, KeyCode, "Unknown">
 	| EnumItem<number, KeyCode, "Backspace">
 	| EnumItem<number, KeyCode, "Tab">
 	| EnumItem<number, KeyCode, "Clear">
@@ -4192,7 +4707,7 @@ export type KeyCodeItem =
 	| EnumItem<number, KeyCode, "MouseNoButton">
 	| EnumItem<number, KeyCode, "MouseX">
 	| EnumItem<number, KeyCode, "MouseY">
-export type KeyCode = EnumObject<{
+export type KeyCodeRoot = EnumObject<{
 	Unknown: EnumItem<number, KeyCode, "Unknown">,
 	Backspace: EnumItem<number, KeyCode, "Backspace">,
 	Tab: EnumItem<number, KeyCode, "Tab">,
@@ -4454,7 +4969,7 @@ export type KeyCode = EnumObject<{
 	MouseNoButton: EnumItem<number, KeyCode, "MouseNoButton">,
 	MouseX: EnumItem<number, KeyCode, "MouseX">,
 	MouseY: EnumItem<number, KeyCode, "MouseY">,
-}, KeyCodeItem>
+}, KeyCode>
 Enum.KeyCode = {
 	Unknown = 0;
 	Backspace = 8;
@@ -4719,45 +5234,45 @@ Enum.KeyCode = {
 	MouseY = 1024;
 }
 
-export type KeyInterpolationModeItem =
-	EnumItem<number, KeyInterpolationMode, "Constant">
+export type KeyInterpolationMode =
+	| EnumItem<number, KeyInterpolationMode, "Constant">
 	| EnumItem<number, KeyInterpolationMode, "Linear">
 	| EnumItem<number, KeyInterpolationMode, "Cubic">
-export type KeyInterpolationMode = EnumObject<{
+export type KeyInterpolationModeRoot = EnumObject<{
 	Constant: EnumItem<number, KeyInterpolationMode, "Constant">,
 	Linear: EnumItem<number, KeyInterpolationMode, "Linear">,
 	Cubic: EnumItem<number, KeyInterpolationMode, "Cubic">,
-}, KeyInterpolationModeItem>
+}, KeyInterpolationMode>
 Enum.KeyInterpolationMode = {"Constant", "Linear", "Cubic"}
 
-export type KeywordFilterTypeItem =
-	EnumItem<number, KeywordFilterType, "Include">
+export type KeywordFilterType =
+	| EnumItem<number, KeywordFilterType, "Include">
 	| EnumItem<number, KeywordFilterType, "Exclude">
-export type KeywordFilterType = EnumObject<{
+export type KeywordFilterTypeRoot = EnumObject<{
 	Include: EnumItem<number, KeywordFilterType, "Include">,
 	Exclude: EnumItem<number, KeywordFilterType, "Exclude">,
-}, KeywordFilterTypeItem>
+}, KeywordFilterType>
 Enum.KeywordFilterType = {"Include", "Exclude"}
 
-export type LanguageItem = EnumItem<number, Language, "Default">
-export type Language = EnumObject<{
+export type Language = | EnumItem<number, Language, "Default">
+export type LanguageRoot = EnumObject<{
 	Default: EnumItem<number, Language, "Default">,
-}, LanguageItem>
+}, Language>
 Enum.Language = {"Default"}
 
-export type LeftRightItem =
-	EnumItem<number, LeftRight, "Left">
+export type LeftRight =
+	| EnumItem<number, LeftRight, "Left">
 	| EnumItem<number, LeftRight, "Center">
 	| EnumItem<number, LeftRight, "Right">
-export type LeftRight = EnumObject<{
+export type LeftRightRoot = EnumObject<{
 	Left: EnumItem<number, LeftRight, "Left">,
 	Center: EnumItem<number, LeftRight, "Center">,
 	Right: EnumItem<number, LeftRight, "Right">,
-}, LeftRightItem>
+}, LeftRight>
 Enum.LeftRight = {"Left", "Center", "Right"}
 
-export type LexemeTypeItem =
-	EnumItem<number, LexemeType, "Eof">
+export type LexemeType =
+	| EnumItem<number, LexemeType, "Eof">
 	| EnumItem<number, LexemeType, "Name">
 	| EnumItem<number, LexemeType, "QuotedString">
 	| EnumItem<number, LexemeType, "Number">
@@ -4776,7 +5291,7 @@ export type LexemeTypeItem =
 	| EnumItem<number, LexemeType, "Star">
 	| EnumItem<number, LexemeType, "DoubleStar">
 	| EnumItem<number, LexemeType, "ReservedSpecial">
-export type LexemeType = EnumObject<{
+export type LexemeTypeRoot = EnumObject<{
 	Eof: EnumItem<number, LexemeType, "Eof">,
 	Name: EnumItem<number, LexemeType, "Name">,
 	QuotedString: EnumItem<number, LexemeType, "QuotedString">,
@@ -4796,7 +5311,7 @@ export type LexemeType = EnumObject<{
 	Star: EnumItem<number, LexemeType, "Star">,
 	DoubleStar: EnumItem<number, LexemeType, "DoubleStar">,
 	ReservedSpecial: EnumItem<number, LexemeType, "ReservedSpecial">,
-}, LexemeTypeItem>
+}, LexemeType>
 Enum.LexemeType = {
 	"Eof";
 	"Name";
@@ -4819,15 +5334,22 @@ Enum.LexemeType = {
 	"ReservedSpecial";
 }
 
-export type LimbItem =
-	EnumItem<number, Limb, "Head">
+export type LightingStyle = | EnumItem<number, LightingStyle, "Realistic"> | EnumItem<number, LightingStyle, "Soft">
+export type LightingStyleRoot = EnumObject<{
+	Realistic: EnumItem<number, LightingStyle, "Realistic">,
+	Soft: EnumItem<number, LightingStyle, "Soft">,
+}, LightingStyle>
+Enum.LightingStyle = {"Realistic", "Soft"}
+
+export type Limb =
+	| EnumItem<number, Limb, "Head">
 	| EnumItem<number, Limb, "Torso">
 	| EnumItem<number, Limb, "LeftArm">
 	| EnumItem<number, Limb, "RightArm">
 	| EnumItem<number, Limb, "LeftLeg">
 	| EnumItem<number, Limb, "RightLeg">
 	| EnumItem<number, Limb, "Unknown">
-export type Limb = EnumObject<{
+export type LimbRoot = EnumObject<{
 	Head: EnumItem<number, Limb, "Head">,
 	Torso: EnumItem<number, Limb, "Torso">,
 	LeftArm: EnumItem<number, Limb, "LeftArm">,
@@ -4835,130 +5357,130 @@ export type Limb = EnumObject<{
 	LeftLeg: EnumItem<number, Limb, "LeftLeg">,
 	RightLeg: EnumItem<number, Limb, "RightLeg">,
 	Unknown: EnumItem<number, Limb, "Unknown">,
-}, LimbItem>
+}, Limb>
 Enum.Limb = {"Head", "Torso", "LeftArm", "RightArm", "LeftLeg", "RightLeg", "Unknown"}
 
-export type LineJoinModeItem =
-	EnumItem<number, LineJoinMode, "Round">
+export type LineJoinMode =
+	| EnumItem<number, LineJoinMode, "Round">
 	| EnumItem<number, LineJoinMode, "Bevel">
 	| EnumItem<number, LineJoinMode, "Miter">
-export type LineJoinMode = EnumObject<{
+export type LineJoinModeRoot = EnumObject<{
 	Round: EnumItem<number, LineJoinMode, "Round">,
 	Bevel: EnumItem<number, LineJoinMode, "Bevel">,
 	Miter: EnumItem<number, LineJoinMode, "Miter">,
-}, LineJoinModeItem>
+}, LineJoinMode>
 Enum.LineJoinMode = {"Round", "Bevel", "Miter"}
 
-export type ListDisplayModeItem =
-	EnumItem<number, ListDisplayMode, "Horizontal">
+export type ListDisplayMode =
+	| EnumItem<number, ListDisplayMode, "Horizontal">
 	| EnumItem<number, ListDisplayMode, "Vertical">
-export type ListDisplayMode = EnumObject<{
+export type ListDisplayModeRoot = EnumObject<{
 	Horizontal: EnumItem<number, ListDisplayMode, "Horizontal">,
 	Vertical: EnumItem<number, ListDisplayMode, "Vertical">,
-}, ListDisplayModeItem>
+}, ListDisplayMode>
 Enum.ListDisplayMode = {"Horizontal", "Vertical"}
 
-export type ListenerLocationItem =
-	EnumItem<number, ListenerLocation, "Default">
+export type ListenerLocation =
+	| EnumItem<number, ListenerLocation, "Default">
 	| EnumItem<number, ListenerLocation, "None">
 	| EnumItem<number, ListenerLocation, "Character">
 	| EnumItem<number, ListenerLocation, "Camera">
-export type ListenerLocation = EnumObject<{
+export type ListenerLocationRoot = EnumObject<{
 	Default: EnumItem<number, ListenerLocation, "Default">,
 	None: EnumItem<number, ListenerLocation, "None">,
 	Character: EnumItem<number, ListenerLocation, "Character">,
 	Camera: EnumItem<number, ListenerLocation, "Camera">,
-}, ListenerLocationItem>
+}, ListenerLocation>
 Enum.ListenerLocation = {"Default", "None", "Character", "Camera"}
 
-export type ListenerTypeItem =
-	EnumItem<number, ListenerType, "Camera">
+export type ListenerType =
+	| EnumItem<number, ListenerType, "Camera">
 	| EnumItem<number, ListenerType, "CFrame">
 	| EnumItem<number, ListenerType, "ObjectPosition">
 	| EnumItem<number, ListenerType, "ObjectCFrame">
-export type ListenerType = EnumObject<{
+export type ListenerTypeRoot = EnumObject<{
 	Camera: EnumItem<number, ListenerType, "Camera">,
 	CFrame: EnumItem<number, ListenerType, "CFrame">,
 	ObjectPosition: EnumItem<number, ListenerType, "ObjectPosition">,
 	ObjectCFrame: EnumItem<number, ListenerType, "ObjectCFrame">,
-}, ListenerTypeItem>
+}, ListenerType>
 Enum.ListenerType = {"Camera", "CFrame", "ObjectPosition", "ObjectCFrame"}
 
-export type LiveEditingAtomicUpdateResponseItem =
-	EnumItem<number, LiveEditingAtomicUpdateResponse, "Success">
+export type LiveEditingAtomicUpdateResponse =
+	| EnumItem<number, LiveEditingAtomicUpdateResponse, "Success">
 	| EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureGuidNotFound">
 	| EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureHashMismatch">
 	| EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureOperationIllegal">
-export type LiveEditingAtomicUpdateResponse = EnumObject<{
+export type LiveEditingAtomicUpdateResponseRoot = EnumObject<{
 	Success: EnumItem<number, LiveEditingAtomicUpdateResponse, "Success">,
 	FailureGuidNotFound: EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureGuidNotFound">,
 	FailureHashMismatch: EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureHashMismatch">,
 	FailureOperationIllegal: EnumItem<number, LiveEditingAtomicUpdateResponse, "FailureOperationIllegal">,
-}, LiveEditingAtomicUpdateResponseItem>
+}, LiveEditingAtomicUpdateResponse>
 Enum.LiveEditingAtomicUpdateResponse =
 	{"Success", "FailureGuidNotFound", "FailureHashMismatch", "FailureOperationIllegal"}
 
-export type LiveEditingBroadcastMessageTypeItem =
-	EnumItem<number, LiveEditingBroadcastMessageType, "Normal">
+export type LiveEditingBroadcastMessageType =
+	| EnumItem<number, LiveEditingBroadcastMessageType, "Normal">
 	| EnumItem<number, LiveEditingBroadcastMessageType, "Warning">
 	| EnumItem<number, LiveEditingBroadcastMessageType, "Error">
-export type LiveEditingBroadcastMessageType = EnumObject<{
+export type LiveEditingBroadcastMessageTypeRoot = EnumObject<{
 	Normal: EnumItem<number, LiveEditingBroadcastMessageType, "Normal">,
 	Warning: EnumItem<number, LiveEditingBroadcastMessageType, "Warning">,
 	Error: EnumItem<number, LiveEditingBroadcastMessageType, "Error">,
-}, LiveEditingBroadcastMessageTypeItem>
+}, LiveEditingBroadcastMessageType>
 Enum.LiveEditingBroadcastMessageType = {"Normal", "Warning", "Error"}
 
-export type LoadCharacterLayeredClothingItem =
-	EnumItem<number, LoadCharacterLayeredClothing, "Default">
+export type LoadCharacterLayeredClothing =
+	| EnumItem<number, LoadCharacterLayeredClothing, "Default">
 	| EnumItem<number, LoadCharacterLayeredClothing, "Disabled">
 	| EnumItem<number, LoadCharacterLayeredClothing, "Enabled">
-export type LoadCharacterLayeredClothing = EnumObject<{
+export type LoadCharacterLayeredClothingRoot = EnumObject<{
 	Default: EnumItem<number, LoadCharacterLayeredClothing, "Default">,
 	Disabled: EnumItem<number, LoadCharacterLayeredClothing, "Disabled">,
 	Enabled: EnumItem<number, LoadCharacterLayeredClothing, "Enabled">,
-}, LoadCharacterLayeredClothingItem>
+}, LoadCharacterLayeredClothing>
 Enum.LoadCharacterLayeredClothing = {"Default", "Disabled", "Enabled"}
 
-export type LoadDynamicHeadsItem =
-	EnumItem<number, LoadDynamicHeads, "Default">
+export type LoadDynamicHeads =
+	| EnumItem<number, LoadDynamicHeads, "Default">
 	| EnumItem<number, LoadDynamicHeads, "Disabled">
 	| EnumItem<number, LoadDynamicHeads, "Enabled">
-export type LoadDynamicHeads = EnumObject<{
+export type LoadDynamicHeadsRoot = EnumObject<{
 	Default: EnumItem<number, LoadDynamicHeads, "Default">,
 	Disabled: EnumItem<number, LoadDynamicHeads, "Disabled">,
 	Enabled: EnumItem<number, LoadDynamicHeads, "Enabled">,
-}, LoadDynamicHeadsItem>
+}, LoadDynamicHeads>
 Enum.LoadDynamicHeads = {"Default", "Disabled", "Enabled"}
 
-export type LocationTypeItem =
-	EnumItem<number, LocationType, "Character">
+export type LocationType =
+	| EnumItem<number, LocationType, "Character">
 	| EnumItem<number, LocationType, "Camera">
 	| EnumItem<number, LocationType, "ObjectPosition">
-export type LocationType = EnumObject<{
+export type LocationTypeRoot = EnumObject<{
 	Character: EnumItem<number, LocationType, "Character">,
 	Camera: EnumItem<number, LocationType, "Camera">,
 	ObjectPosition: EnumItem<number, LocationType, "ObjectPosition">,
-}, LocationTypeItem>
+}, LocationType>
 Enum.LocationType = {"Character", "Camera", "ObjectPosition"}
 
-export type MarketplaceBulkPurchasePromptStatusItem =
-	EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Completed">
+export type MarketplaceBulkPurchasePromptStatus =
+	| EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Completed">
 	| EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Aborted">
 	| EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Error">
-export type MarketplaceBulkPurchasePromptStatus = EnumObject<{
+export type MarketplaceBulkPurchasePromptStatusRoot = EnumObject<{
 	Completed: EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Completed">,
 	Aborted: EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Aborted">,
 	Error: EnumItem<number, MarketplaceBulkPurchasePromptStatus, "Error">,
-}, MarketplaceBulkPurchasePromptStatusItem>
+}, MarketplaceBulkPurchasePromptStatus>
 Enum.MarketplaceBulkPurchasePromptStatus = {
 	Completed = 1;
 	Aborted = 2;
 	Error = 3;
 }
 
-export type MarketplaceItemPurchaseStatusItem =
-	EnumItem<number, MarketplaceItemPurchaseStatus, "Success">
+export type MarketplaceItemPurchaseStatus =
+	| EnumItem<number, MarketplaceItemPurchaseStatus, "Success">
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "SystemError">
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "AlreadyOwned">
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "InsufficientRobux">
@@ -4971,7 +5493,7 @@ export type MarketplaceItemPurchaseStatusItem =
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "PurchaserIsSeller">
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "InsufficientMembership">
 	| EnumItem<number, MarketplaceItemPurchaseStatus, "PlaceInvalid">
-export type MarketplaceItemPurchaseStatus = EnumObject<{
+export type MarketplaceItemPurchaseStatusRoot = EnumObject<{
 	Success: EnumItem<number, MarketplaceItemPurchaseStatus, "Success">,
 	SystemError: EnumItem<number, MarketplaceItemPurchaseStatus, "SystemError">,
 	AlreadyOwned: EnumItem<number, MarketplaceItemPurchaseStatus, "AlreadyOwned">,
@@ -4985,7 +5507,7 @@ export type MarketplaceItemPurchaseStatus = EnumObject<{
 	PurchaserIsSeller: EnumItem<number, MarketplaceItemPurchaseStatus, "PurchaserIsSeller">,
 	InsufficientMembership: EnumItem<number, MarketplaceItemPurchaseStatus, "InsufficientMembership">,
 	PlaceInvalid: EnumItem<number, MarketplaceItemPurchaseStatus, "PlaceInvalid">,
-}, MarketplaceItemPurchaseStatusItem>
+}, MarketplaceItemPurchaseStatus>
 Enum.MarketplaceItemPurchaseStatus = {
 	Success = 1;
 	SystemError = 2;
@@ -5002,27 +5524,42 @@ Enum.MarketplaceItemPurchaseStatus = {
 	PlaceInvalid = 13;
 }
 
-export type MarketplaceProductTypeItem =
-	EnumItem<number, MarketplaceProductType, "AvatarAsset">
+export type MarketplaceProductType =
+	| EnumItem<number, MarketplaceProductType, "AvatarAsset">
 	| EnumItem<number, MarketplaceProductType, "AvatarBundle">
-export type MarketplaceProductType = EnumObject<{
+export type MarketplaceProductTypeRoot = EnumObject<{
 	AvatarAsset: EnumItem<number, MarketplaceProductType, "AvatarAsset">,
 	AvatarBundle: EnumItem<number, MarketplaceProductType, "AvatarBundle">,
-}, MarketplaceProductTypeItem>
+}, MarketplaceProductType>
 Enum.MarketplaceProductType = {
 	AvatarAsset = 1;
 	AvatarBundle = 2;
 }
 
-export type MarkupKindItem = EnumItem<number, MarkupKind, "PlainText"> | EnumItem<number, MarkupKind, "Markdown">
-export type MarkupKind = EnumObject<{
+export type MarkupKind = | EnumItem<number, MarkupKind, "PlainText"> | EnumItem<number, MarkupKind, "Markdown">
+export type MarkupKindRoot = EnumObject<{
 	PlainText: EnumItem<number, MarkupKind, "PlainText">,
 	Markdown: EnumItem<number, MarkupKind, "Markdown">,
-}, MarkupKindItem>
+}, MarkupKind>
 Enum.MarkupKind = {"PlainText", "Markdown"}
 
-export type MaterialItem =
-	EnumItem<number, Material, "Plastic">
+export type MatchmakingType =
+	| EnumItem<number, MatchmakingType, "Default">
+	| EnumItem<number, MatchmakingType, "XboxOnly">
+	| EnumItem<number, MatchmakingType, "PlayStationOnly">
+export type MatchmakingTypeRoot = EnumObject<{
+	Default: EnumItem<number, MatchmakingType, "Default">,
+	XboxOnly: EnumItem<number, MatchmakingType, "XboxOnly">,
+	PlayStationOnly: EnumItem<number, MatchmakingType, "PlayStationOnly">,
+}, MatchmakingType>
+Enum.MatchmakingType = {
+	Default = 1;
+	XboxOnly = 2;
+	PlayStationOnly = 3;
+}
+
+export type Material =
+	| EnumItem<number, Material, "Plastic">
 	| EnumItem<number, Material, "SmoothPlastic">
 	| EnumItem<number, Material, "Neon">
 	| EnumItem<number, Material, "Wood">
@@ -5067,7 +5604,7 @@ export type MaterialItem =
 	| EnumItem<number, Material, "Leather">
 	| EnumItem<number, Material, "Plaster">
 	| EnumItem<number, Material, "Rubber">
-export type Material = EnumObject<{
+export type MaterialRoot = EnumObject<{
 	Plastic: EnumItem<number, Material, "Plastic">,
 	SmoothPlastic: EnumItem<number, Material, "SmoothPlastic">,
 	Neon: EnumItem<number, Material, "Neon">,
@@ -5113,7 +5650,7 @@ export type Material = EnumObject<{
 	Leather: EnumItem<number, Material, "Leather">,
 	Plaster: EnumItem<number, Material, "Plaster">,
 	Rubber: EnumItem<number, Material, "Rubber">,
-}, MaterialItem>
+}, Material>
 Enum.Material = {
 	Plastic = 256;
 	SmoothPlastic = 272;
@@ -5162,77 +5699,75 @@ Enum.Material = {
 	Rubber = 2311;
 }
 
-export type MaterialPatternItem =
-	EnumItem<number, MaterialPattern, "Regular">
-	| EnumItem<number, MaterialPattern, "Organic">
-export type MaterialPattern = EnumObject<{
+export type MaterialPattern = | EnumItem<number, MaterialPattern, "Regular"> | EnumItem<number, MaterialPattern, "Organic">
+export type MaterialPatternRoot = EnumObject<{
 	Regular: EnumItem<number, MaterialPattern, "Regular">,
 	Organic: EnumItem<number, MaterialPattern, "Organic">,
-}, MaterialPatternItem>
+}, MaterialPattern>
 Enum.MaterialPattern = {"Regular", "Organic"}
 
-export type MembershipTypeItem =
-	EnumItem<number, MembershipType, "None">
+export type MembershipType =
+	| EnumItem<number, MembershipType, "None">
 	| EnumItem<number, MembershipType, "BuildersClub">
 	| EnumItem<number, MembershipType, "TurboBuildersClub">
 	| EnumItem<number, MembershipType, "OutrageousBuildersClub">
 	| EnumItem<number, MembershipType, "Premium">
-export type MembershipType = EnumObject<{
+export type MembershipTypeRoot = EnumObject<{
 	None: EnumItem<number, MembershipType, "None">,
 	BuildersClub: EnumItem<number, MembershipType, "BuildersClub">,
 	TurboBuildersClub: EnumItem<number, MembershipType, "TurboBuildersClub">,
 	OutrageousBuildersClub: EnumItem<number, MembershipType, "OutrageousBuildersClub">,
 	Premium: EnumItem<number, MembershipType, "Premium">,
-}, MembershipTypeItem>
+}, MembershipType>
 Enum.MembershipType = {"None", "BuildersClub", "TurboBuildersClub", "OutrageousBuildersClub", "Premium"}
 
-export type MeshPartDetailLevelItem =
-	EnumItem<number, MeshPartDetailLevel, "DistanceBased">
+export type MeshPartDetailLevel =
+	| EnumItem<number, MeshPartDetailLevel, "DistanceBased">
 	| EnumItem<number, MeshPartDetailLevel, "Level00">
 	| EnumItem<number, MeshPartDetailLevel, "Level01">
 	| EnumItem<number, MeshPartDetailLevel, "Level02">
 	| EnumItem<number, MeshPartDetailLevel, "Level03">
 	| EnumItem<number, MeshPartDetailLevel, "Level04">
-export type MeshPartDetailLevel = EnumObject<{
+export type MeshPartDetailLevelRoot = EnumObject<{
 	DistanceBased: EnumItem<number, MeshPartDetailLevel, "DistanceBased">,
 	Level00: EnumItem<number, MeshPartDetailLevel, "Level00">,
 	Level01: EnumItem<number, MeshPartDetailLevel, "Level01">,
 	Level02: EnumItem<number, MeshPartDetailLevel, "Level02">,
 	Level03: EnumItem<number, MeshPartDetailLevel, "Level03">,
 	Level04: EnumItem<number, MeshPartDetailLevel, "Level04">,
-}, MeshPartDetailLevelItem>
+}, MeshPartDetailLevel>
 Enum.MeshPartDetailLevel = {"DistanceBased", "Level00", "Level01", "Level02", "Level03", "Level04"}
 
-export type MeshPartHeadsAndAccessoriesItem =
-	EnumItem<number, MeshPartHeadsAndAccessories, "Default">
+export type MeshPartHeadsAndAccessories =
+	| EnumItem<number, MeshPartHeadsAndAccessories, "Default">
 	| EnumItem<number, MeshPartHeadsAndAccessories, "Disabled">
 	| EnumItem<number, MeshPartHeadsAndAccessories, "Enabled">
-export type MeshPartHeadsAndAccessories = EnumObject<{
+export type MeshPartHeadsAndAccessoriesRoot = EnumObject<{
 	Default: EnumItem<number, MeshPartHeadsAndAccessories, "Default">,
 	Disabled: EnumItem<number, MeshPartHeadsAndAccessories, "Disabled">,
 	Enabled: EnumItem<number, MeshPartHeadsAndAccessories, "Enabled">,
-}, MeshPartHeadsAndAccessoriesItem>
+}, MeshPartHeadsAndAccessories>
 Enum.MeshPartHeadsAndAccessories = {"Default", "Disabled", "Enabled"}
 
-export type MeshScaleUnitItem =
-	EnumItem<number, MeshScaleUnit, "Stud">
+export type MeshScaleUnit =
+	| EnumItem<number, MeshScaleUnit, "Stud">
 	| EnumItem<number, MeshScaleUnit, "Meter">
 	| EnumItem<number, MeshScaleUnit, "CM">
 	| EnumItem<number, MeshScaleUnit, "MM">
 	| EnumItem<number, MeshScaleUnit, "Foot">
 	| EnumItem<number, MeshScaleUnit, "Inch">
-export type MeshScaleUnit = EnumObject<{
+export type MeshScaleUnitRoot = EnumObject<{
 	Stud: EnumItem<number, MeshScaleUnit, "Stud">,
 	Meter: EnumItem<number, MeshScaleUnit, "Meter">,
 	CM: EnumItem<number, MeshScaleUnit, "CM">,
 	MM: EnumItem<number, MeshScaleUnit, "MM">,
 	Foot: EnumItem<number, MeshScaleUnit, "Foot">,
 	Inch: EnumItem<number, MeshScaleUnit, "Inch">,
-}, MeshScaleUnitItem>
+}, MeshScaleUnit>
 Enum.MeshScaleUnit = {"Stud", "Meter", "CM", "MM", "Foot", "Inch"}
 
-export type MeshTypeItem =
-	EnumItem<number, MeshType, "Head">
+export type MeshType =
+	| EnumItem<number, MeshType, "Head">
 	| EnumItem<number, MeshType, "Torso">
 	| EnumItem<number, MeshType, "Wedge">
 	| EnumItem<number, MeshType, "Sphere">
@@ -5244,7 +5779,7 @@ export type MeshTypeItem =
 	| EnumItem<number, MeshType, "ParallelRamp">
 	| EnumItem<number, MeshType, "RightAngleRamp">
 	| EnumItem<number, MeshType, "CornerWedge">
-export type MeshType = EnumObject<{
+export type MeshTypeRoot = EnumObject<{
 	Head: EnumItem<number, MeshType, "Head">,
 	Torso: EnumItem<number, MeshType, "Torso">,
 	Wedge: EnumItem<number, MeshType, "Wedge">,
@@ -5257,7 +5792,7 @@ export type MeshType = EnumObject<{
 	ParallelRamp: EnumItem<number, MeshType, "ParallelRamp">,
 	RightAngleRamp: EnumItem<number, MeshType, "RightAngleRamp">,
 	CornerWedge: EnumItem<number, MeshType, "CornerWedge">,
-}, MeshTypeItem>
+}, MeshType>
 Enum.MeshType = {
 	"Head";
 	"Torso";
@@ -5273,69 +5808,69 @@ Enum.MeshType = {
 	"CornerWedge";
 }
 
-export type MessageTypeItem =
-	EnumItem<number, MessageType, "MessageOutput">
+export type MessageType =
+	| EnumItem<number, MessageType, "MessageOutput">
 	| EnumItem<number, MessageType, "MessageInfo">
 	| EnumItem<number, MessageType, "MessageWarning">
 	| EnumItem<number, MessageType, "MessageError">
-export type MessageType = EnumObject<{
+export type MessageTypeRoot = EnumObject<{
 	MessageOutput: EnumItem<number, MessageType, "MessageOutput">,
 	MessageInfo: EnumItem<number, MessageType, "MessageInfo">,
 	MessageWarning: EnumItem<number, MessageType, "MessageWarning">,
 	MessageError: EnumItem<number, MessageType, "MessageError">,
-}, MessageTypeItem>
+}, MessageType>
 Enum.MessageType = {"MessageOutput", "MessageInfo", "MessageWarning", "MessageError"}
 
-export type ModelLevelOfDetailItem =
-	EnumItem<number, ModelLevelOfDetail, "Automatic">
+export type ModelLevelOfDetail =
+	| EnumItem<number, ModelLevelOfDetail, "Automatic">
 	| EnumItem<number, ModelLevelOfDetail, "StreamingMesh">
 	| EnumItem<number, ModelLevelOfDetail, "Disabled">
-export type ModelLevelOfDetail = EnumObject<{
+export type ModelLevelOfDetailRoot = EnumObject<{
 	Automatic: EnumItem<number, ModelLevelOfDetail, "Automatic">,
 	StreamingMesh: EnumItem<number, ModelLevelOfDetail, "StreamingMesh">,
 	Disabled: EnumItem<number, ModelLevelOfDetail, "Disabled">,
-}, ModelLevelOfDetailItem>
+}, ModelLevelOfDetail>
 Enum.ModelLevelOfDetail = {"Automatic", "StreamingMesh", "Disabled"}
 
-export type ModelStreamingBehaviorItem =
-	EnumItem<number, ModelStreamingBehavior, "Default">
+export type ModelStreamingBehavior =
+	| EnumItem<number, ModelStreamingBehavior, "Default">
 	| EnumItem<number, ModelStreamingBehavior, "Legacy">
 	| EnumItem<number, ModelStreamingBehavior, "Improved">
-export type ModelStreamingBehavior = EnumObject<{
+export type ModelStreamingBehaviorRoot = EnumObject<{
 	Default: EnumItem<number, ModelStreamingBehavior, "Default">,
 	Legacy: EnumItem<number, ModelStreamingBehavior, "Legacy">,
 	Improved: EnumItem<number, ModelStreamingBehavior, "Improved">,
-}, ModelStreamingBehaviorItem>
+}, ModelStreamingBehavior>
 Enum.ModelStreamingBehavior = {"Default", "Legacy", "Improved"}
 
-export type ModelStreamingModeItem =
-	EnumItem<number, ModelStreamingMode, "Default">
+export type ModelStreamingMode =
+	| EnumItem<number, ModelStreamingMode, "Default">
 	| EnumItem<number, ModelStreamingMode, "Atomic">
 	| EnumItem<number, ModelStreamingMode, "Persistent">
 	| EnumItem<number, ModelStreamingMode, "PersistentPerPlayer">
 	| EnumItem<number, ModelStreamingMode, "Nonatomic">
-export type ModelStreamingMode = EnumObject<{
+export type ModelStreamingModeRoot = EnumObject<{
 	Default: EnumItem<number, ModelStreamingMode, "Default">,
 	Atomic: EnumItem<number, ModelStreamingMode, "Atomic">,
 	Persistent: EnumItem<number, ModelStreamingMode, "Persistent">,
 	PersistentPerPlayer: EnumItem<number, ModelStreamingMode, "PersistentPerPlayer">,
 	Nonatomic: EnumItem<number, ModelStreamingMode, "Nonatomic">,
-}, ModelStreamingModeItem>
+}, ModelStreamingMode>
 Enum.ModelStreamingMode = {"Default", "Atomic", "Persistent", "PersistentPerPlayer", "Nonatomic"}
 
-export type ModerationStatusItem =
-	EnumItem<number, ModerationStatus, "ReviewedApproved">
+export type ModerationStatus =
+	| EnumItem<number, ModerationStatus, "ReviewedApproved">
 	| EnumItem<number, ModerationStatus, "ReviewedRejected">
 	| EnumItem<number, ModerationStatus, "NotReviewed">
 	| EnumItem<number, ModerationStatus, "NotApplicable">
 	| EnumItem<number, ModerationStatus, "Invalid">
-export type ModerationStatus = EnumObject<{
+export type ModerationStatusRoot = EnumObject<{
 	ReviewedApproved: EnumItem<number, ModerationStatus, "ReviewedApproved">,
 	ReviewedRejected: EnumItem<number, ModerationStatus, "ReviewedRejected">,
 	NotReviewed: EnumItem<number, ModerationStatus, "NotReviewed">,
 	NotApplicable: EnumItem<number, ModerationStatus, "NotApplicable">,
 	Invalid: EnumItem<number, ModerationStatus, "Invalid">,
-}, ModerationStatusItem>
+}, ModerationStatus>
 Enum.ModerationStatus = {
 	ReviewedApproved = 1;
 	ReviewedRejected = 2;
@@ -5344,395 +5879,395 @@ Enum.ModerationStatus = {
 	Invalid = 5;
 }
 
-export type ModifierKeyItem =
-	EnumItem<number, ModifierKey, "Shift">
+export type ModifierKey =
+	| EnumItem<number, ModifierKey, "Shift">
 	| EnumItem<number, ModifierKey, "Ctrl">
 	| EnumItem<number, ModifierKey, "Alt">
 	| EnumItem<number, ModifierKey, "Meta">
-export type ModifierKey = EnumObject<{
+export type ModifierKeyRoot = EnumObject<{
 	Shift: EnumItem<number, ModifierKey, "Shift">,
 	Ctrl: EnumItem<number, ModifierKey, "Ctrl">,
 	Alt: EnumItem<number, ModifierKey, "Alt">,
 	Meta: EnumItem<number, ModifierKey, "Meta">,
-}, ModifierKeyItem>
+}, ModifierKey>
 Enum.ModifierKey = {"Shift", "Ctrl", "Alt", "Meta"}
 
-export type MouseBehaviorItem =
-	EnumItem<number, MouseBehavior, "Default">
+export type MouseBehavior =
+	| EnumItem<number, MouseBehavior, "Default">
 	| EnumItem<number, MouseBehavior, "LockCenter">
 	| EnumItem<number, MouseBehavior, "LockCurrentPosition">
-export type MouseBehavior = EnumObject<{
+export type MouseBehaviorRoot = EnumObject<{
 	Default: EnumItem<number, MouseBehavior, "Default">,
 	LockCenter: EnumItem<number, MouseBehavior, "LockCenter">,
 	LockCurrentPosition: EnumItem<number, MouseBehavior, "LockCurrentPosition">,
-}, MouseBehaviorItem>
+}, MouseBehavior>
 Enum.MouseBehavior = {"Default", "LockCenter", "LockCurrentPosition"}
 
-export type MoveStateItem =
-	EnumItem<number, MoveState, "Stopped">
+export type MoveState =
+	| EnumItem<number, MoveState, "Stopped">
 	| EnumItem<number, MoveState, "Coasting">
 	| EnumItem<number, MoveState, "Pushing">
 	| EnumItem<number, MoveState, "Stopping">
 	| EnumItem<number, MoveState, "AirFree">
-export type MoveState = EnumObject<{
+export type MoveStateRoot = EnumObject<{
 	Stopped: EnumItem<number, MoveState, "Stopped">,
 	Coasting: EnumItem<number, MoveState, "Coasting">,
 	Pushing: EnumItem<number, MoveState, "Pushing">,
 	Stopping: EnumItem<number, MoveState, "Stopping">,
 	AirFree: EnumItem<number, MoveState, "AirFree">,
-}, MoveStateItem>
+}, MoveState>
 Enum.MoveState = {"Stopped", "Coasting", "Pushing", "Stopping", "AirFree"}
 
-export type MoverConstraintRootBehaviorModeItem =
-	EnumItem<number, MoverConstraintRootBehaviorMode, "Default">
+export type MoverConstraintRootBehaviorMode =
+	| EnumItem<number, MoverConstraintRootBehaviorMode, "Default">
 	| EnumItem<number, MoverConstraintRootBehaviorMode, "Disabled">
 	| EnumItem<number, MoverConstraintRootBehaviorMode, "Enabled">
-export type MoverConstraintRootBehaviorMode = EnumObject<{
+export type MoverConstraintRootBehaviorModeRoot = EnumObject<{
 	Default: EnumItem<number, MoverConstraintRootBehaviorMode, "Default">,
 	Disabled: EnumItem<number, MoverConstraintRootBehaviorMode, "Disabled">,
 	Enabled: EnumItem<number, MoverConstraintRootBehaviorMode, "Enabled">,
-}, MoverConstraintRootBehaviorModeItem>
+}, MoverConstraintRootBehaviorMode>
 Enum.MoverConstraintRootBehaviorMode = {"Default", "Disabled", "Enabled"}
 
-export type MuteStateItem = EnumItem<number, MuteState, "Unmuted"> | EnumItem<number, MuteState, "Muted">
-export type MuteState = EnumObject<{
+export type MuteState = | EnumItem<number, MuteState, "Unmuted"> | EnumItem<number, MuteState, "Muted">
+export type MuteStateRoot = EnumObject<{
 	Unmuted: EnumItem<number, MuteState, "Unmuted">,
 	Muted: EnumItem<number, MuteState, "Muted">,
-}, MuteStateItem>
+}, MuteState>
 Enum.MuteState = {"Unmuted", "Muted"}
 
-export type NameOcclusionItem =
-	EnumItem<number, NameOcclusion, "NoOcclusion">
+export type NameOcclusion =
+	| EnumItem<number, NameOcclusion, "NoOcclusion">
 	| EnumItem<number, NameOcclusion, "EnemyOcclusion">
 	| EnumItem<number, NameOcclusion, "OccludeAll">
-export type NameOcclusion = EnumObject<{
+export type NameOcclusionRoot = EnumObject<{
 	NoOcclusion: EnumItem<number, NameOcclusion, "NoOcclusion">,
 	EnemyOcclusion: EnumItem<number, NameOcclusion, "EnemyOcclusion">,
 	OccludeAll: EnumItem<number, NameOcclusion, "OccludeAll">,
-}, NameOcclusionItem>
+}, NameOcclusion>
 Enum.NameOcclusion = {"NoOcclusion", "EnemyOcclusion", "OccludeAll"}
 
-export type NetworkOwnershipItem =
-	EnumItem<number, NetworkOwnership, "Automatic">
+export type NetworkOwnership =
+	| EnumItem<number, NetworkOwnership, "Automatic">
 	| EnumItem<number, NetworkOwnership, "Manual">
 	| EnumItem<number, NetworkOwnership, "OnContact">
-export type NetworkOwnership = EnumObject<{
+export type NetworkOwnershipRoot = EnumObject<{
 	Automatic: EnumItem<number, NetworkOwnership, "Automatic">,
 	Manual: EnumItem<number, NetworkOwnership, "Manual">,
 	OnContact: EnumItem<number, NetworkOwnership, "OnContact">,
-}, NetworkOwnershipItem>
+}, NetworkOwnership>
 Enum.NetworkOwnership = {"Automatic", "Manual", "OnContact"}
 
-export type NetworkStatusItem =
-	EnumItem<number, NetworkStatus, "Unknown">
+export type NetworkStatus =
+	| EnumItem<number, NetworkStatus, "Unknown">
 	| EnumItem<number, NetworkStatus, "Connected">
 	| EnumItem<number, NetworkStatus, "Disconnected">
-export type NetworkStatus = EnumObject<{
+export type NetworkStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, NetworkStatus, "Unknown">,
 	Connected: EnumItem<number, NetworkStatus, "Connected">,
 	Disconnected: EnumItem<number, NetworkStatus, "Disconnected">,
-}, NetworkStatusItem>
+}, NetworkStatus>
 Enum.NetworkStatus = {"Unknown", "Connected", "Disconnected"}
 
-export type NoiseTypeItem = EnumItem<number, NoiseType, "SimplexGabor">
-export type NoiseType = EnumObject<{
+export type NoiseType = | EnumItem<number, NoiseType, "SimplexGabor">
+export type NoiseTypeRoot = EnumObject<{
 	SimplexGabor: EnumItem<number, NoiseType, "SimplexGabor">,
-}, NoiseTypeItem>
+}, NoiseType>
 Enum.NoiseType = {"SimplexGabor"}
 
-export type NormalIdItem =
-	EnumItem<number, NormalId, "Right">
+export type NormalId =
+	| EnumItem<number, NormalId, "Right">
 	| EnumItem<number, NormalId, "Top">
 	| EnumItem<number, NormalId, "Back">
 	| EnumItem<number, NormalId, "Left">
 	| EnumItem<number, NormalId, "Bottom">
 	| EnumItem<number, NormalId, "Front">
-export type NormalId = EnumObject<{
+export type NormalIdRoot = EnumObject<{
 	Right: EnumItem<number, NormalId, "Right">,
 	Top: EnumItem<number, NormalId, "Top">,
 	Back: EnumItem<number, NormalId, "Back">,
 	Left: EnumItem<number, NormalId, "Left">,
 	Bottom: EnumItem<number, NormalId, "Bottom">,
 	Front: EnumItem<number, NormalId, "Front">,
-}, NormalIdItem>
+}, NormalId>
 Enum.NormalId = {"Right", "Top", "Back", "Left", "Bottom", "Front"}
 
-export type NotificationButtonTypeItem =
-	EnumItem<number, NotificationButtonType, "Primary">
+export type NotificationButtonType =
+	| EnumItem<number, NotificationButtonType, "Primary">
 	| EnumItem<number, NotificationButtonType, "Secondary">
-export type NotificationButtonType = EnumObject<{
+export type NotificationButtonTypeRoot = EnumObject<{
 	Primary: EnumItem<number, NotificationButtonType, "Primary">,
 	Secondary: EnumItem<number, NotificationButtonType, "Secondary">,
-}, NotificationButtonTypeItem>
+}, NotificationButtonType>
 Enum.NotificationButtonType = {"Primary", "Secondary"}
 
-export type OperationTypeItem =
-	EnumItem<number, OperationType, "Null">
+export type OperationType =
+	| EnumItem<number, OperationType, "Null">
 	| EnumItem<number, OperationType, "Union">
 	| EnumItem<number, OperationType, "Subtraction">
 	| EnumItem<number, OperationType, "Intersection">
 	| EnumItem<number, OperationType, "Primitive">
-export type OperationType = EnumObject<{
+export type OperationTypeRoot = EnumObject<{
 	Null: EnumItem<number, OperationType, "Null">,
 	Union: EnumItem<number, OperationType, "Union">,
 	Subtraction: EnumItem<number, OperationType, "Subtraction">,
 	Intersection: EnumItem<number, OperationType, "Intersection">,
 	Primitive: EnumItem<number, OperationType, "Primitive">,
-}, OperationTypeItem>
+}, OperationType>
 Enum.OperationType = {"Null", "Union", "Subtraction", "Intersection", "Primitive"}
 
-export type OrientationAlignmentModeItem =
-	EnumItem<number, OrientationAlignmentMode, "OneAttachment">
+export type OrientationAlignmentMode =
+	| EnumItem<number, OrientationAlignmentMode, "OneAttachment">
 	| EnumItem<number, OrientationAlignmentMode, "TwoAttachment">
-export type OrientationAlignmentMode = EnumObject<{
+export type OrientationAlignmentModeRoot = EnumObject<{
 	OneAttachment: EnumItem<number, OrientationAlignmentMode, "OneAttachment">,
 	TwoAttachment: EnumItem<number, OrientationAlignmentMode, "TwoAttachment">,
-}, OrientationAlignmentModeItem>
+}, OrientationAlignmentMode>
 Enum.OrientationAlignmentMode = {"OneAttachment", "TwoAttachment"}
 
-export type OutfitSourceItem =
-	EnumItem<number, OutfitSource, "All">
+export type OutfitSource =
+	| EnumItem<number, OutfitSource, "All">
 	| EnumItem<number, OutfitSource, "Created">
 	| EnumItem<number, OutfitSource, "Purchased">
-export type OutfitSource = EnumObject<{
+export type OutfitSourceRoot = EnumObject<{
 	All: EnumItem<number, OutfitSource, "All">,
 	Created: EnumItem<number, OutfitSource, "Created">,
 	Purchased: EnumItem<number, OutfitSource, "Purchased">,
-}, OutfitSourceItem>
+}, OutfitSource>
 Enum.OutfitSource = {
 	All = 1;
 	Created = 2;
 	Purchased = 3;
 }
 
-export type OutfitTypeItem =
-	EnumItem<number, OutfitType, "All">
+export type OutfitType =
+	| EnumItem<number, OutfitType, "All">
 	| EnumItem<number, OutfitType, "Avatar">
 	| EnumItem<number, OutfitType, "DynamicHead">
-export type OutfitType = EnumObject<{
+export type OutfitTypeRoot = EnumObject<{
 	All: EnumItem<number, OutfitType, "All">,
 	Avatar: EnumItem<number, OutfitType, "Avatar">,
 	DynamicHead: EnumItem<number, OutfitType, "DynamicHead">,
-}, OutfitTypeItem>
+}, OutfitType>
 Enum.OutfitType = {
 	All = 1;
 	Avatar = 2;
 	DynamicHead = 3;
 }
 
-export type OutputLayoutModeItem =
-	EnumItem<number, OutputLayoutMode, "Horizontal">
+export type OutputLayoutMode =
+	| EnumItem<number, OutputLayoutMode, "Horizontal">
 	| EnumItem<number, OutputLayoutMode, "Vertical">
-export type OutputLayoutMode = EnumObject<{
+export type OutputLayoutModeRoot = EnumObject<{
 	Horizontal: EnumItem<number, OutputLayoutMode, "Horizontal">,
 	Vertical: EnumItem<number, OutputLayoutMode, "Vertical">,
-}, OutputLayoutModeItem>
+}, OutputLayoutMode>
 Enum.OutputLayoutMode = {"Horizontal", "Vertical"}
 
-export type OverrideMouseIconBehaviorItem =
-	EnumItem<number, OverrideMouseIconBehavior, "None">
+export type OverrideMouseIconBehavior =
+	| EnumItem<number, OverrideMouseIconBehavior, "None">
 	| EnumItem<number, OverrideMouseIconBehavior, "ForceShow">
 	| EnumItem<number, OverrideMouseIconBehavior, "ForceHide">
-export type OverrideMouseIconBehavior = EnumObject<{
+export type OverrideMouseIconBehaviorRoot = EnumObject<{
 	None: EnumItem<number, OverrideMouseIconBehavior, "None">,
 	ForceShow: EnumItem<number, OverrideMouseIconBehavior, "ForceShow">,
 	ForceHide: EnumItem<number, OverrideMouseIconBehavior, "ForceHide">,
-}, OverrideMouseIconBehaviorItem>
+}, OverrideMouseIconBehavior>
 Enum.OverrideMouseIconBehavior = {"None", "ForceShow", "ForceHide"}
 
-export type PackagePermissionItem =
-	EnumItem<number, PackagePermission, "None">
+export type PackagePermission =
+	| EnumItem<number, PackagePermission, "None">
 	| EnumItem<number, PackagePermission, "NoAccess">
 	| EnumItem<number, PackagePermission, "Revoked">
 	| EnumItem<number, PackagePermission, "UseView">
 	| EnumItem<number, PackagePermission, "Edit">
 	| EnumItem<number, PackagePermission, "Own">
-export type PackagePermission = EnumObject<{
+export type PackagePermissionRoot = EnumObject<{
 	None: EnumItem<number, PackagePermission, "None">,
 	NoAccess: EnumItem<number, PackagePermission, "NoAccess">,
 	Revoked: EnumItem<number, PackagePermission, "Revoked">,
 	UseView: EnumItem<number, PackagePermission, "UseView">,
 	Edit: EnumItem<number, PackagePermission, "Edit">,
 	Own: EnumItem<number, PackagePermission, "Own">,
-}, PackagePermissionItem>
+}, PackagePermission>
 Enum.PackagePermission = {"None", "NoAccess", "Revoked", "UseView", "Edit", "Own"}
 
-export type PartTypeItem =
-	EnumItem<number, PartType, "Ball">
+export type PartType =
+	| EnumItem<number, PartType, "Ball">
 	| EnumItem<number, PartType, "Block">
 	| EnumItem<number, PartType, "Cylinder">
 	| EnumItem<number, PartType, "Wedge">
 	| EnumItem<number, PartType, "CornerWedge">
-export type PartType = EnumObject<{
+export type PartTypeRoot = EnumObject<{
 	Ball: EnumItem<number, PartType, "Ball">,
 	Block: EnumItem<number, PartType, "Block">,
 	Cylinder: EnumItem<number, PartType, "Cylinder">,
 	Wedge: EnumItem<number, PartType, "Wedge">,
 	CornerWedge: EnumItem<number, PartType, "CornerWedge">,
-}, PartTypeItem>
+}, PartType>
 Enum.PartType = {"Ball", "Block", "Cylinder", "Wedge", "CornerWedge"}
 
-export type ParticleEmitterShapeItem =
-	EnumItem<number, ParticleEmitterShape, "Box">
+export type ParticleEmitterShape =
+	| EnumItem<number, ParticleEmitterShape, "Box">
 	| EnumItem<number, ParticleEmitterShape, "Sphere">
 	| EnumItem<number, ParticleEmitterShape, "Cylinder">
 	| EnumItem<number, ParticleEmitterShape, "Disc">
-export type ParticleEmitterShape = EnumObject<{
+export type ParticleEmitterShapeRoot = EnumObject<{
 	Box: EnumItem<number, ParticleEmitterShape, "Box">,
 	Sphere: EnumItem<number, ParticleEmitterShape, "Sphere">,
 	Cylinder: EnumItem<number, ParticleEmitterShape, "Cylinder">,
 	Disc: EnumItem<number, ParticleEmitterShape, "Disc">,
-}, ParticleEmitterShapeItem>
+}, ParticleEmitterShape>
 Enum.ParticleEmitterShape = {"Box", "Sphere", "Cylinder", "Disc"}
 
-export type ParticleEmitterShapeInOutItem =
-	EnumItem<number, ParticleEmitterShapeInOut, "Outward">
+export type ParticleEmitterShapeInOut =
+	| EnumItem<number, ParticleEmitterShapeInOut, "Outward">
 	| EnumItem<number, ParticleEmitterShapeInOut, "Inward">
 	| EnumItem<number, ParticleEmitterShapeInOut, "InAndOut">
-export type ParticleEmitterShapeInOut = EnumObject<{
+export type ParticleEmitterShapeInOutRoot = EnumObject<{
 	Outward: EnumItem<number, ParticleEmitterShapeInOut, "Outward">,
 	Inward: EnumItem<number, ParticleEmitterShapeInOut, "Inward">,
 	InAndOut: EnumItem<number, ParticleEmitterShapeInOut, "InAndOut">,
-}, ParticleEmitterShapeInOutItem>
+}, ParticleEmitterShapeInOut>
 Enum.ParticleEmitterShapeInOut = {"Outward", "Inward", "InAndOut"}
 
-export type ParticleEmitterShapeStyleItem =
-	EnumItem<number, ParticleEmitterShapeStyle, "Volume">
+export type ParticleEmitterShapeStyle =
+	| EnumItem<number, ParticleEmitterShapeStyle, "Volume">
 	| EnumItem<number, ParticleEmitterShapeStyle, "Surface">
-export type ParticleEmitterShapeStyle = EnumObject<{
+export type ParticleEmitterShapeStyleRoot = EnumObject<{
 	Volume: EnumItem<number, ParticleEmitterShapeStyle, "Volume">,
 	Surface: EnumItem<number, ParticleEmitterShapeStyle, "Surface">,
-}, ParticleEmitterShapeStyleItem>
+}, ParticleEmitterShapeStyle>
 Enum.ParticleEmitterShapeStyle = {"Volume", "Surface"}
 
-export type ParticleFlipbookLayoutItem =
-	EnumItem<number, ParticleFlipbookLayout, "None">
+export type ParticleFlipbookLayout =
+	| EnumItem<number, ParticleFlipbookLayout, "None">
 	| EnumItem<number, ParticleFlipbookLayout, "Grid2x2">
 	| EnumItem<number, ParticleFlipbookLayout, "Grid4x4">
 	| EnumItem<number, ParticleFlipbookLayout, "Grid8x8">
-export type ParticleFlipbookLayout = EnumObject<{
+export type ParticleFlipbookLayoutRoot = EnumObject<{
 	None: EnumItem<number, ParticleFlipbookLayout, "None">,
 	Grid2x2: EnumItem<number, ParticleFlipbookLayout, "Grid2x2">,
 	Grid4x4: EnumItem<number, ParticleFlipbookLayout, "Grid4x4">,
 	Grid8x8: EnumItem<number, ParticleFlipbookLayout, "Grid8x8">,
-}, ParticleFlipbookLayoutItem>
+}, ParticleFlipbookLayout>
 Enum.ParticleFlipbookLayout = {"None", "Grid2x2", "Grid4x4", "Grid8x8"}
 
-export type ParticleFlipbookModeItem =
-	EnumItem<number, ParticleFlipbookMode, "Loop">
+export type ParticleFlipbookMode =
+	| EnumItem<number, ParticleFlipbookMode, "Loop">
 	| EnumItem<number, ParticleFlipbookMode, "OneShot">
 	| EnumItem<number, ParticleFlipbookMode, "PingPong">
 	| EnumItem<number, ParticleFlipbookMode, "Random">
-export type ParticleFlipbookMode = EnumObject<{
+export type ParticleFlipbookModeRoot = EnumObject<{
 	Loop: EnumItem<number, ParticleFlipbookMode, "Loop">,
 	OneShot: EnumItem<number, ParticleFlipbookMode, "OneShot">,
 	PingPong: EnumItem<number, ParticleFlipbookMode, "PingPong">,
 	Random: EnumItem<number, ParticleFlipbookMode, "Random">,
-}, ParticleFlipbookModeItem>
+}, ParticleFlipbookMode>
 Enum.ParticleFlipbookMode = {"Loop", "OneShot", "PingPong", "Random"}
 
-export type ParticleFlipbookTextureCompatibleItem =
-	EnumItem<number, ParticleFlipbookTextureCompatible, "NotCompatible">
+export type ParticleFlipbookTextureCompatible =
+	| EnumItem<number, ParticleFlipbookTextureCompatible, "NotCompatible">
 	| EnumItem<number, ParticleFlipbookTextureCompatible, "Compatible">
 	| EnumItem<number, ParticleFlipbookTextureCompatible, "Unknown">
-export type ParticleFlipbookTextureCompatible = EnumObject<{
+export type ParticleFlipbookTextureCompatibleRoot = EnumObject<{
 	NotCompatible: EnumItem<number, ParticleFlipbookTextureCompatible, "NotCompatible">,
 	Compatible: EnumItem<number, ParticleFlipbookTextureCompatible, "Compatible">,
 	Unknown: EnumItem<number, ParticleFlipbookTextureCompatible, "Unknown">,
-}, ParticleFlipbookTextureCompatibleItem>
+}, ParticleFlipbookTextureCompatible>
 Enum.ParticleFlipbookTextureCompatible = {"NotCompatible", "Compatible", "Unknown"}
 
-export type ParticleOrientationItem =
-	EnumItem<number, ParticleOrientation, "FacingCamera">
+export type ParticleOrientation =
+	| EnumItem<number, ParticleOrientation, "FacingCamera">
 	| EnumItem<number, ParticleOrientation, "FacingCameraWorldUp">
 	| EnumItem<number, ParticleOrientation, "VelocityParallel">
 	| EnumItem<number, ParticleOrientation, "VelocityPerpendicular">
-export type ParticleOrientation = EnumObject<{
+export type ParticleOrientationRoot = EnumObject<{
 	FacingCamera: EnumItem<number, ParticleOrientation, "FacingCamera">,
 	FacingCameraWorldUp: EnumItem<number, ParticleOrientation, "FacingCameraWorldUp">,
 	VelocityParallel: EnumItem<number, ParticleOrientation, "VelocityParallel">,
 	VelocityPerpendicular: EnumItem<number, ParticleOrientation, "VelocityPerpendicular">,
-}, ParticleOrientationItem>
+}, ParticleOrientation>
 Enum.ParticleOrientation = {"FacingCamera", "FacingCameraWorldUp", "VelocityParallel", "VelocityPerpendicular"}
 
-export type PathStatusItem =
-	EnumItem<number, PathStatus, "Success">
+export type PathStatus =
+	| EnumItem<number, PathStatus, "Success">
 	| EnumItem<number, PathStatus, "ClosestNoPath">
 	| EnumItem<number, PathStatus, "ClosestOutOfRange">
 	| EnumItem<number, PathStatus, "FailStartNotEmpty">
 	| EnumItem<number, PathStatus, "FailFinishNotEmpty">
 	| EnumItem<number, PathStatus, "NoPath">
-export type PathStatus = EnumObject<{
+export type PathStatusRoot = EnumObject<{
 	Success: EnumItem<number, PathStatus, "Success">,
 	ClosestNoPath: EnumItem<number, PathStatus, "ClosestNoPath">,
 	ClosestOutOfRange: EnumItem<number, PathStatus, "ClosestOutOfRange">,
 	FailStartNotEmpty: EnumItem<number, PathStatus, "FailStartNotEmpty">,
 	FailFinishNotEmpty: EnumItem<number, PathStatus, "FailFinishNotEmpty">,
 	NoPath: EnumItem<number, PathStatus, "NoPath">,
-}, PathStatusItem>
+}, PathStatus>
 Enum.PathStatus = {"Success", "ClosestNoPath", "ClosestOutOfRange", "FailStartNotEmpty", "FailFinishNotEmpty", "NoPath"}
 
-export type PathWaypointActionItem =
-	EnumItem<number, PathWaypointAction, "Walk">
+export type PathWaypointAction =
+	| EnumItem<number, PathWaypointAction, "Walk">
 	| EnumItem<number, PathWaypointAction, "Jump">
 	| EnumItem<number, PathWaypointAction, "Custom">
-export type PathWaypointAction = EnumObject<{
+export type PathWaypointActionRoot = EnumObject<{
 	Walk: EnumItem<number, PathWaypointAction, "Walk">,
 	Jump: EnumItem<number, PathWaypointAction, "Jump">,
 	Custom: EnumItem<number, PathWaypointAction, "Custom">,
-}, PathWaypointActionItem>
+}, PathWaypointAction>
 Enum.PathWaypointAction = {"Walk", "Jump", "Custom"}
 
-export type PathfindingUseImprovedSearchItem =
-	EnumItem<number, PathfindingUseImprovedSearch, "Default">
+export type PathfindingUseImprovedSearch =
+	| EnumItem<number, PathfindingUseImprovedSearch, "Default">
 	| EnumItem<number, PathfindingUseImprovedSearch, "Disabled">
 	| EnumItem<number, PathfindingUseImprovedSearch, "Enabled">
-export type PathfindingUseImprovedSearch = EnumObject<{
+export type PathfindingUseImprovedSearchRoot = EnumObject<{
 	Default: EnumItem<number, PathfindingUseImprovedSearch, "Default">,
 	Disabled: EnumItem<number, PathfindingUseImprovedSearch, "Disabled">,
 	Enabled: EnumItem<number, PathfindingUseImprovedSearch, "Enabled">,
-}, PathfindingUseImprovedSearchItem>
+}, PathfindingUseImprovedSearch>
 Enum.PathfindingUseImprovedSearch = {"Default", "Disabled", "Enabled"}
 
-export type PermissionLevelShownItem =
-	EnumItem<number, PermissionLevelShown, "Game">
+export type PermissionLevelShown =
+	| EnumItem<number, PermissionLevelShown, "Game">
 	| EnumItem<number, PermissionLevelShown, "RobloxGame">
 	| EnumItem<number, PermissionLevelShown, "RobloxScript">
 	| EnumItem<number, PermissionLevelShown, "Studio">
 	| EnumItem<number, PermissionLevelShown, "Roblox">
-export type PermissionLevelShown = EnumObject<{
+export type PermissionLevelShownRoot = EnumObject<{
 	Game: EnumItem<number, PermissionLevelShown, "Game">,
 	RobloxGame: EnumItem<number, PermissionLevelShown, "RobloxGame">,
 	RobloxScript: EnumItem<number, PermissionLevelShown, "RobloxScript">,
 	Studio: EnumItem<number, PermissionLevelShown, "Studio">,
 	Roblox: EnumItem<number, PermissionLevelShown, "Roblox">,
-}, PermissionLevelShownItem>
+}, PermissionLevelShown>
 Enum.PermissionLevelShown = {"Game", "RobloxGame", "RobloxScript", "Studio", "Roblox"}
 
-export type PhysicsSimulationRateItem =
-	EnumItem<number, PhysicsSimulationRate, "Fixed240Hz">
+export type PhysicsSimulationRate =
+	| EnumItem<number, PhysicsSimulationRate, "Fixed240Hz">
 	| EnumItem<number, PhysicsSimulationRate, "Fixed120Hz">
 	| EnumItem<number, PhysicsSimulationRate, "Fixed60Hz">
-export type PhysicsSimulationRate = EnumObject<{
+export type PhysicsSimulationRateRoot = EnumObject<{
 	Fixed240Hz: EnumItem<number, PhysicsSimulationRate, "Fixed240Hz">,
 	Fixed120Hz: EnumItem<number, PhysicsSimulationRate, "Fixed120Hz">,
 	Fixed60Hz: EnumItem<number, PhysicsSimulationRate, "Fixed60Hz">,
-}, PhysicsSimulationRateItem>
+}, PhysicsSimulationRate>
 Enum.PhysicsSimulationRate = {"Fixed240Hz", "Fixed120Hz", "Fixed60Hz"}
 
-export type PhysicsSteppingMethodItem =
-	EnumItem<number, PhysicsSteppingMethod, "Default">
+export type PhysicsSteppingMethod =
+	| EnumItem<number, PhysicsSteppingMethod, "Default">
 	| EnumItem<number, PhysicsSteppingMethod, "Fixed">
 	| EnumItem<number, PhysicsSteppingMethod, "Adaptive">
-export type PhysicsSteppingMethod = EnumObject<{
+export type PhysicsSteppingMethodRoot = EnumObject<{
 	Default: EnumItem<number, PhysicsSteppingMethod, "Default">,
 	Fixed: EnumItem<number, PhysicsSteppingMethod, "Fixed">,
 	Adaptive: EnumItem<number, PhysicsSteppingMethod, "Adaptive">,
-}, PhysicsSteppingMethodItem>
+}, PhysicsSteppingMethod>
 Enum.PhysicsSteppingMethod = {"Default", "Fixed", "Adaptive"}
 
-export type PlatformItem =
-	EnumItem<number, Platform, "Windows">
+export type Platform =
+	| EnumItem<number, Platform, "Windows">
 	| EnumItem<number, Platform, "OSX">
 	| EnumItem<number, Platform, "IOS">
 	| EnumItem<number, Platform, "Android">
@@ -5754,7 +6289,7 @@ export type PlatformItem =
 	| EnumItem<number, Platform, "PS5">
 	| EnumItem<number, Platform, "MetaOS">
 	| EnumItem<number, Platform, "None">
-export type Platform = EnumObject<{
+export type PlatformRoot = EnumObject<{
 	Windows: EnumItem<number, Platform, "Windows">,
 	OSX: EnumItem<number, Platform, "OSX">,
 	IOS: EnumItem<number, Platform, "IOS">,
@@ -5777,7 +6312,7 @@ export type Platform = EnumObject<{
 	PS5: EnumItem<number, Platform, "PS5">,
 	MetaOS: EnumItem<number, Platform, "MetaOS">,
 	None: EnumItem<number, Platform, "None">,
-}, PlatformItem>
+}, Platform>
 Enum.Platform = {
 	"Windows";
 	"OSX";
@@ -5803,108 +6338,132 @@ Enum.Platform = {
 	"None";
 }
 
-export type PlaybackStateItem =
-	EnumItem<number, PlaybackState, "Begin">
+export type PlaybackState =
+	| EnumItem<number, PlaybackState, "Begin">
 	| EnumItem<number, PlaybackState, "Delayed">
 	| EnumItem<number, PlaybackState, "Playing">
 	| EnumItem<number, PlaybackState, "Paused">
 	| EnumItem<number, PlaybackState, "Completed">
 	| EnumItem<number, PlaybackState, "Cancelled">
-export type PlaybackState = EnumObject<{
+export type PlaybackStateRoot = EnumObject<{
 	Begin: EnumItem<number, PlaybackState, "Begin">,
 	Delayed: EnumItem<number, PlaybackState, "Delayed">,
 	Playing: EnumItem<number, PlaybackState, "Playing">,
 	Paused: EnumItem<number, PlaybackState, "Paused">,
 	Completed: EnumItem<number, PlaybackState, "Completed">,
 	Cancelled: EnumItem<number, PlaybackState, "Cancelled">,
-}, PlaybackStateItem>
+}, PlaybackState>
 Enum.PlaybackState = {"Begin", "Delayed", "Playing", "Paused", "Completed", "Cancelled"}
 
-export type PlayerActionsItem =
-	EnumItem<number, PlayerActions, "CharacterForward">
+export type PlayerActions =
+	| EnumItem<number, PlayerActions, "CharacterForward">
 	| EnumItem<number, PlayerActions, "CharacterBackward">
 	| EnumItem<number, PlayerActions, "CharacterLeft">
 	| EnumItem<number, PlayerActions, "CharacterRight">
 	| EnumItem<number, PlayerActions, "CharacterJump">
-export type PlayerActions = EnumObject<{
+export type PlayerActionsRoot = EnumObject<{
 	CharacterForward: EnumItem<number, PlayerActions, "CharacterForward">,
 	CharacterBackward: EnumItem<number, PlayerActions, "CharacterBackward">,
 	CharacterLeft: EnumItem<number, PlayerActions, "CharacterLeft">,
 	CharacterRight: EnumItem<number, PlayerActions, "CharacterRight">,
 	CharacterJump: EnumItem<number, PlayerActions, "CharacterJump">,
-}, PlayerActionsItem>
+}, PlayerActions>
 Enum.PlayerActions = {"CharacterForward", "CharacterBackward", "CharacterLeft", "CharacterRight", "CharacterJump"}
 
-export type PlayerCharacterDestroyBehaviorItem =
-	EnumItem<number, PlayerCharacterDestroyBehavior, "Default">
+export type PlayerCharacterDestroyBehavior =
+	| EnumItem<number, PlayerCharacterDestroyBehavior, "Default">
 	| EnumItem<number, PlayerCharacterDestroyBehavior, "Disabled">
 	| EnumItem<number, PlayerCharacterDestroyBehavior, "Enabled">
-export type PlayerCharacterDestroyBehavior = EnumObject<{
+export type PlayerCharacterDestroyBehaviorRoot = EnumObject<{
 	Default: EnumItem<number, PlayerCharacterDestroyBehavior, "Default">,
 	Disabled: EnumItem<number, PlayerCharacterDestroyBehavior, "Disabled">,
 	Enabled: EnumItem<number, PlayerCharacterDestroyBehavior, "Enabled">,
-}, PlayerCharacterDestroyBehaviorItem>
+}, PlayerCharacterDestroyBehavior>
 Enum.PlayerCharacterDestroyBehavior = {"Default", "Disabled", "Enabled"}
 
-export type PlayerChatTypeItem =
-	EnumItem<number, PlayerChatType, "All">
+export type PlayerChatType =
+	| EnumItem<number, PlayerChatType, "All">
 	| EnumItem<number, PlayerChatType, "Team">
 	| EnumItem<number, PlayerChatType, "Whisper">
-export type PlayerChatType = EnumObject<{
+export type PlayerChatTypeRoot = EnumObject<{
 	All: EnumItem<number, PlayerChatType, "All">,
 	Team: EnumItem<number, PlayerChatType, "Team">,
 	Whisper: EnumItem<number, PlayerChatType, "Whisper">,
-}, PlayerChatTypeItem>
+}, PlayerChatType>
 Enum.PlayerChatType = {"All", "Team", "Whisper"}
 
-export type PoseEasingDirectionItem =
-	EnumItem<number, PoseEasingDirection, "In">
+export type PlayerDataErrorState =
+	| EnumItem<number, PlayerDataErrorState, "LoadFailed">
+	| EnumItem<number, PlayerDataErrorState, "FlushFailed">
+	| EnumItem<number, PlayerDataErrorState, "ReleaseFailed">
+	| EnumItem<number, PlayerDataErrorState, "None">
+export type PlayerDataErrorStateRoot = EnumObject<{
+	LoadFailed: EnumItem<number, PlayerDataErrorState, "LoadFailed">,
+	FlushFailed: EnumItem<number, PlayerDataErrorState, "FlushFailed">,
+	ReleaseFailed: EnumItem<number, PlayerDataErrorState, "ReleaseFailed">,
+	None: EnumItem<number, PlayerDataErrorState, "None">,
+}, PlayerDataErrorState>
+Enum.PlayerDataErrorState = {"LoadFailed", "FlushFailed", "ReleaseFailed", "None"}
+
+export type PlayerDataLoadFailureBehavior =
+	| EnumItem<number, PlayerDataLoadFailureBehavior, "Failure">
+	| EnumItem<number, PlayerDataLoadFailureBehavior, "FallbackToDefault">
+	| EnumItem<number, PlayerDataLoadFailureBehavior, "Kick">
+export type PlayerDataLoadFailureBehaviorRoot = EnumObject<{
+	Failure: EnumItem<number, PlayerDataLoadFailureBehavior, "Failure">,
+	FallbackToDefault: EnumItem<number, PlayerDataLoadFailureBehavior, "FallbackToDefault">,
+	Kick: EnumItem<number, PlayerDataLoadFailureBehavior, "Kick">,
+}, PlayerDataLoadFailureBehavior>
+Enum.PlayerDataLoadFailureBehavior = {"Failure", "FallbackToDefault", "Kick"}
+
+export type PoseEasingDirection =
+	| EnumItem<number, PoseEasingDirection, "In">
 	| EnumItem<number, PoseEasingDirection, "Out">
 	| EnumItem<number, PoseEasingDirection, "InOut">
-export type PoseEasingDirection = EnumObject<{
+export type PoseEasingDirectionRoot = EnumObject<{
 	In: EnumItem<number, PoseEasingDirection, "In">,
 	Out: EnumItem<number, PoseEasingDirection, "Out">,
 	InOut: EnumItem<number, PoseEasingDirection, "InOut">,
-}, PoseEasingDirectionItem>
+}, PoseEasingDirection>
 Enum.PoseEasingDirection = {"In", "Out", "InOut"}
 
-export type PoseEasingStyleItem =
-	EnumItem<number, PoseEasingStyle, "Linear">
+export type PoseEasingStyle =
+	| EnumItem<number, PoseEasingStyle, "Linear">
 	| EnumItem<number, PoseEasingStyle, "Constant">
 	| EnumItem<number, PoseEasingStyle, "Elastic">
 	| EnumItem<number, PoseEasingStyle, "Cubic">
 	| EnumItem<number, PoseEasingStyle, "Bounce">
 	| EnumItem<number, PoseEasingStyle, "CubicV2">
-export type PoseEasingStyle = EnumObject<{
+export type PoseEasingStyleRoot = EnumObject<{
 	Linear: EnumItem<number, PoseEasingStyle, "Linear">,
 	Constant: EnumItem<number, PoseEasingStyle, "Constant">,
 	Elastic: EnumItem<number, PoseEasingStyle, "Elastic">,
 	Cubic: EnumItem<number, PoseEasingStyle, "Cubic">,
 	Bounce: EnumItem<number, PoseEasingStyle, "Bounce">,
 	CubicV2: EnumItem<number, PoseEasingStyle, "CubicV2">,
-}, PoseEasingStyleItem>
+}, PoseEasingStyle>
 Enum.PoseEasingStyle = {"Linear", "Constant", "Elastic", "Cubic", "Bounce", "CubicV2"}
 
-export type PositionAlignmentModeItem =
-	EnumItem<number, PositionAlignmentMode, "OneAttachment">
+export type PositionAlignmentMode =
+	| EnumItem<number, PositionAlignmentMode, "OneAttachment">
 	| EnumItem<number, PositionAlignmentMode, "TwoAttachment">
-export type PositionAlignmentMode = EnumObject<{
+export type PositionAlignmentModeRoot = EnumObject<{
 	OneAttachment: EnumItem<number, PositionAlignmentMode, "OneAttachment">,
 	TwoAttachment: EnumItem<number, PositionAlignmentMode, "TwoAttachment">,
-}, PositionAlignmentModeItem>
+}, PositionAlignmentMode>
 Enum.PositionAlignmentMode = {"OneAttachment", "TwoAttachment"}
 
-export type PreferredTextSizeItem =
-	EnumItem<number, PreferredTextSize, "Medium">
+export type PreferredTextSize =
+	| EnumItem<number, PreferredTextSize, "Medium">
 	| EnumItem<number, PreferredTextSize, "Large">
 	| EnumItem<number, PreferredTextSize, "Larger">
 	| EnumItem<number, PreferredTextSize, "Largest">
-export type PreferredTextSize = EnumObject<{
+export type PreferredTextSizeRoot = EnumObject<{
 	Medium: EnumItem<number, PreferredTextSize, "Medium">,
 	Large: EnumItem<number, PreferredTextSize, "Large">,
 	Larger: EnumItem<number, PreferredTextSize, "Larger">,
 	Largest: EnumItem<number, PreferredTextSize, "Largest">,
-}, PreferredTextSizeItem>
+}, PreferredTextSize>
 Enum.PreferredTextSize = {
 	Medium = 1;
 	Large = 2;
@@ -5912,47 +6471,47 @@ Enum.PreferredTextSize = {
 	Largest = 4;
 }
 
-export type PrimalPhysicsSolverItem =
-	EnumItem<number, PrimalPhysicsSolver, "Default">
+export type PrimalPhysicsSolver =
+	| EnumItem<number, PrimalPhysicsSolver, "Default">
 	| EnumItem<number, PrimalPhysicsSolver, "Experimental">
 	| EnumItem<number, PrimalPhysicsSolver, "Disabled">
-export type PrimalPhysicsSolver = EnumObject<{
+export type PrimalPhysicsSolverRoot = EnumObject<{
 	Default: EnumItem<number, PrimalPhysicsSolver, "Default">,
 	Experimental: EnumItem<number, PrimalPhysicsSolver, "Experimental">,
 	Disabled: EnumItem<number, PrimalPhysicsSolver, "Disabled">,
-}, PrimalPhysicsSolverItem>
+}, PrimalPhysicsSolver>
 Enum.PrimalPhysicsSolver = {"Default", "Experimental", "Disabled"}
 
-export type PrimitiveTypeItem =
-	EnumItem<number, PrimitiveType, "Null">
+export type PrimitiveType =
+	| EnumItem<number, PrimitiveType, "Null">
 	| EnumItem<number, PrimitiveType, "Ball">
 	| EnumItem<number, PrimitiveType, "Cylinder">
 	| EnumItem<number, PrimitiveType, "Block">
 	| EnumItem<number, PrimitiveType, "Wedge">
 	| EnumItem<number, PrimitiveType, "CornerWedge">
-export type PrimitiveType = EnumObject<{
+export type PrimitiveTypeRoot = EnumObject<{
 	Null: EnumItem<number, PrimitiveType, "Null">,
 	Ball: EnumItem<number, PrimitiveType, "Ball">,
 	Cylinder: EnumItem<number, PrimitiveType, "Cylinder">,
 	Block: EnumItem<number, PrimitiveType, "Block">,
 	Wedge: EnumItem<number, PrimitiveType, "Wedge">,
 	CornerWedge: EnumItem<number, PrimitiveType, "CornerWedge">,
-}, PrimitiveTypeItem>
+}, PrimitiveType>
 Enum.PrimitiveType = {"Null", "Ball", "Cylinder", "Block", "Wedge", "CornerWedge"}
 
-export type PrivilegeTypeItem =
-	EnumItem<number, PrivilegeType, "Banned">
+export type PrivilegeType =
+	| EnumItem<number, PrivilegeType, "Banned">
 	| EnumItem<number, PrivilegeType, "Visitor">
 	| EnumItem<number, PrivilegeType, "Member">
 	| EnumItem<number, PrivilegeType, "Admin">
 	| EnumItem<number, PrivilegeType, "Owner">
-export type PrivilegeType = EnumObject<{
+export type PrivilegeTypeRoot = EnumObject<{
 	Banned: EnumItem<number, PrivilegeType, "Banned">,
 	Visitor: EnumItem<number, PrivilegeType, "Visitor">,
 	Member: EnumItem<number, PrivilegeType, "Member">,
 	Admin: EnumItem<number, PrivilegeType, "Admin">,
 	Owner: EnumItem<number, PrivilegeType, "Owner">,
-}, PrivilegeTypeItem>
+}, PrivilegeType>
 Enum.PrivilegeType = {
 	Banned = 0;
 	Visitor = 10;
@@ -5961,41 +6520,59 @@ Enum.PrivilegeType = {
 	Owner = 255;
 }
 
-export type ProductLocationRestrictionItem =
-	EnumItem<number, ProductLocationRestriction, "AvatarShop">
+export type ProductLocationRestriction =
+	| EnumItem<number, ProductLocationRestriction, "AvatarShop">
 	| EnumItem<number, ProductLocationRestriction, "AllowedGames">
 	| EnumItem<number, ProductLocationRestriction, "AllGames">
-export type ProductLocationRestriction = EnumObject<{
+export type ProductLocationRestrictionRoot = EnumObject<{
 	AvatarShop: EnumItem<number, ProductLocationRestriction, "AvatarShop">,
 	AllowedGames: EnumItem<number, ProductLocationRestriction, "AllowedGames">,
 	AllGames: EnumItem<number, ProductLocationRestriction, "AllGames">,
-}, ProductLocationRestrictionItem>
+}, ProductLocationRestriction>
 Enum.ProductLocationRestriction = {"AvatarShop", "AllowedGames", "AllGames"}
 
-export type ProductPurchaseDecisionItem =
-	EnumItem<number, ProductPurchaseDecision, "NotProcessedYet">
+export type ProductPurchaseChannel =
+	| EnumItem<number, ProductPurchaseChannel, "InExperience">
+	| EnumItem<number, ProductPurchaseChannel, "ExperienceDetailsPage">
+	| EnumItem<number, ProductPurchaseChannel, "AdReward">
+	| EnumItem<number, ProductPurchaseChannel, "CommerceProduct">
+export type ProductPurchaseChannelRoot = EnumObject<{
+	InExperience: EnumItem<number, ProductPurchaseChannel, "InExperience">,
+	ExperienceDetailsPage: EnumItem<number, ProductPurchaseChannel, "ExperienceDetailsPage">,
+	AdReward: EnumItem<number, ProductPurchaseChannel, "AdReward">,
+	CommerceProduct: EnumItem<number, ProductPurchaseChannel, "CommerceProduct">,
+}, ProductPurchaseChannel>
+Enum.ProductPurchaseChannel = {
+	InExperience = 1;
+	ExperienceDetailsPage = 2;
+	AdReward = 3;
+	CommerceProduct = 4;
+}
+
+export type ProductPurchaseDecision =
+	| EnumItem<number, ProductPurchaseDecision, "NotProcessedYet">
 	| EnumItem<number, ProductPurchaseDecision, "PurchaseGranted">
-export type ProductPurchaseDecision = EnumObject<{
+export type ProductPurchaseDecisionRoot = EnumObject<{
 	NotProcessedYet: EnumItem<number, ProductPurchaseDecision, "NotProcessedYet">,
 	PurchaseGranted: EnumItem<number, ProductPurchaseDecision, "PurchaseGranted">,
-}, ProductPurchaseDecisionItem>
+}, ProductPurchaseDecision>
 Enum.ProductPurchaseDecision = {"NotProcessedYet", "PurchaseGranted"}
 
-export type PromptCreateAssetResultItem =
-	EnumItem<number, PromptCreateAssetResult, "Success">
+export type PromptCreateAssetResult =
+	| EnumItem<number, PromptCreateAssetResult, "Success">
 	| EnumItem<number, PromptCreateAssetResult, "PermissionDenied">
 	| EnumItem<number, PromptCreateAssetResult, "Timeout">
 	| EnumItem<number, PromptCreateAssetResult, "UploadFailed">
 	| EnumItem<number, PromptCreateAssetResult, "NoUserInput">
 	| EnumItem<number, PromptCreateAssetResult, "UnknownFailure">
-export type PromptCreateAssetResult = EnumObject<{
+export type PromptCreateAssetResultRoot = EnumObject<{
 	Success: EnumItem<number, PromptCreateAssetResult, "Success">,
 	PermissionDenied: EnumItem<number, PromptCreateAssetResult, "PermissionDenied">,
 	Timeout: EnumItem<number, PromptCreateAssetResult, "Timeout">,
 	UploadFailed: EnumItem<number, PromptCreateAssetResult, "UploadFailed">,
 	NoUserInput: EnumItem<number, PromptCreateAssetResult, "NoUserInput">,
 	UnknownFailure: EnumItem<number, PromptCreateAssetResult, "UnknownFailure">,
-}, PromptCreateAssetResultItem>
+}, PromptCreateAssetResult>
 Enum.PromptCreateAssetResult = {
 	Success = 1;
 	PermissionDenied = 2;
@@ -6005,8 +6582,8 @@ Enum.PromptCreateAssetResult = {
 	UnknownFailure = 6;
 }
 
-export type PromptCreateAvatarResultItem =
-	EnumItem<number, PromptCreateAvatarResult, "Success">
+export type PromptCreateAvatarResult =
+	| EnumItem<number, PromptCreateAvatarResult, "Success">
 	| EnumItem<number, PromptCreateAvatarResult, "PermissionDenied">
 	| EnumItem<number, PromptCreateAvatarResult, "Timeout">
 	| EnumItem<number, PromptCreateAvatarResult, "UploadFailed">
@@ -6015,8 +6592,10 @@ export type PromptCreateAvatarResultItem =
 	| EnumItem<number, PromptCreateAvatarResult, "UGCValidationFailed">
 	| EnumItem<number, PromptCreateAvatarResult, "ModeratedName">
 	| EnumItem<number, PromptCreateAvatarResult, "MaxOutfits">
+	| EnumItem<number, PromptCreateAvatarResult, "PurchaseFailure">
 	| EnumItem<number, PromptCreateAvatarResult, "UnknownFailure">
-export type PromptCreateAvatarResult = EnumObject<{
+	| EnumItem<number, PromptCreateAvatarResult, "TokenInvalid">
+export type PromptCreateAvatarResultRoot = EnumObject<{
 	Success: EnumItem<number, PromptCreateAvatarResult, "Success">,
 	PermissionDenied: EnumItem<number, PromptCreateAvatarResult, "PermissionDenied">,
 	Timeout: EnumItem<number, PromptCreateAvatarResult, "Timeout">,
@@ -6026,8 +6605,10 @@ export type PromptCreateAvatarResult = EnumObject<{
 	UGCValidationFailed: EnumItem<number, PromptCreateAvatarResult, "UGCValidationFailed">,
 	ModeratedName: EnumItem<number, PromptCreateAvatarResult, "ModeratedName">,
 	MaxOutfits: EnumItem<number, PromptCreateAvatarResult, "MaxOutfits">,
+	PurchaseFailure: EnumItem<number, PromptCreateAvatarResult, "PurchaseFailure">,
 	UnknownFailure: EnumItem<number, PromptCreateAvatarResult, "UnknownFailure">,
-}, PromptCreateAvatarResultItem>
+	TokenInvalid: EnumItem<number, PromptCreateAvatarResult, "TokenInvalid">,
+}, PromptCreateAvatarResult>
 Enum.PromptCreateAvatarResult = {
 	Success = 1;
 	PermissionDenied = 2;
@@ -6038,24 +6619,26 @@ Enum.PromptCreateAvatarResult = {
 	UGCValidationFailed = 7;
 	ModeratedName = 8;
 	MaxOutfits = 9;
-	UnknownFailure = 10;
+	PurchaseFailure = 10;
+	UnknownFailure = 11;
+	TokenInvalid = 12;
 }
 
-export type PromptPublishAssetResultItem =
-	EnumItem<number, PromptPublishAssetResult, "Success">
+export type PromptPublishAssetResult =
+	| EnumItem<number, PromptPublishAssetResult, "Success">
 	| EnumItem<number, PromptPublishAssetResult, "PermissionDenied">
 	| EnumItem<number, PromptPublishAssetResult, "Timeout">
 	| EnumItem<number, PromptPublishAssetResult, "UploadFailed">
 	| EnumItem<number, PromptPublishAssetResult, "NoUserInput">
 	| EnumItem<number, PromptPublishAssetResult, "UnknownFailure">
-export type PromptPublishAssetResult = EnumObject<{
+export type PromptPublishAssetResultRoot = EnumObject<{
 	Success: EnumItem<number, PromptPublishAssetResult, "Success">,
 	PermissionDenied: EnumItem<number, PromptPublishAssetResult, "PermissionDenied">,
 	Timeout: EnumItem<number, PromptPublishAssetResult, "Timeout">,
 	UploadFailed: EnumItem<number, PromptPublishAssetResult, "UploadFailed">,
 	NoUserInput: EnumItem<number, PromptPublishAssetResult, "NoUserInput">,
 	UnknownFailure: EnumItem<number, PromptPublishAssetResult, "UnknownFailure">,
-}, PromptPublishAssetResultItem>
+}, PromptPublishAssetResult>
 Enum.PromptPublishAssetResult = {
 	Success = 1;
 	PermissionDenied = 2;
@@ -6065,57 +6648,50 @@ Enum.PromptPublishAssetResult = {
 	UnknownFailure = 6;
 }
 
-export type PropertyStatusItem =
-	EnumItem<number, PropertyStatus, "Ok">
+export type PropertyStatus =
+	| EnumItem<number, PropertyStatus, "Ok">
 	| EnumItem<number, PropertyStatus, "Warning">
 	| EnumItem<number, PropertyStatus, "Error">
-export type PropertyStatus = EnumObject<{
+export type PropertyStatusRoot = EnumObject<{
 	Ok: EnumItem<number, PropertyStatus, "Ok">,
 	Warning: EnumItem<number, PropertyStatus, "Warning">,
 	Error: EnumItem<number, PropertyStatus, "Error">,
-}, PropertyStatusItem>
+}, PropertyStatus>
 Enum.PropertyStatus = {"Ok", "Warning", "Error"}
 
-export type ProximityPromptExclusivityItem =
-	EnumItem<number, ProximityPromptExclusivity, "OnePerButton">
+export type ProximityPromptExclusivity =
+	| EnumItem<number, ProximityPromptExclusivity, "OnePerButton">
 	| EnumItem<number, ProximityPromptExclusivity, "OneGlobally">
 	| EnumItem<number, ProximityPromptExclusivity, "AlwaysShow">
-export type ProximityPromptExclusivity = EnumObject<{
+export type ProximityPromptExclusivityRoot = EnumObject<{
 	OnePerButton: EnumItem<number, ProximityPromptExclusivity, "OnePerButton">,
 	OneGlobally: EnumItem<number, ProximityPromptExclusivity, "OneGlobally">,
 	AlwaysShow: EnumItem<number, ProximityPromptExclusivity, "AlwaysShow">,
-}, ProximityPromptExclusivityItem>
+}, ProximityPromptExclusivity>
 Enum.ProximityPromptExclusivity = {"OnePerButton", "OneGlobally", "AlwaysShow"}
 
-export type ProximityPromptInputTypeItem =
-	EnumItem<number, ProximityPromptInputType, "Keyboard">
+export type ProximityPromptInputType =
+	| EnumItem<number, ProximityPromptInputType, "Keyboard">
 	| EnumItem<number, ProximityPromptInputType, "Gamepad">
 	| EnumItem<number, ProximityPromptInputType, "Touch">
-export type ProximityPromptInputType = EnumObject<{
+export type ProximityPromptInputTypeRoot = EnumObject<{
 	Keyboard: EnumItem<number, ProximityPromptInputType, "Keyboard">,
 	Gamepad: EnumItem<number, ProximityPromptInputType, "Gamepad">,
 	Touch: EnumItem<number, ProximityPromptInputType, "Touch">,
-}, ProximityPromptInputTypeItem>
+}, ProximityPromptInputType>
 Enum.ProximityPromptInputType = {"Keyboard", "Gamepad", "Touch"}
 
-export type ProximityPromptStyleItem =
-	EnumItem<number, ProximityPromptStyle, "Default">
+export type ProximityPromptStyle =
+	| EnumItem<number, ProximityPromptStyle, "Default">
 	| EnumItem<number, ProximityPromptStyle, "Custom">
-export type ProximityPromptStyle = EnumObject<{
+export type ProximityPromptStyleRoot = EnumObject<{
 	Default: EnumItem<number, ProximityPromptStyle, "Default">,
 	Custom: EnumItem<number, ProximityPromptStyle, "Custom">,
-}, ProximityPromptStyleItem>
+}, ProximityPromptStyle>
 Enum.ProximityPromptStyle = {"Default", "Custom"}
 
-export type QualityItem = EnumItem<number, Quality, "Performance"> | EnumItem<number, Quality, "Quality">
-export type Quality = EnumObject<{
-	Performance: EnumItem<number, Quality, "Performance">,
-	Quality: EnumItem<number, Quality, "Quality">,
-}, QualityItem>
-Enum.Quality = {"Performance", "Quality"}
-
-export type QualityLevelItem =
-	EnumItem<number, QualityLevel, "Automatic">
+export type QualityLevel =
+	| EnumItem<number, QualityLevel, "Automatic">
 	| EnumItem<number, QualityLevel, "Level01">
 	| EnumItem<number, QualityLevel, "Level02">
 	| EnumItem<number, QualityLevel, "Level03">
@@ -6137,7 +6713,7 @@ export type QualityLevelItem =
 	| EnumItem<number, QualityLevel, "Level19">
 	| EnumItem<number, QualityLevel, "Level20">
 	| EnumItem<number, QualityLevel, "Level21">
-export type QualityLevel = EnumObject<{
+export type QualityLevelRoot = EnumObject<{
 	Automatic: EnumItem<number, QualityLevel, "Automatic">,
 	Level01: EnumItem<number, QualityLevel, "Level01">,
 	Level02: EnumItem<number, QualityLevel, "Level02">,
@@ -6160,7 +6736,7 @@ export type QualityLevel = EnumObject<{
 	Level19: EnumItem<number, QualityLevel, "Level19">,
 	Level20: EnumItem<number, QualityLevel, "Level20">,
 	Level21: EnumItem<number, QualityLevel, "Level21">,
-}, QualityLevelItem>
+}, QualityLevel>
 Enum.QualityLevel = {
 	"Automatic";
 	"Level01";
@@ -6186,59 +6762,59 @@ Enum.QualityLevel = {
 	"Level21";
 }
 
-export type R15CollisionTypeItem =
-	EnumItem<number, R15CollisionType, "OuterBox">
+export type R15CollisionType =
+	| EnumItem<number, R15CollisionType, "OuterBox">
 	| EnumItem<number, R15CollisionType, "InnerBox">
-export type R15CollisionType = EnumObject<{
+export type R15CollisionTypeRoot = EnumObject<{
 	OuterBox: EnumItem<number, R15CollisionType, "OuterBox">,
 	InnerBox: EnumItem<number, R15CollisionType, "InnerBox">,
-}, R15CollisionTypeItem>
+}, R15CollisionType>
 Enum.R15CollisionType = {"OuterBox", "InnerBox"}
 
-export type RaycastFilterTypeItem =
-	EnumItem<number, RaycastFilterType, "Exclude">
+export type RaycastFilterType =
+	| EnumItem<number, RaycastFilterType, "Exclude">
 	| EnumItem<number, RaycastFilterType, "Include">
-export type RaycastFilterType = EnumObject<{
+export type RaycastFilterTypeRoot = EnumObject<{
 	Exclude: EnumItem<number, RaycastFilterType, "Exclude">,
 	Include: EnumItem<number, RaycastFilterType, "Include">,
-}, RaycastFilterTypeItem>
+}, RaycastFilterType>
 Enum.RaycastFilterType = {"Exclude", "Include"}
 
-export type RejectCharacterDeletionsItem =
-	EnumItem<number, RejectCharacterDeletions, "Default">
+export type RejectCharacterDeletions =
+	| EnumItem<number, RejectCharacterDeletions, "Default">
 	| EnumItem<number, RejectCharacterDeletions, "Disabled">
 	| EnumItem<number, RejectCharacterDeletions, "Enabled">
-export type RejectCharacterDeletions = EnumObject<{
+export type RejectCharacterDeletionsRoot = EnumObject<{
 	Default: EnumItem<number, RejectCharacterDeletions, "Default">,
 	Disabled: EnumItem<number, RejectCharacterDeletions, "Disabled">,
 	Enabled: EnumItem<number, RejectCharacterDeletions, "Enabled">,
-}, RejectCharacterDeletionsItem>
+}, RejectCharacterDeletions>
 Enum.RejectCharacterDeletions = {"Default", "Disabled", "Enabled"}
 
-export type RenderFidelityItem =
-	EnumItem<number, RenderFidelity, "Automatic">
+export type RenderFidelity =
+	| EnumItem<number, RenderFidelity, "Automatic">
 	| EnumItem<number, RenderFidelity, "Precise">
 	| EnumItem<number, RenderFidelity, "Performance">
-export type RenderFidelity = EnumObject<{
+export type RenderFidelityRoot = EnumObject<{
 	Automatic: EnumItem<number, RenderFidelity, "Automatic">,
 	Precise: EnumItem<number, RenderFidelity, "Precise">,
 	Performance: EnumItem<number, RenderFidelity, "Performance">,
-}, RenderFidelityItem>
+}, RenderFidelity>
 Enum.RenderFidelity = {"Automatic", "Precise", "Performance"}
 
-export type RenderPriorityItem =
-	EnumItem<number, RenderPriority, "First">
+export type RenderPriority =
+	| EnumItem<number, RenderPriority, "First">
 	| EnumItem<number, RenderPriority, "Input">
 	| EnumItem<number, RenderPriority, "Camera">
 	| EnumItem<number, RenderPriority, "Character">
 	| EnumItem<number, RenderPriority, "Last">
-export type RenderPriority = EnumObject<{
+export type RenderPriorityRoot = EnumObject<{
 	First: EnumItem<number, RenderPriority, "First">,
 	Input: EnumItem<number, RenderPriority, "Input">,
 	Camera: EnumItem<number, RenderPriority, "Camera">,
 	Character: EnumItem<number, RenderPriority, "Character">,
 	Last: EnumItem<number, RenderPriority, "Last">,
-}, RenderPriorityItem>
+}, RenderPriority>
 Enum.RenderPriority = {
 	First = 0;
 	Input = 100;
@@ -6247,55 +6823,55 @@ Enum.RenderPriority = {
 	Last = 2000;
 }
 
-export type RenderingCacheOptimizationModeItem =
-	EnumItem<number, RenderingCacheOptimizationMode, "Default">
+export type RenderingCacheOptimizationMode =
+	| EnumItem<number, RenderingCacheOptimizationMode, "Default">
 	| EnumItem<number, RenderingCacheOptimizationMode, "Disabled">
 	| EnumItem<number, RenderingCacheOptimizationMode, "Enabled">
-export type RenderingCacheOptimizationMode = EnumObject<{
+export type RenderingCacheOptimizationModeRoot = EnumObject<{
 	Default: EnumItem<number, RenderingCacheOptimizationMode, "Default">,
 	Disabled: EnumItem<number, RenderingCacheOptimizationMode, "Disabled">,
 	Enabled: EnumItem<number, RenderingCacheOptimizationMode, "Enabled">,
-}, RenderingCacheOptimizationModeItem>
+}, RenderingCacheOptimizationMode>
 Enum.RenderingCacheOptimizationMode = {"Default", "Disabled", "Enabled"}
 
-export type RenderingTestComparisonMethodItem =
-	EnumItem<number, RenderingTestComparisonMethod, "psnr">
+export type RenderingTestComparisonMethod =
+	| EnumItem<number, RenderingTestComparisonMethod, "psnr">
 	| EnumItem<number, RenderingTestComparisonMethod, "diff">
-export type RenderingTestComparisonMethod = EnumObject<{
+export type RenderingTestComparisonMethodRoot = EnumObject<{
 	psnr: EnumItem<number, RenderingTestComparisonMethod, "psnr">,
 	diff: EnumItem<number, RenderingTestComparisonMethod, "diff">,
-}, RenderingTestComparisonMethodItem>
+}, RenderingTestComparisonMethod>
 Enum.RenderingTestComparisonMethod = {"psnr", "diff"}
 
-export type ReplicateInstanceDestroySettingItem =
-	EnumItem<number, ReplicateInstanceDestroySetting, "Default">
+export type ReplicateInstanceDestroySetting =
+	| EnumItem<number, ReplicateInstanceDestroySetting, "Default">
 	| EnumItem<number, ReplicateInstanceDestroySetting, "Disabled">
 	| EnumItem<number, ReplicateInstanceDestroySetting, "Enabled">
-export type ReplicateInstanceDestroySetting = EnumObject<{
+export type ReplicateInstanceDestroySettingRoot = EnumObject<{
 	Default: EnumItem<number, ReplicateInstanceDestroySetting, "Default">,
 	Disabled: EnumItem<number, ReplicateInstanceDestroySetting, "Disabled">,
 	Enabled: EnumItem<number, ReplicateInstanceDestroySetting, "Enabled">,
-}, ReplicateInstanceDestroySettingItem>
+}, ReplicateInstanceDestroySetting>
 Enum.ReplicateInstanceDestroySetting = {"Default", "Disabled", "Enabled"}
 
-export type ResamplerModeItem = EnumItem<number, ResamplerMode, "Default"> | EnumItem<number, ResamplerMode, "Pixelated">
-export type ResamplerMode = EnumObject<{
+export type ResamplerMode = | EnumItem<number, ResamplerMode, "Default"> | EnumItem<number, ResamplerMode, "Pixelated">
+export type ResamplerModeRoot = EnumObject<{
 	Default: EnumItem<number, ResamplerMode, "Default">,
 	Pixelated: EnumItem<number, ResamplerMode, "Pixelated">,
-}, ResamplerModeItem>
+}, ResamplerMode>
 Enum.ResamplerMode = {"Default", "Pixelated"}
 
-export type ReservedHighlightIdItem =
-	EnumItem<number, ReservedHighlightId, "Standard">
+export type ReservedHighlightId =
+	| EnumItem<number, ReservedHighlightId, "Standard">
 	| EnumItem<number, ReservedHighlightId, "Active">
 	| EnumItem<number, ReservedHighlightId, "Hover">
 	| EnumItem<number, ReservedHighlightId, "Selection">
-export type ReservedHighlightId = EnumObject<{
+export type ReservedHighlightIdRoot = EnumObject<{
 	Standard: EnumItem<number, ReservedHighlightId, "Standard">,
 	Active: EnumItem<number, ReservedHighlightId, "Active">,
 	Hover: EnumItem<number, ReservedHighlightId, "Hover">,
 	Selection: EnumItem<number, ReservedHighlightId, "Selection">,
-}, ReservedHighlightIdItem>
+}, ReservedHighlightId>
 Enum.ReservedHighlightId = {
 	Standard = 0;
 	Active = 131072;
@@ -6303,36 +6879,36 @@ Enum.ReservedHighlightId = {
 	Selection = 524288;
 }
 
-export type RestPoseItem =
-	EnumItem<number, RestPose, "Default">
+export type RestPose =
+	| EnumItem<number, RestPose, "Default">
 	| EnumItem<number, RestPose, "RotationsReset">
 	| EnumItem<number, RestPose, "Custom">
-export type RestPose = EnumObject<{
+export type RestPoseRoot = EnumObject<{
 	Default: EnumItem<number, RestPose, "Default">,
 	RotationsReset: EnumItem<number, RestPose, "RotationsReset">,
 	Custom: EnumItem<number, RestPose, "Custom">,
-}, RestPoseItem>
+}, RestPose>
 Enum.RestPose = {"Default", "RotationsReset", "Custom"}
 
-export type ReturnKeyTypeItem =
-	EnumItem<number, ReturnKeyType, "Default">
+export type ReturnKeyType =
+	| EnumItem<number, ReturnKeyType, "Default">
 	| EnumItem<number, ReturnKeyType, "Done">
 	| EnumItem<number, ReturnKeyType, "Go">
 	| EnumItem<number, ReturnKeyType, "Next">
 	| EnumItem<number, ReturnKeyType, "Search">
 	| EnumItem<number, ReturnKeyType, "Send">
-export type ReturnKeyType = EnumObject<{
+export type ReturnKeyTypeRoot = EnumObject<{
 	Default: EnumItem<number, ReturnKeyType, "Default">,
 	Done: EnumItem<number, ReturnKeyType, "Done">,
 	Go: EnumItem<number, ReturnKeyType, "Go">,
 	Next: EnumItem<number, ReturnKeyType, "Next">,
 	Search: EnumItem<number, ReturnKeyType, "Search">,
 	Send: EnumItem<number, ReturnKeyType, "Send">,
-}, ReturnKeyTypeItem>
+}, ReturnKeyType>
 Enum.ReturnKeyType = {"Default", "Done", "Go", "Next", "Search", "Send"}
 
-export type ReverbTypeItem =
-	EnumItem<number, ReverbType, "NoReverb">
+export type ReverbType =
+	| EnumItem<number, ReverbType, "NoReverb">
 	| EnumItem<number, ReverbType, "GenericReverb">
 	| EnumItem<number, ReverbType, "PaddedCell">
 	| EnumItem<number, ReverbType, "Room">
@@ -6356,7 +6932,7 @@ export type ReverbTypeItem =
 	| EnumItem<number, ReverbType, "ParkingLot">
 	| EnumItem<number, ReverbType, "SewerPipe">
 	| EnumItem<number, ReverbType, "UnderWater">
-export type ReverbType = EnumObject<{
+export type ReverbTypeRoot = EnumObject<{
 	NoReverb: EnumItem<number, ReverbType, "NoReverb">,
 	GenericReverb: EnumItem<number, ReverbType, "GenericReverb">,
 	PaddedCell: EnumItem<number, ReverbType, "PaddedCell">,
@@ -6381,7 +6957,7 @@ export type ReverbType = EnumObject<{
 	ParkingLot: EnumItem<number, ReverbType, "ParkingLot">,
 	SewerPipe: EnumItem<number, ReverbType, "SewerPipe">,
 	UnderWater: EnumItem<number, ReverbType, "UnderWater">,
-}, ReverbTypeItem>
+}, ReverbType>
 Enum.ReverbType = {
 	"NoReverb";
 	"GenericReverb";
@@ -6409,8 +6985,8 @@ Enum.ReverbType = {
 	"UnderWater";
 }
 
-export type RibbonToolItem =
-	EnumItem<number, RibbonTool, "Select">
+export type RibbonTool =
+	| EnumItem<number, RibbonTool, "Select">
 	| EnumItem<number, RibbonTool, "Scale">
 	| EnumItem<number, RibbonTool, "Rotate">
 	| EnumItem<number, RibbonTool, "Move">
@@ -6421,7 +6997,7 @@ export type RibbonToolItem =
 	| EnumItem<number, RibbonTool, "Ungroup">
 	| EnumItem<number, RibbonTool, "None">
 	| EnumItem<number, RibbonTool, "PivotEditor">
-export type RibbonTool = EnumObject<{
+export type RibbonToolRoot = EnumObject<{
 	Select: EnumItem<number, RibbonTool, "Select">,
 	Scale: EnumItem<number, RibbonTool, "Scale">,
 	Rotate: EnumItem<number, RibbonTool, "Rotate">,
@@ -6433,7 +7009,7 @@ export type RibbonTool = EnumObject<{
 	Ungroup: EnumItem<number, RibbonTool, "Ungroup">,
 	None: EnumItem<number, RibbonTool, "None">,
 	PivotEditor: EnumItem<number, RibbonTool, "PivotEditor">,
-}, RibbonToolItem>
+}, RibbonTool>
 Enum.RibbonTool = {
 	"Select";
 	"Scale";
@@ -6448,163 +7024,172 @@ Enum.RibbonTool = {
 	"PivotEditor";
 }
 
-export type RigScaleItem =
-	EnumItem<number, RigScale, "Default">
+export type RigScale =
+	| EnumItem<number, RigScale, "Default">
 	| EnumItem<number, RigScale, "Rthro">
 	| EnumItem<number, RigScale, "RthroNarrow">
-export type RigScale = EnumObject<{
+export type RigScaleRoot = EnumObject<{
 	Default: EnumItem<number, RigScale, "Default">,
 	Rthro: EnumItem<number, RigScale, "Rthro">,
 	RthroNarrow: EnumItem<number, RigScale, "RthroNarrow">,
-}, RigScaleItem>
+}, RigScale>
 Enum.RigScale = {"Default", "Rthro", "RthroNarrow"}
 
-export type RigTypeItem =
-	EnumItem<number, RigType, "R15">
+export type RigType =
+	| EnumItem<number, RigType, "R15">
 	| EnumItem<number, RigType, "Custom">
 	| EnumItem<number, RigType, "None">
-export type RigType = EnumObject<{
+export type RigTypeRoot = EnumObject<{
 	R15: EnumItem<number, RigType, "R15">,
 	Custom: EnumItem<number, RigType, "Custom">,
 	None: EnumItem<number, RigType, "None">,
-}, RigTypeItem>
+}, RigType>
 Enum.RigType = {"R15", "Custom", "None"}
 
-export type RollOffModeItem =
-	EnumItem<number, RollOffMode, "Inverse">
+export type RollOffMode =
+	| EnumItem<number, RollOffMode, "Inverse">
 	| EnumItem<number, RollOffMode, "Linear">
 	| EnumItem<number, RollOffMode, "LinearSquare">
 	| EnumItem<number, RollOffMode, "InverseTapered">
-export type RollOffMode = EnumObject<{
+export type RollOffModeRoot = EnumObject<{
 	Inverse: EnumItem<number, RollOffMode, "Inverse">,
 	Linear: EnumItem<number, RollOffMode, "Linear">,
 	LinearSquare: EnumItem<number, RollOffMode, "LinearSquare">,
 	InverseTapered: EnumItem<number, RollOffMode, "InverseTapered">,
-}, RollOffModeItem>
+}, RollOffMode>
 Enum.RollOffMode = {"Inverse", "Linear", "LinearSquare", "InverseTapered"}
 
-export type RolloutStateItem =
-	EnumItem<number, RolloutState, "Default">
+export type RolloutState =
+	| EnumItem<number, RolloutState, "Default">
 	| EnumItem<number, RolloutState, "Disabled">
 	| EnumItem<number, RolloutState, "Enabled">
-export type RolloutState = EnumObject<{
+export type RolloutStateRoot = EnumObject<{
 	Default: EnumItem<number, RolloutState, "Default">,
 	Disabled: EnumItem<number, RolloutState, "Disabled">,
 	Enabled: EnumItem<number, RolloutState, "Enabled">,
-}, RolloutStateItem>
+}, RolloutState>
 Enum.RolloutState = {"Default", "Disabled", "Enabled"}
 
-export type RotationOrderItem =
-	EnumItem<number, RotationOrder, "XYZ">
+export type RotationOrder =
+	| EnumItem<number, RotationOrder, "XYZ">
 	| EnumItem<number, RotationOrder, "XZY">
 	| EnumItem<number, RotationOrder, "YZX">
 	| EnumItem<number, RotationOrder, "YXZ">
 	| EnumItem<number, RotationOrder, "ZXY">
 	| EnumItem<number, RotationOrder, "ZYX">
-export type RotationOrder = EnumObject<{
+export type RotationOrderRoot = EnumObject<{
 	XYZ: EnumItem<number, RotationOrder, "XYZ">,
 	XZY: EnumItem<number, RotationOrder, "XZY">,
 	YZX: EnumItem<number, RotationOrder, "YZX">,
 	YXZ: EnumItem<number, RotationOrder, "YXZ">,
 	ZXY: EnumItem<number, RotationOrder, "ZXY">,
 	ZYX: EnumItem<number, RotationOrder, "ZYX">,
-}, RotationOrderItem>
+}, RotationOrder>
 Enum.RotationOrder = {"XYZ", "XZY", "YZX", "YXZ", "ZXY", "ZYX"}
 
-export type RotationTypeItem =
-	EnumItem<number, RotationType, "MovementRelative">
+export type RotationType =
+	| EnumItem<number, RotationType, "MovementRelative">
 	| EnumItem<number, RotationType, "CameraRelative">
-export type RotationType = EnumObject<{
+export type RotationTypeRoot = EnumObject<{
 	MovementRelative: EnumItem<number, RotationType, "MovementRelative">,
 	CameraRelative: EnumItem<number, RotationType, "CameraRelative">,
-}, RotationTypeItem>
+}, RotationType>
 Enum.RotationType = {"MovementRelative", "CameraRelative"}
 
-export type RtlTextSupportItem =
-	EnumItem<number, RtlTextSupport, "Default">
+export type RtlTextSupport =
+	| EnumItem<number, RtlTextSupport, "Default">
 	| EnumItem<number, RtlTextSupport, "Disabled">
 	| EnumItem<number, RtlTextSupport, "Enabled">
-export type RtlTextSupport = EnumObject<{
+export type RtlTextSupportRoot = EnumObject<{
 	Default: EnumItem<number, RtlTextSupport, "Default">,
 	Disabled: EnumItem<number, RtlTextSupport, "Disabled">,
 	Enabled: EnumItem<number, RtlTextSupport, "Enabled">,
-}, RtlTextSupportItem>
+}, RtlTextSupport>
 Enum.RtlTextSupport = {"Default", "Disabled", "Enabled"}
 
-export type RunContextItem =
-	EnumItem<number, RunContext, "Legacy">
+export type RunContext =
+	| EnumItem<number, RunContext, "Legacy">
 	| EnumItem<number, RunContext, "Server">
 	| EnumItem<number, RunContext, "Client">
 	| EnumItem<number, RunContext, "Plugin">
-export type RunContext = EnumObject<{
+export type RunContextRoot = EnumObject<{
 	Legacy: EnumItem<number, RunContext, "Legacy">,
 	Server: EnumItem<number, RunContext, "Server">,
 	Client: EnumItem<number, RunContext, "Client">,
 	Plugin: EnumItem<number, RunContext, "Plugin">,
-}, RunContextItem>
+}, RunContext>
 Enum.RunContext = {"Legacy", "Server", "Client", "Plugin"}
 
-export type RunStateItem =
-	EnumItem<number, RunState, "Stopped">
+export type RunState =
+	| EnumItem<number, RunState, "Stopped">
 	| EnumItem<number, RunState, "Running">
 	| EnumItem<number, RunState, "Paused">
-export type RunState = EnumObject<{
+export type RunStateRoot = EnumObject<{
 	Stopped: EnumItem<number, RunState, "Stopped">,
 	Running: EnumItem<number, RunState, "Running">,
 	Paused: EnumItem<number, RunState, "Paused">,
-}, RunStateItem>
+}, RunState>
 Enum.RunState = {"Stopped", "Running", "Paused"}
 
-export type RuntimeUndoBehaviorItem =
-	EnumItem<number, RuntimeUndoBehavior, "Aggregate">
+export type RuntimeUndoBehavior =
+	| EnumItem<number, RuntimeUndoBehavior, "Aggregate">
 	| EnumItem<number, RuntimeUndoBehavior, "Snapshot">
 	| EnumItem<number, RuntimeUndoBehavior, "Hybrid">
-export type RuntimeUndoBehavior = EnumObject<{
+export type RuntimeUndoBehaviorRoot = EnumObject<{
 	Aggregate: EnumItem<number, RuntimeUndoBehavior, "Aggregate">,
 	Snapshot: EnumItem<number, RuntimeUndoBehavior, "Snapshot">,
 	Hybrid: EnumItem<number, RuntimeUndoBehavior, "Hybrid">,
-}, RuntimeUndoBehaviorItem>
+}, RuntimeUndoBehavior>
 Enum.RuntimeUndoBehavior = {"Aggregate", "Snapshot", "Hybrid"}
 
-export type SafeAreaCompatibilityItem =
-	EnumItem<number, SafeAreaCompatibility, "None">
+export type SafeAreaCompatibility =
+	| EnumItem<number, SafeAreaCompatibility, "None">
 	| EnumItem<number, SafeAreaCompatibility, "FullscreenExtension">
-export type SafeAreaCompatibility = EnumObject<{
+export type SafeAreaCompatibilityRoot = EnumObject<{
 	None: EnumItem<number, SafeAreaCompatibility, "None">,
 	FullscreenExtension: EnumItem<number, SafeAreaCompatibility, "FullscreenExtension">,
-}, SafeAreaCompatibilityItem>
+}, SafeAreaCompatibility>
 Enum.SafeAreaCompatibility = {"None", "FullscreenExtension"}
 
-export type SalesTypeFilterItem =
-	EnumItem<number, SalesTypeFilter, "All">
+export type SalesTypeFilter =
+	| EnumItem<number, SalesTypeFilter, "All">
 	| EnumItem<number, SalesTypeFilter, "Collectibles">
 	| EnumItem<number, SalesTypeFilter, "Premium">
-export type SalesTypeFilter = EnumObject<{
+export type SalesTypeFilterRoot = EnumObject<{
 	All: EnumItem<number, SalesTypeFilter, "All">,
 	Collectibles: EnumItem<number, SalesTypeFilter, "Collectibles">,
 	Premium: EnumItem<number, SalesTypeFilter, "Premium">,
-}, SalesTypeFilterItem>
+}, SalesTypeFilter>
 Enum.SalesTypeFilter = {
 	All = 1;
 	Collectibles = 2;
 	Premium = 3;
 }
 
-export type SaveAvatarThumbnailCustomizationFailureItem =
-	EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadThumbnailType">
+export type SandboxedInstanceMode =
+	| EnumItem<number, SandboxedInstanceMode, "Default">
+	| EnumItem<number, SandboxedInstanceMode, "Experimental">
+export type SandboxedInstanceModeRoot = EnumObject<{
+	Default: EnumItem<number, SandboxedInstanceMode, "Default">,
+	Experimental: EnumItem<number, SandboxedInstanceMode, "Experimental">,
+}, SandboxedInstanceMode>
+Enum.SandboxedInstanceMode = {"Default", "Experimental"}
+
+export type SaveAvatarThumbnailCustomizationFailure =
+	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadThumbnailType">
 	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadYRotDeg">
 	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadFieldOfViewDeg">
 	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadDistanceScale">
 	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "Other">
 	| EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "Throttled">
-export type SaveAvatarThumbnailCustomizationFailure = EnumObject<{
+export type SaveAvatarThumbnailCustomizationFailureRoot = EnumObject<{
 	BadThumbnailType: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadThumbnailType">,
 	BadYRotDeg: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadYRotDeg">,
 	BadFieldOfViewDeg: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadFieldOfViewDeg">,
 	BadDistanceScale: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "BadDistanceScale">,
 	Other: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "Other">,
 	Throttled: EnumItem<number, SaveAvatarThumbnailCustomizationFailure, "Throttled">,
-}, SaveAvatarThumbnailCustomizationFailureItem>
+}, SaveAvatarThumbnailCustomizationFailure>
 Enum.SaveAvatarThumbnailCustomizationFailure = {
 	BadThumbnailType = 1;
 	BadYRotDeg = 2;
@@ -6614,19 +7199,19 @@ Enum.SaveAvatarThumbnailCustomizationFailure = {
 	Throttled = 6;
 }
 
-export type SaveFilterItem =
-	EnumItem<number, SaveFilter, "SaveWorld">
+export type SaveFilter =
+	| EnumItem<number, SaveFilter, "SaveWorld">
 	| EnumItem<number, SaveFilter, "SaveGame">
 	| EnumItem<number, SaveFilter, "SaveAll">
-export type SaveFilter = EnumObject<{
+export type SaveFilterRoot = EnumObject<{
 	SaveWorld: EnumItem<number, SaveFilter, "SaveWorld">,
 	SaveGame: EnumItem<number, SaveFilter, "SaveGame">,
 	SaveAll: EnumItem<number, SaveFilter, "SaveAll">,
-}, SaveFilterItem>
+}, SaveFilter>
 Enum.SaveFilter = {"SaveWorld", "SaveGame", "SaveAll"}
 
-export type SavedQualitySettingItem =
-	EnumItem<number, SavedQualitySetting, "Automatic">
+export type SavedQualitySetting =
+	| EnumItem<number, SavedQualitySetting, "Automatic">
 	| EnumItem<number, SavedQualitySetting, "QualityLevel1">
 	| EnumItem<number, SavedQualitySetting, "QualityLevel2">
 	| EnumItem<number, SavedQualitySetting, "QualityLevel3">
@@ -6637,7 +7222,7 @@ export type SavedQualitySettingItem =
 	| EnumItem<number, SavedQualitySetting, "QualityLevel8">
 	| EnumItem<number, SavedQualitySetting, "QualityLevel9">
 	| EnumItem<number, SavedQualitySetting, "QualityLevel10">
-export type SavedQualitySetting = EnumObject<{
+export type SavedQualitySettingRoot = EnumObject<{
 	Automatic: EnumItem<number, SavedQualitySetting, "Automatic">,
 	QualityLevel1: EnumItem<number, SavedQualitySetting, "QualityLevel1">,
 	QualityLevel2: EnumItem<number, SavedQualitySetting, "QualityLevel2">,
@@ -6649,7 +7234,7 @@ export type SavedQualitySetting = EnumObject<{
 	QualityLevel8: EnumItem<number, SavedQualitySetting, "QualityLevel8">,
 	QualityLevel9: EnumItem<number, SavedQualitySetting, "QualityLevel9">,
 	QualityLevel10: EnumItem<number, SavedQualitySetting, "QualityLevel10">,
-}, SavedQualitySettingItem>
+}, SavedQualitySetting>
 Enum.SavedQualitySetting = {
 	"Automatic";
 	"QualityLevel1";
@@ -6664,23 +7249,23 @@ Enum.SavedQualitySetting = {
 	"QualityLevel10";
 }
 
-export type ScaleTypeItem =
-	EnumItem<number, ScaleType, "Stretch">
+export type ScaleType =
+	| EnumItem<number, ScaleType, "Stretch">
 	| EnumItem<number, ScaleType, "Slice">
 	| EnumItem<number, ScaleType, "Tile">
 	| EnumItem<number, ScaleType, "Fit">
 	| EnumItem<number, ScaleType, "Crop">
-export type ScaleType = EnumObject<{
+export type ScaleTypeRoot = EnumObject<{
 	Stretch: EnumItem<number, ScaleType, "Stretch">,
 	Slice: EnumItem<number, ScaleType, "Slice">,
 	Tile: EnumItem<number, ScaleType, "Tile">,
 	Fit: EnumItem<number, ScaleType, "Fit">,
 	Crop: EnumItem<number, ScaleType, "Crop">,
-}, ScaleTypeItem>
+}, ScaleType>
 Enum.ScaleType = {"Stretch", "Slice", "Tile", "Fit", "Crop"}
 
-export type ScopeCheckResultItem =
-	EnumItem<number, ScopeCheckResult, "ConsentAccepted">
+export type ScopeCheckResult =
+	| EnumItem<number, ScopeCheckResult, "ConsentAccepted">
 	| EnumItem<number, ScopeCheckResult, "InvalidScopes">
 	| EnumItem<number, ScopeCheckResult, "Timeout">
 	| EnumItem<number, ScopeCheckResult, "NoUserInput">
@@ -6688,7 +7273,7 @@ export type ScopeCheckResultItem =
 	| EnumItem<number, ScopeCheckResult, "UnexpectedError">
 	| EnumItem<number, ScopeCheckResult, "InvalidArgument">
 	| EnumItem<number, ScopeCheckResult, "ConsentDenied">
-export type ScopeCheckResult = EnumObject<{
+export type ScopeCheckResultRoot = EnumObject<{
 	ConsentAccepted: EnumItem<number, ScopeCheckResult, "ConsentAccepted">,
 	InvalidScopes: EnumItem<number, ScopeCheckResult, "InvalidScopes">,
 	Timeout: EnumItem<number, ScopeCheckResult, "Timeout">,
@@ -6697,7 +7282,7 @@ export type ScopeCheckResult = EnumObject<{
 	UnexpectedError: EnumItem<number, ScopeCheckResult, "UnexpectedError">,
 	InvalidArgument: EnumItem<number, ScopeCheckResult, "InvalidArgument">,
 	ConsentDenied: EnumItem<number, ScopeCheckResult, "ConsentDenied">,
-}, ScopeCheckResultItem>
+}, ScopeCheckResult>
 Enum.ScopeCheckResult = {
 	"ConsentAccepted";
 	"InvalidScopes";
@@ -6709,62 +7294,62 @@ Enum.ScopeCheckResult = {
 	"ConsentDenied";
 }
 
-export type ScreenInsetsItem =
-	EnumItem<number, ScreenInsets, "None">
+export type ScreenInsets =
+	| EnumItem<number, ScreenInsets, "None">
 	| EnumItem<number, ScreenInsets, "DeviceSafeInsets">
 	| EnumItem<number, ScreenInsets, "CoreUISafeInsets">
 	| EnumItem<number, ScreenInsets, "TopbarSafeInsets">
-export type ScreenInsets = EnumObject<{
+export type ScreenInsetsRoot = EnumObject<{
 	None: EnumItem<number, ScreenInsets, "None">,
 	DeviceSafeInsets: EnumItem<number, ScreenInsets, "DeviceSafeInsets">,
 	CoreUISafeInsets: EnumItem<number, ScreenInsets, "CoreUISafeInsets">,
 	TopbarSafeInsets: EnumItem<number, ScreenInsets, "TopbarSafeInsets">,
-}, ScreenInsetsItem>
+}, ScreenInsets>
 Enum.ScreenInsets = {"None", "DeviceSafeInsets", "CoreUISafeInsets", "TopbarSafeInsets"}
 
-export type ScreenOrientationItem =
-	EnumItem<number, ScreenOrientation, "LandscapeLeft">
+export type ScreenOrientation =
+	| EnumItem<number, ScreenOrientation, "LandscapeLeft">
 	| EnumItem<number, ScreenOrientation, "LandscapeRight">
 	| EnumItem<number, ScreenOrientation, "LandscapeSensor">
 	| EnumItem<number, ScreenOrientation, "Portrait">
 	| EnumItem<number, ScreenOrientation, "Sensor">
-export type ScreenOrientation = EnumObject<{
+export type ScreenOrientationRoot = EnumObject<{
 	LandscapeLeft: EnumItem<number, ScreenOrientation, "LandscapeLeft">,
 	LandscapeRight: EnumItem<number, ScreenOrientation, "LandscapeRight">,
 	LandscapeSensor: EnumItem<number, ScreenOrientation, "LandscapeSensor">,
 	Portrait: EnumItem<number, ScreenOrientation, "Portrait">,
 	Sensor: EnumItem<number, ScreenOrientation, "Sensor">,
-}, ScreenOrientationItem>
+}, ScreenOrientation>
 Enum.ScreenOrientation = {"LandscapeLeft", "LandscapeRight", "LandscapeSensor", "Portrait", "Sensor"}
 
-export type ScrollBarInsetItem =
-	EnumItem<number, ScrollBarInset, "None">
+export type ScrollBarInset =
+	| EnumItem<number, ScrollBarInset, "None">
 	| EnumItem<number, ScrollBarInset, "ScrollBar">
 	| EnumItem<number, ScrollBarInset, "Always">
-export type ScrollBarInset = EnumObject<{
+export type ScrollBarInsetRoot = EnumObject<{
 	None: EnumItem<number, ScrollBarInset, "None">,
 	ScrollBar: EnumItem<number, ScrollBarInset, "ScrollBar">,
 	Always: EnumItem<number, ScrollBarInset, "Always">,
-}, ScrollBarInsetItem>
+}, ScrollBarInset>
 Enum.ScrollBarInset = {"None", "ScrollBar", "Always"}
 
-export type ScrollingDirectionItem =
-	EnumItem<number, ScrollingDirection, "X">
+export type ScrollingDirection =
+	| EnumItem<number, ScrollingDirection, "X">
 	| EnumItem<number, ScrollingDirection, "Y">
 	| EnumItem<number, ScrollingDirection, "XY">
-export type ScrollingDirection = EnumObject<{
+export type ScrollingDirectionRoot = EnumObject<{
 	X: EnumItem<number, ScrollingDirection, "X">,
 	Y: EnumItem<number, ScrollingDirection, "Y">,
 	XY: EnumItem<number, ScrollingDirection, "XY">,
-}, ScrollingDirectionItem>
+}, ScrollingDirection>
 Enum.ScrollingDirection = {
 	X = 1;
 	Y = 2;
 	XY = 4;
 }
 
-export type SecurityCapabilityItem =
-	EnumItem<number, SecurityCapability, "RunClientScript">
+export type SecurityCapability =
+	| EnumItem<number, SecurityCapability, "RunClientScript">
 	| EnumItem<number, SecurityCapability, "RunServerScript">
 	| EnumItem<number, SecurityCapability, "AccessOutsideWrite">
 	| EnumItem<number, SecurityCapability, "AssetRequire">
@@ -6784,7 +7369,10 @@ export type SecurityCapabilityItem =
 	| EnumItem<number, SecurityCapability, "Input">
 	| EnumItem<number, SecurityCapability, "Environment">
 	| EnumItem<number, SecurityCapability, "RemoteEvent">
-export type SecurityCapability = EnumObject<{
+	| EnumItem<number, SecurityCapability, "LegacySound">
+	| EnumItem<number, SecurityCapability, "Players">
+	| EnumItem<number, SecurityCapability, "CapabilityControl">
+export type SecurityCapabilityRoot = EnumObject<{
 	RunClientScript: EnumItem<number, SecurityCapability, "RunClientScript">,
 	RunServerScript: EnumItem<number, SecurityCapability, "RunServerScript">,
 	AccessOutsideWrite: EnumItem<number, SecurityCapability, "AccessOutsideWrite">,
@@ -6805,7 +7393,10 @@ export type SecurityCapability = EnumObject<{
 	Input: EnumItem<number, SecurityCapability, "Input">,
 	Environment: EnumItem<number, SecurityCapability, "Environment">,
 	RemoteEvent: EnumItem<number, SecurityCapability, "RemoteEvent">,
-}, SecurityCapabilityItem>
+	LegacySound: EnumItem<number, SecurityCapability, "LegacySound">,
+	Players: EnumItem<number, SecurityCapability, "Players">,
+	CapabilityControl: EnumItem<number, SecurityCapability, "CapabilityControl">,
+}, SecurityCapability>
 Enum.SecurityCapability = {
 	"RunClientScript";
 	"RunServerScript";
@@ -6827,92 +7418,95 @@ Enum.SecurityCapability = {
 	"Input";
 	"Environment";
 	"RemoteEvent";
+	"LegacySound";
+	"Players";
+	"CapabilityControl";
 }
 
-export type SelectionBehaviorItem =
-	EnumItem<number, SelectionBehavior, "Escape">
+export type SelectionBehavior =
+	| EnumItem<number, SelectionBehavior, "Escape">
 	| EnumItem<number, SelectionBehavior, "Stop">
-export type SelectionBehavior = EnumObject<{
+export type SelectionBehaviorRoot = EnumObject<{
 	Escape: EnumItem<number, SelectionBehavior, "Escape">,
 	Stop: EnumItem<number, SelectionBehavior, "Stop">,
-}, SelectionBehaviorItem>
+}, SelectionBehavior>
 Enum.SelectionBehavior = {"Escape", "Stop"}
 
-export type SelectionRenderModeItem =
-	EnumItem<number, SelectionRenderMode, "Outlines">
+export type SelectionRenderMode =
+	| EnumItem<number, SelectionRenderMode, "Outlines">
 	| EnumItem<number, SelectionRenderMode, "BoundingBoxes">
 	| EnumItem<number, SelectionRenderMode, "Both">
-export type SelectionRenderMode = EnumObject<{
+export type SelectionRenderModeRoot = EnumObject<{
 	Outlines: EnumItem<number, SelectionRenderMode, "Outlines">,
 	BoundingBoxes: EnumItem<number, SelectionRenderMode, "BoundingBoxes">,
 	Both: EnumItem<number, SelectionRenderMode, "Both">,
-}, SelectionRenderModeItem>
+}, SelectionRenderMode>
 Enum.SelectionRenderMode = {"Outlines", "BoundingBoxes", "Both"}
 
-export type SelfViewPositionItem =
-	EnumItem<number, SelfViewPosition, "LastPosition">
+export type SelfViewPosition =
+	| EnumItem<number, SelfViewPosition, "LastPosition">
 	| EnumItem<number, SelfViewPosition, "TopLeft">
 	| EnumItem<number, SelfViewPosition, "TopRight">
 	| EnumItem<number, SelfViewPosition, "BottomLeft">
 	| EnumItem<number, SelfViewPosition, "BottomRight">
-export type SelfViewPosition = EnumObject<{
+export type SelfViewPositionRoot = EnumObject<{
 	LastPosition: EnumItem<number, SelfViewPosition, "LastPosition">,
 	TopLeft: EnumItem<number, SelfViewPosition, "TopLeft">,
 	TopRight: EnumItem<number, SelfViewPosition, "TopRight">,
 	BottomLeft: EnumItem<number, SelfViewPosition, "BottomLeft">,
 	BottomRight: EnumItem<number, SelfViewPosition, "BottomRight">,
-}, SelfViewPositionItem>
+}, SelfViewPosition>
 Enum.SelfViewPosition = {"LastPosition", "TopLeft", "TopRight", "BottomLeft", "BottomRight"}
 
-export type SensorModeItem = EnumItem<number, SensorMode, "Floor"> | EnumItem<number, SensorMode, "Ladder">
-export type SensorMode = EnumObject<{
+export type SensorMode = | EnumItem<number, SensorMode, "Floor"> | EnumItem<number, SensorMode, "Ladder">
+export type SensorModeRoot = EnumObject<{
 	Floor: EnumItem<number, SensorMode, "Floor">,
 	Ladder: EnumItem<number, SensorMode, "Ladder">,
-}, SensorModeItem>
+}, SensorMode>
 Enum.SensorMode = {"Floor", "Ladder"}
 
-export type SensorUpdateTypeItem =
-	EnumItem<number, SensorUpdateType, "OnRead">
+export type SensorUpdateType =
+	| EnumItem<number, SensorUpdateType, "OnRead">
 	| EnumItem<number, SensorUpdateType, "Manual">
-export type SensorUpdateType = EnumObject<{
+export type SensorUpdateTypeRoot = EnumObject<{
 	OnRead: EnumItem<number, SensorUpdateType, "OnRead">,
 	Manual: EnumItem<number, SensorUpdateType, "Manual">,
-}, SensorUpdateTypeItem>
+}, SensorUpdateType>
 Enum.SensorUpdateType = {"OnRead", "Manual"}
 
-export type ServerLiveEditingModeItem =
-	EnumItem<number, ServerLiveEditingMode, "Uninitialized">
+export type ServerLiveEditingMode =
+	| EnumItem<number, ServerLiveEditingMode, "Uninitialized">
 	| EnumItem<number, ServerLiveEditingMode, "Enabled">
 	| EnumItem<number, ServerLiveEditingMode, "Disabled">
-export type ServerLiveEditingMode = EnumObject<{
+export type ServerLiveEditingModeRoot = EnumObject<{
 	Uninitialized: EnumItem<number, ServerLiveEditingMode, "Uninitialized">,
 	Enabled: EnumItem<number, ServerLiveEditingMode, "Enabled">,
 	Disabled: EnumItem<number, ServerLiveEditingMode, "Disabled">,
-}, ServerLiveEditingModeItem>
+}, ServerLiveEditingMode>
 Enum.ServerLiveEditingMode = {"Uninitialized", "Enabled", "Disabled"}
 
-export type ServiceVisibilityItem =
-	EnumItem<number, ServiceVisibility, "Always">
+export type ServiceVisibility =
+	| EnumItem<number, ServiceVisibility, "Always">
 	| EnumItem<number, ServiceVisibility, "Off">
 	| EnumItem<number, ServiceVisibility, "WithChildren">
-export type ServiceVisibility = EnumObject<{
+export type ServiceVisibilityRoot = EnumObject<{
 	Always: EnumItem<number, ServiceVisibility, "Always">,
 	Off: EnumItem<number, ServiceVisibility, "Off">,
 	WithChildren: EnumItem<number, ServiceVisibility, "WithChildren">,
-}, ServiceVisibilityItem>
+}, ServiceVisibility>
 Enum.ServiceVisibility = {"Always", "Off", "WithChildren"}
 
-export type SeverityItem =
-	EnumItem<number, Severity, "Error">
+export type Severity =
+	| EnumItem<number, Severity, "Error">
 	| EnumItem<number, Severity, "Warning">
 	| EnumItem<number, Severity, "Information">
 	| EnumItem<number, Severity, "Hint">
-export type Severity = EnumObject<{
+export type SeverityRoot = EnumObject<{
 	Error: EnumItem<number, Severity, "Error">,
 	Warning: EnumItem<number, Severity, "Warning">,
 	Information: EnumItem<number, Severity, "Information">,
 	Hint: EnumItem<number, Severity, "Hint">,
-}, SeverityItem>
+}, Severity>
 Enum.Severity = {
 	Error = 1;
 	Warning = 2;
@@ -6920,181 +7514,227 @@ Enum.Severity = {
 	Hint = 4;
 }
 
-export type SignalBehaviorItem =
-	EnumItem<number, SignalBehavior, "Default">
+export type ShowAdResult =
+	| EnumItem<number, ShowAdResult, "ShowCompleted">
+	| EnumItem<number, ShowAdResult, "AdNotReady">
+	| EnumItem<number, ShowAdResult, "AdAlreadyShowing">
+	| EnumItem<number, ShowAdResult, "InternalError">
+	| EnumItem<number, ShowAdResult, "ShowInterrupted">
+	| EnumItem<number, ShowAdResult, "InsufficientMemory">
+export type ShowAdResultRoot = EnumObject<{
+	ShowCompleted: EnumItem<number, ShowAdResult, "ShowCompleted">,
+	AdNotReady: EnumItem<number, ShowAdResult, "AdNotReady">,
+	AdAlreadyShowing: EnumItem<number, ShowAdResult, "AdAlreadyShowing">,
+	InternalError: EnumItem<number, ShowAdResult, "InternalError">,
+	ShowInterrupted: EnumItem<number, ShowAdResult, "ShowInterrupted">,
+	InsufficientMemory: EnumItem<number, ShowAdResult, "InsufficientMemory">,
+}, ShowAdResult>
+Enum.ShowAdResult = {
+	ShowCompleted = 1;
+	AdNotReady = 2;
+	AdAlreadyShowing = 3;
+	InternalError = 4;
+	ShowInterrupted = 5;
+	InsufficientMemory = 6;
+}
+
+export type SignalBehavior =
+	| EnumItem<number, SignalBehavior, "Default">
 	| EnumItem<number, SignalBehavior, "Immediate">
 	| EnumItem<number, SignalBehavior, "Deferred">
 	| EnumItem<number, SignalBehavior, "AncestryDeferred">
-export type SignalBehavior = EnumObject<{
+export type SignalBehaviorRoot = EnumObject<{
 	Default: EnumItem<number, SignalBehavior, "Default">,
 	Immediate: EnumItem<number, SignalBehavior, "Immediate">,
 	Deferred: EnumItem<number, SignalBehavior, "Deferred">,
 	AncestryDeferred: EnumItem<number, SignalBehavior, "AncestryDeferred">,
-}, SignalBehaviorItem>
+}, SignalBehavior>
 Enum.SignalBehavior = {"Default", "Immediate", "Deferred", "AncestryDeferred"}
 
-export type SizeConstraintItem =
-	EnumItem<number, SizeConstraint, "RelativeXY">
+export type SizeConstraint =
+	| EnumItem<number, SizeConstraint, "RelativeXY">
 	| EnumItem<number, SizeConstraint, "RelativeXX">
 	| EnumItem<number, SizeConstraint, "RelativeYY">
-export type SizeConstraint = EnumObject<{
+export type SizeConstraintRoot = EnumObject<{
 	RelativeXY: EnumItem<number, SizeConstraint, "RelativeXY">,
 	RelativeXX: EnumItem<number, SizeConstraint, "RelativeXX">,
 	RelativeYY: EnumItem<number, SizeConstraint, "RelativeYY">,
-}, SizeConstraintItem>
+}, SizeConstraint>
 Enum.SizeConstraint = {"RelativeXY", "RelativeXX", "RelativeYY"}
 
-export type SolverConvergenceMetricTypeItem =
-	EnumItem<number, SolverConvergenceMetricType, "IterationBased">
+export type SolverConvergenceMetricType =
+	| EnumItem<number, SolverConvergenceMetricType, "IterationBased">
 	| EnumItem<number, SolverConvergenceMetricType, "AlgorithmAgnostic">
-export type SolverConvergenceMetricType = EnumObject<{
+export type SolverConvergenceMetricTypeRoot = EnumObject<{
 	IterationBased: EnumItem<number, SolverConvergenceMetricType, "IterationBased">,
 	AlgorithmAgnostic: EnumItem<number, SolverConvergenceMetricType, "AlgorithmAgnostic">,
-}, SolverConvergenceMetricTypeItem>
+}, SolverConvergenceMetricType>
 Enum.SolverConvergenceMetricType = {"IterationBased", "AlgorithmAgnostic"}
 
-export type SolverConvergenceVisualizationModeItem =
-	EnumItem<number, SolverConvergenceVisualizationMode, "Disabled">
+export type SolverConvergenceVisualizationMode =
+	| EnumItem<number, SolverConvergenceVisualizationMode, "Disabled">
 	| EnumItem<number, SolverConvergenceVisualizationMode, "PerIsland">
 	| EnumItem<number, SolverConvergenceVisualizationMode, "PerEdge">
-export type SolverConvergenceVisualizationMode = EnumObject<{
+export type SolverConvergenceVisualizationModeRoot = EnumObject<{
 	Disabled: EnumItem<number, SolverConvergenceVisualizationMode, "Disabled">,
 	PerIsland: EnumItem<number, SolverConvergenceVisualizationMode, "PerIsland">,
 	PerEdge: EnumItem<number, SolverConvergenceVisualizationMode, "PerEdge">,
-}, SolverConvergenceVisualizationModeItem>
+}, SolverConvergenceVisualizationMode>
 Enum.SolverConvergenceVisualizationMode = {"Disabled", "PerIsland", "PerEdge"}
 
-export type SortDirectionItem =
-	EnumItem<number, SortDirection, "Ascending">
-	| EnumItem<number, SortDirection, "Descending">
-export type SortDirection = EnumObject<{
+export type SortDirection = | EnumItem<number, SortDirection, "Ascending"> | EnumItem<number, SortDirection, "Descending">
+export type SortDirectionRoot = EnumObject<{
 	Ascending: EnumItem<number, SortDirection, "Ascending">,
 	Descending: EnumItem<number, SortDirection, "Descending">,
-}, SortDirectionItem>
+}, SortDirection>
 Enum.SortDirection = {"Ascending", "Descending"}
 
-export type SortOrderItem =
-	EnumItem<number, SortOrder, "Name">
+export type SortOrder =
+	| EnumItem<number, SortOrder, "Name">
 	| EnumItem<number, SortOrder, "Custom">
 	| EnumItem<number, SortOrder, "LayoutOrder">
-export type SortOrder = EnumObject<{
+export type SortOrderRoot = EnumObject<{
 	Name: EnumItem<number, SortOrder, "Name">,
 	Custom: EnumItem<number, SortOrder, "Custom">,
 	LayoutOrder: EnumItem<number, SortOrder, "LayoutOrder">,
-}, SortOrderItem>
+}, SortOrder>
 Enum.SortOrder = {"Name", "Custom", "LayoutOrder"}
 
-export type SpecialKeyItem =
-	EnumItem<number, SpecialKey, "Insert">
+export type SpecialKey =
+	| EnumItem<number, SpecialKey, "Insert">
 	| EnumItem<number, SpecialKey, "Home">
 	| EnumItem<number, SpecialKey, "End">
 	| EnumItem<number, SpecialKey, "PageUp">
 	| EnumItem<number, SpecialKey, "PageDown">
 	| EnumItem<number, SpecialKey, "ChatHotkey">
-export type SpecialKey = EnumObject<{
+export type SpecialKeyRoot = EnumObject<{
 	Insert: EnumItem<number, SpecialKey, "Insert">,
 	Home: EnumItem<number, SpecialKey, "Home">,
 	End: EnumItem<number, SpecialKey, "End">,
 	PageUp: EnumItem<number, SpecialKey, "PageUp">,
 	PageDown: EnumItem<number, SpecialKey, "PageDown">,
 	ChatHotkey: EnumItem<number, SpecialKey, "ChatHotkey">,
-}, SpecialKeyItem>
+}, SpecialKey>
 Enum.SpecialKey = {"Insert", "Home", "End", "PageUp", "PageDown", "ChatHotkey"}
 
-export type StartCornerItem =
-	EnumItem<number, StartCorner, "TopLeft">
+export type StartCorner =
+	| EnumItem<number, StartCorner, "TopLeft">
 	| EnumItem<number, StartCorner, "TopRight">
 	| EnumItem<number, StartCorner, "BottomLeft">
 	| EnumItem<number, StartCorner, "BottomRight">
-export type StartCorner = EnumObject<{
+export type StartCornerRoot = EnumObject<{
 	TopLeft: EnumItem<number, StartCorner, "TopLeft">,
 	TopRight: EnumItem<number, StartCorner, "TopRight">,
 	BottomLeft: EnumItem<number, StartCorner, "BottomLeft">,
 	BottomRight: EnumItem<number, StartCorner, "BottomRight">,
-}, StartCornerItem>
+}, StartCorner>
 Enum.StartCorner = {"TopLeft", "TopRight", "BottomLeft", "BottomRight"}
 
-export type StatusItem = EnumItem<number, Status, "Poison"> | EnumItem<number, Status, "Confusion">
-export type Status = EnumObject<{
+export type StateObjectFieldType =
+	| EnumItem<number, StateObjectFieldType, "Boolean">
+	| EnumItem<number, StateObjectFieldType, "CFrame">
+	| EnumItem<number, StateObjectFieldType, "Color3">
+	| EnumItem<number, StateObjectFieldType, "Float">
+	| EnumItem<number, StateObjectFieldType, "Instance">
+	| EnumItem<number, StateObjectFieldType, "Random">
+	| EnumItem<number, StateObjectFieldType, "Vector2">
+	| EnumItem<number, StateObjectFieldType, "Vector3">
+	| EnumItem<number, StateObjectFieldType, "INVALID">
+export type StateObjectFieldTypeRoot = EnumObject<{
+	Boolean: EnumItem<number, StateObjectFieldType, "Boolean">,
+	CFrame: EnumItem<number, StateObjectFieldType, "CFrame">,
+	Color3: EnumItem<number, StateObjectFieldType, "Color3">,
+	Float: EnumItem<number, StateObjectFieldType, "Float">,
+	Instance: EnumItem<number, StateObjectFieldType, "Instance">,
+	Random: EnumItem<number, StateObjectFieldType, "Random">,
+	Vector2: EnumItem<number, StateObjectFieldType, "Vector2">,
+	Vector3: EnumItem<number, StateObjectFieldType, "Vector3">,
+	INVALID: EnumItem<number, StateObjectFieldType, "INVALID">,
+}, StateObjectFieldType>
+Enum.StateObjectFieldType =
+	{"Boolean", "CFrame", "Color3", "Float", "Instance", "Random", "Vector2", "Vector3", "INVALID"}
+
+export type Status = | EnumItem<number, Status, "Poison"> | EnumItem<number, Status, "Confusion">
+export type StatusRoot = EnumObject<{
 	Poison: EnumItem<number, Status, "Poison">,
 	Confusion: EnumItem<number, Status, "Confusion">,
-}, StatusItem>
+}, Status>
 Enum.Status = {"Poison", "Confusion"}
 
-export type StreamOutBehaviorItem =
-	EnumItem<number, StreamOutBehavior, "Default">
+export type StreamOutBehavior =
+	| EnumItem<number, StreamOutBehavior, "Default">
 	| EnumItem<number, StreamOutBehavior, "LowMemory">
 	| EnumItem<number, StreamOutBehavior, "Opportunistic">
-export type StreamOutBehavior = EnumObject<{
+export type StreamOutBehaviorRoot = EnumObject<{
 	Default: EnumItem<number, StreamOutBehavior, "Default">,
 	LowMemory: EnumItem<number, StreamOutBehavior, "LowMemory">,
 	Opportunistic: EnumItem<number, StreamOutBehavior, "Opportunistic">,
-}, StreamOutBehaviorItem>
+}, StreamOutBehavior>
 Enum.StreamOutBehavior = {"Default", "LowMemory", "Opportunistic"}
 
-export type StreamingIntegrityModeItem =
-	EnumItem<number, StreamingIntegrityMode, "Default">
+export type StreamingIntegrityMode =
+	| EnumItem<number, StreamingIntegrityMode, "Default">
 	| EnumItem<number, StreamingIntegrityMode, "Disabled">
 	| EnumItem<number, StreamingIntegrityMode, "MinimumRadiusPause">
 	| EnumItem<number, StreamingIntegrityMode, "PauseOutsideLoadedArea">
-export type StreamingIntegrityMode = EnumObject<{
+export type StreamingIntegrityModeRoot = EnumObject<{
 	Default: EnumItem<number, StreamingIntegrityMode, "Default">,
 	Disabled: EnumItem<number, StreamingIntegrityMode, "Disabled">,
 	MinimumRadiusPause: EnumItem<number, StreamingIntegrityMode, "MinimumRadiusPause">,
 	PauseOutsideLoadedArea: EnumItem<number, StreamingIntegrityMode, "PauseOutsideLoadedArea">,
-}, StreamingIntegrityModeItem>
+}, StreamingIntegrityMode>
 Enum.StreamingIntegrityMode = {"Default", "Disabled", "MinimumRadiusPause", "PauseOutsideLoadedArea"}
 
-export type StreamingPauseModeItem =
-	EnumItem<number, StreamingPauseMode, "Default">
+export type StreamingPauseMode =
+	| EnumItem<number, StreamingPauseMode, "Default">
 	| EnumItem<number, StreamingPauseMode, "Disabled">
 	| EnumItem<number, StreamingPauseMode, "ClientPhysicsPause">
-export type StreamingPauseMode = EnumObject<{
+export type StreamingPauseModeRoot = EnumObject<{
 	Default: EnumItem<number, StreamingPauseMode, "Default">,
 	Disabled: EnumItem<number, StreamingPauseMode, "Disabled">,
 	ClientPhysicsPause: EnumItem<number, StreamingPauseMode, "ClientPhysicsPause">,
-}, StreamingPauseModeItem>
+}, StreamingPauseMode>
 Enum.StreamingPauseMode = {"Default", "Disabled", "ClientPhysicsPause"}
 
-export type StudioCloseModeItem =
-	EnumItem<number, StudioCloseMode, "None">
+export type StudioCloseMode =
+	| EnumItem<number, StudioCloseMode, "None">
 	| EnumItem<number, StudioCloseMode, "CloseStudio">
 	| EnumItem<number, StudioCloseMode, "CloseDoc">
 	| EnumItem<number, StudioCloseMode, "LogOut">
-export type StudioCloseMode = EnumObject<{
+export type StudioCloseModeRoot = EnumObject<{
 	None: EnumItem<number, StudioCloseMode, "None">,
 	CloseStudio: EnumItem<number, StudioCloseMode, "CloseStudio">,
 	CloseDoc: EnumItem<number, StudioCloseMode, "CloseDoc">,
 	LogOut: EnumItem<number, StudioCloseMode, "LogOut">,
-}, StudioCloseModeItem>
+}, StudioCloseMode>
 Enum.StudioCloseMode = {"None", "CloseStudio", "CloseDoc", "LogOut"}
 
-export type StudioDataModelTypeItem =
-	EnumItem<number, StudioDataModelType, "Edit">
+export type StudioDataModelType =
+	| EnumItem<number, StudioDataModelType, "Edit">
 	| EnumItem<number, StudioDataModelType, "PlayClient">
 	| EnumItem<number, StudioDataModelType, "PlayServer">
 	| EnumItem<number, StudioDataModelType, "Standalone">
 	| EnumItem<number, StudioDataModelType, "None">
-export type StudioDataModelType = EnumObject<{
+export type StudioDataModelTypeRoot = EnumObject<{
 	Edit: EnumItem<number, StudioDataModelType, "Edit">,
 	PlayClient: EnumItem<number, StudioDataModelType, "PlayClient">,
 	PlayServer: EnumItem<number, StudioDataModelType, "PlayServer">,
 	Standalone: EnumItem<number, StudioDataModelType, "Standalone">,
 	None: EnumItem<number, StudioDataModelType, "None">,
-}, StudioDataModelTypeItem>
+}, StudioDataModelType>
 Enum.StudioDataModelType = {"Edit", "PlayClient", "PlayServer", "Standalone", "None"}
 
-export type StudioPlaceUpdateFailureReasonItem =
-	EnumItem<number, StudioPlaceUpdateFailureReason, "Other">
+export type StudioPlaceUpdateFailureReason =
+	| EnumItem<number, StudioPlaceUpdateFailureReason, "Other">
 	| EnumItem<number, StudioPlaceUpdateFailureReason, "TeamCreateConflict">
-export type StudioPlaceUpdateFailureReason = EnumObject<{
+export type StudioPlaceUpdateFailureReasonRoot = EnumObject<{
 	Other: EnumItem<number, StudioPlaceUpdateFailureReason, "Other">,
 	TeamCreateConflict: EnumItem<number, StudioPlaceUpdateFailureReason, "TeamCreateConflict">,
-}, StudioPlaceUpdateFailureReasonItem>
+}, StudioPlaceUpdateFailureReason>
 Enum.StudioPlaceUpdateFailureReason = {"Other", "TeamCreateConflict"}
 
-export type StudioScriptEditorColorCategoriesItem =
-	EnumItem<number, StudioScriptEditorColorCategories, "Default">
+export type StudioScriptEditorColorCategories =
+	| EnumItem<number, StudioScriptEditorColorCategories, "Default">
 	| EnumItem<number, StudioScriptEditorColorCategories, "Operator">
 	| EnumItem<number, StudioScriptEditorColorCategories, "Number">
 	| EnumItem<number, StudioScriptEditorColorCategories, "String">
@@ -7126,6 +7766,7 @@ export type StudioScriptEditorColorCategoriesItem =
 	| EnumItem<number, StudioScriptEditorColorCategories, "DebuggerErrorLine">
 	| EnumItem<number, StudioScriptEditorColorCategories, "Ruler">
 	| EnumItem<number, StudioScriptEditorColorCategories, "Bracket">
+	| EnumItem<number, StudioScriptEditorColorCategories, "Type">
 	| EnumItem<number, StudioScriptEditorColorCategories, "MenuPrimaryText">
 	| EnumItem<number, StudioScriptEditorColorCategories, "MenuSecondaryText">
 	| EnumItem<number, StudioScriptEditorColorCategories, "MenuSelectedText">
@@ -7140,7 +7781,7 @@ export type StudioScriptEditorColorCategoriesItem =
 	| EnumItem<number, StudioScriptEditorColorCategories, "AICOOverlayButtonBackgroundHover">
 	| EnumItem<number, StudioScriptEditorColorCategories, "AICOOverlayButtonBackgroundPressed">
 	| EnumItem<number, StudioScriptEditorColorCategories, "IndentationRuler">
-export type StudioScriptEditorColorCategories = EnumObject<
+export type StudioScriptEditorColorCategoriesRoot = EnumObject<
 	{
 		Default: EnumItem<number, StudioScriptEditorColorCategories, "Default">,
 		Operator: EnumItem<number, StudioScriptEditorColorCategories, "Operator">,
@@ -7174,6 +7815,7 @@ export type StudioScriptEditorColorCategories = EnumObject<
 		DebuggerErrorLine: EnumItem<number, StudioScriptEditorColorCategories, "DebuggerErrorLine">,
 		Ruler: EnumItem<number, StudioScriptEditorColorCategories, "Ruler">,
 		Bracket: EnumItem<number, StudioScriptEditorColorCategories, "Bracket">,
+		Type: EnumItem<number, StudioScriptEditorColorCategories, "Type">,
 		MenuPrimaryText: EnumItem<number, StudioScriptEditorColorCategories, "MenuPrimaryText">,
 		MenuSecondaryText: EnumItem<number, StudioScriptEditorColorCategories, "MenuSecondaryText">,
 		MenuSelectedText: EnumItem<number, StudioScriptEditorColorCategories, "MenuSelectedText">,
@@ -7197,7 +7839,7 @@ export type StudioScriptEditorColorCategories = EnumObject<
 		>,
 		IndentationRuler: EnumItem<number, StudioScriptEditorColorCategories, "IndentationRuler">,
 	},
-	StudioScriptEditorColorCategoriesItem
+	StudioScriptEditorColorCategories
 >
 Enum.StudioScriptEditorColorCategories = {
 	"Default";
@@ -7232,6 +7874,7 @@ Enum.StudioScriptEditorColorCategories = {
 	"DebuggerErrorLine";
 	"Ruler";
 	"Bracket";
+	"Type";
 	"MenuPrimaryText";
 	"MenuSecondaryText";
 	"MenuSelectedText";
@@ -7248,21 +7891,21 @@ Enum.StudioScriptEditorColorCategories = {
 	"IndentationRuler";
 }
 
-export type StudioScriptEditorColorPresetsItem =
-	EnumItem<number, StudioScriptEditorColorPresets, "RobloxDefault">
+export type StudioScriptEditorColorPresets =
+	| EnumItem<number, StudioScriptEditorColorPresets, "RobloxDefault">
 	| EnumItem<number, StudioScriptEditorColorPresets, "Extra1">
 	| EnumItem<number, StudioScriptEditorColorPresets, "Extra2">
 	| EnumItem<number, StudioScriptEditorColorPresets, "Custom">
-export type StudioScriptEditorColorPresets = EnumObject<{
+export type StudioScriptEditorColorPresetsRoot = EnumObject<{
 	RobloxDefault: EnumItem<number, StudioScriptEditorColorPresets, "RobloxDefault">,
 	Extra1: EnumItem<number, StudioScriptEditorColorPresets, "Extra1">,
 	Extra2: EnumItem<number, StudioScriptEditorColorPresets, "Extra2">,
 	Custom: EnumItem<number, StudioScriptEditorColorPresets, "Custom">,
-}, StudioScriptEditorColorPresetsItem>
+}, StudioScriptEditorColorPresets>
 Enum.StudioScriptEditorColorPresets = {"RobloxDefault", "Extra1", "Extra2", "Custom"}
 
-export type StudioStyleGuideColorItem =
-	EnumItem<number, StudioStyleGuideColor, "MainBackground">
+export type StudioStyleGuideColor =
+	| EnumItem<number, StudioStyleGuideColor, "MainBackground">
 	| EnumItem<number, StudioStyleGuideColor, "Titlebar">
 	| EnumItem<number, StudioStyleGuideColor, "Dropdown">
 	| EnumItem<number, StudioStyleGuideColor, "Tooltip">
@@ -7392,7 +8035,7 @@ export type StudioStyleGuideColorItem =
 	| EnumItem<number, StudioStyleGuideColor, "BreakpointMarker">
 	| EnumItem<number, StudioStyleGuideColor, "DiffLineNumHover">
 	| EnumItem<number, StudioStyleGuideColor, "DiffLineNumSeparatorBackgroundHover">
-export type StudioStyleGuideColor = EnumObject<
+export type StudioStyleGuideColorRoot = EnumObject<
 	{
 		MainBackground: EnumItem<number, StudioStyleGuideColor, "MainBackground">,
 		Titlebar: EnumItem<number, StudioStyleGuideColor, "Titlebar">,
@@ -7537,7 +8180,7 @@ export type StudioStyleGuideColor = EnumObject<
 			"DiffLineNumSeparatorBackgroundHover"
 		>,
 	},
-	StudioStyleGuideColorItem
+	StudioStyleGuideColor
 >
 Enum.StudioStyleGuideColor = {
 	MainBackground = 0;
@@ -7672,112 +8315,112 @@ Enum.StudioStyleGuideColor = {
 	DiffLineNumSeparatorBackgroundHover = 138;
 }
 
-export type StudioStyleGuideModifierItem =
-	EnumItem<number, StudioStyleGuideModifier, "Default">
+export type StudioStyleGuideModifier =
+	| EnumItem<number, StudioStyleGuideModifier, "Default">
 	| EnumItem<number, StudioStyleGuideModifier, "Selected">
 	| EnumItem<number, StudioStyleGuideModifier, "Pressed">
 	| EnumItem<number, StudioStyleGuideModifier, "Disabled">
 	| EnumItem<number, StudioStyleGuideModifier, "Hover">
-export type StudioStyleGuideModifier = EnumObject<{
+export type StudioStyleGuideModifierRoot = EnumObject<{
 	Default: EnumItem<number, StudioStyleGuideModifier, "Default">,
 	Selected: EnumItem<number, StudioStyleGuideModifier, "Selected">,
 	Pressed: EnumItem<number, StudioStyleGuideModifier, "Pressed">,
 	Disabled: EnumItem<number, StudioStyleGuideModifier, "Disabled">,
 	Hover: EnumItem<number, StudioStyleGuideModifier, "Hover">,
-}, StudioStyleGuideModifierItem>
+}, StudioStyleGuideModifier>
 Enum.StudioStyleGuideModifier = {"Default", "Selected", "Pressed", "Disabled", "Hover"}
 
-export type StyleItem =
-	EnumItem<number, Style, "AlternatingSupports">
+export type Style =
+	| EnumItem<number, Style, "AlternatingSupports">
 	| EnumItem<number, Style, "BridgeStyleSupports">
 	| EnumItem<number, Style, "NoSupports">
-export type Style = EnumObject<{
+export type StyleRoot = EnumObject<{
 	AlternatingSupports: EnumItem<number, Style, "AlternatingSupports">,
 	BridgeStyleSupports: EnumItem<number, Style, "BridgeStyleSupports">,
 	NoSupports: EnumItem<number, Style, "NoSupports">,
-}, StyleItem>
+}, Style>
 Enum.Style = {"AlternatingSupports", "BridgeStyleSupports", "NoSupports"}
 
-export type SubscriptionExpirationReasonItem =
-	EnumItem<number, SubscriptionExpirationReason, "ProductInactive">
+export type SubscriptionExpirationReason =
+	| EnumItem<number, SubscriptionExpirationReason, "ProductInactive">
 	| EnumItem<number, SubscriptionExpirationReason, "ProductDeleted">
 	| EnumItem<number, SubscriptionExpirationReason, "SubscriberCancelled">
 	| EnumItem<number, SubscriptionExpirationReason, "SubscriberRefunded">
 	| EnumItem<number, SubscriptionExpirationReason, "Lapsed">
-export type SubscriptionExpirationReason = EnumObject<{
+export type SubscriptionExpirationReasonRoot = EnumObject<{
 	ProductInactive: EnumItem<number, SubscriptionExpirationReason, "ProductInactive">,
 	ProductDeleted: EnumItem<number, SubscriptionExpirationReason, "ProductDeleted">,
 	SubscriberCancelled: EnumItem<number, SubscriptionExpirationReason, "SubscriberCancelled">,
 	SubscriberRefunded: EnumItem<number, SubscriptionExpirationReason, "SubscriberRefunded">,
 	Lapsed: EnumItem<number, SubscriptionExpirationReason, "Lapsed">,
-}, SubscriptionExpirationReasonItem>
+}, SubscriptionExpirationReason>
 Enum.SubscriptionExpirationReason =
 	{"ProductInactive", "ProductDeleted", "SubscriberCancelled", "SubscriberRefunded", "Lapsed"}
 
-export type SubscriptionPaymentStatusItem =
-	EnumItem<number, SubscriptionPaymentStatus, "Paid">
+export type SubscriptionPaymentStatus =
+	| EnumItem<number, SubscriptionPaymentStatus, "Paid">
 	| EnumItem<number, SubscriptionPaymentStatus, "Refunded">
-export type SubscriptionPaymentStatus = EnumObject<{
+export type SubscriptionPaymentStatusRoot = EnumObject<{
 	Paid: EnumItem<number, SubscriptionPaymentStatus, "Paid">,
 	Refunded: EnumItem<number, SubscriptionPaymentStatus, "Refunded">,
-}, SubscriptionPaymentStatusItem>
+}, SubscriptionPaymentStatus>
 Enum.SubscriptionPaymentStatus = {"Paid", "Refunded"}
 
-export type SubscriptionPeriodItem = EnumItem<number, SubscriptionPeriod, "Month">
-export type SubscriptionPeriod = EnumObject<{
+export type SubscriptionPeriod = | EnumItem<number, SubscriptionPeriod, "Month">
+export type SubscriptionPeriodRoot = EnumObject<{
 	Month: EnumItem<number, SubscriptionPeriod, "Month">,
-}, SubscriptionPeriodItem>
+}, SubscriptionPeriod>
 Enum.SubscriptionPeriod = {"Month"}
 
-export type SubscriptionStateItem =
-	EnumItem<number, SubscriptionState, "NeverSubscribed">
+export type SubscriptionState =
+	| EnumItem<number, SubscriptionState, "NeverSubscribed">
 	| EnumItem<number, SubscriptionState, "SubscribedWillRenew">
 	| EnumItem<number, SubscriptionState, "SubscribedWillNotRenew">
 	| EnumItem<number, SubscriptionState, "SubscribedRenewalPaymentPending">
 	| EnumItem<number, SubscriptionState, "Expired">
-export type SubscriptionState = EnumObject<{
+export type SubscriptionStateRoot = EnumObject<{
 	NeverSubscribed: EnumItem<number, SubscriptionState, "NeverSubscribed">,
 	SubscribedWillRenew: EnumItem<number, SubscriptionState, "SubscribedWillRenew">,
 	SubscribedWillNotRenew: EnumItem<number, SubscriptionState, "SubscribedWillNotRenew">,
 	SubscribedRenewalPaymentPending: EnumItem<number, SubscriptionState, "SubscribedRenewalPaymentPending">,
 	Expired: EnumItem<number, SubscriptionState, "Expired">,
-}, SubscriptionStateItem>
+}, SubscriptionState>
 Enum.SubscriptionState =
 	{"NeverSubscribed", "SubscribedWillRenew", "SubscribedWillNotRenew", "SubscribedRenewalPaymentPending", "Expired"}
 
-export type SurfaceConstraintItem =
-	EnumItem<number, SurfaceConstraint, "None">
+export type SurfaceConstraint =
+	| EnumItem<number, SurfaceConstraint, "None">
 	| EnumItem<number, SurfaceConstraint, "Hinge">
 	| EnumItem<number, SurfaceConstraint, "SteppingMotor">
 	| EnumItem<number, SurfaceConstraint, "Motor">
-export type SurfaceConstraint = EnumObject<{
+export type SurfaceConstraintRoot = EnumObject<{
 	None: EnumItem<number, SurfaceConstraint, "None">,
 	Hinge: EnumItem<number, SurfaceConstraint, "Hinge">,
 	SteppingMotor: EnumItem<number, SurfaceConstraint, "SteppingMotor">,
 	Motor: EnumItem<number, SurfaceConstraint, "Motor">,
-}, SurfaceConstraintItem>
+}, SurfaceConstraint>
 Enum.SurfaceConstraint = {"None", "Hinge", "SteppingMotor", "Motor"}
 
-export type SurfaceGuiShapeItem =
-	EnumItem<number, SurfaceGuiShape, "Flat">
+export type SurfaceGuiShape =
+	| EnumItem<number, SurfaceGuiShape, "Flat">
 	| EnumItem<number, SurfaceGuiShape, "CurvedHorizontally">
-export type SurfaceGuiShape = EnumObject<{
+export type SurfaceGuiShapeRoot = EnumObject<{
 	Flat: EnumItem<number, SurfaceGuiShape, "Flat">,
 	CurvedHorizontally: EnumItem<number, SurfaceGuiShape, "CurvedHorizontally">,
-}, SurfaceGuiShapeItem>
+}, SurfaceGuiShape>
 Enum.SurfaceGuiShape = {"Flat", "CurvedHorizontally"}
 
-export type SurfaceGuiSizingModeItem =
-	EnumItem<number, SurfaceGuiSizingMode, "FixedSize">
+export type SurfaceGuiSizingMode =
+	| EnumItem<number, SurfaceGuiSizingMode, "FixedSize">
 	| EnumItem<number, SurfaceGuiSizingMode, "PixelsPerStud">
-export type SurfaceGuiSizingMode = EnumObject<{
+export type SurfaceGuiSizingModeRoot = EnumObject<{
 	FixedSize: EnumItem<number, SurfaceGuiSizingMode, "FixedSize">,
 	PixelsPerStud: EnumItem<number, SurfaceGuiSizingMode, "PixelsPerStud">,
-}, SurfaceGuiSizingModeItem>
+}, SurfaceGuiSizingMode>
 Enum.SurfaceGuiSizingMode = {"FixedSize", "PixelsPerStud"}
 
-export type SurfaceTypeItem =
-	EnumItem<number, SurfaceType, "Smooth">
+export type SurfaceType =
+	| EnumItem<number, SurfaceType, "Smooth">
 	| EnumItem<number, SurfaceType, "Glue">
 	| EnumItem<number, SurfaceType, "Weld">
 	| EnumItem<number, SurfaceType, "Studs">
@@ -7787,7 +8430,7 @@ export type SurfaceTypeItem =
 	| EnumItem<number, SurfaceType, "Motor">
 	| EnumItem<number, SurfaceType, "SteppingMotor">
 	| EnumItem<number, SurfaceType, "SmoothNoOutlines">
-export type SurfaceType = EnumObject<{
+export type SurfaceTypeRoot = EnumObject<{
 	Smooth: EnumItem<number, SurfaceType, "Smooth">,
 	Glue: EnumItem<number, SurfaceType, "Glue">,
 	Weld: EnumItem<number, SurfaceType, "Weld">,
@@ -7798,7 +8441,7 @@ export type SurfaceType = EnumObject<{
 	Motor: EnumItem<number, SurfaceType, "Motor">,
 	SteppingMotor: EnumItem<number, SurfaceType, "SteppingMotor">,
 	SmoothNoOutlines: EnumItem<number, SurfaceType, "SmoothNoOutlines">,
-}, SurfaceTypeItem>
+}, SurfaceType>
 Enum.SurfaceType = {
 	Smooth = 0;
 	Glue = 1;
@@ -7812,56 +8455,82 @@ Enum.SurfaceType = {
 	SmoothNoOutlines = 10;
 }
 
-export type SwipeDirectionItem =
-	EnumItem<number, SwipeDirection, "Right">
+export type SwipeDirection =
+	| EnumItem<number, SwipeDirection, "Right">
 	| EnumItem<number, SwipeDirection, "Left">
 	| EnumItem<number, SwipeDirection, "Up">
 	| EnumItem<number, SwipeDirection, "Down">
 	| EnumItem<number, SwipeDirection, "None">
-export type SwipeDirection = EnumObject<{
+export type SwipeDirectionRoot = EnumObject<{
 	Right: EnumItem<number, SwipeDirection, "Right">,
 	Left: EnumItem<number, SwipeDirection, "Left">,
 	Up: EnumItem<number, SwipeDirection, "Up">,
 	Down: EnumItem<number, SwipeDirection, "Down">,
 	None: EnumItem<number, SwipeDirection, "None">,
-}, SwipeDirectionItem>
+}, SwipeDirection>
 Enum.SwipeDirection = {"Right", "Left", "Up", "Down", "None"}
 
-export type TableMajorAxisItem =
-	EnumItem<number, TableMajorAxis, "RowMajor">
+export type SystemThemeValue =
+	| EnumItem<number, SystemThemeValue, "error">
+	| EnumItem<number, SystemThemeValue, "light">
+	| EnumItem<number, SystemThemeValue, "dark">
+	| EnumItem<number, SystemThemeValue, "systemLight">
+	| EnumItem<number, SystemThemeValue, "systemDark">
+export type SystemThemeValueRoot = EnumObject<{
+	error: EnumItem<number, SystemThemeValue, "error">,
+	light: EnumItem<number, SystemThemeValue, "light">,
+	dark: EnumItem<number, SystemThemeValue, "dark">,
+	systemLight: EnumItem<number, SystemThemeValue, "systemLight">,
+	systemDark: EnumItem<number, SystemThemeValue, "systemDark">,
+}, SystemThemeValue>
+Enum.SystemThemeValue = {"error", "light", "dark", "systemLight", "systemDark"}
+
+export type TableMajorAxis =
+	| EnumItem<number, TableMajorAxis, "RowMajor">
 	| EnumItem<number, TableMajorAxis, "ColumnMajor">
-export type TableMajorAxis = EnumObject<{
+export type TableMajorAxisRoot = EnumObject<{
 	RowMajor: EnumItem<number, TableMajorAxis, "RowMajor">,
 	ColumnMajor: EnumItem<number, TableMajorAxis, "ColumnMajor">,
-}, TableMajorAxisItem>
+}, TableMajorAxis>
 Enum.TableMajorAxis = {"RowMajor", "ColumnMajor"}
 
-export type TechnologyItem =
-	EnumItem<number, Technology, "Legacy">
+export type TeamCreateErrorState =
+	| EnumItem<number, TeamCreateErrorState, "PlaceSizeTooLarge">
+	| EnumItem<number, TeamCreateErrorState, "PlaceSizeApproachingLimit">
+	| EnumItem<number, TeamCreateErrorState, "NoError">
+export type TeamCreateErrorStateRoot = EnumObject<{
+	PlaceSizeTooLarge: EnumItem<number, TeamCreateErrorState, "PlaceSizeTooLarge">,
+	PlaceSizeApproachingLimit: EnumItem<number, TeamCreateErrorState, "PlaceSizeApproachingLimit">,
+	NoError: EnumItem<number, TeamCreateErrorState, "NoError">,
+}, TeamCreateErrorState>
+Enum.TeamCreateErrorState = {"PlaceSizeTooLarge", "PlaceSizeApproachingLimit", "NoError"}
+
+export type Technology =
+	| EnumItem<number, Technology, "Legacy">
 	| EnumItem<number, Technology, "Voxel">
 	| EnumItem<number, Technology, "Compatibility">
 	| EnumItem<number, Technology, "ShadowMap">
 	| EnumItem<number, Technology, "Future">
 	| EnumItem<number, Technology, "Unified">
-export type Technology = EnumObject<{
+export type TechnologyRoot = EnumObject<{
 	Legacy: EnumItem<number, Technology, "Legacy">,
 	Voxel: EnumItem<number, Technology, "Voxel">,
 	Compatibility: EnumItem<number, Technology, "Compatibility">,
 	ShadowMap: EnumItem<number, Technology, "ShadowMap">,
 	Future: EnumItem<number, Technology, "Future">,
 	Unified: EnumItem<number, Technology, "Unified">,
-}, TechnologyItem>
+}, Technology>
 Enum.Technology = {"Legacy", "Voxel", "Compatibility", "ShadowMap", "Future", "Unified"}
 
-export type TeleportMethodItem =
-	EnumItem<number, TeleportMethod, "TeleportToSpawnByName">
+export type TeleportMethod =
+	| EnumItem<number, TeleportMethod, "TeleportToSpawnByName">
 	| EnumItem<number, TeleportMethod, "TeleportToPlaceInstance">
 	| EnumItem<number, TeleportMethod, "TeleportToPrivateServer">
 	| EnumItem<number, TeleportMethod, "TeleportPartyAsync">
 	| EnumItem<number, TeleportMethod, "TeleportToVIPServer">
 	| EnumItem<number, TeleportMethod, "TeleportToInstanceBack">
 	| EnumItem<number, TeleportMethod, "TeleportUnknown">
-export type TeleportMethod = EnumObject<{
+export type TeleportMethodRoot = EnumObject<{
 	TeleportToSpawnByName: EnumItem<number, TeleportMethod, "TeleportToSpawnByName">,
 	TeleportToPlaceInstance: EnumItem<number, TeleportMethod, "TeleportToPlaceInstance">,
 	TeleportToPrivateServer: EnumItem<number, TeleportMethod, "TeleportToPrivateServer">,
@@ -7869,7 +8538,7 @@ export type TeleportMethod = EnumObject<{
 	TeleportToVIPServer: EnumItem<number, TeleportMethod, "TeleportToVIPServer">,
 	TeleportToInstanceBack: EnumItem<number, TeleportMethod, "TeleportToInstanceBack">,
 	TeleportUnknown: EnumItem<number, TeleportMethod, "TeleportUnknown">,
-}, TeleportMethodItem>
+}, TeleportMethod>
 Enum.TeleportMethod = {
 	"TeleportToSpawnByName";
 	"TeleportToPlaceInstance";
@@ -7880,8 +8549,8 @@ Enum.TeleportMethod = {
 	"TeleportUnknown";
 }
 
-export type TeleportResultItem =
-	EnumItem<number, TeleportResult, "Success">
+export type TeleportResult =
+	| EnumItem<number, TeleportResult, "Success">
 	| EnumItem<number, TeleportResult, "Failure">
 	| EnumItem<number, TeleportResult, "GameNotFound">
 	| EnumItem<number, TeleportResult, "GameEnded">
@@ -7889,7 +8558,7 @@ export type TeleportResultItem =
 	| EnumItem<number, TeleportResult, "Unauthorized">
 	| EnumItem<number, TeleportResult, "Flooded">
 	| EnumItem<number, TeleportResult, "IsTeleporting">
-export type TeleportResult = EnumObject<{
+export type TeleportResultRoot = EnumObject<{
 	Success: EnumItem<number, TeleportResult, "Success">,
 	Failure: EnumItem<number, TeleportResult, "Failure">,
 	GameNotFound: EnumItem<number, TeleportResult, "GameNotFound">,
@@ -7898,42 +8567,42 @@ export type TeleportResult = EnumObject<{
 	Unauthorized: EnumItem<number, TeleportResult, "Unauthorized">,
 	Flooded: EnumItem<number, TeleportResult, "Flooded">,
 	IsTeleporting: EnumItem<number, TeleportResult, "IsTeleporting">,
-}, TeleportResultItem>
+}, TeleportResult>
 Enum.TeleportResult =
 	{"Success", "Failure", "GameNotFound", "GameEnded", "GameFull", "Unauthorized", "Flooded", "IsTeleporting"}
 
-export type TeleportStateItem =
-	EnumItem<number, TeleportState, "RequestedFromServer">
+export type TeleportState =
+	| EnumItem<number, TeleportState, "RequestedFromServer">
 	| EnumItem<number, TeleportState, "Started">
 	| EnumItem<number, TeleportState, "WaitingForServer">
 	| EnumItem<number, TeleportState, "Failed">
 	| EnumItem<number, TeleportState, "InProgress">
-export type TeleportState = EnumObject<{
+export type TeleportStateRoot = EnumObject<{
 	RequestedFromServer: EnumItem<number, TeleportState, "RequestedFromServer">,
 	Started: EnumItem<number, TeleportState, "Started">,
 	WaitingForServer: EnumItem<number, TeleportState, "WaitingForServer">,
 	Failed: EnumItem<number, TeleportState, "Failed">,
 	InProgress: EnumItem<number, TeleportState, "InProgress">,
-}, TeleportStateItem>
+}, TeleportState>
 Enum.TeleportState = {"RequestedFromServer", "Started", "WaitingForServer", "Failed", "InProgress"}
 
-export type TeleportTypeItem =
-	EnumItem<number, TeleportType, "ToPlace">
+export type TeleportType =
+	| EnumItem<number, TeleportType, "ToPlace">
 	| EnumItem<number, TeleportType, "ToInstance">
 	| EnumItem<number, TeleportType, "ToReservedServer">
 	| EnumItem<number, TeleportType, "ToVIPServer">
 	| EnumItem<number, TeleportType, "ToInstanceBack">
-export type TeleportType = EnumObject<{
+export type TeleportTypeRoot = EnumObject<{
 	ToPlace: EnumItem<number, TeleportType, "ToPlace">,
 	ToInstance: EnumItem<number, TeleportType, "ToInstance">,
 	ToReservedServer: EnumItem<number, TeleportType, "ToReservedServer">,
 	ToVIPServer: EnumItem<number, TeleportType, "ToVIPServer">,
 	ToInstanceBack: EnumItem<number, TeleportType, "ToInstanceBack">,
-}, TeleportTypeItem>
+}, TeleportType>
 Enum.TeleportType = {"ToPlace", "ToInstance", "ToReservedServer", "ToVIPServer", "ToInstanceBack"}
 
-export type TerrainAcquisitionMethodItem =
-	EnumItem<number, TerrainAcquisitionMethod, "None">
+export type TerrainAcquisitionMethod =
+	| EnumItem<number, TerrainAcquisitionMethod, "None">
 	| EnumItem<number, TerrainAcquisitionMethod, "Legacy">
 	| EnumItem<number, TerrainAcquisitionMethod, "Template">
 	| EnumItem<number, TerrainAcquisitionMethod, "Generate">
@@ -7945,7 +8614,7 @@ export type TerrainAcquisitionMethodItem =
 	| EnumItem<number, TerrainAcquisitionMethod, "RegionFillTool">
 	| EnumItem<number, TerrainAcquisitionMethod, "RegionPasteTool">
 	| EnumItem<number, TerrainAcquisitionMethod, "Other">
-export type TerrainAcquisitionMethod = EnumObject<{
+export type TerrainAcquisitionMethodRoot = EnumObject<{
 	None: EnumItem<number, TerrainAcquisitionMethod, "None">,
 	Legacy: EnumItem<number, TerrainAcquisitionMethod, "Legacy">,
 	Template: EnumItem<number, TerrainAcquisitionMethod, "Template">,
@@ -7958,7 +8627,7 @@ export type TerrainAcquisitionMethod = EnumObject<{
 	RegionFillTool: EnumItem<number, TerrainAcquisitionMethod, "RegionFillTool">,
 	RegionPasteTool: EnumItem<number, TerrainAcquisitionMethod, "RegionPasteTool">,
 	Other: EnumItem<number, TerrainAcquisitionMethod, "Other">,
-}, TerrainAcquisitionMethodItem>
+}, TerrainAcquisitionMethod>
 Enum.TerrainAcquisitionMethod = {
 	"None";
 	"Legacy";
@@ -7974,19 +8643,19 @@ Enum.TerrainAcquisitionMethod = {
 	"Other";
 }
 
-export type TerrainFaceItem =
-	EnumItem<number, TerrainFace, "Top">
+export type TerrainFace =
+	| EnumItem<number, TerrainFace, "Top">
 	| EnumItem<number, TerrainFace, "Side">
 	| EnumItem<number, TerrainFace, "Bottom">
-export type TerrainFace = EnumObject<{
+export type TerrainFaceRoot = EnumObject<{
 	Top: EnumItem<number, TerrainFace, "Top">,
 	Side: EnumItem<number, TerrainFace, "Side">,
 	Bottom: EnumItem<number, TerrainFace, "Bottom">,
-}, TerrainFaceItem>
+}, TerrainFace>
 Enum.TerrainFace = {"Top", "Side", "Bottom"}
 
-export type TextChatMessageStatusItem =
-	EnumItem<number, TextChatMessageStatus, "Unknown">
+export type TextChatMessageStatus =
+	| EnumItem<number, TextChatMessageStatus, "Unknown">
 	| EnumItem<number, TextChatMessageStatus, "Success">
 	| EnumItem<number, TextChatMessageStatus, "Sending">
 	| EnumItem<number, TextChatMessageStatus, "TextFilterFailed">
@@ -7994,7 +8663,8 @@ export type TextChatMessageStatusItem =
 	| EnumItem<number, TextChatMessageStatus, "InvalidPrivacySettings">
 	| EnumItem<number, TextChatMessageStatus, "InvalidTextChannelPermissions">
 	| EnumItem<number, TextChatMessageStatus, "MessageTooLong">
-export type TextChatMessageStatus = EnumObject<{
+	| EnumItem<number, TextChatMessageStatus, "ModerationTimeout">
+export type TextChatMessageStatusRoot = EnumObject<{
 	Unknown: EnumItem<number, TextChatMessageStatus, "Unknown">,
 	Success: EnumItem<number, TextChatMessageStatus, "Success">,
 	Sending: EnumItem<number, TextChatMessageStatus, "Sending">,
@@ -8003,7 +8673,8 @@ export type TextChatMessageStatus = EnumObject<{
 	InvalidPrivacySettings: EnumItem<number, TextChatMessageStatus, "InvalidPrivacySettings">,
 	InvalidTextChannelPermissions: EnumItem<number, TextChatMessageStatus, "InvalidTextChannelPermissions">,
 	MessageTooLong: EnumItem<number, TextChatMessageStatus, "MessageTooLong">,
-}, TextChatMessageStatusItem>
+	ModerationTimeout: EnumItem<number, TextChatMessageStatus, "ModerationTimeout">,
+}, TextChatMessageStatus>
 Enum.TextChatMessageStatus = {
 	Unknown = 1;
 	Success = 2;
@@ -8013,33 +8684,34 @@ Enum.TextChatMessageStatus = {
 	InvalidPrivacySettings = 6;
 	InvalidTextChannelPermissions = 7;
 	MessageTooLong = 8;
+	ModerationTimeout = 9;
 }
 
-export type TextDirectionItem =
-	EnumItem<number, TextDirection, "Auto">
+export type TextDirection =
+	| EnumItem<number, TextDirection, "Auto">
 	| EnumItem<number, TextDirection, "LeftToRight">
 	| EnumItem<number, TextDirection, "RightToLeft">
-export type TextDirection = EnumObject<{
+export type TextDirectionRoot = EnumObject<{
 	Auto: EnumItem<number, TextDirection, "Auto">,
 	LeftToRight: EnumItem<number, TextDirection, "LeftToRight">,
 	RightToLeft: EnumItem<number, TextDirection, "RightToLeft">,
-}, TextDirectionItem>
+}, TextDirection>
 Enum.TextDirection = {"Auto", "LeftToRight", "RightToLeft"}
 
-export type TextFilterContextItem =
-	EnumItem<number, TextFilterContext, "PublicChat">
+export type TextFilterContext =
+	| EnumItem<number, TextFilterContext, "PublicChat">
 	| EnumItem<number, TextFilterContext, "PrivateChat">
-export type TextFilterContext = EnumObject<{
+export type TextFilterContextRoot = EnumObject<{
 	PublicChat: EnumItem<number, TextFilterContext, "PublicChat">,
 	PrivateChat: EnumItem<number, TextFilterContext, "PrivateChat">,
-}, TextFilterContextItem>
+}, TextFilterContext>
 Enum.TextFilterContext = {
 	PublicChat = 1;
 	PrivateChat = 2;
 }
 
-export type TextInputTypeItem =
-	EnumItem<number, TextInputType, "Default">
+export type TextInputType =
+	| EnumItem<number, TextInputType, "Default">
 	| EnumItem<number, TextInputType, "NoSuggestions">
 	| EnumItem<number, TextInputType, "Number">
 	| EnumItem<number, TextInputType, "Email">
@@ -8048,7 +8720,7 @@ export type TextInputTypeItem =
 	| EnumItem<number, TextInputType, "PasswordShown">
 	| EnumItem<number, TextInputType, "Username">
 	| EnumItem<number, TextInputType, "OneTimePassword">
-export type TextInputType = EnumObject<{
+export type TextInputTypeRoot = EnumObject<{
 	Default: EnumItem<number, TextInputType, "Default">,
 	NoSuggestions: EnumItem<number, TextInputType, "NoSuggestions">,
 	Number: EnumItem<number, TextInputType, "Number">,
@@ -8058,7 +8730,7 @@ export type TextInputType = EnumObject<{
 	PasswordShown: EnumItem<number, TextInputType, "PasswordShown">,
 	Username: EnumItem<number, TextInputType, "Username">,
 	OneTimePassword: EnumItem<number, TextInputType, "OneTimePassword">,
-}, TextInputTypeItem>
+}, TextInputType>
 Enum.TextInputType = {
 	"Default";
 	"NoSuggestions";
@@ -8071,65 +8743,65 @@ Enum.TextInputType = {
 	"OneTimePassword";
 }
 
-export type TextTruncateItem =
-	EnumItem<number, TextTruncate, "None">
+export type TextTruncate =
+	| EnumItem<number, TextTruncate, "None">
 	| EnumItem<number, TextTruncate, "AtEnd">
 	| EnumItem<number, TextTruncate, "SplitWord">
-export type TextTruncate = EnumObject<{
+export type TextTruncateRoot = EnumObject<{
 	None: EnumItem<number, TextTruncate, "None">,
 	AtEnd: EnumItem<number, TextTruncate, "AtEnd">,
 	SplitWord: EnumItem<number, TextTruncate, "SplitWord">,
-}, TextTruncateItem>
+}, TextTruncate>
 Enum.TextTruncate = {"None", "AtEnd", "SplitWord"}
 
-export type TextXAlignmentItem =
-	EnumItem<number, TextXAlignment, "Left">
+export type TextXAlignment =
+	| EnumItem<number, TextXAlignment, "Left">
 	| EnumItem<number, TextXAlignment, "Right">
 	| EnumItem<number, TextXAlignment, "Center">
-export type TextXAlignment = EnumObject<{
+export type TextXAlignmentRoot = EnumObject<{
 	Left: EnumItem<number, TextXAlignment, "Left">,
 	Right: EnumItem<number, TextXAlignment, "Right">,
 	Center: EnumItem<number, TextXAlignment, "Center">,
-}, TextXAlignmentItem>
+}, TextXAlignment>
 Enum.TextXAlignment = {"Left", "Right", "Center"}
 
-export type TextYAlignmentItem =
-	EnumItem<number, TextYAlignment, "Top">
+export type TextYAlignment =
+	| EnumItem<number, TextYAlignment, "Top">
 	| EnumItem<number, TextYAlignment, "Center">
 	| EnumItem<number, TextYAlignment, "Bottom">
-export type TextYAlignment = EnumObject<{
+export type TextYAlignmentRoot = EnumObject<{
 	Top: EnumItem<number, TextYAlignment, "Top">,
 	Center: EnumItem<number, TextYAlignment, "Center">,
 	Bottom: EnumItem<number, TextYAlignment, "Bottom">,
-}, TextYAlignmentItem>
+}, TextYAlignment>
 Enum.TextYAlignment = {"Top", "Center", "Bottom"}
 
-export type TextureModeItem =
-	EnumItem<number, TextureMode, "Stretch">
+export type TextureMode =
+	| EnumItem<number, TextureMode, "Stretch">
 	| EnumItem<number, TextureMode, "Wrap">
 	| EnumItem<number, TextureMode, "Static">
-export type TextureMode = EnumObject<{
+export type TextureModeRoot = EnumObject<{
 	Stretch: EnumItem<number, TextureMode, "Stretch">,
 	Wrap: EnumItem<number, TextureMode, "Wrap">,
 	Static: EnumItem<number, TextureMode, "Static">,
-}, TextureModeItem>
+}, TextureMode>
 Enum.TextureMode = {"Stretch", "Wrap", "Static"}
 
-export type TextureQueryTypeItem =
-	EnumItem<number, TextureQueryType, "NonHumanoid">
+export type TextureQueryType =
+	| EnumItem<number, TextureQueryType, "NonHumanoid">
 	| EnumItem<number, TextureQueryType, "NonHumanoidOrphaned">
 	| EnumItem<number, TextureQueryType, "Humanoid">
 	| EnumItem<number, TextureQueryType, "HumanoidOrphaned">
-export type TextureQueryType = EnumObject<{
+export type TextureQueryTypeRoot = EnumObject<{
 	NonHumanoid: EnumItem<number, TextureQueryType, "NonHumanoid">,
 	NonHumanoidOrphaned: EnumItem<number, TextureQueryType, "NonHumanoidOrphaned">,
 	Humanoid: EnumItem<number, TextureQueryType, "Humanoid">,
 	HumanoidOrphaned: EnumItem<number, TextureQueryType, "HumanoidOrphaned">,
-}, TextureQueryTypeItem>
+}, TextureQueryType>
 Enum.TextureQueryType = {"NonHumanoid", "NonHumanoidOrphaned", "Humanoid", "HumanoidOrphaned"}
 
-export type ThreadPoolConfigItem =
-	EnumItem<number, ThreadPoolConfig, "Auto">
+export type ThreadPoolConfig =
+	| EnumItem<number, ThreadPoolConfig, "Auto">
 	| EnumItem<number, ThreadPoolConfig, "Threads1">
 	| EnumItem<number, ThreadPoolConfig, "Threads2">
 	| EnumItem<number, ThreadPoolConfig, "Threads3">
@@ -8140,7 +8812,7 @@ export type ThreadPoolConfigItem =
 	| EnumItem<number, ThreadPoolConfig, "PerCore2">
 	| EnumItem<number, ThreadPoolConfig, "PerCore3">
 	| EnumItem<number, ThreadPoolConfig, "PerCore4">
-export type ThreadPoolConfig = EnumObject<{
+export type ThreadPoolConfigRoot = EnumObject<{
 	Auto: EnumItem<number, ThreadPoolConfig, "Auto">,
 	Threads1: EnumItem<number, ThreadPoolConfig, "Threads1">,
 	Threads2: EnumItem<number, ThreadPoolConfig, "Threads2">,
@@ -8152,7 +8824,7 @@ export type ThreadPoolConfig = EnumObject<{
 	PerCore2: EnumItem<number, ThreadPoolConfig, "PerCore2">,
 	PerCore3: EnumItem<number, ThreadPoolConfig, "PerCore3">,
 	PerCore4: EnumItem<number, ThreadPoolConfig, "PerCore4">,
-}, ThreadPoolConfigItem>
+}, ThreadPoolConfig>
 Enum.ThreadPoolConfig = {
 	Auto = 0;
 	Threads1 = 1;
@@ -8167,26 +8839,26 @@ Enum.ThreadPoolConfig = {
 	PerCore4 = 104;
 }
 
-export type ThrottlingPriorityItem =
-	EnumItem<number, ThrottlingPriority, "Default">
+export type ThrottlingPriority =
+	| EnumItem<number, ThrottlingPriority, "Default">
 	| EnumItem<number, ThrottlingPriority, "ElevatedOnServer">
 	| EnumItem<number, ThrottlingPriority, "Extreme">
-export type ThrottlingPriority = EnumObject<{
+export type ThrottlingPriorityRoot = EnumObject<{
 	Default: EnumItem<number, ThrottlingPriority, "Default">,
 	ElevatedOnServer: EnumItem<number, ThrottlingPriority, "ElevatedOnServer">,
 	Extreme: EnumItem<number, ThrottlingPriority, "Extreme">,
-}, ThrottlingPriorityItem>
+}, ThrottlingPriority>
 Enum.ThrottlingPriority = {"Default", "ElevatedOnServer", "Extreme"}
 
-export type ThumbnailSizeItem =
-	EnumItem<number, ThumbnailSize, "Size48x48">
+export type ThumbnailSize =
+	| EnumItem<number, ThumbnailSize, "Size48x48">
 	| EnumItem<number, ThumbnailSize, "Size180x180">
 	| EnumItem<number, ThumbnailSize, "Size420x420">
 	| EnumItem<number, ThumbnailSize, "Size60x60">
 	| EnumItem<number, ThumbnailSize, "Size100x100">
 	| EnumItem<number, ThumbnailSize, "Size150x150">
 	| EnumItem<number, ThumbnailSize, "Size352x352">
-export type ThumbnailSize = EnumObject<{
+export type ThumbnailSizeRoot = EnumObject<{
 	Size48x48: EnumItem<number, ThumbnailSize, "Size48x48">,
 	Size180x180: EnumItem<number, ThumbnailSize, "Size180x180">,
 	Size420x420: EnumItem<number, ThumbnailSize, "Size420x420">,
@@ -8194,84 +8866,84 @@ export type ThumbnailSize = EnumObject<{
 	Size100x100: EnumItem<number, ThumbnailSize, "Size100x100">,
 	Size150x150: EnumItem<number, ThumbnailSize, "Size150x150">,
 	Size352x352: EnumItem<number, ThumbnailSize, "Size352x352">,
-}, ThumbnailSizeItem>
+}, ThumbnailSize>
 Enum.ThumbnailSize =
 	{"Size48x48", "Size180x180", "Size420x420", "Size60x60", "Size100x100", "Size150x150", "Size352x352"}
 
-export type ThumbnailTypeItem =
-	EnumItem<number, ThumbnailType, "HeadShot">
+export type ThumbnailType =
+	| EnumItem<number, ThumbnailType, "HeadShot">
 	| EnumItem<number, ThumbnailType, "AvatarBust">
 	| EnumItem<number, ThumbnailType, "AvatarThumbnail">
-export type ThumbnailType = EnumObject<{
+export type ThumbnailTypeRoot = EnumObject<{
 	HeadShot: EnumItem<number, ThumbnailType, "HeadShot">,
 	AvatarBust: EnumItem<number, ThumbnailType, "AvatarBust">,
 	AvatarThumbnail: EnumItem<number, ThumbnailType, "AvatarThumbnail">,
-}, ThumbnailTypeItem>
+}, ThumbnailType>
 Enum.ThumbnailType = {"HeadShot", "AvatarBust", "AvatarThumbnail"}
 
-export type TickCountSampleMethodItem =
-	EnumItem<number, TickCountSampleMethod, "Fast">
+export type TickCountSampleMethod =
+	| EnumItem<number, TickCountSampleMethod, "Fast">
 	| EnumItem<number, TickCountSampleMethod, "Benchmark">
 	| EnumItem<number, TickCountSampleMethod, "Precise">
-export type TickCountSampleMethod = EnumObject<{
+export type TickCountSampleMethodRoot = EnumObject<{
 	Fast: EnumItem<number, TickCountSampleMethod, "Fast">,
 	Benchmark: EnumItem<number, TickCountSampleMethod, "Benchmark">,
 	Precise: EnumItem<number, TickCountSampleMethod, "Precise">,
-}, TickCountSampleMethodItem>
+}, TickCountSampleMethod>
 Enum.TickCountSampleMethod = {"Fast", "Benchmark", "Precise"}
 
-export type TonemapperPresetItem =
-	EnumItem<number, TonemapperPreset, "Default">
+export type TonemapperPreset =
+	| EnumItem<number, TonemapperPreset, "Default">
 	| EnumItem<number, TonemapperPreset, "Retro">
-export type TonemapperPreset = EnumObject<{
+export type TonemapperPresetRoot = EnumObject<{
 	Default: EnumItem<number, TonemapperPreset, "Default">,
 	Retro: EnumItem<number, TonemapperPreset, "Retro">,
-}, TonemapperPresetItem>
+}, TonemapperPreset>
 Enum.TonemapperPreset = {"Default", "Retro"}
 
-export type TopBottomItem =
-	EnumItem<number, TopBottom, "Top">
+export type TopBottom =
+	| EnumItem<number, TopBottom, "Top">
 	| EnumItem<number, TopBottom, "Center">
 	| EnumItem<number, TopBottom, "Bottom">
-export type TopBottom = EnumObject<{
+export type TopBottomRoot = EnumObject<{
 	Top: EnumItem<number, TopBottom, "Top">,
 	Center: EnumItem<number, TopBottom, "Center">,
 	Bottom: EnumItem<number, TopBottom, "Bottom">,
-}, TopBottomItem>
+}, TopBottom>
 Enum.TopBottom = {"Top", "Center", "Bottom"}
 
-export type TouchCameraMovementModeItem =
-	EnumItem<number, TouchCameraMovementMode, "Default">
+export type TouchCameraMovementMode =
+	| EnumItem<number, TouchCameraMovementMode, "Default">
 	| EnumItem<number, TouchCameraMovementMode, "Classic">
 	| EnumItem<number, TouchCameraMovementMode, "Follow">
 	| EnumItem<number, TouchCameraMovementMode, "Orbital">
-export type TouchCameraMovementMode = EnumObject<{
+export type TouchCameraMovementModeRoot = EnumObject<{
 	Default: EnumItem<number, TouchCameraMovementMode, "Default">,
 	Classic: EnumItem<number, TouchCameraMovementMode, "Classic">,
 	Follow: EnumItem<number, TouchCameraMovementMode, "Follow">,
 	Orbital: EnumItem<number, TouchCameraMovementMode, "Orbital">,
-}, TouchCameraMovementModeItem>
+}, TouchCameraMovementMode>
 Enum.TouchCameraMovementMode = {"Default", "Classic", "Follow", "Orbital"}
 
-export type TouchMovementModeItem =
-	EnumItem<number, TouchMovementMode, "Default">
+export type TouchMovementMode =
+	| EnumItem<number, TouchMovementMode, "Default">
 	| EnumItem<number, TouchMovementMode, "Thumbstick">
 	| EnumItem<number, TouchMovementMode, "DPad">
 	| EnumItem<number, TouchMovementMode, "Thumbpad">
 	| EnumItem<number, TouchMovementMode, "ClickToMove">
 	| EnumItem<number, TouchMovementMode, "DynamicThumbstick">
-export type TouchMovementMode = EnumObject<{
+export type TouchMovementModeRoot = EnumObject<{
 	Default: EnumItem<number, TouchMovementMode, "Default">,
 	Thumbstick: EnumItem<number, TouchMovementMode, "Thumbstick">,
 	DPad: EnumItem<number, TouchMovementMode, "DPad">,
 	Thumbpad: EnumItem<number, TouchMovementMode, "Thumbpad">,
 	ClickToMove: EnumItem<number, TouchMovementMode, "ClickToMove">,
 	DynamicThumbstick: EnumItem<number, TouchMovementMode, "DynamicThumbstick">,
-}, TouchMovementModeItem>
+}, TouchMovementMode>
 Enum.TouchMovementMode = {"Default", "Thumbstick", "DPad", "Thumbpad", "ClickToMove", "DynamicThumbstick"}
 
-export type TrackerErrorItem =
-	EnumItem<number, TrackerError, "Ok">
+export type TrackerError =
+	| EnumItem<number, TrackerError, "Ok">
 	| EnumItem<number, TrackerError, "NoService">
 	| EnumItem<number, TrackerError, "InitFailed">
 	| EnumItem<number, TrackerError, "NoVideo">
@@ -8282,7 +8954,7 @@ export type TrackerErrorItem =
 	| EnumItem<number, TrackerError, "AudioError">
 	| EnumItem<number, TrackerError, "AudioNoPermission">
 	| EnumItem<number, TrackerError, "UnsupportedDevice">
-export type TrackerError = EnumObject<{
+export type TrackerErrorRoot = EnumObject<{
 	Ok: EnumItem<number, TrackerError, "Ok">,
 	NoService: EnumItem<number, TrackerError, "NoService">,
 	InitFailed: EnumItem<number, TrackerError, "InitFailed">,
@@ -8294,7 +8966,7 @@ export type TrackerError = EnumObject<{
 	AudioError: EnumItem<number, TrackerError, "AudioError">,
 	AudioNoPermission: EnumItem<number, TrackerError, "AudioNoPermission">,
 	UnsupportedDevice: EnumItem<number, TrackerError, "UnsupportedDevice">,
-}, TrackerErrorItem>
+}, TrackerError>
 Enum.TrackerError = {
 	"Ok";
 	"NoService";
@@ -8309,28 +8981,28 @@ Enum.TrackerError = {
 	"UnsupportedDevice";
 }
 
-export type TrackerExtrapolationFlagModeItem =
-	EnumItem<number, TrackerExtrapolationFlagMode, "ForceDisabled">
+export type TrackerExtrapolationFlagMode =
+	| EnumItem<number, TrackerExtrapolationFlagMode, "ForceDisabled">
 	| EnumItem<number, TrackerExtrapolationFlagMode, "ExtrapolateFacsAndPose">
 	| EnumItem<number, TrackerExtrapolationFlagMode, "ExtrapolateFacsOnly">
 	| EnumItem<number, TrackerExtrapolationFlagMode, "Auto">
-export type TrackerExtrapolationFlagMode = EnumObject<{
+export type TrackerExtrapolationFlagModeRoot = EnumObject<{
 	ForceDisabled: EnumItem<number, TrackerExtrapolationFlagMode, "ForceDisabled">,
 	ExtrapolateFacsAndPose: EnumItem<number, TrackerExtrapolationFlagMode, "ExtrapolateFacsAndPose">,
 	ExtrapolateFacsOnly: EnumItem<number, TrackerExtrapolationFlagMode, "ExtrapolateFacsOnly">,
 	Auto: EnumItem<number, TrackerExtrapolationFlagMode, "Auto">,
-}, TrackerExtrapolationFlagModeItem>
+}, TrackerExtrapolationFlagMode>
 Enum.TrackerExtrapolationFlagMode = {"ForceDisabled", "ExtrapolateFacsAndPose", "ExtrapolateFacsOnly", "Auto"}
 
-export type TrackerFaceTrackingStatusItem =
-	EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingSuccess">
+export type TrackerFaceTrackingStatus =
+	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingSuccess">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingNoFaceFound">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingUnknown">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingLost">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingHasTrackingError">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingIsOccluded">
 	| EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingUninitialized">
-export type TrackerFaceTrackingStatus = EnumObject<{
+export type TrackerFaceTrackingStatusRoot = EnumObject<{
 	FaceTrackingSuccess: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingSuccess">,
 	FaceTrackingNoFaceFound: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingNoFaceFound">,
 	FaceTrackingUnknown: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingUnknown">,
@@ -8338,7 +9010,7 @@ export type TrackerFaceTrackingStatus = EnumObject<{
 	FaceTrackingHasTrackingError: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingHasTrackingError">,
 	FaceTrackingIsOccluded: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingIsOccluded">,
 	FaceTrackingUninitialized: EnumItem<number, TrackerFaceTrackingStatus, "FaceTrackingUninitialized">,
-}, TrackerFaceTrackingStatusItem>
+}, TrackerFaceTrackingStatus>
 Enum.TrackerFaceTrackingStatus = {
 	"FaceTrackingSuccess";
 	"FaceTrackingNoFaceFound";
@@ -8349,227 +9021,234 @@ Enum.TrackerFaceTrackingStatus = {
 	"FaceTrackingUninitialized";
 }
 
-export type TrackerLodFlagModeItem =
-	EnumItem<number, TrackerLodFlagMode, "ForceFalse">
+export type TrackerLodFlagMode =
+	| EnumItem<number, TrackerLodFlagMode, "ForceFalse">
 	| EnumItem<number, TrackerLodFlagMode, "ForceTrue">
 	| EnumItem<number, TrackerLodFlagMode, "Auto">
-export type TrackerLodFlagMode = EnumObject<{
+export type TrackerLodFlagModeRoot = EnumObject<{
 	ForceFalse: EnumItem<number, TrackerLodFlagMode, "ForceFalse">,
 	ForceTrue: EnumItem<number, TrackerLodFlagMode, "ForceTrue">,
 	Auto: EnumItem<number, TrackerLodFlagMode, "Auto">,
-}, TrackerLodFlagModeItem>
+}, TrackerLodFlagMode>
 Enum.TrackerLodFlagMode = {"ForceFalse", "ForceTrue", "Auto"}
 
-export type TrackerLodValueModeItem =
-	EnumItem<number, TrackerLodValueMode, "Force0">
+export type TrackerLodValueMode =
+	| EnumItem<number, TrackerLodValueMode, "Force0">
 	| EnumItem<number, TrackerLodValueMode, "Force1">
 	| EnumItem<number, TrackerLodValueMode, "Auto">
-export type TrackerLodValueMode = EnumObject<{
+export type TrackerLodValueModeRoot = EnumObject<{
 	Force0: EnumItem<number, TrackerLodValueMode, "Force0">,
 	Force1: EnumItem<number, TrackerLodValueMode, "Force1">,
 	Auto: EnumItem<number, TrackerLodValueMode, "Auto">,
-}, TrackerLodValueModeItem>
+}, TrackerLodValueMode>
 Enum.TrackerLodValueMode = {"Force0", "Force1", "Auto"}
 
-export type TrackerModeItem =
-	EnumItem<number, TrackerMode, "None">
+export type TrackerMode =
+	| EnumItem<number, TrackerMode, "None">
 	| EnumItem<number, TrackerMode, "Audio">
 	| EnumItem<number, TrackerMode, "Video">
 	| EnumItem<number, TrackerMode, "AudioVideo">
-export type TrackerMode = EnumObject<{
+export type TrackerModeRoot = EnumObject<{
 	None: EnumItem<number, TrackerMode, "None">,
 	Audio: EnumItem<number, TrackerMode, "Audio">,
 	Video: EnumItem<number, TrackerMode, "Video">,
 	AudioVideo: EnumItem<number, TrackerMode, "AudioVideo">,
-}, TrackerModeItem>
+}, TrackerMode>
 Enum.TrackerMode = {"None", "Audio", "Video", "AudioVideo"}
 
-export type TrackerPromptEventItem = EnumItem<number, TrackerPromptEvent, "LODCameraRecommendDisable">
-export type TrackerPromptEvent = EnumObject<{
+export type TrackerPromptEvent = | EnumItem<number, TrackerPromptEvent, "LODCameraRecommendDisable">
+export type TrackerPromptEventRoot = EnumObject<{
 	LODCameraRecommendDisable: EnumItem<number, TrackerPromptEvent, "LODCameraRecommendDisable">,
-}, TrackerPromptEventItem>
+}, TrackerPromptEvent>
 Enum.TrackerPromptEvent = {"LODCameraRecommendDisable"}
 
-export type TrackerTypeItem =
-	EnumItem<number, TrackerType, "None">
+export type TrackerType =
+	| EnumItem<number, TrackerType, "None">
 	| EnumItem<number, TrackerType, "Face">
 	| EnumItem<number, TrackerType, "UpperBody">
-export type TrackerType = EnumObject<{
+export type TrackerTypeRoot = EnumObject<{
 	None: EnumItem<number, TrackerType, "None">,
 	Face: EnumItem<number, TrackerType, "Face">,
 	UpperBody: EnumItem<number, TrackerType, "UpperBody">,
-}, TrackerTypeItem>
+}, TrackerType>
 Enum.TrackerType = {"None", "Face", "UpperBody"}
 
-export type TriStateBooleanItem =
-	EnumItem<number, TriStateBoolean, "Unknown">
+export type TriStateBoolean =
+	| EnumItem<number, TriStateBoolean, "Unknown">
 	| EnumItem<number, TriStateBoolean, "True">
 	| EnumItem<number, TriStateBoolean, "False">
-export type TriStateBoolean = EnumObject<{
+export type TriStateBooleanRoot = EnumObject<{
 	Unknown: EnumItem<number, TriStateBoolean, "Unknown">,
 	True: EnumItem<number, TriStateBoolean, "True">,
 	False: EnumItem<number, TriStateBoolean, "False">,
-}, TriStateBooleanItem>
+}, TriStateBoolean>
 Enum.TriStateBoolean = {"Unknown", "True", "False"}
 
-export type TweenStatusItem = EnumItem<number, TweenStatus, "Canceled"> | EnumItem<number, TweenStatus, "Completed">
-export type TweenStatus = EnumObject<{
+export type TweenStatus = | EnumItem<number, TweenStatus, "Canceled"> | EnumItem<number, TweenStatus, "Completed">
+export type TweenStatusRoot = EnumObject<{
 	Canceled: EnumItem<number, TweenStatus, "Canceled">,
 	Completed: EnumItem<number, TweenStatus, "Completed">,
-}, TweenStatusItem>
+}, TweenStatus>
 Enum.TweenStatus = {"Canceled", "Completed"}
 
-export type UIDragDetectorBoundingBehaviorItem =
-	EnumItem<number, UIDragDetectorBoundingBehavior, "Automatic">
+export type UICaptureMode = | EnumItem<number, UICaptureMode, "All"> | EnumItem<number, UICaptureMode, "None">
+export type UICaptureModeRoot = EnumObject<{
+	All: EnumItem<number, UICaptureMode, "All">,
+	None: EnumItem<number, UICaptureMode, "None">,
+}, UICaptureMode>
+Enum.UICaptureMode = {"All", "None"}
+
+export type UIDragDetectorBoundingBehavior =
+	| EnumItem<number, UIDragDetectorBoundingBehavior, "Automatic">
 	| EnumItem<number, UIDragDetectorBoundingBehavior, "EntireObject">
 	| EnumItem<number, UIDragDetectorBoundingBehavior, "HitPoint">
-export type UIDragDetectorBoundingBehavior = EnumObject<{
+export type UIDragDetectorBoundingBehaviorRoot = EnumObject<{
 	Automatic: EnumItem<number, UIDragDetectorBoundingBehavior, "Automatic">,
 	EntireObject: EnumItem<number, UIDragDetectorBoundingBehavior, "EntireObject">,
 	HitPoint: EnumItem<number, UIDragDetectorBoundingBehavior, "HitPoint">,
-}, UIDragDetectorBoundingBehaviorItem>
+}, UIDragDetectorBoundingBehavior>
 Enum.UIDragDetectorBoundingBehavior = {"Automatic", "EntireObject", "HitPoint"}
 
-export type UIDragDetectorDragRelativityItem =
-	EnumItem<number, UIDragDetectorDragRelativity, "Absolute">
+export type UIDragDetectorDragRelativity =
+	| EnumItem<number, UIDragDetectorDragRelativity, "Absolute">
 	| EnumItem<number, UIDragDetectorDragRelativity, "Relative">
-export type UIDragDetectorDragRelativity = EnumObject<{
+export type UIDragDetectorDragRelativityRoot = EnumObject<{
 	Absolute: EnumItem<number, UIDragDetectorDragRelativity, "Absolute">,
 	Relative: EnumItem<number, UIDragDetectorDragRelativity, "Relative">,
-}, UIDragDetectorDragRelativityItem>
+}, UIDragDetectorDragRelativity>
 Enum.UIDragDetectorDragRelativity = {"Absolute", "Relative"}
 
-export type UIDragDetectorDragSpaceItem =
-	EnumItem<number, UIDragDetectorDragSpace, "Parent">
+export type UIDragDetectorDragSpace =
+	| EnumItem<number, UIDragDetectorDragSpace, "Parent">
 	| EnumItem<number, UIDragDetectorDragSpace, "LayerCollector">
 	| EnumItem<number, UIDragDetectorDragSpace, "Reference">
-export type UIDragDetectorDragSpace = EnumObject<{
+export type UIDragDetectorDragSpaceRoot = EnumObject<{
 	Parent: EnumItem<number, UIDragDetectorDragSpace, "Parent">,
 	LayerCollector: EnumItem<number, UIDragDetectorDragSpace, "LayerCollector">,
 	Reference: EnumItem<number, UIDragDetectorDragSpace, "Reference">,
-}, UIDragDetectorDragSpaceItem>
+}, UIDragDetectorDragSpace>
 Enum.UIDragDetectorDragSpace = {"Parent", "LayerCollector", "Reference"}
 
-export type UIDragDetectorDragStyleItem =
-	EnumItem<number, UIDragDetectorDragStyle, "TranslatePlane">
+export type UIDragDetectorDragStyle =
+	| EnumItem<number, UIDragDetectorDragStyle, "TranslatePlane">
 	| EnumItem<number, UIDragDetectorDragStyle, "TranslateLine">
 	| EnumItem<number, UIDragDetectorDragStyle, "Rotate">
 	| EnumItem<number, UIDragDetectorDragStyle, "Scriptable">
-export type UIDragDetectorDragStyle = EnumObject<{
+export type UIDragDetectorDragStyleRoot = EnumObject<{
 	TranslatePlane: EnumItem<number, UIDragDetectorDragStyle, "TranslatePlane">,
 	TranslateLine: EnumItem<number, UIDragDetectorDragStyle, "TranslateLine">,
 	Rotate: EnumItem<number, UIDragDetectorDragStyle, "Rotate">,
 	Scriptable: EnumItem<number, UIDragDetectorDragStyle, "Scriptable">,
-}, UIDragDetectorDragStyleItem>
+}, UIDragDetectorDragStyle>
 Enum.UIDragDetectorDragStyle = {"TranslatePlane", "TranslateLine", "Rotate", "Scriptable"}
 
-export type UIDragDetectorResponseStyleItem =
-	EnumItem<number, UIDragDetectorResponseStyle, "Offset">
+export type UIDragDetectorResponseStyle =
+	| EnumItem<number, UIDragDetectorResponseStyle, "Offset">
 	| EnumItem<number, UIDragDetectorResponseStyle, "Scale">
 	| EnumItem<number, UIDragDetectorResponseStyle, "CustomOffset">
 	| EnumItem<number, UIDragDetectorResponseStyle, "CustomScale">
-export type UIDragDetectorResponseStyle = EnumObject<{
+export type UIDragDetectorResponseStyleRoot = EnumObject<{
 	Offset: EnumItem<number, UIDragDetectorResponseStyle, "Offset">,
 	Scale: EnumItem<number, UIDragDetectorResponseStyle, "Scale">,
 	CustomOffset: EnumItem<number, UIDragDetectorResponseStyle, "CustomOffset">,
 	CustomScale: EnumItem<number, UIDragDetectorResponseStyle, "CustomScale">,
-}, UIDragDetectorResponseStyleItem>
+}, UIDragDetectorResponseStyle>
 Enum.UIDragDetectorResponseStyle = {"Offset", "Scale", "CustomOffset", "CustomScale"}
 
-export type UIDragSpeedAxisMappingItem =
-	EnumItem<number, UIDragSpeedAxisMapping, "XY">
+export type UIDragSpeedAxisMapping =
+	| EnumItem<number, UIDragSpeedAxisMapping, "XY">
 	| EnumItem<number, UIDragSpeedAxisMapping, "XX">
 	| EnumItem<number, UIDragSpeedAxisMapping, "YY">
-export type UIDragSpeedAxisMapping = EnumObject<{
+export type UIDragSpeedAxisMappingRoot = EnumObject<{
 	XY: EnumItem<number, UIDragSpeedAxisMapping, "XY">,
 	XX: EnumItem<number, UIDragSpeedAxisMapping, "XX">,
 	YY: EnumItem<number, UIDragSpeedAxisMapping, "YY">,
-}, UIDragSpeedAxisMappingItem>
+}, UIDragSpeedAxisMapping>
 Enum.UIDragSpeedAxisMapping = {"XY", "XX", "YY"}
 
-export type UIFlexAlignmentItem =
-	EnumItem<number, UIFlexAlignment, "None">
+export type UIFlexAlignment =
+	| EnumItem<number, UIFlexAlignment, "None">
 	| EnumItem<number, UIFlexAlignment, "Fill">
 	| EnumItem<number, UIFlexAlignment, "SpaceAround">
 	| EnumItem<number, UIFlexAlignment, "SpaceBetween">
 	| EnumItem<number, UIFlexAlignment, "SpaceEvenly">
-export type UIFlexAlignment = EnumObject<{
+export type UIFlexAlignmentRoot = EnumObject<{
 	None: EnumItem<number, UIFlexAlignment, "None">,
 	Fill: EnumItem<number, UIFlexAlignment, "Fill">,
 	SpaceAround: EnumItem<number, UIFlexAlignment, "SpaceAround">,
 	SpaceBetween: EnumItem<number, UIFlexAlignment, "SpaceBetween">,
 	SpaceEvenly: EnumItem<number, UIFlexAlignment, "SpaceEvenly">,
-}, UIFlexAlignmentItem>
+}, UIFlexAlignment>
 Enum.UIFlexAlignment = {"None", "Fill", "SpaceAround", "SpaceBetween", "SpaceEvenly"}
 
-export type UIFlexModeItem =
-	EnumItem<number, UIFlexMode, "None">
+export type UIFlexMode =
+	| EnumItem<number, UIFlexMode, "None">
 	| EnumItem<number, UIFlexMode, "Grow">
 	| EnumItem<number, UIFlexMode, "Shrink">
 	| EnumItem<number, UIFlexMode, "Fill">
 	| EnumItem<number, UIFlexMode, "Custom">
-export type UIFlexMode = EnumObject<{
+export type UIFlexModeRoot = EnumObject<{
 	None: EnumItem<number, UIFlexMode, "None">,
 	Grow: EnumItem<number, UIFlexMode, "Grow">,
 	Shrink: EnumItem<number, UIFlexMode, "Shrink">,
 	Fill: EnumItem<number, UIFlexMode, "Fill">,
 	Custom: EnumItem<number, UIFlexMode, "Custom">,
-}, UIFlexModeItem>
+}, UIFlexMode>
 Enum.UIFlexMode = {"None", "Grow", "Shrink", "Fill", "Custom"}
 
-export type UIThemeItem = EnumItem<number, UITheme, "Light"> | EnumItem<number, UITheme, "Dark">
-export type UITheme = EnumObject<{
+export type UITheme = | EnumItem<number, UITheme, "Light"> | EnumItem<number, UITheme, "Dark">
+export type UIThemeRoot = EnumObject<{
 	Light: EnumItem<number, UITheme, "Light">,
 	Dark: EnumItem<number, UITheme, "Dark">,
-}, UIThemeItem>
+}, UITheme>
 Enum.UITheme = {"Light", "Dark"}
 
-export type UiMessageTypeItem =
-	EnumItem<number, UiMessageType, "UiMessageError">
+export type UiMessageType =
+	| EnumItem<number, UiMessageType, "UiMessageError">
 	| EnumItem<number, UiMessageType, "UiMessageInfo">
-export type UiMessageType = EnumObject<{
+export type UiMessageTypeRoot = EnumObject<{
 	UiMessageError: EnumItem<number, UiMessageType, "UiMessageError">,
 	UiMessageInfo: EnumItem<number, UiMessageType, "UiMessageInfo">,
-}, UiMessageTypeItem>
+}, UiMessageType>
 Enum.UiMessageType = {"UiMessageError", "UiMessageInfo"}
 
-export type UsageContextItem = EnumItem<number, UsageContext, "Default"> | EnumItem<number, UsageContext, "Preview">
-export type UsageContext = EnumObject<{
+export type UsageContext = | EnumItem<number, UsageContext, "Default"> | EnumItem<number, UsageContext, "Preview">
+export type UsageContextRoot = EnumObject<{
 	Default: EnumItem<number, UsageContext, "Default">,
 	Preview: EnumItem<number, UsageContext, "Preview">,
-}, UsageContextItem>
+}, UsageContext>
 Enum.UsageContext = {"Default", "Preview"}
 
-export type UserCFrameItem =
-	EnumItem<number, UserCFrame, "Head">
+export type UserCFrame =
+	| EnumItem<number, UserCFrame, "Head">
 	| EnumItem<number, UserCFrame, "LeftHand">
 	| EnumItem<number, UserCFrame, "RightHand">
 	| EnumItem<number, UserCFrame, "Floor">
-export type UserCFrame = EnumObject<{
+export type UserCFrameRoot = EnumObject<{
 	Head: EnumItem<number, UserCFrame, "Head">,
 	LeftHand: EnumItem<number, UserCFrame, "LeftHand">,
 	RightHand: EnumItem<number, UserCFrame, "RightHand">,
 	Floor: EnumItem<number, UserCFrame, "Floor">,
-}, UserCFrameItem>
+}, UserCFrame>
 Enum.UserCFrame = {"Head", "LeftHand", "RightHand", "Floor"}
 
-export type UserInputStateItem =
-	EnumItem<number, UserInputState, "Begin">
+export type UserInputState =
+	| EnumItem<number, UserInputState, "Begin">
 	| EnumItem<number, UserInputState, "Change">
 	| EnumItem<number, UserInputState, "End">
 	| EnumItem<number, UserInputState, "Cancel">
 	| EnumItem<number, UserInputState, "None">
-export type UserInputState = EnumObject<{
+export type UserInputStateRoot = EnumObject<{
 	Begin: EnumItem<number, UserInputState, "Begin">,
 	Change: EnumItem<number, UserInputState, "Change">,
 	End: EnumItem<number, UserInputState, "End">,
 	Cancel: EnumItem<number, UserInputState, "Cancel">,
 	None: EnumItem<number, UserInputState, "None">,
-}, UserInputStateItem>
+}, UserInputState>
 Enum.UserInputState = {"Begin", "Change", "End", "Cancel", "None"}
 
-export type UserInputTypeItem =
-	EnumItem<number, UserInputType, "MouseButton1">
+export type UserInputType =
+	| EnumItem<number, UserInputType, "MouseButton1">
 	| EnumItem<number, UserInputType, "MouseButton2">
 	| EnumItem<number, UserInputType, "MouseButton3">
 	| EnumItem<number, UserInputType, "MouseWheel">
@@ -8590,7 +9269,7 @@ export type UserInputTypeItem =
 	| EnumItem<number, UserInputType, "TextInput">
 	| EnumItem<number, UserInputType, "InputMethod">
 	| EnumItem<number, UserInputType, "None">
-export type UserInputType = EnumObject<{
+export type UserInputTypeRoot = EnumObject<{
 	MouseButton1: EnumItem<number, UserInputType, "MouseButton1">,
 	MouseButton2: EnumItem<number, UserInputType, "MouseButton2">,
 	MouseButton3: EnumItem<number, UserInputType, "MouseButton3">,
@@ -8612,7 +9291,7 @@ export type UserInputType = EnumObject<{
 	TextInput: EnumItem<number, UserInputType, "TextInput">,
 	InputMethod: EnumItem<number, UserInputType, "InputMethod">,
 	None: EnumItem<number, UserInputType, "None">,
-}, UserInputTypeItem>
+}, UserInputType>
 Enum.UserInputType = {
 	MouseButton1 = 0;
 	MouseButton2 = 1;
@@ -8637,168 +9316,183 @@ Enum.UserInputType = {
 	None = 22;
 }
 
-export type VRComfortSettingItem =
-	EnumItem<number, VRComfortSetting, "Comfort">
+export type VRComfortSetting =
+	| EnumItem<number, VRComfortSetting, "Comfort">
 	| EnumItem<number, VRComfortSetting, "Normal">
 	| EnumItem<number, VRComfortSetting, "Expert">
 	| EnumItem<number, VRComfortSetting, "Custom">
-export type VRComfortSetting = EnumObject<{
+export type VRComfortSettingRoot = EnumObject<{
 	Comfort: EnumItem<number, VRComfortSetting, "Comfort">,
 	Normal: EnumItem<number, VRComfortSetting, "Normal">,
 	Expert: EnumItem<number, VRComfortSetting, "Expert">,
 	Custom: EnumItem<number, VRComfortSetting, "Custom">,
-}, VRComfortSettingItem>
+}, VRComfortSetting>
 Enum.VRComfortSetting = {"Comfort", "Normal", "Expert", "Custom"}
 
-export type VRControllerModelModeItem =
-	EnumItem<number, VRControllerModelMode, "Disabled">
+export type VRControllerModelMode =
+	| EnumItem<number, VRControllerModelMode, "Disabled">
 	| EnumItem<number, VRControllerModelMode, "Transparent">
-export type VRControllerModelMode = EnumObject<{
+export type VRControllerModelModeRoot = EnumObject<{
 	Disabled: EnumItem<number, VRControllerModelMode, "Disabled">,
 	Transparent: EnumItem<number, VRControllerModelMode, "Transparent">,
-}, VRControllerModelModeItem>
+}, VRControllerModelMode>
 Enum.VRControllerModelMode = {"Disabled", "Transparent"}
 
-export type VRDeviceTypeItem =
-	EnumItem<number, VRDeviceType, "Unknown">
+export type VRDeviceType =
+	| EnumItem<number, VRDeviceType, "Unknown">
 	| EnumItem<number, VRDeviceType, "OculusRift">
 	| EnumItem<number, VRDeviceType, "HTCVive">
 	| EnumItem<number, VRDeviceType, "ValveIndex">
 	| EnumItem<number, VRDeviceType, "OculusQuest">
-export type VRDeviceType = EnumObject<{
+export type VRDeviceTypeRoot = EnumObject<{
 	Unknown: EnumItem<number, VRDeviceType, "Unknown">,
 	OculusRift: EnumItem<number, VRDeviceType, "OculusRift">,
 	HTCVive: EnumItem<number, VRDeviceType, "HTCVive">,
 	ValveIndex: EnumItem<number, VRDeviceType, "ValveIndex">,
 	OculusQuest: EnumItem<number, VRDeviceType, "OculusQuest">,
-}, VRDeviceTypeItem>
+}, VRDeviceType>
 Enum.VRDeviceType = {"Unknown", "OculusRift", "HTCVive", "ValveIndex", "OculusQuest"}
 
-export type VRLaserPointerModeItem =
-	EnumItem<number, VRLaserPointerMode, "Disabled">
+export type VRLaserPointerMode =
+	| EnumItem<number, VRLaserPointerMode, "Disabled">
 	| EnumItem<number, VRLaserPointerMode, "Pointer">
 	| EnumItem<number, VRLaserPointerMode, "DualPointer">
-export type VRLaserPointerMode = EnumObject<{
+export type VRLaserPointerModeRoot = EnumObject<{
 	Disabled: EnumItem<number, VRLaserPointerMode, "Disabled">,
 	Pointer: EnumItem<number, VRLaserPointerMode, "Pointer">,
 	DualPointer: EnumItem<number, VRLaserPointerMode, "DualPointer">,
-}, VRLaserPointerModeItem>
+}, VRLaserPointerMode>
 Enum.VRLaserPointerMode = {"Disabled", "Pointer", "DualPointer"}
 
-export type VRSafetyBubbleModeItem =
-	EnumItem<number, VRSafetyBubbleMode, "NoOne">
+export type VRSafetyBubbleMode =
+	| EnumItem<number, VRSafetyBubbleMode, "NoOne">
 	| EnumItem<number, VRSafetyBubbleMode, "OnlyFriends">
 	| EnumItem<number, VRSafetyBubbleMode, "Anyone">
-export type VRSafetyBubbleMode = EnumObject<{
+export type VRSafetyBubbleModeRoot = EnumObject<{
 	NoOne: EnumItem<number, VRSafetyBubbleMode, "NoOne">,
 	OnlyFriends: EnumItem<number, VRSafetyBubbleMode, "OnlyFriends">,
 	Anyone: EnumItem<number, VRSafetyBubbleMode, "Anyone">,
-}, VRSafetyBubbleModeItem>
+}, VRSafetyBubbleMode>
 Enum.VRSafetyBubbleMode = {"NoOne", "OnlyFriends", "Anyone"}
 
-export type VRScalingItem = EnumItem<number, VRScaling, "World"> | EnumItem<number, VRScaling, "Off">
-export type VRScaling = EnumObject<{
+export type VRScaling = | EnumItem<number, VRScaling, "World"> | EnumItem<number, VRScaling, "Off">
+export type VRScalingRoot = EnumObject<{
 	World: EnumItem<number, VRScaling, "World">,
 	Off: EnumItem<number, VRScaling, "Off">,
-}, VRScalingItem>
+}, VRScaling>
 Enum.VRScaling = {"World", "Off"}
 
-export type VRSessionStateItem =
-	EnumItem<number, VRSessionState, "Undefined">
+export type VRSessionState =
+	| EnumItem<number, VRSessionState, "Undefined">
 	| EnumItem<number, VRSessionState, "Idle">
 	| EnumItem<number, VRSessionState, "Visible">
 	| EnumItem<number, VRSessionState, "Focused">
 	| EnumItem<number, VRSessionState, "Stopping">
-export type VRSessionState = EnumObject<{
+export type VRSessionStateRoot = EnumObject<{
 	Undefined: EnumItem<number, VRSessionState, "Undefined">,
 	Idle: EnumItem<number, VRSessionState, "Idle">,
 	Visible: EnumItem<number, VRSessionState, "Visible">,
 	Focused: EnumItem<number, VRSessionState, "Focused">,
 	Stopping: EnumItem<number, VRSessionState, "Stopping">,
-}, VRSessionStateItem>
+}, VRSessionState>
 Enum.VRSessionState = {"Undefined", "Idle", "Visible", "Focused", "Stopping"}
 
-export type VRTouchpadItem = EnumItem<number, VRTouchpad, "Left"> | EnumItem<number, VRTouchpad, "Right">
-export type VRTouchpad = EnumObject<{
+export type VRTouchpad = | EnumItem<number, VRTouchpad, "Left"> | EnumItem<number, VRTouchpad, "Right">
+export type VRTouchpadRoot = EnumObject<{
 	Left: EnumItem<number, VRTouchpad, "Left">,
 	Right: EnumItem<number, VRTouchpad, "Right">,
-}, VRTouchpadItem>
+}, VRTouchpad>
 Enum.VRTouchpad = {"Left", "Right"}
 
-export type VRTouchpadModeItem =
-	EnumItem<number, VRTouchpadMode, "Touch">
+export type VRTouchpadMode =
+	| EnumItem<number, VRTouchpadMode, "Touch">
 	| EnumItem<number, VRTouchpadMode, "VirtualThumbstick">
 	| EnumItem<number, VRTouchpadMode, "ABXY">
-export type VRTouchpadMode = EnumObject<{
+export type VRTouchpadModeRoot = EnumObject<{
 	Touch: EnumItem<number, VRTouchpadMode, "Touch">,
 	VirtualThumbstick: EnumItem<number, VRTouchpadMode, "VirtualThumbstick">,
 	ABXY: EnumItem<number, VRTouchpadMode, "ABXY">,
-}, VRTouchpadModeItem>
+}, VRTouchpadMode>
 Enum.VRTouchpadMode = {"Touch", "VirtualThumbstick", "ABXY"}
 
-export type VelocityConstraintModeItem =
-	EnumItem<number, VelocityConstraintMode, "Line">
+export type VelocityConstraintMode =
+	| EnumItem<number, VelocityConstraintMode, "Line">
 	| EnumItem<number, VelocityConstraintMode, "Plane">
 	| EnumItem<number, VelocityConstraintMode, "Vector">
-export type VelocityConstraintMode = EnumObject<{
+export type VelocityConstraintModeRoot = EnumObject<{
 	Line: EnumItem<number, VelocityConstraintMode, "Line">,
 	Plane: EnumItem<number, VelocityConstraintMode, "Plane">,
 	Vector: EnumItem<number, VelocityConstraintMode, "Vector">,
-}, VelocityConstraintModeItem>
+}, VelocityConstraintMode>
 Enum.VelocityConstraintMode = {"Line", "Plane", "Vector"}
 
-export type VerticalAlignmentItem =
-	EnumItem<number, VerticalAlignment, "Center">
+export type VerticalAlignment =
+	| EnumItem<number, VerticalAlignment, "Center">
 	| EnumItem<number, VerticalAlignment, "Top">
 	| EnumItem<number, VerticalAlignment, "Bottom">
-export type VerticalAlignment = EnumObject<{
+export type VerticalAlignmentRoot = EnumObject<{
 	Center: EnumItem<number, VerticalAlignment, "Center">,
 	Top: EnumItem<number, VerticalAlignment, "Top">,
 	Bottom: EnumItem<number, VerticalAlignment, "Bottom">,
-}, VerticalAlignmentItem>
+}, VerticalAlignment>
 Enum.VerticalAlignment = {"Center", "Top", "Bottom"}
 
-export type VerticalScrollBarPositionItem =
-	EnumItem<number, VerticalScrollBarPosition, "Right">
+export type VerticalScrollBarPosition =
+	| EnumItem<number, VerticalScrollBarPosition, "Right">
 	| EnumItem<number, VerticalScrollBarPosition, "Left">
-export type VerticalScrollBarPosition = EnumObject<{
+export type VerticalScrollBarPositionRoot = EnumObject<{
 	Right: EnumItem<number, VerticalScrollBarPosition, "Right">,
 	Left: EnumItem<number, VerticalScrollBarPosition, "Left">,
-}, VerticalScrollBarPositionItem>
+}, VerticalScrollBarPosition>
 Enum.VerticalScrollBarPosition = {"Right", "Left"}
 
-export type VibrationMotorItem =
-	EnumItem<number, VibrationMotor, "Large">
+export type VibrationMotor =
+	| EnumItem<number, VibrationMotor, "Large">
 	| EnumItem<number, VibrationMotor, "Small">
 	| EnumItem<number, VibrationMotor, "LeftTrigger">
 	| EnumItem<number, VibrationMotor, "RightTrigger">
 	| EnumItem<number, VibrationMotor, "LeftHand">
 	| EnumItem<number, VibrationMotor, "RightHand">
-export type VibrationMotor = EnumObject<{
+export type VibrationMotorRoot = EnumObject<{
 	Large: EnumItem<number, VibrationMotor, "Large">,
 	Small: EnumItem<number, VibrationMotor, "Small">,
 	LeftTrigger: EnumItem<number, VibrationMotor, "LeftTrigger">,
 	RightTrigger: EnumItem<number, VibrationMotor, "RightTrigger">,
 	LeftHand: EnumItem<number, VibrationMotor, "LeftHand">,
 	RightHand: EnumItem<number, VibrationMotor, "RightHand">,
-}, VibrationMotorItem>
+}, VibrationMotor>
 Enum.VibrationMotor = {"Large", "Small", "LeftTrigger", "RightTrigger", "LeftHand", "RightHand"}
 
-export type VideoDeviceCaptureQualityItem =
-	EnumItem<number, VideoDeviceCaptureQuality, "Default">
+export type VideoCaptureResult =
+	| EnumItem<number, VideoCaptureResult, "Success">
+	| EnumItem<number, VideoCaptureResult, "OtherError">
+	| EnumItem<number, VideoCaptureResult, "CapturingAlready">
+	| EnumItem<number, VideoCaptureResult, "NoDeviceSupport">
+	| EnumItem<number, VideoCaptureResult, "NoSpaceOnDevice">
+export type VideoCaptureResultRoot = EnumObject<{
+	Success: EnumItem<number, VideoCaptureResult, "Success">,
+	OtherError: EnumItem<number, VideoCaptureResult, "OtherError">,
+	CapturingAlready: EnumItem<number, VideoCaptureResult, "CapturingAlready">,
+	NoDeviceSupport: EnumItem<number, VideoCaptureResult, "NoDeviceSupport">,
+	NoSpaceOnDevice: EnumItem<number, VideoCaptureResult, "NoSpaceOnDevice">,
+}, VideoCaptureResult>
+Enum.VideoCaptureResult = {"Success", "OtherError", "CapturingAlready", "NoDeviceSupport", "NoSpaceOnDevice"}
+
+export type VideoDeviceCaptureQuality =
+	| EnumItem<number, VideoDeviceCaptureQuality, "Default">
 	| EnumItem<number, VideoDeviceCaptureQuality, "Low">
 	| EnumItem<number, VideoDeviceCaptureQuality, "Medium">
 	| EnumItem<number, VideoDeviceCaptureQuality, "High">
-export type VideoDeviceCaptureQuality = EnumObject<{
+export type VideoDeviceCaptureQualityRoot = EnumObject<{
 	Default: EnumItem<number, VideoDeviceCaptureQuality, "Default">,
 	Low: EnumItem<number, VideoDeviceCaptureQuality, "Low">,
 	Medium: EnumItem<number, VideoDeviceCaptureQuality, "Medium">,
 	High: EnumItem<number, VideoDeviceCaptureQuality, "High">,
-}, VideoDeviceCaptureQualityItem>
+}, VideoDeviceCaptureQuality>
 Enum.VideoDeviceCaptureQuality = {"Default", "Low", "Medium", "High"}
 
-export type VideoErrorItem =
-	EnumItem<number, VideoError, "Ok">
+export type VideoError =
+	| EnumItem<number, VideoError, "Ok">
 	| EnumItem<number, VideoError, "Eof">
 	| EnumItem<number, VideoError, "EAgain">
 	| EnumItem<number, VideoError, "BadParameter">
@@ -8817,7 +9511,7 @@ export type VideoErrorItem =
 	| EnumItem<number, VideoError, "NoService">
 	| EnumItem<number, VideoError, "ReleaseFailed">
 	| EnumItem<number, VideoError, "Unknown">
-export type VideoError = EnumObject<{
+export type VideoErrorRoot = EnumObject<{
 	Ok: EnumItem<number, VideoError, "Ok">,
 	Eof: EnumItem<number, VideoError, "Eof">,
 	EAgain: EnumItem<number, VideoError, "EAgain">,
@@ -8837,7 +9531,7 @@ export type VideoError = EnumObject<{
 	NoService: EnumItem<number, VideoError, "NoService">,
 	ReleaseFailed: EnumItem<number, VideoError, "ReleaseFailed">,
 	Unknown: EnumItem<number, VideoError, "Unknown">,
-}, VideoErrorItem>
+}, VideoError>
 Enum.VideoError = {
 	"Ok";
 	"Eof";
@@ -8860,50 +9554,59 @@ Enum.VideoError = {
 	"Unknown";
 }
 
-export type ViewModeItem =
-	EnumItem<number, ViewMode, "None">
+export type ViewMode =
+	| EnumItem<number, ViewMode, "None">
 	| EnumItem<number, ViewMode, "GeometryComplexity">
 	| EnumItem<number, ViewMode, "Transparent">
 	| EnumItem<number, ViewMode, "Decal">
-export type ViewMode = EnumObject<{
+export type ViewModeRoot = EnumObject<{
 	None: EnumItem<number, ViewMode, "None">,
 	GeometryComplexity: EnumItem<number, ViewMode, "GeometryComplexity">,
 	Transparent: EnumItem<number, ViewMode, "Transparent">,
 	Decal: EnumItem<number, ViewMode, "Decal">,
-}, ViewModeItem>
+}, ViewMode>
 Enum.ViewMode = {"None", "GeometryComplexity", "Transparent", "Decal"}
 
-export type VirtualCursorModeItem =
-	EnumItem<number, VirtualCursorMode, "Default">
+export type VirtualCursorMode =
+	| EnumItem<number, VirtualCursorMode, "Default">
 	| EnumItem<number, VirtualCursorMode, "Disabled">
 	| EnumItem<number, VirtualCursorMode, "Enabled">
-export type VirtualCursorMode = EnumObject<{
+export type VirtualCursorModeRoot = EnumObject<{
 	Default: EnumItem<number, VirtualCursorMode, "Default">,
 	Disabled: EnumItem<number, VirtualCursorMode, "Disabled">,
 	Enabled: EnumItem<number, VirtualCursorMode, "Enabled">,
-}, VirtualCursorModeItem>
+}, VirtualCursorMode>
 Enum.VirtualCursorMode = {"Default", "Disabled", "Enabled"}
 
-export type VirtualInputModeItem =
-	EnumItem<number, VirtualInputMode, "None">
+export type VirtualInputMode =
+	| EnumItem<number, VirtualInputMode, "None">
 	| EnumItem<number, VirtualInputMode, "Recording">
 	| EnumItem<number, VirtualInputMode, "Playing">
-export type VirtualInputMode = EnumObject<{
+export type VirtualInputModeRoot = EnumObject<{
 	None: EnumItem<number, VirtualInputMode, "None">,
 	Recording: EnumItem<number, VirtualInputMode, "Recording">,
 	Playing: EnumItem<number, VirtualInputMode, "Playing">,
-}, VirtualInputModeItem>
+}, VirtualInputMode>
 Enum.VirtualInputMode = {"None", "Recording", "Playing"}
 
-export type VoiceChatStateItem =
-	EnumItem<number, VoiceChatState, "Idle">
+export type VoiceChatDistanceAttenuationType =
+	| EnumItem<number, VoiceChatDistanceAttenuationType, "Inverse">
+	| EnumItem<number, VoiceChatDistanceAttenuationType, "Legacy">
+export type VoiceChatDistanceAttenuationTypeRoot = EnumObject<{
+	Inverse: EnumItem<number, VoiceChatDistanceAttenuationType, "Inverse">,
+	Legacy: EnumItem<number, VoiceChatDistanceAttenuationType, "Legacy">,
+}, VoiceChatDistanceAttenuationType>
+Enum.VoiceChatDistanceAttenuationType = {"Inverse", "Legacy"}
+
+export type VoiceChatState =
+	| EnumItem<number, VoiceChatState, "Idle">
 	| EnumItem<number, VoiceChatState, "Joining">
 	| EnumItem<number, VoiceChatState, "JoiningRetry">
 	| EnumItem<number, VoiceChatState, "Joined">
 	| EnumItem<number, VoiceChatState, "Leaving">
 	| EnumItem<number, VoiceChatState, "Ended">
 	| EnumItem<number, VoiceChatState, "Failed">
-export type VoiceChatState = EnumObject<{
+export type VoiceChatStateRoot = EnumObject<{
 	Idle: EnumItem<number, VoiceChatState, "Idle">,
 	Joining: EnumItem<number, VoiceChatState, "Joining">,
 	JoiningRetry: EnumItem<number, VoiceChatState, "JoiningRetry">,
@@ -8911,96 +9614,109 @@ export type VoiceChatState = EnumObject<{
 	Leaving: EnumItem<number, VoiceChatState, "Leaving">,
 	Ended: EnumItem<number, VoiceChatState, "Ended">,
 	Failed: EnumItem<number, VoiceChatState, "Failed">,
-}, VoiceChatStateItem>
+}, VoiceChatState>
 Enum.VoiceChatState = {"Idle", "Joining", "JoiningRetry", "Joined", "Leaving", "Ended", "Failed"}
 
-export type VoiceControlPathItem =
-	EnumItem<number, VoiceControlPath, "Publish">
+export type VoiceControlPath =
+	| EnumItem<number, VoiceControlPath, "Publish">
 	| EnumItem<number, VoiceControlPath, "Subscribe">
 	| EnumItem<number, VoiceControlPath, "Join">
-export type VoiceControlPath = EnumObject<{
+export type VoiceControlPathRoot = EnumObject<{
 	Publish: EnumItem<number, VoiceControlPath, "Publish">,
 	Subscribe: EnumItem<number, VoiceControlPath, "Subscribe">,
 	Join: EnumItem<number, VoiceControlPath, "Join">,
-}, VoiceControlPathItem>
+}, VoiceControlPath>
 Enum.VoiceControlPath = {"Publish", "Subscribe", "Join"}
 
-export type VolumetricAudioItem =
-	EnumItem<number, VolumetricAudio, "Disabled">
+export type VolumetricAudio =
+	| EnumItem<number, VolumetricAudio, "Disabled">
 	| EnumItem<number, VolumetricAudio, "Automatic">
 	| EnumItem<number, VolumetricAudio, "Enabled">
-export type VolumetricAudio = EnumObject<{
+export type VolumetricAudioRoot = EnumObject<{
 	Disabled: EnumItem<number, VolumetricAudio, "Disabled">,
 	Automatic: EnumItem<number, VolumetricAudio, "Automatic">,
 	Enabled: EnumItem<number, VolumetricAudio, "Enabled">,
-}, VolumetricAudioItem>
+}, VolumetricAudio>
 Enum.VolumetricAudio = {"Disabled", "Automatic", "Enabled"}
 
-export type WaterDirectionItem =
-	EnumItem<number, WaterDirection, "NegX">
+export type WaterDirection =
+	| EnumItem<number, WaterDirection, "NegX">
 	| EnumItem<number, WaterDirection, "X">
 	| EnumItem<number, WaterDirection, "NegY">
 	| EnumItem<number, WaterDirection, "Y">
 	| EnumItem<number, WaterDirection, "NegZ">
 	| EnumItem<number, WaterDirection, "Z">
-export type WaterDirection = EnumObject<{
+export type WaterDirectionRoot = EnumObject<{
 	NegX: EnumItem<number, WaterDirection, "NegX">,
 	X: EnumItem<number, WaterDirection, "X">,
 	NegY: EnumItem<number, WaterDirection, "NegY">,
 	Y: EnumItem<number, WaterDirection, "Y">,
 	NegZ: EnumItem<number, WaterDirection, "NegZ">,
 	Z: EnumItem<number, WaterDirection, "Z">,
-}, WaterDirectionItem>
+}, WaterDirection>
 Enum.WaterDirection = {"NegX", "X", "NegY", "Y", "NegZ", "Z"}
 
-export type WaterForceItem =
-	EnumItem<number, WaterForce, "None">
+export type WaterForce =
+	| EnumItem<number, WaterForce, "None">
 	| EnumItem<number, WaterForce, "Small">
 	| EnumItem<number, WaterForce, "Medium">
 	| EnumItem<number, WaterForce, "Strong">
 	| EnumItem<number, WaterForce, "Max">
-export type WaterForce = EnumObject<{
+export type WaterForceRoot = EnumObject<{
 	None: EnumItem<number, WaterForce, "None">,
 	Small: EnumItem<number, WaterForce, "Small">,
 	Medium: EnumItem<number, WaterForce, "Medium">,
 	Strong: EnumItem<number, WaterForce, "Strong">,
 	Max: EnumItem<number, WaterForce, "Max">,
-}, WaterForceItem>
+}, WaterForce>
 Enum.WaterForce = {"None", "Small", "Medium", "Strong", "Max"}
 
-export type WeldConstraintPreserveItem =
-	EnumItem<number, WeldConstraintPreserve, "All">
+export type WebSocketState =
+	| EnumItem<number, WebSocketState, "Connecting">
+	| EnumItem<number, WebSocketState, "Open">
+	| EnumItem<number, WebSocketState, "Closing">
+	| EnumItem<number, WebSocketState, "Closed">
+export type WebSocketStateRoot = EnumObject<{
+	Connecting: EnumItem<number, WebSocketState, "Connecting">,
+	Open: EnumItem<number, WebSocketState, "Open">,
+	Closing: EnumItem<number, WebSocketState, "Closing">,
+	Closed: EnumItem<number, WebSocketState, "Closed">,
+}, WebSocketState>
+Enum.WebSocketState = {"Connecting", "Open", "Closing", "Closed"}
+
+export type WeldConstraintPreserve =
+	| EnumItem<number, WeldConstraintPreserve, "All">
 	| EnumItem<number, WeldConstraintPreserve, "None">
 	| EnumItem<number, WeldConstraintPreserve, "Touching">
-export type WeldConstraintPreserve = EnumObject<{
+export type WeldConstraintPreserveRoot = EnumObject<{
 	All: EnumItem<number, WeldConstraintPreserve, "All">,
 	None: EnumItem<number, WeldConstraintPreserve, "None">,
 	Touching: EnumItem<number, WeldConstraintPreserve, "Touching">,
-}, WeldConstraintPreserveItem>
+}, WeldConstraintPreserve>
 Enum.WeldConstraintPreserve = {"All", "None", "Touching"}
 
-export type WhisperChatPrivacyModeItem =
-	EnumItem<number, WhisperChatPrivacyMode, "AllUsers">
+export type WhisperChatPrivacyMode =
+	| EnumItem<number, WhisperChatPrivacyMode, "AllUsers">
 	| EnumItem<number, WhisperChatPrivacyMode, "NoOne">
-export type WhisperChatPrivacyMode = EnumObject<{
+export type WhisperChatPrivacyModeRoot = EnumObject<{
 	AllUsers: EnumItem<number, WhisperChatPrivacyMode, "AllUsers">,
 	NoOne: EnumItem<number, WhisperChatPrivacyMode, "NoOne">,
-}, WhisperChatPrivacyModeItem>
+}, WhisperChatPrivacyMode>
 Enum.WhisperChatPrivacyMode = {"AllUsers", "NoOne"}
 
-export type WrapLayerAutoSkinItem =
-	EnumItem<number, WrapLayerAutoSkin, "Disabled">
+export type WrapLayerAutoSkin =
+	| EnumItem<number, WrapLayerAutoSkin, "Disabled">
 	| EnumItem<number, WrapLayerAutoSkin, "EnabledPreserve">
 	| EnumItem<number, WrapLayerAutoSkin, "EnabledOverride">
-export type WrapLayerAutoSkin = EnumObject<{
+export type WrapLayerAutoSkinRoot = EnumObject<{
 	Disabled: EnumItem<number, WrapLayerAutoSkin, "Disabled">,
 	EnabledPreserve: EnumItem<number, WrapLayerAutoSkin, "EnabledPreserve">,
 	EnabledOverride: EnumItem<number, WrapLayerAutoSkin, "EnabledOverride">,
-}, WrapLayerAutoSkinItem>
+}, WrapLayerAutoSkin>
 Enum.WrapLayerAutoSkin = {"Disabled", "EnabledPreserve", "EnabledOverride"}
 
-export type WrapLayerDebugModeItem =
-	EnumItem<number, WrapLayerDebugMode, "None">
+export type WrapLayerDebugMode =
+	| EnumItem<number, WrapLayerDebugMode, "None">
 	| EnumItem<number, WrapLayerDebugMode, "BoundCage">
 	| EnumItem<number, WrapLayerDebugMode, "LayerCage">
 	| EnumItem<number, WrapLayerDebugMode, "BoundCageAndLinks">
@@ -9014,7 +9730,7 @@ export type WrapLayerDebugModeItem =
 	| EnumItem<number, WrapLayerDebugMode, "HSRInnerReverse">
 	| EnumItem<number, WrapLayerDebugMode, "LayerCageFittedToBase">
 	| EnumItem<number, WrapLayerDebugMode, "LayerCageFittedToPrev">
-export type WrapLayerDebugMode = EnumObject<{
+export type WrapLayerDebugModeRoot = EnumObject<{
 	None: EnumItem<number, WrapLayerDebugMode, "None">,
 	BoundCage: EnumItem<number, WrapLayerDebugMode, "BoundCage">,
 	LayerCage: EnumItem<number, WrapLayerDebugMode, "LayerCage">,
@@ -9029,7 +9745,7 @@ export type WrapLayerDebugMode = EnumObject<{
 	HSRInnerReverse: EnumItem<number, WrapLayerDebugMode, "HSRInnerReverse">,
 	LayerCageFittedToBase: EnumItem<number, WrapLayerDebugMode, "LayerCageFittedToBase">,
 	LayerCageFittedToPrev: EnumItem<number, WrapLayerDebugMode, "LayerCageFittedToPrev">,
-}, WrapLayerDebugModeItem>
+}, WrapLayerDebugMode>
 Enum.WrapLayerDebugMode = {
 	"None";
 	"BoundCage";
@@ -9047,8 +9763,8 @@ Enum.WrapLayerDebugMode = {
 	"LayerCageFittedToPrev";
 }
 
-export type WrapTargetDebugModeItem =
-	EnumItem<number, WrapTargetDebugMode, "None">
+export type WrapTargetDebugMode =
+	| EnumItem<number, WrapTargetDebugMode, "None">
 	| EnumItem<number, WrapTargetDebugMode, "TargetCageOriginal">
 	| EnumItem<number, WrapTargetDebugMode, "TargetCageCompressed">
 	| EnumItem<number, WrapTargetDebugMode, "TargetCageInterface">
@@ -9057,7 +9773,7 @@ export type WrapTargetDebugModeItem =
 	| EnumItem<number, WrapTargetDebugMode, "TargetLayerInterface">
 	| EnumItem<number, WrapTargetDebugMode, "Rbf">
 	| EnumItem<number, WrapTargetDebugMode, "OuterCageDetail">
-export type WrapTargetDebugMode = EnumObject<{
+export type WrapTargetDebugModeRoot = EnumObject<{
 	None: EnumItem<number, WrapTargetDebugMode, "None">,
 	TargetCageOriginal: EnumItem<number, WrapTargetDebugMode, "TargetCageOriginal">,
 	TargetCageCompressed: EnumItem<number, WrapTargetDebugMode, "TargetCageCompressed">,
@@ -9067,7 +9783,7 @@ export type WrapTargetDebugMode = EnumObject<{
 	TargetLayerInterface: EnumItem<number, WrapTargetDebugMode, "TargetLayerInterface">,
 	Rbf: EnumItem<number, WrapTargetDebugMode, "Rbf">,
 	OuterCageDetail: EnumItem<number, WrapTargetDebugMode, "OuterCageDetail">,
-}, WrapTargetDebugModeItem>
+}, WrapTargetDebugMode>
 Enum.WrapTargetDebugMode = {
 	"None";
 	"TargetCageOriginal";
@@ -9080,889 +9796,975 @@ Enum.WrapTargetDebugMode = {
 	"OuterCageDetail";
 }
 
-export type ZIndexBehaviorItem = EnumItem<number, ZIndexBehavior, "Global"> | EnumItem<number, ZIndexBehavior, "Sibling">
-export type ZIndexBehavior = EnumObject<{
+export type ZIndexBehavior = | EnumItem<number, ZIndexBehavior, "Global"> | EnumItem<number, ZIndexBehavior, "Sibling">
+export type ZIndexBehaviorRoot = EnumObject<{
 	Global: EnumItem<number, ZIndexBehavior, "Global">,
 	Sibling: EnumItem<number, ZIndexBehavior, "Sibling">,
-}, ZIndexBehaviorItem>
+}, ZIndexBehavior>
 Enum.ZIndexBehavior = {"Global", "Sibling"}
 
 return Enum :: Enums<
 	{
-		AccessModifierType: AccessModifierType,
-		AccessoryType: AccessoryType,
-		ActionOnStopSync: ActionOnStopSync,
-		ActionType: ActionType,
-		ActuatorRelativeTo: ActuatorRelativeTo,
-		ActuatorType: ActuatorType,
-		AdEventType: AdEventType,
-		AdShape: AdShape,
-		AdTeleportMethod: AdTeleportMethod,
-		AdUIEventType: AdUIEventType,
-		AdUIType: AdUIType,
-		AdUnitStatus: AdUnitStatus,
-		AdornCullingMode: AdornCullingMode,
-		AlignType: AlignType,
-		AlphaMode: AlphaMode,
-		AnalyticsCustomFieldKeys: AnalyticsCustomFieldKeys,
-		AnalyticsEconomyAction: AnalyticsEconomyAction,
-		AnalyticsEconomyFlowType: AnalyticsEconomyFlowType,
-		AnalyticsEconomyTransactionType: AnalyticsEconomyTransactionType,
-		AnalyticsLogLevel: AnalyticsLogLevel,
-		AnalyticsProgressionStatus: AnalyticsProgressionStatus,
-		AnalyticsProgressionType: AnalyticsProgressionType,
-		AnimationClipFromVideoStatus: AnimationClipFromVideoStatus,
-		AnimationPriority: AnimationPriority,
-		AnimatorRetargetingMode: AnimatorRetargetingMode,
-		AnnotationEditingMode: AnnotationEditingMode,
-		AppLifecycleManagerState: AppLifecycleManagerState,
-		AppShellActionType: AppShellActionType,
-		AppShellFeature: AppShellFeature,
-		AppUpdateStatus: AppUpdateStatus,
-		ApplyStrokeMode: ApplyStrokeMode,
-		AspectType: AspectType,
-		AssetCreatorType: AssetCreatorType,
-		AssetFetchStatus: AssetFetchStatus,
-		AssetType: AssetType,
-		AssetTypeVerification: AssetTypeVerification,
-		AudioApiRollout: AudioApiRollout,
-		AudioFilterType: AudioFilterType,
-		AudioSubType: AudioSubType,
-		AudioWindowSize: AudioWindowSize,
-		AutoIndentRule: AutoIndentRule,
-		AutomaticSize: AutomaticSize,
-		AvatarAssetType: AvatarAssetType,
-		AvatarChatServiceFeature: AvatarChatServiceFeature,
-		AvatarContextMenuOption: AvatarContextMenuOption,
-		AvatarGenerationError: AvatarGenerationError,
-		AvatarItemType: AvatarItemType,
-		AvatarJointUpgrade: AvatarJointUpgrade,
-		AvatarPromptResult: AvatarPromptResult,
-		AvatarThumbnailCustomizationType: AvatarThumbnailCustomizationType,
-		AvatarUnificationMode: AvatarUnificationMode,
-		Axis: Axis,
-		BinType: BinType,
-		BodyPart: BodyPart,
-		BodyPartR15: BodyPartR15,
-		BorderMode: BorderMode,
-		BreakReason: BreakReason,
-		BreakpointRemoveReason: BreakpointRemoveReason,
-		BulkMoveMode: BulkMoveMode,
-		BundleType: BundleType,
-		Button: Button,
-		ButtonStyle: ButtonStyle,
-		CSGAsyncDynamicCollision: CSGAsyncDynamicCollision,
-		CageType: CageType,
-		CameraMode: CameraMode,
-		CameraPanMode: CameraPanMode,
-		CameraSpeedAdjustBinding: CameraSpeedAdjustBinding,
-		CameraType: CameraType,
-		CatalogCategoryFilter: CatalogCategoryFilter,
-		CatalogSortAggregation: CatalogSortAggregation,
-		CatalogSortType: CatalogSortType,
-		CellBlock: CellBlock,
-		CellMaterial: CellMaterial,
-		CellOrientation: CellOrientation,
-		CenterDialogType: CenterDialogType,
-		CharacterControlMode: CharacterControlMode,
-		ChatCallbackType: ChatCallbackType,
-		ChatColor: ChatColor,
-		ChatMode: ChatMode,
-		ChatPrivacyMode: ChatPrivacyMode,
-		ChatRestrictionStatus: ChatRestrictionStatus,
-		ChatStyle: ChatStyle,
-		ChatVersion: ChatVersion,
-		ClientAnimatorThrottlingMode: ClientAnimatorThrottlingMode,
-		CloseReason: CloseReason,
-		CollaboratorStatus: CollaboratorStatus,
-		CollisionFidelity: CollisionFidelity,
-		CommandPermission: CommandPermission,
-		CompileTarget: CompileTarget,
-		CompletionItemKind: CompletionItemKind,
-		CompletionItemTag: CompletionItemTag,
-		CompletionTriggerKind: CompletionTriggerKind,
-		ComputerCameraMovementMode: ComputerCameraMovementMode,
-		ComputerMovementMode: ComputerMovementMode,
-		ConnectionError: ConnectionError,
-		ConnectionState: ConnectionState,
-		ContentSourceType: ContentSourceType,
-		ContextActionPriority: ContextActionPriority,
-		ContextActionResult: ContextActionResult,
-		ControlMode: ControlMode,
-		CoreGuiType: CoreGuiType,
-		CreateOutfitFailure: CreateOutfitFailure,
-		CreatorType: CreatorType,
-		CreatorTypeFilter: CreatorTypeFilter,
-		CurrencyType: CurrencyType,
-		CustomCameraMode: CustomCameraMode,
-		DataStoreRequestType: DataStoreRequestType,
-		DebuggerEndReason: DebuggerEndReason,
-		DebuggerExceptionBreakMode: DebuggerExceptionBreakMode,
-		DebuggerFrameType: DebuggerFrameType,
-		DebuggerPauseReason: DebuggerPauseReason,
-		DebuggerStatus: DebuggerStatus,
-		DecreaseMinimumPartDensityMode: DecreaseMinimumPartDensityMode,
-		DevCameraOcclusionMode: DevCameraOcclusionMode,
-		DevComputerCameraMovementMode: DevComputerCameraMovementMode,
-		DevComputerMovementMode: DevComputerMovementMode,
-		DevTouchCameraMovementMode: DevTouchCameraMovementMode,
-		DevTouchMovementMode: DevTouchMovementMode,
-		DeveloperMemoryTag: DeveloperMemoryTag,
-		DeviceFeatureType: DeviceFeatureType,
-		DeviceLevel: DeviceLevel,
-		DeviceType: DeviceType,
-		DialogBehaviorType: DialogBehaviorType,
-		DialogPurpose: DialogPurpose,
-		DialogTone: DialogTone,
-		DominantAxis: DominantAxis,
-		DraftStatusCode: DraftStatusCode,
-		DragDetectorDragStyle: DragDetectorDragStyle,
-		DragDetectorPermissionPolicy: DragDetectorPermissionPolicy,
-		DragDetectorResponseStyle: DragDetectorResponseStyle,
-		DraggerCoordinateSpace: DraggerCoordinateSpace,
-		DraggerMovementMode: DraggerMovementMode,
-		EasingDirection: EasingDirection,
-		EasingStyle: EasingStyle,
-		EditableStatus: EditableStatus,
-		ElasticBehavior: ElasticBehavior,
-		EnviromentalPhysicsThrottle: EnviromentalPhysicsThrottle,
-		ExperienceAuthScope: ExperienceAuthScope,
-		ExplosionType: ExplosionType,
-		FACSDataLod: FACSDataLod,
-		FacialAnimationStreamingState: FacialAnimationStreamingState,
-		FieldOfViewMode: FieldOfViewMode,
-		FillDirection: FillDirection,
-		FilterErrorType: FilterErrorType,
-		FilterResult: FilterResult,
-		FinishRecordingOperation: FinishRecordingOperation,
-		FluidFidelity: FluidFidelity,
-		FluidForces: FluidForces,
-		Font: Font,
-		FontSize: FontSize,
-		FontStyle: FontStyle,
-		FontWeight: FontWeight,
-		ForceLimitMode: ForceLimitMode,
-		FormFactor: FormFactor,
-		FrameStyle: FrameStyle,
-		FramerateManagerMode: FramerateManagerMode,
-		FriendRequestEvent: FriendRequestEvent,
-		FriendStatus: FriendStatus,
-		FunctionalTestResult: FunctionalTestResult,
-		GameAvatarType: GameAvatarType,
-		GamepadType: GamepadType,
-		GearGenreSetting: GearGenreSetting,
-		GearType: GearType,
-		Genre: Genre,
-		GraphicsMode: GraphicsMode,
-		GraphicsOptimizationMode: GraphicsOptimizationMode,
-		GuiState: GuiState,
-		GuiType: GuiType,
-		HandlesStyle: HandlesStyle,
-		HapticEffectType: HapticEffectType,
-		HighlightDepthMode: HighlightDepthMode,
-		HorizontalAlignment: HorizontalAlignment,
-		HoverAnimateSpeed: HoverAnimateSpeed,
-		HttpCachePolicy: HttpCachePolicy,
-		HttpCompression: HttpCompression,
-		HttpContentType: HttpContentType,
-		HttpError: HttpError,
-		HttpRequestType: HttpRequestType,
-		HumanoidCollisionType: HumanoidCollisionType,
-		HumanoidDisplayDistanceType: HumanoidDisplayDistanceType,
-		HumanoidHealthDisplayType: HumanoidHealthDisplayType,
-		HumanoidRigType: HumanoidRigType,
-		HumanoidStateType: HumanoidStateType,
-		IKCollisionsMode: IKCollisionsMode,
-		IKControlConstraintSupport: IKControlConstraintSupport,
-		IKControlType: IKControlType,
-		IXPLoadingStatus: IXPLoadingStatus,
-		ImageAlphaType: ImageAlphaType,
-		ImageCombineType: ImageCombineType,
-		InOut: InOut,
-		InfoType: InfoType,
-		InitialDockState: InitialDockState,
-		InputType: InputType,
-		Intent: Intent,
-		InterpolationThrottlingMode: InterpolationThrottlingMode,
-		InviteState: InviteState,
-		ItemLineAlignment: ItemLineAlignment,
-		JoinSource: JoinSource,
-		JointCreationMode: JointCreationMode,
-		KeyCode: KeyCode,
-		KeyInterpolationMode: KeyInterpolationMode,
-		KeywordFilterType: KeywordFilterType,
-		Language: Language,
-		LeftRight: LeftRight,
-		LexemeType: LexemeType,
-		Limb: Limb,
-		LineJoinMode: LineJoinMode,
-		ListDisplayMode: ListDisplayMode,
-		ListenerLocation: ListenerLocation,
-		ListenerType: ListenerType,
-		LiveEditingAtomicUpdateResponse: LiveEditingAtomicUpdateResponse,
-		LiveEditingBroadcastMessageType: LiveEditingBroadcastMessageType,
-		LoadCharacterLayeredClothing: LoadCharacterLayeredClothing,
-		LoadDynamicHeads: LoadDynamicHeads,
-		LocationType: LocationType,
-		MarketplaceBulkPurchasePromptStatus: MarketplaceBulkPurchasePromptStatus,
-		MarketplaceItemPurchaseStatus: MarketplaceItemPurchaseStatus,
-		MarketplaceProductType: MarketplaceProductType,
-		MarkupKind: MarkupKind,
-		Material: Material,
-		MaterialPattern: MaterialPattern,
-		MembershipType: MembershipType,
-		MeshPartDetailLevel: MeshPartDetailLevel,
-		MeshPartHeadsAndAccessories: MeshPartHeadsAndAccessories,
-		MeshScaleUnit: MeshScaleUnit,
-		MeshType: MeshType,
-		MessageType: MessageType,
-		ModelLevelOfDetail: ModelLevelOfDetail,
-		ModelStreamingBehavior: ModelStreamingBehavior,
-		ModelStreamingMode: ModelStreamingMode,
-		ModerationStatus: ModerationStatus,
-		ModifierKey: ModifierKey,
-		MouseBehavior: MouseBehavior,
-		MoveState: MoveState,
-		MoverConstraintRootBehaviorMode: MoverConstraintRootBehaviorMode,
-		MuteState: MuteState,
-		NameOcclusion: NameOcclusion,
-		NetworkOwnership: NetworkOwnership,
-		NetworkStatus: NetworkStatus,
-		NoiseType: NoiseType,
-		NormalId: NormalId,
-		NotificationButtonType: NotificationButtonType,
-		OperationType: OperationType,
-		OrientationAlignmentMode: OrientationAlignmentMode,
-		OutfitSource: OutfitSource,
-		OutfitType: OutfitType,
-		OutputLayoutMode: OutputLayoutMode,
-		OverrideMouseIconBehavior: OverrideMouseIconBehavior,
-		PackagePermission: PackagePermission,
-		PartType: PartType,
-		ParticleEmitterShape: ParticleEmitterShape,
-		ParticleEmitterShapeInOut: ParticleEmitterShapeInOut,
-		ParticleEmitterShapeStyle: ParticleEmitterShapeStyle,
-		ParticleFlipbookLayout: ParticleFlipbookLayout,
-		ParticleFlipbookMode: ParticleFlipbookMode,
-		ParticleFlipbookTextureCompatible: ParticleFlipbookTextureCompatible,
-		ParticleOrientation: ParticleOrientation,
-		PathStatus: PathStatus,
-		PathWaypointAction: PathWaypointAction,
-		PathfindingUseImprovedSearch: PathfindingUseImprovedSearch,
-		PermissionLevelShown: PermissionLevelShown,
-		PhysicsSimulationRate: PhysicsSimulationRate,
-		PhysicsSteppingMethod: PhysicsSteppingMethod,
-		Platform: Platform,
-		PlaybackState: PlaybackState,
-		PlayerActions: PlayerActions,
-		PlayerCharacterDestroyBehavior: PlayerCharacterDestroyBehavior,
-		PlayerChatType: PlayerChatType,
-		PoseEasingDirection: PoseEasingDirection,
-		PoseEasingStyle: PoseEasingStyle,
-		PositionAlignmentMode: PositionAlignmentMode,
-		PreferredTextSize: PreferredTextSize,
-		PrimalPhysicsSolver: PrimalPhysicsSolver,
-		PrimitiveType: PrimitiveType,
-		PrivilegeType: PrivilegeType,
-		ProductLocationRestriction: ProductLocationRestriction,
-		ProductPurchaseDecision: ProductPurchaseDecision,
-		PromptCreateAssetResult: PromptCreateAssetResult,
-		PromptCreateAvatarResult: PromptCreateAvatarResult,
-		PromptPublishAssetResult: PromptPublishAssetResult,
-		PropertyStatus: PropertyStatus,
-		ProximityPromptExclusivity: ProximityPromptExclusivity,
-		ProximityPromptInputType: ProximityPromptInputType,
-		ProximityPromptStyle: ProximityPromptStyle,
-		Quality: Quality,
-		QualityLevel: QualityLevel,
-		R15CollisionType: R15CollisionType,
-		RaycastFilterType: RaycastFilterType,
-		RejectCharacterDeletions: RejectCharacterDeletions,
-		RenderFidelity: RenderFidelity,
-		RenderPriority: RenderPriority,
-		RenderingCacheOptimizationMode: RenderingCacheOptimizationMode,
-		RenderingTestComparisonMethod: RenderingTestComparisonMethod,
-		ReplicateInstanceDestroySetting: ReplicateInstanceDestroySetting,
-		ResamplerMode: ResamplerMode,
-		ReservedHighlightId: ReservedHighlightId,
-		RestPose: RestPose,
-		ReturnKeyType: ReturnKeyType,
-		ReverbType: ReverbType,
-		RibbonTool: RibbonTool,
-		RigScale: RigScale,
-		RigType: RigType,
-		RollOffMode: RollOffMode,
-		RolloutState: RolloutState,
-		RotationOrder: RotationOrder,
-		RotationType: RotationType,
-		RtlTextSupport: RtlTextSupport,
-		RunContext: RunContext,
-		RunState: RunState,
-		RuntimeUndoBehavior: RuntimeUndoBehavior,
-		SafeAreaCompatibility: SafeAreaCompatibility,
-		SalesTypeFilter: SalesTypeFilter,
-		SaveAvatarThumbnailCustomizationFailure: SaveAvatarThumbnailCustomizationFailure,
-		SaveFilter: SaveFilter,
-		SavedQualitySetting: SavedQualitySetting,
-		ScaleType: ScaleType,
-		ScopeCheckResult: ScopeCheckResult,
-		ScreenInsets: ScreenInsets,
-		ScreenOrientation: ScreenOrientation,
-		ScrollBarInset: ScrollBarInset,
-		ScrollingDirection: ScrollingDirection,
-		SecurityCapability: SecurityCapability,
-		SelectionBehavior: SelectionBehavior,
-		SelectionRenderMode: SelectionRenderMode,
-		SelfViewPosition: SelfViewPosition,
-		SensorMode: SensorMode,
-		SensorUpdateType: SensorUpdateType,
-		ServerLiveEditingMode: ServerLiveEditingMode,
-		ServiceVisibility: ServiceVisibility,
-		Severity: Severity,
-		SignalBehavior: SignalBehavior,
-		SizeConstraint: SizeConstraint,
-		SolverConvergenceMetricType: SolverConvergenceMetricType,
-		SolverConvergenceVisualizationMode: SolverConvergenceVisualizationMode,
-		SortDirection: SortDirection,
-		SortOrder: SortOrder,
-		SpecialKey: SpecialKey,
-		StartCorner: StartCorner,
-		Status: Status,
-		StreamOutBehavior: StreamOutBehavior,
-		StreamingIntegrityMode: StreamingIntegrityMode,
-		StreamingPauseMode: StreamingPauseMode,
-		StudioCloseMode: StudioCloseMode,
-		StudioDataModelType: StudioDataModelType,
-		StudioPlaceUpdateFailureReason: StudioPlaceUpdateFailureReason,
-		StudioScriptEditorColorCategories: StudioScriptEditorColorCategories,
-		StudioScriptEditorColorPresets: StudioScriptEditorColorPresets,
-		StudioStyleGuideColor: StudioStyleGuideColor,
-		StudioStyleGuideModifier: StudioStyleGuideModifier,
-		Style: Style,
-		SubscriptionExpirationReason: SubscriptionExpirationReason,
-		SubscriptionPaymentStatus: SubscriptionPaymentStatus,
-		SubscriptionPeriod: SubscriptionPeriod,
-		SubscriptionState: SubscriptionState,
-		SurfaceConstraint: SurfaceConstraint,
-		SurfaceGuiShape: SurfaceGuiShape,
-		SurfaceGuiSizingMode: SurfaceGuiSizingMode,
-		SurfaceType: SurfaceType,
-		SwipeDirection: SwipeDirection,
-		TableMajorAxis: TableMajorAxis,
-		Technology: Technology,
-		TeleportMethod: TeleportMethod,
-		TeleportResult: TeleportResult,
-		TeleportState: TeleportState,
-		TeleportType: TeleportType,
-		TerrainAcquisitionMethod: TerrainAcquisitionMethod,
-		TerrainFace: TerrainFace,
-		TextChatMessageStatus: TextChatMessageStatus,
-		TextDirection: TextDirection,
-		TextFilterContext: TextFilterContext,
-		TextInputType: TextInputType,
-		TextTruncate: TextTruncate,
-		TextXAlignment: TextXAlignment,
-		TextYAlignment: TextYAlignment,
-		TextureMode: TextureMode,
-		TextureQueryType: TextureQueryType,
-		ThreadPoolConfig: ThreadPoolConfig,
-		ThrottlingPriority: ThrottlingPriority,
-		ThumbnailSize: ThumbnailSize,
-		ThumbnailType: ThumbnailType,
-		TickCountSampleMethod: TickCountSampleMethod,
-		TonemapperPreset: TonemapperPreset,
-		TopBottom: TopBottom,
-		TouchCameraMovementMode: TouchCameraMovementMode,
-		TouchMovementMode: TouchMovementMode,
-		TrackerError: TrackerError,
-		TrackerExtrapolationFlagMode: TrackerExtrapolationFlagMode,
-		TrackerFaceTrackingStatus: TrackerFaceTrackingStatus,
-		TrackerLodFlagMode: TrackerLodFlagMode,
-		TrackerLodValueMode: TrackerLodValueMode,
-		TrackerMode: TrackerMode,
-		TrackerPromptEvent: TrackerPromptEvent,
-		TrackerType: TrackerType,
-		TriStateBoolean: TriStateBoolean,
-		TweenStatus: TweenStatus,
-		UIDragDetectorBoundingBehavior: UIDragDetectorBoundingBehavior,
-		UIDragDetectorDragRelativity: UIDragDetectorDragRelativity,
-		UIDragDetectorDragSpace: UIDragDetectorDragSpace,
-		UIDragDetectorDragStyle: UIDragDetectorDragStyle,
-		UIDragDetectorResponseStyle: UIDragDetectorResponseStyle,
-		UIDragSpeedAxisMapping: UIDragSpeedAxisMapping,
-		UIFlexAlignment: UIFlexAlignment,
-		UIFlexMode: UIFlexMode,
-		UITheme: UITheme,
-		UiMessageType: UiMessageType,
-		UsageContext: UsageContext,
-		UserCFrame: UserCFrame,
-		UserInputState: UserInputState,
-		UserInputType: UserInputType,
-		VRComfortSetting: VRComfortSetting,
-		VRControllerModelMode: VRControllerModelMode,
-		VRDeviceType: VRDeviceType,
-		VRLaserPointerMode: VRLaserPointerMode,
-		VRSafetyBubbleMode: VRSafetyBubbleMode,
-		VRScaling: VRScaling,
-		VRSessionState: VRSessionState,
-		VRTouchpad: VRTouchpad,
-		VRTouchpadMode: VRTouchpadMode,
-		VelocityConstraintMode: VelocityConstraintMode,
-		VerticalAlignment: VerticalAlignment,
-		VerticalScrollBarPosition: VerticalScrollBarPosition,
-		VibrationMotor: VibrationMotor,
-		VideoDeviceCaptureQuality: VideoDeviceCaptureQuality,
-		VideoError: VideoError,
-		ViewMode: ViewMode,
-		VirtualCursorMode: VirtualCursorMode,
-		VirtualInputMode: VirtualInputMode,
-		VoiceChatState: VoiceChatState,
-		VoiceControlPath: VoiceControlPath,
-		VolumetricAudio: VolumetricAudio,
-		WaterDirection: WaterDirection,
-		WaterForce: WaterForce,
-		WeldConstraintPreserve: WeldConstraintPreserve,
-		WhisperChatPrivacyMode: WhisperChatPrivacyMode,
-		WrapLayerAutoSkin: WrapLayerAutoSkin,
-		WrapLayerDebugMode: WrapLayerDebugMode,
-		WrapTargetDebugMode: WrapTargetDebugMode,
+		AccessModifierType: AccessModifierTypeRoot,
+		AccessoryType: AccessoryTypeRoot,
+		ActionOnAutoResumeSync: ActionOnAutoResumeSyncRoot,
+		ActionOnStopSync: ActionOnStopSyncRoot,
+		ActionType: ActionTypeRoot,
+		ActuatorRelativeTo: ActuatorRelativeToRoot,
+		ActuatorType: ActuatorTypeRoot,
+		AdAvailabilityResult: AdAvailabilityResultRoot,
+		AdEventType: AdEventTypeRoot,
+		AdFormat: AdFormatRoot,
+		AdShape: AdShapeRoot,
+		AdTeleportMethod: AdTeleportMethodRoot,
+		AdUIEventType: AdUIEventTypeRoot,
+		AdUIType: AdUITypeRoot,
+		AdUnitStatus: AdUnitStatusRoot,
+		AdornCullingMode: AdornCullingModeRoot,
+		AlignType: AlignTypeRoot,
+		AlphaMode: AlphaModeRoot,
+		AnalyticsCustomFieldKeys: AnalyticsCustomFieldKeysRoot,
+		AnalyticsEconomyAction: AnalyticsEconomyActionRoot,
+		AnalyticsEconomyFlowType: AnalyticsEconomyFlowTypeRoot,
+		AnalyticsEconomyTransactionType: AnalyticsEconomyTransactionTypeRoot,
+		AnalyticsLogLevel: AnalyticsLogLevelRoot,
+		AnalyticsProgressionStatus: AnalyticsProgressionStatusRoot,
+		AnalyticsProgressionType: AnalyticsProgressionTypeRoot,
+		AnimationClipFromVideoStatus: AnimationClipFromVideoStatusRoot,
+		AnimationPriority: AnimationPriorityRoot,
+		AnimatorRetargetingMode: AnimatorRetargetingModeRoot,
+		AnnotationEditingMode: AnnotationEditingModeRoot,
+		AnnotationRequestStatus: AnnotationRequestStatusRoot,
+		AnnotationRequestType: AnnotationRequestTypeRoot,
+		AppLifecycleManagerState: AppLifecycleManagerStateRoot,
+		AppShellActionType: AppShellActionTypeRoot,
+		AppShellFeature: AppShellFeatureRoot,
+		AppUpdateStatus: AppUpdateStatusRoot,
+		ApplyStrokeMode: ApplyStrokeModeRoot,
+		AspectType: AspectTypeRoot,
+		AssetCreatorType: AssetCreatorTypeRoot,
+		AssetFetchStatus: AssetFetchStatusRoot,
+		AssetType: AssetTypeRoot,
+		AssetTypeVerification: AssetTypeVerificationRoot,
+		AudioApiRollout: AudioApiRolloutRoot,
+		AudioCaptureMode: AudioCaptureModeRoot,
+		AudioChannelLayout: AudioChannelLayoutRoot,
+		AudioFilterType: AudioFilterTypeRoot,
+		AudioSimulationFidelity: AudioSimulationFidelityRoot,
+		AudioSubType: AudioSubTypeRoot,
+		AudioWindowSize: AudioWindowSizeRoot,
+		AutoIndentRule: AutoIndentRuleRoot,
+		AutomaticSize: AutomaticSizeRoot,
+		AvatarAssetType: AvatarAssetTypeRoot,
+		AvatarChatServiceFeature: AvatarChatServiceFeatureRoot,
+		AvatarContextMenuOption: AvatarContextMenuOptionRoot,
+		AvatarGenerationError: AvatarGenerationErrorRoot,
+		AvatarItemType: AvatarItemTypeRoot,
+		AvatarPromptResult: AvatarPromptResultRoot,
+		AvatarSettingsAccessoryLimitMethod: AvatarSettingsAccessoryLimitMethodRoot,
+		AvatarSettingsAccessoryMode: AvatarSettingsAccessoryModeRoot,
+		AvatarSettingsAnimationClipsMode: AvatarSettingsAnimationClipsModeRoot,
+		AvatarSettingsAnimationPacksMode: AvatarSettingsAnimationPacksModeRoot,
+		AvatarSettingsAppearanceMode: AvatarSettingsAppearanceModeRoot,
+		AvatarSettingsBuildMode: AvatarSettingsBuildModeRoot,
+		AvatarSettingsClothingMode: AvatarSettingsClothingModeRoot,
+		AvatarSettingsCollisionMode: AvatarSettingsCollisionModeRoot,
+		AvatarSettingsCustomAccessoryMode: AvatarSettingsCustomAccessoryModeRoot,
+		AvatarSettingsCustomBodyType: AvatarSettingsCustomBodyTypeRoot,
+		AvatarSettingsCustomClothingMode: AvatarSettingsCustomClothingModeRoot,
+		AvatarSettingsHitAndTouchDetectionMode: AvatarSettingsHitAndTouchDetectionModeRoot,
+		AvatarSettingsJumpMode: AvatarSettingsJumpModeRoot,
+		AvatarSettingsLegacyCollisionMode: AvatarSettingsLegacyCollisionModeRoot,
+		AvatarSettingsScaleMode: AvatarSettingsScaleModeRoot,
+		AvatarThumbnailCustomizationType: AvatarThumbnailCustomizationTypeRoot,
+		AvatarUnificationMode: AvatarUnificationModeRoot,
+		Axis: AxisRoot,
+		BenefitType: BenefitTypeRoot,
+		BinType: BinTypeRoot,
+		BodyPart: BodyPartRoot,
+		BodyPartR15: BodyPartR15Root,
+		BorderMode: BorderModeRoot,
+		BreakReason: BreakReasonRoot,
+		BreakpointRemoveReason: BreakpointRemoveReasonRoot,
+		BulkMoveMode: BulkMoveModeRoot,
+		BundleType: BundleTypeRoot,
+		Button: ButtonRoot,
+		ButtonStyle: ButtonStyleRoot,
+		CageType: CageTypeRoot,
+		CameraMode: CameraModeRoot,
+		CameraPanMode: CameraPanModeRoot,
+		CameraSpeedAdjustBinding: CameraSpeedAdjustBindingRoot,
+		CameraType: CameraTypeRoot,
+		CatalogCategoryFilter: CatalogCategoryFilterRoot,
+		CatalogSortAggregation: CatalogSortAggregationRoot,
+		CatalogSortType: CatalogSortTypeRoot,
+		CellBlock: CellBlockRoot,
+		CellMaterial: CellMaterialRoot,
+		CellOrientation: CellOrientationRoot,
+		CenterDialogType: CenterDialogTypeRoot,
+		CharacterControlMode: CharacterControlModeRoot,
+		ChatCallbackType: ChatCallbackTypeRoot,
+		ChatColor: ChatColorRoot,
+		ChatMode: ChatModeRoot,
+		ChatPrivacyMode: ChatPrivacyModeRoot,
+		ChatRestrictionStatus: ChatRestrictionStatusRoot,
+		ChatStyle: ChatStyleRoot,
+		ChatVersion: ChatVersionRoot,
+		ClientAnimatorThrottlingMode: ClientAnimatorThrottlingModeRoot,
+		CloseReason: CloseReasonRoot,
+		CollaboratorStatus: CollaboratorStatusRoot,
+		CollisionFidelity: CollisionFidelityRoot,
+		CommandPermission: CommandPermissionRoot,
+		CompileTarget: CompileTargetRoot,
+		CompletionAcceptanceBehavior: CompletionAcceptanceBehaviorRoot,
+		CompletionItemKind: CompletionItemKindRoot,
+		CompletionItemTag: CompletionItemTagRoot,
+		CompletionTriggerKind: CompletionTriggerKindRoot,
+		ComputerCameraMovementMode: ComputerCameraMovementModeRoot,
+		ComputerMovementMode: ComputerMovementModeRoot,
+		ConfigSnapshotErrorState: ConfigSnapshotErrorStateRoot,
+		ConnectionError: ConnectionErrorRoot,
+		ConnectionState: ConnectionStateRoot,
+		ContentSourceType: ContentSourceTypeRoot,
+		ContextActionPriority: ContextActionPriorityRoot,
+		ContextActionResult: ContextActionResultRoot,
+		ControlMode: ControlModeRoot,
+		CoreGuiType: CoreGuiTypeRoot,
+		CreateAssetResult: CreateAssetResultRoot,
+		CreateOutfitFailure: CreateOutfitFailureRoot,
+		CreatorType: CreatorTypeRoot,
+		CreatorTypeFilter: CreatorTypeFilterRoot,
+		CurrencyType: CurrencyTypeRoot,
+		CustomCameraMode: CustomCameraModeRoot,
+		DataStoreRequestType: DataStoreRequestTypeRoot,
+		DebuggerEndReason: DebuggerEndReasonRoot,
+		DebuggerExceptionBreakMode: DebuggerExceptionBreakModeRoot,
+		DebuggerFrameType: DebuggerFrameTypeRoot,
+		DebuggerPauseReason: DebuggerPauseReasonRoot,
+		DebuggerStatus: DebuggerStatusRoot,
+		DevCameraOcclusionMode: DevCameraOcclusionModeRoot,
+		DevComputerCameraMovementMode: DevComputerCameraMovementModeRoot,
+		DevComputerMovementMode: DevComputerMovementModeRoot,
+		DevTouchCameraMovementMode: DevTouchCameraMovementModeRoot,
+		DevTouchMovementMode: DevTouchMovementModeRoot,
+		DeveloperMemoryTag: DeveloperMemoryTagRoot,
+		DeviceFeatureType: DeviceFeatureTypeRoot,
+		DeviceForm: DeviceFormRoot,
+		DeviceLevel: DeviceLevelRoot,
+		DeviceType: DeviceTypeRoot,
+		DialogBehaviorType: DialogBehaviorTypeRoot,
+		DialogPurpose: DialogPurposeRoot,
+		DialogTone: DialogToneRoot,
+		DominantAxis: DominantAxisRoot,
+		DraftStatusCode: DraftStatusCodeRoot,
+		DragDetectorDragStyle: DragDetectorDragStyleRoot,
+		DragDetectorPermissionPolicy: DragDetectorPermissionPolicyRoot,
+		DragDetectorResponseStyle: DragDetectorResponseStyleRoot,
+		DraggerCoordinateSpace: DraggerCoordinateSpaceRoot,
+		DraggerMovementMode: DraggerMovementModeRoot,
+		DraggingScrollBar: DraggingScrollBarRoot,
+		EasingDirection: EasingDirectionRoot,
+		EasingStyle: EasingStyleRoot,
+		EditableStatus: EditableStatusRoot,
+		ElasticBehavior: ElasticBehaviorRoot,
+		EnviromentalPhysicsThrottle: EnviromentalPhysicsThrottleRoot,
+		ExperienceAuthScope: ExperienceAuthScopeRoot,
+		ExplosionType: ExplosionTypeRoot,
+		FACSDataLod: FACSDataLodRoot,
+		FacialAgeEstimationResultType: FacialAgeEstimationResultTypeRoot,
+		FacialAnimationStreamingState: FacialAnimationStreamingStateRoot,
+		FacsActionUnit: FacsActionUnitRoot,
+		FeedRankingScoreType: FeedRankingScoreTypeRoot,
+		FieldOfViewMode: FieldOfViewModeRoot,
+		FillDirection: FillDirectionRoot,
+		FilterErrorType: FilterErrorTypeRoot,
+		FilterResult: FilterResultRoot,
+		FinishRecordingOperation: FinishRecordingOperationRoot,
+		FluidFidelity: FluidFidelityRoot,
+		FluidForces: FluidForcesRoot,
+		Font: FontRoot,
+		FontSize: FontSizeRoot,
+		FontStyle: FontStyleRoot,
+		FontWeight: FontWeightRoot,
+		ForceLimitMode: ForceLimitModeRoot,
+		FormFactor: FormFactorRoot,
+		FrameStyle: FrameStyleRoot,
+		FramerateManagerMode: FramerateManagerModeRoot,
+		FriendRequestEvent: FriendRequestEventRoot,
+		FriendStatus: FriendStatusRoot,
+		FunctionalTestResult: FunctionalTestResultRoot,
+		GameAvatarType: GameAvatarTypeRoot,
+		GamepadType: GamepadTypeRoot,
+		GearGenreSetting: GearGenreSettingRoot,
+		GearType: GearTypeRoot,
+		Genre: GenreRoot,
+		GraphicsMode: GraphicsModeRoot,
+		GraphicsOptimizationMode: GraphicsOptimizationModeRoot,
+		GuiState: GuiStateRoot,
+		GuiType: GuiTypeRoot,
+		HandlesStyle: HandlesStyleRoot,
+		HapticEffectType: HapticEffectTypeRoot,
+		HighlightDepthMode: HighlightDepthModeRoot,
+		HorizontalAlignment: HorizontalAlignmentRoot,
+		HoverAnimateSpeed: HoverAnimateSpeedRoot,
+		HttpCachePolicy: HttpCachePolicyRoot,
+		HttpCompression: HttpCompressionRoot,
+		HttpContentType: HttpContentTypeRoot,
+		HttpError: HttpErrorRoot,
+		HttpRequestType: HttpRequestTypeRoot,
+		HumanoidCollisionType: HumanoidCollisionTypeRoot,
+		HumanoidDisplayDistanceType: HumanoidDisplayDistanceTypeRoot,
+		HumanoidHealthDisplayType: HumanoidHealthDisplayTypeRoot,
+		HumanoidRigType: HumanoidRigTypeRoot,
+		HumanoidStateType: HumanoidStateTypeRoot,
+		IKCollisionsMode: IKCollisionsModeRoot,
+		IKControlConstraintSupport: IKControlConstraintSupportRoot,
+		IKControlType: IKControlTypeRoot,
+		IXPLoadingStatus: IXPLoadingStatusRoot,
+		ImageAlphaType: ImageAlphaTypeRoot,
+		ImageCombineType: ImageCombineTypeRoot,
+		InOut: InOutRoot,
+		InfoType: InfoTypeRoot,
+		InitialDockState: InitialDockStateRoot,
+		InputActionType: InputActionTypeRoot,
+		InputType: InputTypeRoot,
+		IntermediateMeshGenerationResult: IntermediateMeshGenerationResultRoot,
+		InterpolationThrottlingMode: InterpolationThrottlingModeRoot,
+		InviteState: InviteStateRoot,
+		ItemLineAlignment: ItemLineAlignmentRoot,
+		JoinSource: JoinSourceRoot,
+		JointCreationMode: JointCreationModeRoot,
+		KeyCode: KeyCodeRoot,
+		KeyInterpolationMode: KeyInterpolationModeRoot,
+		KeywordFilterType: KeywordFilterTypeRoot,
+		Language: LanguageRoot,
+		LeftRight: LeftRightRoot,
+		LexemeType: LexemeTypeRoot,
+		LightingStyle: LightingStyleRoot,
+		Limb: LimbRoot,
+		LineJoinMode: LineJoinModeRoot,
+		ListDisplayMode: ListDisplayModeRoot,
+		ListenerLocation: ListenerLocationRoot,
+		ListenerType: ListenerTypeRoot,
+		LiveEditingAtomicUpdateResponse: LiveEditingAtomicUpdateResponseRoot,
+		LiveEditingBroadcastMessageType: LiveEditingBroadcastMessageTypeRoot,
+		LoadCharacterLayeredClothing: LoadCharacterLayeredClothingRoot,
+		LoadDynamicHeads: LoadDynamicHeadsRoot,
+		LocationType: LocationTypeRoot,
+		MarketplaceBulkPurchasePromptStatus: MarketplaceBulkPurchasePromptStatusRoot,
+		MarketplaceItemPurchaseStatus: MarketplaceItemPurchaseStatusRoot,
+		MarketplaceProductType: MarketplaceProductTypeRoot,
+		MarkupKind: MarkupKindRoot,
+		MatchmakingType: MatchmakingTypeRoot,
+		Material: MaterialRoot,
+		MaterialPattern: MaterialPatternRoot,
+		MembershipType: MembershipTypeRoot,
+		MeshPartDetailLevel: MeshPartDetailLevelRoot,
+		MeshPartHeadsAndAccessories: MeshPartHeadsAndAccessoriesRoot,
+		MeshScaleUnit: MeshScaleUnitRoot,
+		MeshType: MeshTypeRoot,
+		MessageType: MessageTypeRoot,
+		ModelLevelOfDetail: ModelLevelOfDetailRoot,
+		ModelStreamingBehavior: ModelStreamingBehaviorRoot,
+		ModelStreamingMode: ModelStreamingModeRoot,
+		ModerationStatus: ModerationStatusRoot,
+		ModifierKey: ModifierKeyRoot,
+		MouseBehavior: MouseBehaviorRoot,
+		MoveState: MoveStateRoot,
+		MoverConstraintRootBehaviorMode: MoverConstraintRootBehaviorModeRoot,
+		MuteState: MuteStateRoot,
+		NameOcclusion: NameOcclusionRoot,
+		NetworkOwnership: NetworkOwnershipRoot,
+		NetworkStatus: NetworkStatusRoot,
+		NoiseType: NoiseTypeRoot,
+		NormalId: NormalIdRoot,
+		NotificationButtonType: NotificationButtonTypeRoot,
+		OperationType: OperationTypeRoot,
+		OrientationAlignmentMode: OrientationAlignmentModeRoot,
+		OutfitSource: OutfitSourceRoot,
+		OutfitType: OutfitTypeRoot,
+		OutputLayoutMode: OutputLayoutModeRoot,
+		OverrideMouseIconBehavior: OverrideMouseIconBehaviorRoot,
+		PackagePermission: PackagePermissionRoot,
+		PartType: PartTypeRoot,
+		ParticleEmitterShape: ParticleEmitterShapeRoot,
+		ParticleEmitterShapeInOut: ParticleEmitterShapeInOutRoot,
+		ParticleEmitterShapeStyle: ParticleEmitterShapeStyleRoot,
+		ParticleFlipbookLayout: ParticleFlipbookLayoutRoot,
+		ParticleFlipbookMode: ParticleFlipbookModeRoot,
+		ParticleFlipbookTextureCompatible: ParticleFlipbookTextureCompatibleRoot,
+		ParticleOrientation: ParticleOrientationRoot,
+		PathStatus: PathStatusRoot,
+		PathWaypointAction: PathWaypointActionRoot,
+		PathfindingUseImprovedSearch: PathfindingUseImprovedSearchRoot,
+		PermissionLevelShown: PermissionLevelShownRoot,
+		PhysicsSimulationRate: PhysicsSimulationRateRoot,
+		PhysicsSteppingMethod: PhysicsSteppingMethodRoot,
+		Platform: PlatformRoot,
+		PlaybackState: PlaybackStateRoot,
+		PlayerActions: PlayerActionsRoot,
+		PlayerCharacterDestroyBehavior: PlayerCharacterDestroyBehaviorRoot,
+		PlayerChatType: PlayerChatTypeRoot,
+		PlayerDataErrorState: PlayerDataErrorStateRoot,
+		PlayerDataLoadFailureBehavior: PlayerDataLoadFailureBehaviorRoot,
+		PoseEasingDirection: PoseEasingDirectionRoot,
+		PoseEasingStyle: PoseEasingStyleRoot,
+		PositionAlignmentMode: PositionAlignmentModeRoot,
+		PreferredTextSize: PreferredTextSizeRoot,
+		PrimalPhysicsSolver: PrimalPhysicsSolverRoot,
+		PrimitiveType: PrimitiveTypeRoot,
+		PrivilegeType: PrivilegeTypeRoot,
+		ProductLocationRestriction: ProductLocationRestrictionRoot,
+		ProductPurchaseChannel: ProductPurchaseChannelRoot,
+		ProductPurchaseDecision: ProductPurchaseDecisionRoot,
+		PromptCreateAssetResult: PromptCreateAssetResultRoot,
+		PromptCreateAvatarResult: PromptCreateAvatarResultRoot,
+		PromptPublishAssetResult: PromptPublishAssetResultRoot,
+		PropertyStatus: PropertyStatusRoot,
+		ProximityPromptExclusivity: ProximityPromptExclusivityRoot,
+		ProximityPromptInputType: ProximityPromptInputTypeRoot,
+		ProximityPromptStyle: ProximityPromptStyleRoot,
+		QualityLevel: QualityLevelRoot,
+		R15CollisionType: R15CollisionTypeRoot,
+		RaycastFilterType: RaycastFilterTypeRoot,
+		RejectCharacterDeletions: RejectCharacterDeletionsRoot,
+		RenderFidelity: RenderFidelityRoot,
+		RenderPriority: RenderPriorityRoot,
+		RenderingCacheOptimizationMode: RenderingCacheOptimizationModeRoot,
+		RenderingTestComparisonMethod: RenderingTestComparisonMethodRoot,
+		ReplicateInstanceDestroySetting: ReplicateInstanceDestroySettingRoot,
+		ResamplerMode: ResamplerModeRoot,
+		ReservedHighlightId: ReservedHighlightIdRoot,
+		RestPose: RestPoseRoot,
+		ReturnKeyType: ReturnKeyTypeRoot,
+		ReverbType: ReverbTypeRoot,
+		RibbonTool: RibbonToolRoot,
+		RigScale: RigScaleRoot,
+		RigType: RigTypeRoot,
+		RollOffMode: RollOffModeRoot,
+		RolloutState: RolloutStateRoot,
+		RotationOrder: RotationOrderRoot,
+		RotationType: RotationTypeRoot,
+		RtlTextSupport: RtlTextSupportRoot,
+		RunContext: RunContextRoot,
+		RunState: RunStateRoot,
+		RuntimeUndoBehavior: RuntimeUndoBehaviorRoot,
+		SafeAreaCompatibility: SafeAreaCompatibilityRoot,
+		SalesTypeFilter: SalesTypeFilterRoot,
+		SandboxedInstanceMode: SandboxedInstanceModeRoot,
+		SaveAvatarThumbnailCustomizationFailure: SaveAvatarThumbnailCustomizationFailureRoot,
+		SaveFilter: SaveFilterRoot,
+		SavedQualitySetting: SavedQualitySettingRoot,
+		ScaleType: ScaleTypeRoot,
+		ScopeCheckResult: ScopeCheckResultRoot,
+		ScreenInsets: ScreenInsetsRoot,
+		ScreenOrientation: ScreenOrientationRoot,
+		ScrollBarInset: ScrollBarInsetRoot,
+		ScrollingDirection: ScrollingDirectionRoot,
+		SecurityCapability: SecurityCapabilityRoot,
+		SelectionBehavior: SelectionBehaviorRoot,
+		SelectionRenderMode: SelectionRenderModeRoot,
+		SelfViewPosition: SelfViewPositionRoot,
+		SensorMode: SensorModeRoot,
+		SensorUpdateType: SensorUpdateTypeRoot,
+		ServerLiveEditingMode: ServerLiveEditingModeRoot,
+		ServiceVisibility: ServiceVisibilityRoot,
+		Severity: SeverityRoot,
+		ShowAdResult: ShowAdResultRoot,
+		SignalBehavior: SignalBehaviorRoot,
+		SizeConstraint: SizeConstraintRoot,
+		SolverConvergenceMetricType: SolverConvergenceMetricTypeRoot,
+		SolverConvergenceVisualizationMode: SolverConvergenceVisualizationModeRoot,
+		SortDirection: SortDirectionRoot,
+		SortOrder: SortOrderRoot,
+		SpecialKey: SpecialKeyRoot,
+		StartCorner: StartCornerRoot,
+		StateObjectFieldType: StateObjectFieldTypeRoot,
+		Status: StatusRoot,
+		StreamOutBehavior: StreamOutBehaviorRoot,
+		StreamingIntegrityMode: StreamingIntegrityModeRoot,
+		StreamingPauseMode: StreamingPauseModeRoot,
+		StudioCloseMode: StudioCloseModeRoot,
+		StudioDataModelType: StudioDataModelTypeRoot,
+		StudioPlaceUpdateFailureReason: StudioPlaceUpdateFailureReasonRoot,
+		StudioScriptEditorColorCategories: StudioScriptEditorColorCategoriesRoot,
+		StudioScriptEditorColorPresets: StudioScriptEditorColorPresetsRoot,
+		StudioStyleGuideColor: StudioStyleGuideColorRoot,
+		StudioStyleGuideModifier: StudioStyleGuideModifierRoot,
+		Style: StyleRoot,
+		SubscriptionExpirationReason: SubscriptionExpirationReasonRoot,
+		SubscriptionPaymentStatus: SubscriptionPaymentStatusRoot,
+		SubscriptionPeriod: SubscriptionPeriodRoot,
+		SubscriptionState: SubscriptionStateRoot,
+		SurfaceConstraint: SurfaceConstraintRoot,
+		SurfaceGuiShape: SurfaceGuiShapeRoot,
+		SurfaceGuiSizingMode: SurfaceGuiSizingModeRoot,
+		SurfaceType: SurfaceTypeRoot,
+		SwipeDirection: SwipeDirectionRoot,
+		SystemThemeValue: SystemThemeValueRoot,
+		TableMajorAxis: TableMajorAxisRoot,
+		TeamCreateErrorState: TeamCreateErrorStateRoot,
+		Technology: TechnologyRoot,
+		TeleportMethod: TeleportMethodRoot,
+		TeleportResult: TeleportResultRoot,
+		TeleportState: TeleportStateRoot,
+		TeleportType: TeleportTypeRoot,
+		TerrainAcquisitionMethod: TerrainAcquisitionMethodRoot,
+		TerrainFace: TerrainFaceRoot,
+		TextChatMessageStatus: TextChatMessageStatusRoot,
+		TextDirection: TextDirectionRoot,
+		TextFilterContext: TextFilterContextRoot,
+		TextInputType: TextInputTypeRoot,
+		TextTruncate: TextTruncateRoot,
+		TextXAlignment: TextXAlignmentRoot,
+		TextYAlignment: TextYAlignmentRoot,
+		TextureMode: TextureModeRoot,
+		TextureQueryType: TextureQueryTypeRoot,
+		ThreadPoolConfig: ThreadPoolConfigRoot,
+		ThrottlingPriority: ThrottlingPriorityRoot,
+		ThumbnailSize: ThumbnailSizeRoot,
+		ThumbnailType: ThumbnailTypeRoot,
+		TickCountSampleMethod: TickCountSampleMethodRoot,
+		TonemapperPreset: TonemapperPresetRoot,
+		TopBottom: TopBottomRoot,
+		TouchCameraMovementMode: TouchCameraMovementModeRoot,
+		TouchMovementMode: TouchMovementModeRoot,
+		TrackerError: TrackerErrorRoot,
+		TrackerExtrapolationFlagMode: TrackerExtrapolationFlagModeRoot,
+		TrackerFaceTrackingStatus: TrackerFaceTrackingStatusRoot,
+		TrackerLodFlagMode: TrackerLodFlagModeRoot,
+		TrackerLodValueMode: TrackerLodValueModeRoot,
+		TrackerMode: TrackerModeRoot,
+		TrackerPromptEvent: TrackerPromptEventRoot,
+		TrackerType: TrackerTypeRoot,
+		TriStateBoolean: TriStateBooleanRoot,
+		TweenStatus: TweenStatusRoot,
+		UICaptureMode: UICaptureModeRoot,
+		UIDragDetectorBoundingBehavior: UIDragDetectorBoundingBehaviorRoot,
+		UIDragDetectorDragRelativity: UIDragDetectorDragRelativityRoot,
+		UIDragDetectorDragSpace: UIDragDetectorDragSpaceRoot,
+		UIDragDetectorDragStyle: UIDragDetectorDragStyleRoot,
+		UIDragDetectorResponseStyle: UIDragDetectorResponseStyleRoot,
+		UIDragSpeedAxisMapping: UIDragSpeedAxisMappingRoot,
+		UIFlexAlignment: UIFlexAlignmentRoot,
+		UIFlexMode: UIFlexModeRoot,
+		UITheme: UIThemeRoot,
+		UiMessageType: UiMessageTypeRoot,
+		UsageContext: UsageContextRoot,
+		UserCFrame: UserCFrameRoot,
+		UserInputState: UserInputStateRoot,
+		UserInputType: UserInputTypeRoot,
+		VRComfortSetting: VRComfortSettingRoot,
+		VRControllerModelMode: VRControllerModelModeRoot,
+		VRDeviceType: VRDeviceTypeRoot,
+		VRLaserPointerMode: VRLaserPointerModeRoot,
+		VRSafetyBubbleMode: VRSafetyBubbleModeRoot,
+		VRScaling: VRScalingRoot,
+		VRSessionState: VRSessionStateRoot,
+		VRTouchpad: VRTouchpadRoot,
+		VRTouchpadMode: VRTouchpadModeRoot,
+		VelocityConstraintMode: VelocityConstraintModeRoot,
+		VerticalAlignment: VerticalAlignmentRoot,
+		VerticalScrollBarPosition: VerticalScrollBarPositionRoot,
+		VibrationMotor: VibrationMotorRoot,
+		VideoCaptureResult: VideoCaptureResultRoot,
+		VideoDeviceCaptureQuality: VideoDeviceCaptureQualityRoot,
+		VideoError: VideoErrorRoot,
+		ViewMode: ViewModeRoot,
+		VirtualCursorMode: VirtualCursorModeRoot,
+		VirtualInputMode: VirtualInputModeRoot,
+		VoiceChatDistanceAttenuationType: VoiceChatDistanceAttenuationTypeRoot,
+		VoiceChatState: VoiceChatStateRoot,
+		VoiceControlPath: VoiceControlPathRoot,
+		VolumetricAudio: VolumetricAudioRoot,
+		WaterDirection: WaterDirectionRoot,
+		WaterForce: WaterForceRoot,
+		WebSocketState: WebSocketStateRoot,
+		WeldConstraintPreserve: WeldConstraintPreserveRoot,
+		WhisperChatPrivacyMode: WhisperChatPrivacyModeRoot,
+		WrapLayerAutoSkin: WrapLayerAutoSkinRoot,
+		WrapLayerDebugMode: WrapLayerDebugModeRoot,
+		WrapTargetDebugMode: WrapTargetDebugModeRoot,
 	},
-	AccessModifierType
-	| AccessoryType
-	| ActionOnStopSync
-	| ActionType
-	| ActuatorRelativeTo
-	| ActuatorType
-	| AdEventType
-	| AdShape
-	| AdTeleportMethod
-	| AdUIEventType
-	| AdUIType
-	| AdUnitStatus
-	| AdornCullingMode
-	| AlignType
-	| AlphaMode
-	| AnalyticsCustomFieldKeys
-	| AnalyticsEconomyAction
-	| AnalyticsEconomyFlowType
-	| AnalyticsEconomyTransactionType
-	| AnalyticsLogLevel
-	| AnalyticsProgressionStatus
-	| AnalyticsProgressionType
-	| AnimationClipFromVideoStatus
-	| AnimationPriority
-	| AnimatorRetargetingMode
-	| AnnotationEditingMode
-	| AppLifecycleManagerState
-	| AppShellActionType
-	| AppShellFeature
-	| AppUpdateStatus
-	| ApplyStrokeMode
-	| AspectType
-	| AssetCreatorType
-	| AssetFetchStatus
-	| AssetType
-	| AssetTypeVerification
-	| AudioApiRollout
-	| AudioFilterType
-	| AudioSubType
-	| AudioWindowSize
-	| AutoIndentRule
-	| AutomaticSize
-	| AvatarAssetType
-	| AvatarChatServiceFeature
-	| AvatarContextMenuOption
-	| AvatarGenerationError
-	| AvatarItemType
-	| AvatarJointUpgrade
-	| AvatarPromptResult
-	| AvatarThumbnailCustomizationType
-	| AvatarUnificationMode
-	| Axis
-	| BinType
-	| BodyPart
-	| BodyPartR15
-	| BorderMode
-	| BreakReason
-	| BreakpointRemoveReason
-	| BulkMoveMode
-	| BundleType
-	| Button
-	| ButtonStyle
-	| CSGAsyncDynamicCollision
-	| CageType
-	| CameraMode
-	| CameraPanMode
-	| CameraSpeedAdjustBinding
-	| CameraType
-	| CatalogCategoryFilter
-	| CatalogSortAggregation
-	| CatalogSortType
-	| CellBlock
-	| CellMaterial
-	| CellOrientation
-	| CenterDialogType
-	| CharacterControlMode
-	| ChatCallbackType
-	| ChatColor
-	| ChatMode
-	| ChatPrivacyMode
-	| ChatRestrictionStatus
-	| ChatStyle
-	| ChatVersion
-	| ClientAnimatorThrottlingMode
-	| CloseReason
-	| CollaboratorStatus
-	| CollisionFidelity
-	| CommandPermission
-	| CompileTarget
-	| CompletionItemKind
-	| CompletionItemTag
-	| CompletionTriggerKind
-	| ComputerCameraMovementMode
-	| ComputerMovementMode
-	| ConnectionError
-	| ConnectionState
-	| ContentSourceType
-	| ContextActionPriority
-	| ContextActionResult
-	| ControlMode
-	| CoreGuiType
-	| CreateOutfitFailure
-	| CreatorType
-	| CreatorTypeFilter
-	| CurrencyType
-	| CustomCameraMode
-	| DataStoreRequestType
-	| DebuggerEndReason
-	| DebuggerExceptionBreakMode
-	| DebuggerFrameType
-	| DebuggerPauseReason
-	| DebuggerStatus
-	| DecreaseMinimumPartDensityMode
-	| DevCameraOcclusionMode
-	| DevComputerCameraMovementMode
-	| DevComputerMovementMode
-	| DevTouchCameraMovementMode
-	| DevTouchMovementMode
-	| DeveloperMemoryTag
-	| DeviceFeatureType
-	| DeviceLevel
-	| DeviceType
-	| DialogBehaviorType
-	| DialogPurpose
-	| DialogTone
-	| DominantAxis
-	| DraftStatusCode
-	| DragDetectorDragStyle
-	| DragDetectorPermissionPolicy
-	| DragDetectorResponseStyle
-	| DraggerCoordinateSpace
-	| DraggerMovementMode
-	| EasingDirection
-	| EasingStyle
-	| EditableStatus
-	| ElasticBehavior
-	| EnviromentalPhysicsThrottle
-	| ExperienceAuthScope
-	| ExplosionType
-	| FACSDataLod
-	| FacialAnimationStreamingState
-	| FieldOfViewMode
-	| FillDirection
-	| FilterErrorType
-	| FilterResult
-	| FinishRecordingOperation
-	| FluidFidelity
-	| FluidForces
-	| Font
-	| FontSize
-	| FontStyle
-	| FontWeight
-	| ForceLimitMode
-	| FormFactor
-	| FrameStyle
-	| FramerateManagerMode
-	| FriendRequestEvent
-	| FriendStatus
-	| FunctionalTestResult
-	| GameAvatarType
-	| GamepadType
-	| GearGenreSetting
-	| GearType
-	| Genre
-	| GraphicsMode
-	| GraphicsOptimizationMode
-	| GuiState
-	| GuiType
-	| HandlesStyle
-	| HapticEffectType
-	| HighlightDepthMode
-	| HorizontalAlignment
-	| HoverAnimateSpeed
-	| HttpCachePolicy
-	| HttpCompression
-	| HttpContentType
-	| HttpError
-	| HttpRequestType
-	| HumanoidCollisionType
-	| HumanoidDisplayDistanceType
-	| HumanoidHealthDisplayType
-	| HumanoidRigType
-	| HumanoidStateType
-	| IKCollisionsMode
-	| IKControlConstraintSupport
-	| IKControlType
-	| IXPLoadingStatus
-	| ImageAlphaType
-	| ImageCombineType
-	| InOut
-	| InfoType
-	| InitialDockState
-	| InputType
-	| Intent
-	| InterpolationThrottlingMode
-	| InviteState
-	| ItemLineAlignment
-	| JoinSource
-	| JointCreationMode
-	| KeyCode
-	| KeyInterpolationMode
-	| KeywordFilterType
-	| Language
-	| LeftRight
-	| LexemeType
-	| Limb
-	| LineJoinMode
-	| ListDisplayMode
-	| ListenerLocation
-	| ListenerType
-	| LiveEditingAtomicUpdateResponse
-	| LiveEditingBroadcastMessageType
-	| LoadCharacterLayeredClothing
-	| LoadDynamicHeads
-	| LocationType
-	| MarketplaceBulkPurchasePromptStatus
-	| MarketplaceItemPurchaseStatus
-	| MarketplaceProductType
-	| MarkupKind
-	| Material
-	| MaterialPattern
-	| MembershipType
-	| MeshPartDetailLevel
-	| MeshPartHeadsAndAccessories
-	| MeshScaleUnit
-	| MeshType
-	| MessageType
-	| ModelLevelOfDetail
-	| ModelStreamingBehavior
-	| ModelStreamingMode
-	| ModerationStatus
-	| ModifierKey
-	| MouseBehavior
-	| MoveState
-	| MoverConstraintRootBehaviorMode
-	| MuteState
-	| NameOcclusion
-	| NetworkOwnership
-	| NetworkStatus
-	| NoiseType
-	| NormalId
-	| NotificationButtonType
-	| OperationType
-	| OrientationAlignmentMode
-	| OutfitSource
-	| OutfitType
-	| OutputLayoutMode
-	| OverrideMouseIconBehavior
-	| PackagePermission
-	| PartType
-	| ParticleEmitterShape
-	| ParticleEmitterShapeInOut
-	| ParticleEmitterShapeStyle
-	| ParticleFlipbookLayout
-	| ParticleFlipbookMode
-	| ParticleFlipbookTextureCompatible
-	| ParticleOrientation
-	| PathStatus
-	| PathWaypointAction
-	| PathfindingUseImprovedSearch
-	| PermissionLevelShown
-	| PhysicsSimulationRate
-	| PhysicsSteppingMethod
-	| Platform
-	| PlaybackState
-	| PlayerActions
-	| PlayerCharacterDestroyBehavior
-	| PlayerChatType
-	| PoseEasingDirection
-	| PoseEasingStyle
-	| PositionAlignmentMode
-	| PreferredTextSize
-	| PrimalPhysicsSolver
-	| PrimitiveType
-	| PrivilegeType
-	| ProductLocationRestriction
-	| ProductPurchaseDecision
-	| PromptCreateAssetResult
-	| PromptCreateAvatarResult
-	| PromptPublishAssetResult
-	| PropertyStatus
-	| ProximityPromptExclusivity
-	| ProximityPromptInputType
-	| ProximityPromptStyle
-	| Quality
-	| QualityLevel
-	| R15CollisionType
-	| RaycastFilterType
-	| RejectCharacterDeletions
-	| RenderFidelity
-	| RenderPriority
-	| RenderingCacheOptimizationMode
-	| RenderingTestComparisonMethod
-	| ReplicateInstanceDestroySetting
-	| ResamplerMode
-	| ReservedHighlightId
-	| RestPose
-	| ReturnKeyType
-	| ReverbType
-	| RibbonTool
-	| RigScale
-	| RigType
-	| RollOffMode
-	| RolloutState
-	| RotationOrder
-	| RotationType
-	| RtlTextSupport
-	| RunContext
-	| RunState
-	| RuntimeUndoBehavior
-	| SafeAreaCompatibility
-	| SalesTypeFilter
-	| SaveAvatarThumbnailCustomizationFailure
-	| SaveFilter
-	| SavedQualitySetting
-	| ScaleType
-	| ScopeCheckResult
-	| ScreenInsets
-	| ScreenOrientation
-	| ScrollBarInset
-	| ScrollingDirection
-	| SecurityCapability
-	| SelectionBehavior
-	| SelectionRenderMode
-	| SelfViewPosition
-	| SensorMode
-	| SensorUpdateType
-	| ServerLiveEditingMode
-	| ServiceVisibility
-	| Severity
-	| SignalBehavior
-	| SizeConstraint
-	| SolverConvergenceMetricType
-	| SolverConvergenceVisualizationMode
-	| SortDirection
-	| SortOrder
-	| SpecialKey
-	| StartCorner
-	| Status
-	| StreamOutBehavior
-	| StreamingIntegrityMode
-	| StreamingPauseMode
-	| StudioCloseMode
-	| StudioDataModelType
-	| StudioPlaceUpdateFailureReason
-	| StudioScriptEditorColorCategories
-	| StudioScriptEditorColorPresets
-	| StudioStyleGuideColor
-	| StudioStyleGuideModifier
-	| Style
-	| SubscriptionExpirationReason
-	| SubscriptionPaymentStatus
-	| SubscriptionPeriod
-	| SubscriptionState
-	| SurfaceConstraint
-	| SurfaceGuiShape
-	| SurfaceGuiSizingMode
-	| SurfaceType
-	| SwipeDirection
-	| TableMajorAxis
-	| Technology
-	| TeleportMethod
-	| TeleportResult
-	| TeleportState
-	| TeleportType
-	| TerrainAcquisitionMethod
-	| TerrainFace
-	| TextChatMessageStatus
-	| TextDirection
-	| TextFilterContext
-	| TextInputType
-	| TextTruncate
-	| TextXAlignment
-	| TextYAlignment
-	| TextureMode
-	| TextureQueryType
-	| ThreadPoolConfig
-	| ThrottlingPriority
-	| ThumbnailSize
-	| ThumbnailType
-	| TickCountSampleMethod
-	| TonemapperPreset
-	| TopBottom
-	| TouchCameraMovementMode
-	| TouchMovementMode
-	| TrackerError
-	| TrackerExtrapolationFlagMode
-	| TrackerFaceTrackingStatus
-	| TrackerLodFlagMode
-	| TrackerLodValueMode
-	| TrackerMode
-	| TrackerPromptEvent
-	| TrackerType
-	| TriStateBoolean
-	| TweenStatus
-	| UIDragDetectorBoundingBehavior
-	| UIDragDetectorDragRelativity
-	| UIDragDetectorDragSpace
-	| UIDragDetectorDragStyle
-	| UIDragDetectorResponseStyle
-	| UIDragSpeedAxisMapping
-	| UIFlexAlignment
-	| UIFlexMode
-	| UITheme
-	| UiMessageType
-	| UsageContext
-	| UserCFrame
-	| UserInputState
-	| UserInputType
-	| VRComfortSetting
-	| VRControllerModelMode
-	| VRDeviceType
-	| VRLaserPointerMode
-	| VRSafetyBubbleMode
-	| VRScaling
-	| VRSessionState
-	| VRTouchpad
-	| VRTouchpadMode
-	| VelocityConstraintMode
-	| VerticalAlignment
-	| VerticalScrollBarPosition
-	| VibrationMotor
-	| VideoDeviceCaptureQuality
-	| VideoError
-	| ViewMode
-	| VirtualCursorMode
-	| VirtualInputMode
-	| VoiceChatState
-	| VoiceControlPath
-	| VolumetricAudio
-	| WaterDirection
-	| WaterForce
-	| WeldConstraintPreserve
-	| WhisperChatPrivacyMode
-	| WrapLayerAutoSkin
-	| WrapLayerDebugMode
-	| WrapTargetDebugMode
-	| ZIndexBehavior
+	AccessModifierTypeRoot
+	| AccessoryTypeRoot
+	| ActionOnAutoResumeSyncRoot
+	| ActionOnStopSyncRoot
+	| ActionTypeRoot
+	| ActuatorRelativeToRoot
+	| ActuatorTypeRoot
+	| AdAvailabilityResultRoot
+	| AdEventTypeRoot
+	| AdFormatRoot
+	| AdShapeRoot
+	| AdTeleportMethodRoot
+	| AdUIEventTypeRoot
+	| AdUITypeRoot
+	| AdUnitStatusRoot
+	| AdornCullingModeRoot
+	| AlignTypeRoot
+	| AlphaModeRoot
+	| AnalyticsCustomFieldKeysRoot
+	| AnalyticsEconomyActionRoot
+	| AnalyticsEconomyFlowTypeRoot
+	| AnalyticsEconomyTransactionTypeRoot
+	| AnalyticsLogLevelRoot
+	| AnalyticsProgressionStatusRoot
+	| AnalyticsProgressionTypeRoot
+	| AnimationClipFromVideoStatusRoot
+	| AnimationPriorityRoot
+	| AnimatorRetargetingModeRoot
+	| AnnotationEditingModeRoot
+	| AnnotationRequestStatusRoot
+	| AnnotationRequestTypeRoot
+	| AppLifecycleManagerStateRoot
+	| AppShellActionTypeRoot
+	| AppShellFeatureRoot
+	| AppUpdateStatusRoot
+	| ApplyStrokeModeRoot
+	| AspectTypeRoot
+	| AssetCreatorTypeRoot
+	| AssetFetchStatusRoot
+	| AssetTypeRoot
+	| AssetTypeVerificationRoot
+	| AudioApiRolloutRoot
+	| AudioCaptureModeRoot
+	| AudioChannelLayoutRoot
+	| AudioFilterTypeRoot
+	| AudioSimulationFidelityRoot
+	| AudioSubTypeRoot
+	| AudioWindowSizeRoot
+	| AutoIndentRuleRoot
+	| AutomaticSizeRoot
+	| AvatarAssetTypeRoot
+	| AvatarChatServiceFeatureRoot
+	| AvatarContextMenuOptionRoot
+	| AvatarGenerationErrorRoot
+	| AvatarItemTypeRoot
+	| AvatarPromptResultRoot
+	| AvatarSettingsAccessoryLimitMethodRoot
+	| AvatarSettingsAccessoryModeRoot
+	| AvatarSettingsAnimationClipsModeRoot
+	| AvatarSettingsAnimationPacksModeRoot
+	| AvatarSettingsAppearanceModeRoot
+	| AvatarSettingsBuildModeRoot
+	| AvatarSettingsClothingModeRoot
+	| AvatarSettingsCollisionModeRoot
+	| AvatarSettingsCustomAccessoryModeRoot
+	| AvatarSettingsCustomBodyTypeRoot
+	| AvatarSettingsCustomClothingModeRoot
+	| AvatarSettingsHitAndTouchDetectionModeRoot
+	| AvatarSettingsJumpModeRoot
+	| AvatarSettingsLegacyCollisionModeRoot
+	| AvatarSettingsScaleModeRoot
+	| AvatarThumbnailCustomizationTypeRoot
+	| AvatarUnificationModeRoot
+	| AxisRoot
+	| BenefitTypeRoot
+	| BinTypeRoot
+	| BodyPartRoot
+	| BodyPartR15Root
+	| BorderModeRoot
+	| BreakReasonRoot
+	| BreakpointRemoveReasonRoot
+	| BulkMoveModeRoot
+	| BundleTypeRoot
+	| ButtonRoot
+	| ButtonStyleRoot
+	| CageTypeRoot
+	| CameraModeRoot
+	| CameraPanModeRoot
+	| CameraSpeedAdjustBindingRoot
+	| CameraTypeRoot
+	| CatalogCategoryFilterRoot
+	| CatalogSortAggregationRoot
+	| CatalogSortTypeRoot
+	| CellBlockRoot
+	| CellMaterialRoot
+	| CellOrientationRoot
+	| CenterDialogTypeRoot
+	| CharacterControlModeRoot
+	| ChatCallbackTypeRoot
+	| ChatColorRoot
+	| ChatModeRoot
+	| ChatPrivacyModeRoot
+	| ChatRestrictionStatusRoot
+	| ChatStyleRoot
+	| ChatVersionRoot
+	| ClientAnimatorThrottlingModeRoot
+	| CloseReasonRoot
+	| CollaboratorStatusRoot
+	| CollisionFidelityRoot
+	| CommandPermissionRoot
+	| CompileTargetRoot
+	| CompletionAcceptanceBehaviorRoot
+	| CompletionItemKindRoot
+	| CompletionItemTagRoot
+	| CompletionTriggerKindRoot
+	| ComputerCameraMovementModeRoot
+	| ComputerMovementModeRoot
+	| ConfigSnapshotErrorStateRoot
+	| ConnectionErrorRoot
+	| ConnectionStateRoot
+	| ContentSourceTypeRoot
+	| ContextActionPriorityRoot
+	| ContextActionResultRoot
+	| ControlModeRoot
+	| CoreGuiTypeRoot
+	| CreateAssetResultRoot
+	| CreateOutfitFailureRoot
+	| CreatorTypeRoot
+	| CreatorTypeFilterRoot
+	| CurrencyTypeRoot
+	| CustomCameraModeRoot
+	| DataStoreRequestTypeRoot
+	| DebuggerEndReasonRoot
+	| DebuggerExceptionBreakModeRoot
+	| DebuggerFrameTypeRoot
+	| DebuggerPauseReasonRoot
+	| DebuggerStatusRoot
+	| DevCameraOcclusionModeRoot
+	| DevComputerCameraMovementModeRoot
+	| DevComputerMovementModeRoot
+	| DevTouchCameraMovementModeRoot
+	| DevTouchMovementModeRoot
+	| DeveloperMemoryTagRoot
+	| DeviceFeatureTypeRoot
+	| DeviceFormRoot
+	| DeviceLevelRoot
+	| DeviceTypeRoot
+	| DialogBehaviorTypeRoot
+	| DialogPurposeRoot
+	| DialogToneRoot
+	| DominantAxisRoot
+	| DraftStatusCodeRoot
+	| DragDetectorDragStyleRoot
+	| DragDetectorPermissionPolicyRoot
+	| DragDetectorResponseStyleRoot
+	| DraggerCoordinateSpaceRoot
+	| DraggerMovementModeRoot
+	| DraggingScrollBarRoot
+	| EasingDirectionRoot
+	| EasingStyleRoot
+	| EditableStatusRoot
+	| ElasticBehaviorRoot
+	| EnviromentalPhysicsThrottleRoot
+	| ExperienceAuthScopeRoot
+	| ExplosionTypeRoot
+	| FACSDataLodRoot
+	| FacialAgeEstimationResultTypeRoot
+	| FacialAnimationStreamingStateRoot
+	| FacsActionUnitRoot
+	| FeedRankingScoreTypeRoot
+	| FieldOfViewModeRoot
+	| FillDirectionRoot
+	| FilterErrorTypeRoot
+	| FilterResultRoot
+	| FinishRecordingOperationRoot
+	| FluidFidelityRoot
+	| FluidForcesRoot
+	| FontRoot
+	| FontSizeRoot
+	| FontStyleRoot
+	| FontWeightRoot
+	| ForceLimitModeRoot
+	| FormFactorRoot
+	| FrameStyleRoot
+	| FramerateManagerModeRoot
+	| FriendRequestEventRoot
+	| FriendStatusRoot
+	| FunctionalTestResultRoot
+	| GameAvatarTypeRoot
+	| GamepadTypeRoot
+	| GearGenreSettingRoot
+	| GearTypeRoot
+	| GenreRoot
+	| GraphicsModeRoot
+	| GraphicsOptimizationModeRoot
+	| GuiStateRoot
+	| GuiTypeRoot
+	| HandlesStyleRoot
+	| HapticEffectTypeRoot
+	| HighlightDepthModeRoot
+	| HorizontalAlignmentRoot
+	| HoverAnimateSpeedRoot
+	| HttpCachePolicyRoot
+	| HttpCompressionRoot
+	| HttpContentTypeRoot
+	| HttpErrorRoot
+	| HttpRequestTypeRoot
+	| HumanoidCollisionTypeRoot
+	| HumanoidDisplayDistanceTypeRoot
+	| HumanoidHealthDisplayTypeRoot
+	| HumanoidRigTypeRoot
+	| HumanoidStateTypeRoot
+	| IKCollisionsModeRoot
+	| IKControlConstraintSupportRoot
+	| IKControlTypeRoot
+	| IXPLoadingStatusRoot
+	| ImageAlphaTypeRoot
+	| ImageCombineTypeRoot
+	| InOutRoot
+	| InfoTypeRoot
+	| InitialDockStateRoot
+	| InputActionTypeRoot
+	| InputTypeRoot
+	| IntermediateMeshGenerationResultRoot
+	| InterpolationThrottlingModeRoot
+	| InviteStateRoot
+	| ItemLineAlignmentRoot
+	| JoinSourceRoot
+	| JointCreationModeRoot
+	| KeyCodeRoot
+	| KeyInterpolationModeRoot
+	| KeywordFilterTypeRoot
+	| LanguageRoot
+	| LeftRightRoot
+	| LexemeTypeRoot
+	| LightingStyleRoot
+	| LimbRoot
+	| LineJoinModeRoot
+	| ListDisplayModeRoot
+	| ListenerLocationRoot
+	| ListenerTypeRoot
+	| LiveEditingAtomicUpdateResponseRoot
+	| LiveEditingBroadcastMessageTypeRoot
+	| LoadCharacterLayeredClothingRoot
+	| LoadDynamicHeadsRoot
+	| LocationTypeRoot
+	| MarketplaceBulkPurchasePromptStatusRoot
+	| MarketplaceItemPurchaseStatusRoot
+	| MarketplaceProductTypeRoot
+	| MarkupKindRoot
+	| MatchmakingTypeRoot
+	| MaterialRoot
+	| MaterialPatternRoot
+	| MembershipTypeRoot
+	| MeshPartDetailLevelRoot
+	| MeshPartHeadsAndAccessoriesRoot
+	| MeshScaleUnitRoot
+	| MeshTypeRoot
+	| MessageTypeRoot
+	| ModelLevelOfDetailRoot
+	| ModelStreamingBehaviorRoot
+	| ModelStreamingModeRoot
+	| ModerationStatusRoot
+	| ModifierKeyRoot
+	| MouseBehaviorRoot
+	| MoveStateRoot
+	| MoverConstraintRootBehaviorModeRoot
+	| MuteStateRoot
+	| NameOcclusionRoot
+	| NetworkOwnershipRoot
+	| NetworkStatusRoot
+	| NoiseTypeRoot
+	| NormalIdRoot
+	| NotificationButtonTypeRoot
+	| OperationTypeRoot
+	| OrientationAlignmentModeRoot
+	| OutfitSourceRoot
+	| OutfitTypeRoot
+	| OutputLayoutModeRoot
+	| OverrideMouseIconBehaviorRoot
+	| PackagePermissionRoot
+	| PartTypeRoot
+	| ParticleEmitterShapeRoot
+	| ParticleEmitterShapeInOutRoot
+	| ParticleEmitterShapeStyleRoot
+	| ParticleFlipbookLayoutRoot
+	| ParticleFlipbookModeRoot
+	| ParticleFlipbookTextureCompatibleRoot
+	| ParticleOrientationRoot
+	| PathStatusRoot
+	| PathWaypointActionRoot
+	| PathfindingUseImprovedSearchRoot
+	| PermissionLevelShownRoot
+	| PhysicsSimulationRateRoot
+	| PhysicsSteppingMethodRoot
+	| PlatformRoot
+	| PlaybackStateRoot
+	| PlayerActionsRoot
+	| PlayerCharacterDestroyBehaviorRoot
+	| PlayerChatTypeRoot
+	| PlayerDataErrorStateRoot
+	| PlayerDataLoadFailureBehaviorRoot
+	| PoseEasingDirectionRoot
+	| PoseEasingStyleRoot
+	| PositionAlignmentModeRoot
+	| PreferredTextSizeRoot
+	| PrimalPhysicsSolverRoot
+	| PrimitiveTypeRoot
+	| PrivilegeTypeRoot
+	| ProductLocationRestrictionRoot
+	| ProductPurchaseChannelRoot
+	| ProductPurchaseDecisionRoot
+	| PromptCreateAssetResultRoot
+	| PromptCreateAvatarResultRoot
+	| PromptPublishAssetResultRoot
+	| PropertyStatusRoot
+	| ProximityPromptExclusivityRoot
+	| ProximityPromptInputTypeRoot
+	| ProximityPromptStyleRoot
+	| QualityLevelRoot
+	| R15CollisionTypeRoot
+	| RaycastFilterTypeRoot
+	| RejectCharacterDeletionsRoot
+	| RenderFidelityRoot
+	| RenderPriorityRoot
+	| RenderingCacheOptimizationModeRoot
+	| RenderingTestComparisonMethodRoot
+	| ReplicateInstanceDestroySettingRoot
+	| ResamplerModeRoot
+	| ReservedHighlightIdRoot
+	| RestPoseRoot
+	| ReturnKeyTypeRoot
+	| ReverbTypeRoot
+	| RibbonToolRoot
+	| RigScaleRoot
+	| RigTypeRoot
+	| RollOffModeRoot
+	| RolloutStateRoot
+	| RotationOrderRoot
+	| RotationTypeRoot
+	| RtlTextSupportRoot
+	| RunContextRoot
+	| RunStateRoot
+	| RuntimeUndoBehaviorRoot
+	| SafeAreaCompatibilityRoot
+	| SalesTypeFilterRoot
+	| SandboxedInstanceModeRoot
+	| SaveAvatarThumbnailCustomizationFailureRoot
+	| SaveFilterRoot
+	| SavedQualitySettingRoot
+	| ScaleTypeRoot
+	| ScopeCheckResultRoot
+	| ScreenInsetsRoot
+	| ScreenOrientationRoot
+	| ScrollBarInsetRoot
+	| ScrollingDirectionRoot
+	| SecurityCapabilityRoot
+	| SelectionBehaviorRoot
+	| SelectionRenderModeRoot
+	| SelfViewPositionRoot
+	| SensorModeRoot
+	| SensorUpdateTypeRoot
+	| ServerLiveEditingModeRoot
+	| ServiceVisibilityRoot
+	| SeverityRoot
+	| ShowAdResultRoot
+	| SignalBehaviorRoot
+	| SizeConstraintRoot
+	| SolverConvergenceMetricTypeRoot
+	| SolverConvergenceVisualizationModeRoot
+	| SortDirectionRoot
+	| SortOrderRoot
+	| SpecialKeyRoot
+	| StartCornerRoot
+	| StateObjectFieldTypeRoot
+	| StatusRoot
+	| StreamOutBehaviorRoot
+	| StreamingIntegrityModeRoot
+	| StreamingPauseModeRoot
+	| StudioCloseModeRoot
+	| StudioDataModelTypeRoot
+	| StudioPlaceUpdateFailureReasonRoot
+	| StudioScriptEditorColorCategoriesRoot
+	| StudioScriptEditorColorPresetsRoot
+	| StudioStyleGuideColorRoot
+	| StudioStyleGuideModifierRoot
+	| StyleRoot
+	| SubscriptionExpirationReasonRoot
+	| SubscriptionPaymentStatusRoot
+	| SubscriptionPeriodRoot
+	| SubscriptionStateRoot
+	| SurfaceConstraintRoot
+	| SurfaceGuiShapeRoot
+	| SurfaceGuiSizingModeRoot
+	| SurfaceTypeRoot
+	| SwipeDirectionRoot
+	| SystemThemeValueRoot
+	| TableMajorAxisRoot
+	| TeamCreateErrorStateRoot
+	| TechnologyRoot
+	| TeleportMethodRoot
+	| TeleportResultRoot
+	| TeleportStateRoot
+	| TeleportTypeRoot
+	| TerrainAcquisitionMethodRoot
+	| TerrainFaceRoot
+	| TextChatMessageStatusRoot
+	| TextDirectionRoot
+	| TextFilterContextRoot
+	| TextInputTypeRoot
+	| TextTruncateRoot
+	| TextXAlignmentRoot
+	| TextYAlignmentRoot
+	| TextureModeRoot
+	| TextureQueryTypeRoot
+	| ThreadPoolConfigRoot
+	| ThrottlingPriorityRoot
+	| ThumbnailSizeRoot
+	| ThumbnailTypeRoot
+	| TickCountSampleMethodRoot
+	| TonemapperPresetRoot
+	| TopBottomRoot
+	| TouchCameraMovementModeRoot
+	| TouchMovementModeRoot
+	| TrackerErrorRoot
+	| TrackerExtrapolationFlagModeRoot
+	| TrackerFaceTrackingStatusRoot
+	| TrackerLodFlagModeRoot
+	| TrackerLodValueModeRoot
+	| TrackerModeRoot
+	| TrackerPromptEventRoot
+	| TrackerTypeRoot
+	| TriStateBooleanRoot
+	| TweenStatusRoot
+	| UICaptureModeRoot
+	| UIDragDetectorBoundingBehaviorRoot
+	| UIDragDetectorDragRelativityRoot
+	| UIDragDetectorDragSpaceRoot
+	| UIDragDetectorDragStyleRoot
+	| UIDragDetectorResponseStyleRoot
+	| UIDragSpeedAxisMappingRoot
+	| UIFlexAlignmentRoot
+	| UIFlexModeRoot
+	| UIThemeRoot
+	| UiMessageTypeRoot
+	| UsageContextRoot
+	| UserCFrameRoot
+	| UserInputStateRoot
+	| UserInputTypeRoot
+	| VRComfortSettingRoot
+	| VRControllerModelModeRoot
+	| VRDeviceTypeRoot
+	| VRLaserPointerModeRoot
+	| VRSafetyBubbleModeRoot
+	| VRScalingRoot
+	| VRSessionStateRoot
+	| VRTouchpadRoot
+	| VRTouchpadModeRoot
+	| VelocityConstraintModeRoot
+	| VerticalAlignmentRoot
+	| VerticalScrollBarPositionRoot
+	| VibrationMotorRoot
+	| VideoCaptureResultRoot
+	| VideoDeviceCaptureQualityRoot
+	| VideoErrorRoot
+	| ViewModeRoot
+	| VirtualCursorModeRoot
+	| VirtualInputModeRoot
+	| VoiceChatDistanceAttenuationTypeRoot
+	| VoiceChatStateRoot
+	| VoiceControlPathRoot
+	| VolumetricAudioRoot
+	| WaterDirectionRoot
+	| WaterForceRoot
+	| WebSocketStateRoot
+	| WeldConstraintPreserveRoot
+	| WhisperChatPrivacyModeRoot
+	| WrapLayerAutoSkinRoot
+	| WrapLayerDebugModeRoot
+	| WrapTargetDebugModeRoot
+	| ZIndexBehaviorRoot
 >

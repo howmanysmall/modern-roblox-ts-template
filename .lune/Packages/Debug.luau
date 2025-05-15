@@ -9,7 +9,7 @@ local TAB = "\t"
 type GenericDictionary = {[string]: any}
 type GenericTable = {[any]: any}
 
-local Debug_Inspect: (...any) -> string
+local Inspect: (...unknown) -> string
 
 local REPLACERS = {
 	["Index ?"] = "__index";
@@ -44,7 +44,7 @@ local function GetErrorData(
 	local functionName = ""
 
 	for index = 1, length do
-		arguments[index] = Debug_Inspect(packedArguments[index])
+		arguments[index] = Inspect(packedArguments[index])
 	end
 
 	for matched in string.gmatch(string.sub(traceback, 1, -11), "%- [^\r\n]+[\r\n]") do
@@ -64,7 +64,7 @@ local function GetErrorData(
 
 	local success, errorString = pcall(
 		string.format,
-		"[%*] {%*} " .. string.gsub(formatString, "%%q", "%%*"),
+		`[%*] \{%*} {string.gsub(formatString, "%%q", "%%*")}`,
 		moduleName,
 		REPLACERS[functionName] or functionName,
 		table.unpack(arguments)
@@ -76,62 +76,25 @@ local function GetErrorData(
 
 	error(
 		GetErrorData(
-			"!Error formatting failed, perhaps try escaping non-formattable tags like so: %%%%f\n(Error Message): "
-				.. errorString,
+			`!Error formatting failed, perhaps try escaping non-formattable tags like so: %%%%f\n(Error Message): {errorString}`,
 			"Debug"
 		)
 	)
 end
 
-function Debug.InspectFormat(formatString: string, ...): string
-	if type(formatString) ~= "string" then
-		error(GetErrorData("!The first parameter of error formatting must be a string", "Debug"))
-	end
-
-	local arguments = {...}
-	formatString = string.gsub(formatString, "^!", "", 1)
-
-	for index = 1, select("#", ...) do
-		arguments[index] = Debug_Inspect(arguments[index])
-	end
-
-	local index = 0
-	for matched in string.gmatch(formatString, "%%%l") do
-		index += 1
-		if matched == "%q" then
-			arguments[index] = string.gsub(arguments[index], " (%S+)$", " \"%1\"", 1)
-		end
-	end
-
-	local success, errorString =
-		pcall(string.format, (string.gsub(formatString, "%%q", "%%*")), table.unpack(arguments))
-
-	if success then
-		return errorString
-	end
-
-	error(
-		GetErrorData(
-			"!Error formatting failed, perhaps try escaping non-formattable tags like so: %%%%f\n(Error Message): "
-				.. errorString,
-			"Debug"
-		)
-	)
-end
-
-function Debug.Warn(...)
+function Debug.Warn(...: any): ()
 	warn((GetErrorData(...)))
 end
 
-function Debug.Error(...)
+function Debug.Error(...: any): ()
 	error(GetErrorData(...))
 end
 
-function Debug.Assert(condition, ...)
+function Debug.Assert<T>(condition: T, ...: any): T | never
 	return condition or error(GetErrorData(...))
 end
 
-local function AssertNoTypes(condition, ...)
+local function AssertNoTypes<T>(condition: T, ...: any): T | never
 	return condition or error(GetErrorData(...))
 end
 Debug.AssertNoTypes = AssertNoTypes :: (...any) -> any
@@ -148,6 +111,9 @@ local function Alphabetically(a: unknown, b: unknown): boolean
 
 	return typeA < typeB
 end
+
+type AlphabeticalOrder = <K, V>(dictionary: {[K]: V}) -> () -> (K, V, number)
+type InCustomOrder = <K, V>(dictionary: {[K]: V}, sortKeys: (a: K, b: K) -> boolean) -> () -> (K, V, number)
 
 local function AlphabeticalOrder<K, V>(dictionary: {[K]: V})
 	local order = {}
@@ -168,8 +134,28 @@ local function AlphabeticalOrder<K, V>(dictionary: {[K]: V})
 		return key, iteratedTable[key], index
 	end, dictionary, nil
 end
+Debug.AlphabeticalOrder = AlphabeticalOrder :: AlphabeticalOrder
 
-Debug.AlphabeticalOrder = AlphabeticalOrder :: <K, V>(dictionary: {[K]: V}) -> () -> (K, V, number)
+local function InCustomOrder<K, V>(dictionary: {[K]: V}, sortKeys: (a: K, b: K) -> boolean)
+	local order = {}
+	local length = 0
+
+	for key in dictionary do
+		length += 1
+		order[length] = key
+	end
+
+	table.sort(order, sortKeys)
+
+	local index = 0
+	-- stylua: ignore
+	return function(iteratedTable)
+		index += 1
+		local key = order[index]
+		return key, iteratedTable[key], index
+	end, dictionary, nil
+end
+Debug.InCustomOrder = InCustomOrder :: InCustomOrder
 
 local ConvertTableIntoString: (
 	object: {[any]: any},
@@ -182,18 +168,13 @@ local ConvertTableIntoString: (
 local function Parse(object: any, multiline: boolean?, depth: number, encounteredTables: {[any]: any}): string
 	local typeOf = TypeOf(object)
 
-	return typeOf == "table"
-			and (encounteredTables[object] and "[table " .. encounteredTables[object] .. "]" or ConvertTableIntoString(
-				object,
-				nil,
-				multiline,
-				depth + 1,
-				encounteredTables
-			))
-		or typeOf == "string" and "\"" .. object .. "\""
-		-- or typeOf == "Instance" and "<" .. Debug.DirectoryToString(object) .. ">"
-		or (typeOf == "function" or typeOf == "userdata") and typeOf
-		or tostring(object)
+	return if typeOf == "table"
+		then (if encounteredTables[object]
+			then `[table {encounteredTables[object]}]`
+			else ConvertTableIntoString(object, nil, multiline, depth + 1, encounteredTables))
+		elseif typeOf == "string" then `"{object}"`
+		elseif typeOf == "function" or typeOf == "userdata" then typeOf
+		else tostring(object)
 end
 
 function ConvertTableIntoString(
@@ -230,7 +211,7 @@ function ConvertTableIntoString(
 				currentArrayIndex += 1
 			else
 				length += 1
-				array[length] = "[" .. key .. "] = "
+				array[length] = `[{key}] = `
 			end
 
 			length += 1
@@ -268,7 +249,7 @@ function ConvertTableIntoString(
 			array[length] = Parse(value, multiline, depth, encounteredTables)
 
 			length += 1
-			array[length] = multiline and ";" or ", "
+			array[length] = if multiline then ";" else ", "
 		end
 	end
 
@@ -295,24 +276,28 @@ function ConvertTableIntoString(
 		length += 1
 		array[length] = if type(metatable) == "table"
 			then ConvertTableIntoString(metatable, nil, multiline, depth, encounteredTables)
-			else Debug_Inspect(metatable)
+			else Inspect(metatable)
 	end
 
 	return table.concat(array)
 end
 
-function Debug.TableToString<K, V>(object: {[K]: V}, multiline: boolean?, tableName: string?): string
+local function TableToString(object: {[any]: any}, multiline: boolean?, tableName: string?): string
 	return ConvertTableIntoString(object, tableName, multiline, 1, {n = 0})
 end
+Debug.TableToString = TableToString
 
 local ESCAPED_CHARACTERS = {"%", "^", "$", "(", ")", ".", "[", "]", "*", "+", "-", "?"}
-local ESCAPABLE = "([%" .. table.concat(ESCAPED_CHARACTERS, "%") .. "])"
+local ESCAPABLE = `([%{table.concat(ESCAPED_CHARACTERS, "%")}])`
 
 function Debug.EscapeString(value: string): string
 	return (string.gsub(string.gsub(value, ESCAPABLE, "%%%1"), "([\"'\\])", "\\%1"))
 end
+function Debug.EscapeStringRegEx(value: string): string
+	return (string.gsub(string.gsub(value, ESCAPABLE, "\\%1"), "([\"'\\])", "\\%1"))
+end
 
-function Debug_Inspect(...: any): string
+function Inspect(...: unknown): string
 	local variableArgumentsLength = select("#", ...)
 	if variableArgumentsLength == 0 then
 		return "NONE"
@@ -334,19 +319,18 @@ function Debug_Inspect(...: any): string
 			dataString = tostring(data)
 		else
 			dataString = if dataType == "table"
-				then Debug.TableToString(data)
-				elseif dataType == "string" then "\"" .. data .. "\""
+				then TableToString(data)
+				elseif dataType == "string" then `"{data}"`
 				else tostring(data)
 		end
 
 		stringBuilder[length + 1] = ", "
-		stringBuilder[length + 2] =
-			string.gsub(dataType .. " " .. dataString, "^" .. dataType .. " " .. dataType, dataType, 1)
+		stringBuilder[length + 2] = string.gsub(`{dataType} {dataString}`, `^{dataType} {dataType}`, dataType, 1)
 		length += 2
 	end
 
 	return string.sub(table.concat(stringBuilder), 3)
 end
-Debug.Inspect = Debug_Inspect
+Debug.Inspect = Inspect
 
 return table.freeze(Debug)

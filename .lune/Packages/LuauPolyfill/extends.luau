@@ -1,5 +1,6 @@
 --!optimize 2
---!nonstrict
+--!strict
+
 --[[
 	deviation: Our constructors currently have no notion of 'super' so any
 	such behavior in upstream JS must be implemented manually by setting fields
@@ -14,6 +15,7 @@
 	if no fields need to be set. In upstream JS, the equivalent would be
 	returning an empty object from the constructor.
 ]]
+
 return function(parent, childName, constructor)
 	local Child = {}
 	Child.__index = Child
@@ -29,7 +31,7 @@ return function(parent, childName, constructor)
 		return setmetatable(self, Child)
 	end
 
-	if typeof(getmetatable(parent)) == "table" and getmetatable(parent).__call then
+	if type(getmetatable(parent)) == "table" and getmetatable(parent).__call then
 		mt.__call = function(_, ...)
 			return Child.new(...)
 		end

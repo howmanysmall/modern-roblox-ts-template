@@ -1,7 +1,7 @@
 --!optimize 2
 --!strict
-local ES7Types = require("../ES7Types")
 
+local ES7Types = require("@packages/ES7Types")
 type WeakMap<K, V> = ES7Types.WeakMap<K, V>
 
 type WeakMapPrivate<K, V> = {
@@ -15,7 +15,7 @@ type WeakMap_Statics = {
 	new: <K, V>() -> WeakMap<K, V>,
 }
 
-local WeakMap: WeakMapPrivate<any, any> & WeakMap_Statics = {} :: any;
+local WeakMap: WeakMapPrivate<any, any> & WeakMap_Statics = {} :: any
 (WeakMap :: any).__index = WeakMap
 
 function WeakMap.new<K, V>(): WeakMap<K, V>

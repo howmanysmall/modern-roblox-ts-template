@@ -2,13 +2,15 @@
 --!optimize 2
 
 local Prefix = require("../../Prefix")
-local parsePrefixWindows = require("./parsePrefix")
+local parsePrefixWindows = require("@self/parsePrefix")
 
 type Prefix = Prefix.Prefix
 
 local MAIN_SEPARATOR_STR = if _G.SYS_PATH_SEPARATOR == "\\" or _G.SYS_PATH_SEPARATOR == "/"
 	then _G.SYS_PATH_SEPARATOR
-	elseif _G.LUA_ENV == "lune" and (require :: any)("@lune/process").os == "windows" then "\\"
+	elseif (_G.LUA_ENV == "lune" or string.lower(string.sub(tostring(_VERSION), 1, 4)) == "lune") and (require :: any)(
+		"@lune/process"
+	).os == "windows" then "\\"
 	else "/"
 
 local IS_WINDOWS = MAIN_SEPARATOR_STR == "\\"
@@ -38,9 +40,9 @@ end
 
 local parsePrefix: (path: string) -> Prefix? = if IS_WINDOWS then parsePrefixWindows else parsePrefixUnix
 
-return {
+return table.freeze({
 	MAIN_SEPARATOR_STR = MAIN_SEPARATOR_STR;
 	isSepByte = isSepByte;
 	isVerbatimSep = isVerbatimSep;
 	parsePrefix = parsePrefix;
-}
+})

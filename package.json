@@ -6,7 +6,8 @@
 	"type": "module",
 	"scripts": {
 		"assets:upload": "asphalt sync",
-		"clean": "bunx rimraf out/ && bunx rimraf dist && bunx rimraf flamework.build",
+		"clean": "bunx rimraf out dist flamework.build",
+		"clean-install": "bunx rimraf node_modules bun.lock bun.lockb && bun install",
 		"darklua": "darklua process out dist --verbose",
 		"dev:build": "rbxts-build build",
 		"dev:compile": "rbxts-build compile",
@@ -21,6 +22,7 @@
 		"prod:build": "bun run clean && NODE_ENV=production && bunx rbxtsc --verbose && bun run darklua",
 		"prod:sync": "rojo serve ./release.project.json",
 		"serve": "rojo serve default.project.json",
+		"test:sync": "rojo serve ./test.project.json",
 		"watch": "bunx rbxtsc -w",
 		"web:serve-alt": "bunx concurrently \"rojo serve default.project.json\" \"ssh -p 443 -R0:localhost:34872 a.pinggy.io\"",
 		"web:serve": "bunx concurrently \"rojo serve default.project.json\" \"ssh -R 80:localhost:34872 serveo.net\""
@@ -58,23 +60,24 @@
 		"eslint": "^8.57.0",
 		"prettier": "^3.3.3",
 		"rbxts-build": "^2.4.0",
-		"rbxts-transformer-flamework": "^1.2.3",
+		"rbxts-transformer-flamework": "^1.3.1",
 		"rbxts-transformer-services": "^1.1.1",
 		"rimraf": "^6.0.1",
 		"roblox-ts": "^3.0.0",
 		"typescript": "^5.6.2"
 	},
 	"dependencies": {
-		"@flamework/components": "^1.2.3",
-		"@flamework/core": "^1.2.3",
-		"@flamework/networking": "^1.2.3",
+		"@flamework/components": "^1.3.1",
+		"@flamework/core": "^1.3.1",
+		"@flamework/networking": "^1.3.1",
+		"@rbxts/context-stack": "^1.0.0-patch.11",
 		"@rbxts/data-structures": "^1.1.0",
 		"@rbxts/flamework-binary-serializer": "^0.6.0",
 		"@rbxts/janitor": "^1.17.0-ts.1",
 		"@rbxts/jest-globals": "^0.1.0",
 		"@rbxts/jest": "^0.1.0",
-		"@rbxts/luau-polyfill": "^1.1.2",
-		"@rbxts/rbx-better-signal": "2.1.0",
+		"@rbxts/luau-polyfill": "^1.1.3",
+		"@rbxts/rbx-better-signal": "^2.1.0",
 		"@rbxts/rbx-debug": "^1.0.2-ts.0",
 		"@rbxts/rbxts-sleitnick-log": "^1.1.7",
 		"@rbxts/react-hooks": "^1.0.0",
@@ -82,7 +85,7 @@
 		"@rbxts/react-tree": "^1.0.1",
 		"@rbxts/react": "^17.2.3",
 		"@rbxts/services": "^1.5.5",
-		"@rbxts/t": "^3.1.1",
-		"@rbxts/ui-labs": "^2.3.1"
+		"@rbxts/t": "^3.2.1",
+		"@rbxts/ui-labs": "^2.3.8"
 	}
 }

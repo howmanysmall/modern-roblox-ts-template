@@ -1,7 +1,9 @@
 --!optimize 2
+--!strict
+
 local flat = require("./flat")
 local map = require("./map")
-local types = require("../../ES7Types")
+local types = require("@packages/ES7Types")
 
 local __DEV__ = _G.__DEV__
 

@@ -12,7 +12,7 @@
 ]]
 export type Symbol = typeof(newproxy(true)) & {[string]: any}
 
-return {
+return table.freeze({
 	new = function(name: string?): Symbol
 		local self = newproxy(true) :: any
 		local wrappedName = if name then `Symbol({name})` else "Symbol()"
@@ -23,4 +23,4 @@ return {
 
 		return (self :: any) :: Symbol
 	end;
-}
+})

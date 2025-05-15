@@ -28,11 +28,11 @@
 		- operator
 --]=]
 
-local Language = require("./Language")
+local Language = require("@self/Language")
 
 local Lexer = {}
 
-local PREFIX, SUFFIX, CLEANER = "^[%c%s]*", "[%c%s]*", "[%c%s]+"
+local Prefix, Suffix, Cleaner = "^[%c%s]*", "[%c%s]*", "[%c%s]+"
 
 -- selene: allow(bad_string_escape)
 local UNICODE = "[%z\x01-\x7F\xC2-\xF4][\x80-\xBF]+"
@@ -63,7 +63,7 @@ local LIBRARIES = Language.Libraries
 Lexer.Language = Language
 
 export type TokenType =
-	"var"
+	| "var"
 	| "number"
 	| "string"
 	| "string_inter"
@@ -75,35 +75,35 @@ export type TokenType =
 
 local LUAU_MATCHES = {
 	-- Indentifiers
-	{PREFIX .. IDEN .. SUFFIX, "var" :: TokenType};
+	{Prefix .. IDEN .. Suffix, "var" :: TokenType};
 
 	-- Numbers
-	{PREFIX .. NUMBER_A .. SUFFIX, "number" :: TokenType};
-	{PREFIX .. NUMBER_B .. SUFFIX, "number" :: TokenType};
-	{PREFIX .. NUMBER_C .. SUFFIX, "number" :: TokenType};
-	{PREFIX .. NUMBER_D .. SUFFIX, "number" :: TokenType};
+	{Prefix .. NUMBER_A .. Suffix, "number" :: TokenType};
+	{Prefix .. NUMBER_B .. Suffix, "number" :: TokenType};
+	{Prefix .. NUMBER_C .. Suffix, "number" :: TokenType};
+	{Prefix .. NUMBER_D .. Suffix, "number" :: TokenType};
 
 	-- Strings
-	{PREFIX .. STRING_EMPTY .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_PLAIN .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_INCOMP_A .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_INCOMP_B .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_MULTI .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_MULTI_INCOMP .. SUFFIX, "string" :: TokenType};
-	{PREFIX .. STRING_INTER .. SUFFIX, "string_inter" :: TokenType};
+	{Prefix .. STRING_EMPTY .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_PLAIN .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_INCOMP_A .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_INCOMP_B .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_MULTI .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_MULTI_INCOMP .. Suffix, "string" :: TokenType};
+	{Prefix .. STRING_INTER .. Suffix, "string_inter" :: TokenType};
 
 	-- Comments
-	{PREFIX .. COMMENT_MULTI .. SUFFIX, "comment" :: TokenType};
-	{PREFIX .. COMMENT_MULTI_INCOMP .. SUFFIX, "comment" :: TokenType};
-	{PREFIX .. COMMENT_PLAIN .. SUFFIX, "comment" :: TokenType};
-	{PREFIX .. COMMENT_INCOMP .. SUFFIX, "comment" :: TokenType};
+	{Prefix .. COMMENT_MULTI .. Suffix, "comment" :: TokenType};
+	{Prefix .. COMMENT_MULTI_INCOMP .. Suffix, "comment" :: TokenType};
+	{Prefix .. COMMENT_PLAIN .. Suffix, "comment" :: TokenType};
+	{Prefix .. COMMENT_INCOMP .. Suffix, "comment" :: TokenType};
 
 	-- Operators
-	{PREFIX .. OPERATORS .. SUFFIX, "operator" :: TokenType};
-	{PREFIX .. BRACKETS .. SUFFIX, "operator" :: TokenType};
+	{Prefix .. OPERATORS .. Suffix, "operator" :: TokenType};
+	{Prefix .. BRACKETS .. Suffix, "operator" :: TokenType};
 
 	-- Unicode
-	{PREFIX .. UNICODE .. SUFFIX, "iden" :: TokenType};
+	{Prefix .. UNICODE .. Suffix, "iden" :: TokenType};
 
 	-- Unknown
 	{"^.", "iden" :: TokenType};
@@ -148,7 +148,7 @@ function Lexer.Scan(source: string): () -> (TokenType, string)
 				if rawToken == "var" then
 					-- Since we merge spaces into the tok, we need to remove them
 					-- in order to check the actual word it contains
-					local cleanContent = string.gsub(content, CLEANER, "")
+					local cleanContent = string.gsub(content, Cleaner, "")
 
 					if KEYWORDS[cleanContent] then
 						processedToken = "keyword"
@@ -156,7 +156,7 @@ function Lexer.Scan(source: string): () -> (TokenType, string)
 						processedToken = "builtin"
 					elseif string.find(previousContent1, "%.[%s%c]*$") and previousToken ~= "comment" then
 						-- The previous was a . so we need to special case indexing things
-						local parent = string.gsub(previousContent2, CLEANER, "")
+						local parent = string.gsub(previousContent2, Cleaner, "")
 						local library = LIBRARIES[parent]
 						if library and library[cleanContent] and not string.find(previousContent3, "%.[%s%c]*$") then
 							-- Indexing a builtin lib with existing item, treat as a builtin
@@ -255,7 +255,7 @@ end
 type Tuple<T, V> = {T | V}
 export type LexerNavigator = {
 	Source: string,
-	TokenCache: {Tuple<string, string>},
+	TokenCache: {Tuple<TokenType, string>},
 
 	Next: () -> (TokenType, string),
 	Peek: (peekAmount: number) -> (TokenType, string),
@@ -265,7 +265,7 @@ export type LexerNavigator = {
 }
 
 function Lexer.Navigator()
-	local navigator = {
+	local nav = {
 		Source = "";
 		TokenCache = table.create(50);
 	} :: LexerNavigator
@@ -274,25 +274,25 @@ function Lexer.Navigator()
 	local userIndex = 0
 	local scanThread: thread? = nil
 
-	function navigator.Destroy()
-		navigator.TokenCache = nil :: never
-		navigator.Source = nil :: never
+	function nav.Destroy()
+		nav.TokenCache = nil :: never
+		nav.Source = nil :: never
 		realIndex = nil :: never
 		userIndex = nil :: never
 		scanThread = nil
 	end
 
-	function navigator.SetSource(sourceString)
-		navigator.Source = sourceString
+	function nav.SetSource(sourceString: string)
+		nav.Source = sourceString
 
 		realIndex = 0
 		userIndex = 0
-		table.clear(navigator.TokenCache)
+		table.clear(nav.TokenCache)
 
 		scanThread = coroutine.create(function()
-			for token, source in Lexer.Scan(navigator.Source) do
+			for token, source in Lexer.Scan(nav.Source) do
 				realIndex += 1
-				navigator.TokenCache[realIndex] = {token, source}
+				nav.TokenCache[realIndex] = {token, source}
 				coroutine.yield(token, source)
 			end
 		end)
@@ -303,7 +303,7 @@ function Lexer.Navigator()
 
 		if realIndex >= userIndex then
 			-- Already scanned, return cached
-			return table.unpack(navigator.TokenCache[userIndex])
+			return table.unpack(nav.TokenCache[userIndex])
 		end
 
 		if not scanThread or coroutine.status(scanThread) == "dead" then
@@ -319,7 +319,7 @@ function Lexer.Navigator()
 
 		return
 	end
-	navigator.Next = navigateNext :: never
+	nav.Next = navigateNext :: never
 
 	local function navigatePeek(peekAmount: number): ()
 		local goalIndex = userIndex + peekAmount
@@ -327,7 +327,7 @@ function Lexer.Navigator()
 		if realIndex >= goalIndex then
 			-- Already scanned, return cached
 			if goalIndex > 0 then
-				return table.unpack(navigator.TokenCache[goalIndex])
+				return table.unpack(nav.TokenCache[goalIndex])
 			end
 
 			return
@@ -349,9 +349,9 @@ function Lexer.Navigator()
 
 		return token :: never, source
 	end
-	navigator.Peek = navigatePeek :: never
+	nav.Peek = navigatePeek :: never
 
-	return navigator
+	return nav
 end
 
-return table.freeze(Lexer)
+return Lexer

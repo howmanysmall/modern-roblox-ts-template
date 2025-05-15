@@ -1,5 +1,6 @@
 --!optimize 2
 --!strict
+
 local Number = require("../Number")
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean

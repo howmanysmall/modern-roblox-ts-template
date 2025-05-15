@@ -19,7 +19,7 @@ local function MutatePath(path: PathFileSystem.Path): PathOption
 		return Option.None
 	end
 
-	local result = process.spawn(path:toString(), {"-V"})
+	local result = process.exec(path:toString(), {"-V"})
 	if not result.ok then
 		console.warn(`Command failed:\n{result.stderr}\n{result.stdout}`)
 		process.exit(result.code)
@@ -34,7 +34,7 @@ end
 
 local function GetRojoLocation(): PathOption
 	if IS_WINDOWS then
-		local result = process.spawn("where", {"rojo"})
+		local result = process.exec("where", {"rojo"})
 		if not result.ok then
 			console.warn(`Command failed:\n{result.stderr}\n{result.stdout}`)
 			process.exit(result.code)
@@ -43,7 +43,7 @@ local function GetRojoLocation(): PathOption
 		return Option.Wrap(Path.from(String.trim(result.stdout))):AndThen(MutatePath)
 	end
 
-	local result = process.spawn("whereis", {"rojo"})
+	local result = process.exec("whereis", {"rojo"})
 	if not result.ok then
 		console.warn(`Command failed:\n{result.stderr}\n{result.stdout}`)
 		process.exit(result.code)

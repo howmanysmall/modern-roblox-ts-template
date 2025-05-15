@@ -1,7 +1,6 @@
 --!nolint LocalShadow
 --!optimize 2
-
-local Disk = require("@packages/LuauDisk")
+--# selene: allow(shadowing)
 
 local Component = require("./Component")
 local Prefix = require("./Prefix")
@@ -14,8 +13,6 @@ local isVerbatimSep = sysPath.isVerbatimSep
 type Component = Component.Component
 type Prefix = Prefix.Prefix
 type Rev<T> = Rev.Rev<T>
-
-local Array = Disk.Array
 
 type char = string
 
@@ -358,10 +355,27 @@ function Components:next(): Component?
 	return nil
 end
 
+local function FromFunction<T>(generator: (index: number) -> T?): {T}
+	local array = {}
+	local length = 0
+
+	while true do
+		local value = generator(length + 1)
+		if value == nil then
+			break
+		end
+
+		length += 1
+		array[length] = value
+	end
+
+	return array
+end
+
 function Components:collect(): {Component}
 	local self: PrivateComponents = self :: any
 
-	return Array.fromFn(function()
+	return FromFunction(function()
 		return self:next()
 	end)
 end

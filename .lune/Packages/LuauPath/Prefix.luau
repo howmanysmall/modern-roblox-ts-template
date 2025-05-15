@@ -1,8 +1,9 @@
 --!nolint LocalShadow
 --!optimize 2
+--# selene:allow(shadowing)
 
 export type PrefixEnum =
-	{type: "Verbatim", value: string}
+	| {type: "Verbatim", value: string}
 	| {type: "VerbatimUNC", hostName: string, shareName: string}
 	| {type: "VerbatimDisk", value: string}
 	| {type: "DeviceNS", value: string}
@@ -67,22 +68,22 @@ end
 function Prefix:len(): number
 	local selfType = self.type
 	if selfType == "Verbatim" then
-		return 4 + string.len((self :: any).value)
+		return 4 + #(self :: any).value
 	elseif selfType == "VerbatimUNC" then
 		local data: {hostName: string, shareName: string} = self :: any
-		local shareNameLen = string.len(data.shareName)
-		return 8 + string.len(data.hostName) + if shareNameLen > 0 then 1 + shareNameLen else 0
+		local shareNameLen = #data.shareName
+		return 8 + #data.hostName + if shareNameLen > 0 then 1 + shareNameLen else 0
 	elseif selfType == "VerbatimDisk" then
 		return 6
 	elseif selfType == "UNC" then
 		local data: {hostName: string, shareName: string} = self :: any
-		local shareNameLen = string.len(data.shareName)
-		return 2 + string.len(data.hostName) + if shareNameLen > 0 then 1 + shareNameLen else 0
+		local shareNameLen = #data.shareName
+		return 2 + #data.hostName + if shareNameLen > 0 then 1 + shareNameLen else 0
 	elseif selfType == "DeviceNS" then
-		return 4 + string.len((self :: any).value)
+		return 4 + #(self :: any).value
 	elseif selfType == "Disk" then
 		return 2
-	elseif _G.DEV then
+	elseif _G.__DEV__ then
 		error("unreachable")
 	end
 	return 0

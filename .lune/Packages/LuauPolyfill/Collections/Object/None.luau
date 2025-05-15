@@ -1,10 +1,12 @@
 --!optimize 2
---!nonstrict
+--!strict
+
 -- Marker used to specify that the value is nothing, because nil cannot be
 -- stored in tables.
+
 local None = newproxy(true)
-local mt = getmetatable(None)
-mt.__tostring = function()
+local metatable = getmetatable(None)
+metatable.__tostring = function()
 	return "Object.None"
 end
 

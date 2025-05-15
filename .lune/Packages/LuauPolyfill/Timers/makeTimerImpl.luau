@@ -8,41 +8,39 @@ local SCHEDULED = 1
 local DONE = 2
 local CANCELLED = 3
 
-return function(delayImpl)
+return function(taskDelay)
 	local function setTimeout(callback, delayTime: number?, ...): Timeout
-		local args = {...}
-		local task = {
+		local arguments = {...}
+		local timeout = {
 			[Status] = SCHEDULED;
 		}
 
 		-- delayTime is an optional parameter
-		if delayTime == nil then
-			delayTime = 0
-		end
-
 		-- To mimic the JS interface, we're expecting delayTime to be in ms
-		local delayTimeMs = delayTime :: number / 1000
-		delayImpl(delayTimeMs, function()
-			if task[Status] == SCHEDULED then
-				callback(unpack(args))
-				task[Status] = DONE
+
+		local delayTimeMs = (delayTime or 0) / 1000
+		taskDelay(delayTimeMs, function()
+			if timeout[Status] == SCHEDULED then
+				callback(table.unpack(arguments))
+				timeout[Status] = DONE
 			end
 		end)
 
-		return task
+		return timeout
 	end
 
-	local function clearTimeout(task: Timeout)
-		if task == nil then
+	local function clearTimeout(timeout: Timeout)
+		if timeout == nil then
 			return
 		end
-		if task[Status] == SCHEDULED then
-			task[Status] = CANCELLED
+
+		if timeout[Status] == SCHEDULED then
+			timeout[Status] = CANCELLED
 		end
 	end
 
-	return {
-		setTimeout = setTimeout;
+	return table.freeze({
 		clearTimeout = clearTimeout;
-	}
+		setTimeout = setTimeout;
+	})
 end

@@ -1,7 +1,7 @@
 --!optimize 2
 --!strict
 
-local Promise: any = require("./Promise")
+local Promise: any = require("@self/Promise")
 
 export type Status = "Started" | "Resolved" | "Rejected" | "Cancelled"
 export type ErrorKind = "ExecutionError" | "AlreadyCancelled" | "NotResolvedInTime" | "TimedOut"
@@ -21,18 +21,21 @@ type ErrorOptions = {
 	kind: ErrorKind,
 }
 
-export type Error = typeof(setmetatable({} :: ErrorStaticAndShared & {
-	error: string,
-	trace: string?,
-	context: string?,
-	kind: ErrorKind,
-	parent: Error?,
-	createdTick: number,
-	createdTrace: string,
+export type Error = typeof(setmetatable(
+	{} :: ErrorStaticAndShared & {
+		error: string,
+		trace: string?,
+		context: string?,
+		kind: ErrorKind,
+		parent: Error?,
+		createdTick: number,
+		createdTrace: string,
 
-	extend: (self: Error, options: ErrorOptions?) -> Error,
-	getErrorChain: (self: Error) -> {Error},
-}, {} :: {__tostring: (self: Error) -> string}))
+		extend: (self: Error, options: ErrorOptions?) -> Error,
+		getErrorChain: (self: Error) -> {Error},
+	},
+	{} :: {__tostring: (self: Error) -> string}
+))
 type ErrorStatic = ErrorStaticAndShared & {
 	new: (options: ErrorOptions?, parent: Error?) -> Error,
 	is: (anything: any) -> boolean,

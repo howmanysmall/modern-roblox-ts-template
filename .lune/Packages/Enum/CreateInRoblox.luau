@@ -5,19 +5,19 @@
 local ScriptEditorService = game:GetService("ScriptEditorService")
 local Workspace = game:GetService("Workspace")
 
-local function CreateItemType(enumName: string, enumNames: {string})
+local function CreateItemType(enumName: string, enumNames: {string}): string
 	local stringBuilder = table.create(#enumNames)
 	for index, enumValue in enumNames do
-		stringBuilder[index] = string.format("EnumItem<number, %*, %q>", enumName, enumValue)
+		stringBuilder[index] = string.format("\t| EnumItem<number, %*, %q>", enumName, enumValue)
 	end
-	return `export type {enumName}Item =\n\t{table.concat(stringBuilder, "\n\t| ")}`
+	return `export type {enumName} =\n{table.concat(stringBuilder, "\n")}`
 end
-local function CreateEnumType(enumName: string, enumNames: {string})
+local function CreateEnumType(enumName: string, enumNames: {string}): string
 	local stringBuilder = table.create(#enumNames)
 	for index, enumValue in enumNames do
 		stringBuilder[index] = string.format("\t%*: EnumItem<number, %*, %q>,", enumValue, enumName, enumValue)
 	end
-	return `export type {enumName} = EnumObject<\{\n{table.concat(stringBuilder, "\n")}\n}, {enumName}Item>`
+	return `export type {enumName}Root = EnumObject<\{\n{table.concat(stringBuilder, "\n")}\n}, {enumName}>`
 end
 
 local function Map<T, U>(array: {T}, callback: (value: T) -> U): {U}
@@ -27,20 +27,20 @@ local function Map<T, U>(array: {T}, callback: (value: T) -> U): {U}
 	end
 	return new
 end
-local function Sort<T>(array: {T}, callback: nil | (a: T, b: T) -> boolean)
+local function Sort<T>(array: {T}, callback: nil | (a: T, b: T) -> boolean): {T}
 	local new = table.clone(array)
 	table.sort(new, callback)
 	return new
 end
 
-local function SortByValue(a: EnumItem, b: EnumItem)
+local function SortByValue(a: EnumItem, b: EnumItem): boolean
 	return a.Value < b.Value
 end
-local function ReturnName(value: EnumItem)
+local function ReturnName(value: EnumItem): string
 	return value.Name
 end
 
-local function HasIncrementalValue(array: {EnumItem})
+local function HasIncrementalValue(array: {EnumItem}): boolean
 	local newArray = Sort(array, SortByValue)
 	local lastValue = (table.remove(newArray, 1) :: EnumItem).Value
 	if lastValue ~= 0 then
@@ -82,11 +82,11 @@ local LUAU_KEYWORDS = {
 	["while"] = true;
 }
 
-local function IsNumber(value: string)
+local function IsNumber(value: string): boolean
 	local byte = string.byte(value, 1, 1)
 	return byte > 47 and byte < 58
 end
-local function IsNotLuauIdentifier(value: unknown)
+local function IsNotLuauIdentifier(value: unknown): boolean
 	return not (
 		type(value) ~= "string"
 		or #value == 0
@@ -96,7 +96,7 @@ local function IsNotLuauIdentifier(value: unknown)
 	)
 end
 
-local function CreateEnumSetter(enumName: string, enumValues: {EnumItem}, enumNames: {string})
+local function CreateEnumSetter(enumName: string, enumValues: {EnumItem}, enumNames: {string}): string
 	local stringBuilder = table.create(#enumValues)
 	local enumString: string = nil
 	local beforeAfterBraces = ""
@@ -122,7 +122,7 @@ local function CreateEnumSetter(enumName: string, enumValues: {EnumItem}, enumNa
 	return `{CreateItemType(enumName, enumNames)}\n{CreateEnumType(enumName, enumNames)}\nEnum.{enumName} = \{{beforeAfterBraces}{enumString}{beforeAfterBraces}}`
 end
 
-local enums = Sort(Enum:GetEnums(), function(a, b)
+local enums = Sort(Enum:GetEnums(), function(a: Enum, b: Enum): boolean
 	return tostring(a) < tostring(b)
 end)
 
@@ -136,9 +136,9 @@ for index, enum in enums do
 	local enumValues = Sort(enum:GetEnumItems(), SortByValue)
 	local enumName = tostring(enum)
 	local enumNames = Map(enumValues, ReturnName)
-	allEnumNames[index] = enumName
+	allEnumNames[index] = `{enumName}Root`
 	stringBuilder[index] = CreateEnumSetter(enumName, enumValues, enumNames)
-	returnStringBuilder[index + 1] = `\t{enumName}: {enumName},`
+	returnStringBuilder[index + 1] = `\t{enumName}: {enumName}Root,`
 end
 returnStringBuilder[size + 1] = `}, {table.concat(allEnumNames, " | ")}>`
 stringBuilder[size + 1] = table.concat(returnStringBuilder, "\n")
@@ -146,8 +146,39 @@ stringBuilder[size + 1] = table.concat(returnStringBuilder, "\n")
 local moduleScript = Instance.new("ModuleScript")
 moduleScript.Name = "Exports"
 
-ScriptEditorService:UpdateSourceAsync(moduleScript, function()
-	return table.concat(stringBuilder, "\n\n")
+local ROOT_STRING = [[--!nocheck
+--!optimize 2
+
+local Enum = require("@self/Enum")
+
+type SimpleResult<T, E> = {
+	Success: true,
+	Value: T,
+} | {
+	Success: false,
+	Error: E,
+}
+
+type EnumItem<Value, Type, Name = string> = {
+	EnumType: Type,
+	Name: Name,
+	Value: Value,
+}
+type EnumObject<Values, ArrayValues> = {
+	Cast: ((self: EnumObject<Values, ArrayValues>, check: unknown) -> ArrayValues)
+		& ((self: EnumObject<Values, ArrayValues>, check: unknown) -> (false, string)),
+	CastResult: (self: EnumObject<Values, ArrayValues>, check: unknown) -> SimpleResult<ArrayValues, string>,
+	GetEnumItems: (self: EnumObject<Values, ArrayValues>) -> {ArrayValues},
+} & Values
+
+type Enums<Values, ArrayValues> = {
+	GetEnums: (self: Enums<Values, ArrayValues>) -> {ArrayValues},
+} & Values
+
+%*]]
+
+ScriptEditorService:UpdateSourceAsync(moduleScript, function(): string
+	return string.format(ROOT_STRING, table.concat(stringBuilder, "\n\n"))
 end)
 moduleScript.Parent = Workspace
 

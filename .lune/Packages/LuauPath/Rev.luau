@@ -1,9 +1,23 @@
 --!nolint LocalShadow
 --!optimize 2
+--# selene:allow(shadowing)
 
-local Disk = require("@packages/LuauDisk")
+local function FromFunction<T>(generator: (index: number) -> T?): {T}
+	local array = {}
+	local length = 0
 
-local Array = Disk.Array
+	while true do
+		local value = generator(length + 1)
+		if value == nil then
+			break
+		end
+
+		length += 1
+		array[length] = value
+	end
+
+	return array
+end
 
 export type Rev<T> = {
 	next: (self: Rev<T>) -> T?,
@@ -65,7 +79,7 @@ end
 function Rev:collect<T>(): {T}
 	local self: PrivateRev<T> = self :: any
 
-	return Array.fromFn(function()
+	return FromFunction(function(): T?
 		return self:next()
 	end)
 end

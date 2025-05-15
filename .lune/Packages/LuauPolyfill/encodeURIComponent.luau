@@ -1,5 +1,7 @@
 --!optimize 2
+--!strict
 -- reference documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+
 local Error = require("./Error")
 local String = require("./String")
 local net = require("@lune/net")
@@ -31,30 +33,32 @@ local function encodeURIComponent(value: string): string
 	local encoded = net.urlEncode(value)
 	-- reverting encoded chars which are not encoded by JS
 
-	local result = string.gsub(
+	local result = (
 		string.gsub(
 			string.gsub(
 				string.gsub(
 					string.gsub(
 						string.gsub(
-							string.gsub(string.gsub(string.gsub(encoded, "%%2D", "-"), "%%5F", "_"), "%%2E", "."),
-							"%%21",
-							"!"
+							string.gsub(
+								string.gsub(string.gsub(string.gsub(encoded, "%%2D", "-"), "%%5F", "_"), "%%2E", "."),
+								"%%21",
+								"!"
+							),
+							"%%7E",
+							"~"
 						),
-						"%%7E",
-						"~"
+						"%%2A",
+						"*"
 					),
-					"%%2A",
-					"*"
+					"%%27",
+					"'"
 				),
-				"%%27",
-				"'"
+				"%%28",
+				"("
 			),
-			"%%28",
-			"("
-		),
-		"%%29",
-		")"
+			"%%29",
+			")"
+		)
 	)
 	return result
 end

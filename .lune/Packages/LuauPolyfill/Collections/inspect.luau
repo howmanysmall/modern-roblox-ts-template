@@ -3,9 +3,9 @@
 -- derived from these upstream sources:
 -- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/inspect.js
 
-local ES7Types = require("../ES7Types")
+local ES7Types = require("@packages/ES7Types")
 local isArray = require("./Array/isArray")
-local net = require("@lune/net")
+local serde = require("@lune/serde")
 
 type Array<T> = ES7Types.Array<T>
 -- local NULL = require(srcWorkspace.luaUtils.null)
@@ -13,10 +13,14 @@ type Array<T> = ES7Types.Array<T>
 -- Support for options partial implementation
 -- see: https://nodejs.org/dist/latest-v16.x/docs/api/util.html#utilinspectobject-options
 export type InspectOptions = {
+	colors: boolean?,
+	compact: boolean?,
 	depth: number?,
 }
 
 type FormatOptions = {
+	colors: boolean,
+	compact: boolean,
 	depth: number,
 }
 
@@ -36,18 +40,21 @@ local getObjectTag
 local function inspect(value, options: InspectOptions?): string
 	local inspectOptions: InspectOptions = options or {depth = DEFAULT_RECURSIVE_DEPTH}
 	local depth = inspectOptions.depth or DEFAULT_RECURSIVE_DEPTH
+	local compact = inspectOptions.compact
+
 	inspectOptions.depth = if depth >= 0 then depth else DEFAULT_RECURSIVE_DEPTH
+	inspectOptions.compact = if compact == nil then false else compact
 	return formatValue(value, {}, inspectOptions :: FormatOptions)
 end
 
-local function isIndexKey(k, contiguousLength)
+local function isIndexKey(k: unknown, contiguousLength: number): boolean
 	return type(k) == "number"
 		and k <= contiguousLength -- nothing out of bounds
 		and 1 <= k -- nothing illegal for array indices
 		and k % 1 == 0 -- no float keys
 end
 
-local function getTableLength(tbl)
+local function getTableLength(tbl: {[unknown]: unknown}): number
 	local length = 1
 	local value = rawget(tbl, length)
 	while value ~= nil do
@@ -58,7 +65,7 @@ local function getTableLength(tbl)
 	return length - 1
 end
 
-local function sortKeysForPrinting(a: any, b)
+local function sortKeysForPrinting(a: any, b: any): boolean
 	local typeofA = type(a)
 	local typeofB = type(b)
 
@@ -71,14 +78,14 @@ local function sortKeysForPrinting(a: any, b)
 	return typeofA < typeofB
 end
 
-local function getFragmentedKeys(tbl)
+local function getFragmentedKeys(tbl: {[unknown]: unknown}): ({number}, number, number)
 	local keys = {}
 	local keysLength = 0
 	local tableLength = getTableLength(tbl)
-	for key in next, tbl do
+	for key in pairs(tbl) do
 		if not isIndexKey(key, tableLength) then
 			keysLength += 1
-			keys[keysLength] = key
+			keys[keysLength] = key :: number
 		end
 	end
 
@@ -86,10 +93,10 @@ local function getFragmentedKeys(tbl)
 	return keys, keysLength, tableLength
 end
 
-function formatValue(value, seenValues, options: FormatOptions)
+function formatValue(value: unknown, seenValues: {unknown}, options: FormatOptions): string
 	local valueType = type(value)
 	if valueType == "string" then
-		return net.jsonEncode(value)
+		return serde.encode("json", value, not options.compact)
 		-- deviation: format numbers like in JS
 	end
 
@@ -130,7 +137,7 @@ function formatValue(value, seenValues, options: FormatOptions)
 	return tostring(value)
 end
 
-function formatObjectValue(value, previouslySeenValues, options: FormatOptions)
+function formatObjectValue(value: any, previouslySeenValues: {unknown}, options: FormatOptions): string
 	if table.find(previouslySeenValues, value) ~= nil then
 		return "[Circular]"
 	end
@@ -139,8 +146,9 @@ function formatObjectValue(value, previouslySeenValues, options: FormatOptions)
 	local seenValues = table.clone(previouslySeenValues)
 	table.insert(seenValues, value)
 
-	if type(value.toJSON) == "function" then
-		local jsonValue = value:toJSON(value)
+	local toJson = rawget(value, "toJSON")
+	if toJson and type(toJson) == "function" then
+		local jsonValue = toJson(value, value)
 		if jsonValue ~= value then
 			return if type(jsonValue) == "string" then jsonValue else formatValue(jsonValue, seenValues, options)
 		end
@@ -153,8 +161,8 @@ function formatObjectValue(value, previouslySeenValues, options: FormatOptions)
 	return formatObject(value, seenValues, options)
 end
 
-function formatObject(object, seenValues, options: FormatOptions)
-	local mt = getmetatable(object)
+function formatObject(object: {[unknown]: unknown}, seenValues: {unknown}, options: FormatOptions): string
+	local mt = getmetatable(object :: any) -- worst type ever?
 	if mt and rawget(mt, "__tostring") then
 		return tostring(object)
 	end
@@ -170,22 +178,22 @@ function formatObject(object, seenValues, options: FormatOptions)
 	end
 
 	local properties = table.create(keysLength + fragmentedKeysLength)
-	for i = 1, keysLength do
-		local value = formatValue(object[i], seenValues, options)
+	for index = 1, keysLength do
+		local value = formatValue(object[index], seenValues, options)
 		table.insert(properties, value)
 	end
 
-	for i = 1, fragmentedKeysLength do
-		local key = fragmentedKeys[i]
+	for index = 1, fragmentedKeysLength do
+		local key = fragmentedKeys[index]
 		local value = formatValue(object[key], seenValues, options)
 
 		table.insert(properties, `{key}: {value}`)
 	end
 
-	return "{ " .. table.concat(properties, ", ") .. " }"
+	return `\{ {table.concat(properties, ", ")} }`
 end
 
-function formatArray(array: Array<any>, seenValues: Array<any>, options: FormatOptions): string
+function formatArray(array: {unknown}, seenValues: {unknown}, options: FormatOptions): string
 	local length = #array
 	if length == 0 then
 		return "[]"
@@ -199,8 +207,8 @@ function formatArray(array: Array<any>, seenValues: Array<any>, options: FormatO
 	local remaining = length - len
 	local items = table.create(len)
 
-	for i = 1, len do
-		items[i] = formatValue(array[i], seenValues, options)
+	for index = 1, len do
+		items[index] = formatValue(array[index], seenValues, options)
 	end
 
 	if remaining == 1 then
@@ -212,21 +220,7 @@ function formatArray(array: Array<any>, seenValues: Array<any>, options: FormatO
 	return `[{table.concat(items, ", ")}]`
 end
 
-function getObjectTag(_object): string
-	-- local tag = Object.prototype.toString
-	-- 	.call(object)
-	-- 	.replace("")
-	-- 	.replace("")
-
-	-- if tag == "Object" and typeof(object.constructor) == "function" then
-	-- 	local name = object.constructor.name
-
-	-- 	if typeof(name) == "string" and name ~= "" then
-	-- 		return name
-	-- 	end
-	-- end
-
-	-- return tag
+function getObjectTag(_object: {[unknown]: unknown}): string
 	return "Object"
 end
 

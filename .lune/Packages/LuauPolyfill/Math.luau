@@ -1,5 +1,6 @@
 --!optimize 2
 --!strict
-return {
+
+return table.freeze({
 	clz32 = bit32.countlz;
-}
+})

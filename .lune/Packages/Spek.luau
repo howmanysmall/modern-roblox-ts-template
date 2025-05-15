@@ -3,31 +3,148 @@
 
 local Chalk = require("@packages/Chalk")
 local DateTime = require("@lune/datetime")
-local FileInstance = require("@classes/FileInstance")
 local Fmt = require("@packages/Fmt")
+local LuauConfigurationUtilities = require("@utilities/LuauConfigurationUtilities")
+local LuauPolyfill = require("@packages/LuauPolyfill")
 local PathFileSystem = require("@packages/PathFileSystem")
+local PromiseUtilities = require("@packages/PromiseUtilities")
 local RegEx = require("@lune/regex")
 local SemanticVersion = require("@packages/SemanticVersion")
+local SortedArray = require("@packages/SortedArray")
 local roblox = require("@lune/roblox")
 local task = require("@lune/task")
 
+local Await = PromiseUtilities.Await
 local LuauPath = PathFileSystem.Path
+local console = LuauPolyfill.console
+type LuauPath = PathFileSystem.Path
+
+local CWD = PathFileSystem.CWD
+local LUNE_FOLDER = CWD:join(".lune")
 
 local IS_SPEK = RegEx.new("\\.spek\\.luau?$")
 local IS_SPEK_ROBLOX = RegEx.new("\\.spek$")
 local MATCH_CHALK = RegEx.new("[\\u001b\\u009b][\\[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]")
-
-local VERSION = SemanticVersion.new("0.0.0")
-
 local IsMatch = IS_SPEK.isMatch
 local ReplaceAll = MATCH_CHALK.replaceAll
 
-local repeatCache: {[string]: {string}} = {}
+local aliases: {
+	{
+		Alias: string,
+		AliasPath: LuauPath,
+	}
+} = {}
+local aliasesLength = 0
+
+do
+	local luauConfiguration = Await(LuauConfigurationUtilities.GetConfigurationAsync())
+
+	local aliasesInConfiguration = luauConfiguration.aliases
+	if aliasesInConfiguration then
+		for alias, pathString in aliasesInConfiguration do
+			if string.byte(pathString) == 126 then
+				continue
+			end
+
+			local aliasPath = CWD:join(pathString)
+			if not PathFileSystem.FastExists(aliasPath) then
+				console.warn(`Skipping alias '{alias}' at {pathString} as it does not exist.`)
+				continue
+			end
+
+			aliasesLength += 1
+			aliases[aliasesLength] = {
+				Alias = alias;
+				AliasPath = aliasPath;
+			}
+		end
+	end
+end
+
+type SortedArray<T> = SortedArray.SortedArray<T>
+type SpekFile = {
+	Path: LuauPath,
+	RequirePath: string,
+}
+
+local spekFiles: SortedArray<SpekFile> = SortedArray.new(
+	table.create(aliasesLength) :: {SpekFile},
+	function(a: SpekFile, b: SpekFile): boolean
+		return a.RequirePath < b.RequirePath
+	end
+)
+
+local function IsSpekFileEqual(a: SpekFile, b: SpekFile): boolean
+	return a.Path:equal(b.Path)
+end
+
+do
+	for _, child in PathFileSystem.GetDescendants(LUNE_FOLDER) do
+		if not PathFileSystem.IsFile(child) then
+			continue
+		end
+
+		local extension = child:extension()
+		if not extension then
+			console.error(`Failed to get extension for {child}?`)
+			continue
+		end
+
+		if extension ~= "lua" and extension ~= "luau" then
+			continue
+		end
+
+		local fileStem = child:fileStem()
+		if not fileStem then
+			console.error(`Failed to get fileStem for {child}?`)
+			continue
+		end
+
+		if string.sub(string.lower(fileStem), -5) ~= ".spek" then
+			continue
+		end
+
+		for _, aliasData in aliases do
+			local aliasPath = aliasData.AliasPath
+			if not child:startsWith(aliasPath) then
+				continue
+			end
+
+			-- console.debug(`{child} does start with {aliasPath}`)
+
+			local relativePath = child:stripPrefix(aliasPath)
+			if not relativePath then
+				console.error(`Failed to strip prefix for {child}?`)
+				continue
+			end
+
+			local alias = aliasData.Alias
+			-- console.log(`Adding alias '@{alias}' at {relativePath} ({child})!`)
+
+			local spekFile: SpekFile = {
+				Path = child;
+				RequirePath = `@{alias}/{relativePath}`;
+			}
+
+			if spekFiles:Find(spekFile, IsSpekFileEqual) then
+				console.error(`Already added {child}?`)
+				continue
+			end
+
+			spekFiles:Insert(spekFile)
+			break
+		end
+	end
+end
+
+local VERSION = SemanticVersion.new("0.0.0")
+
+local RepeatCache: {[string]: {string}} = {}
 local function StringRep(repeatString: string, count: number): string
-	local cache = repeatCache[repeatString]
+	local cache = RepeatCache[repeatString]
 	if not cache then
 		cache = {}
-		repeatCache[repeatString] = cache
+		RepeatCache[repeatString] = cache
 	end
 
 	local value = cache[count]
@@ -44,26 +161,26 @@ for index = 0, 50 do
 	StringRep("-", index)
 end
 
-local freeThreads: {thread} = table.create(500)
-local freeAmount = 0
+local FreeThreads: {thread} = table.create(500)
+local FreeAmount = 0
 
-local function RunFunction<Arguments...>(callback: (Arguments...) -> (), thread: thread, ...: Arguments...): ()
+local function RunFunction<Arguments...>(callback: (Arguments...) -> (), thread: thread, ...: Arguments...)
 	callback(...)
-	freeAmount += 1
-	freeThreads[freeAmount] = thread
+	FreeAmount += 1
+	FreeThreads[FreeAmount] = thread
 end
-local function Yield(): ()
+local function Yield()
 	while true do
 		RunFunction(coroutine.yield())
 	end
 end
-local function FastDefer<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...): thread
+local function FastDefer<Arguments...>(callback: (Arguments...) -> (), ...: Arguments...)
 	local thread: thread
 
-	if freeAmount > 0 then
-		thread = freeThreads[freeAmount]
-		freeThreads[freeAmount] = nil
-		freeAmount -= 1
+	if FreeAmount > 0 then
+		thread = FreeThreads[FreeAmount]
+		FreeThreads[FreeAmount] = nil
+		FreeAmount -= 1
 	else
 		thread = coroutine.create(Yield)
 		coroutine.resume(thread)
@@ -1001,14 +1118,25 @@ end
 
 -- Creates a new node refered to by *key* under *parent*, or root if *parent* is
 -- nil.
-function Tree.CreateNode(self: Tree, type: ResultType, parent: Node, key: any): Node
-	return newNode(self, type, parent, key)
+function Tree.CreateNode(self: Tree, resultType: ResultType, parent: Node, key: any): Node
+	return newNode(self, resultType, parent, key)
 end
 
 -- Creates a node as usual, but the result is filled in with an error, and the
 -- node's data is frozen.
-function Tree.CreateErrorNode(self: Tree, type: ResultType, parent: Node, key: any, format: string, ...: any): Node
-	local node = self:CreateNode(type, parent, key)
+function Tree.CreateErrorNode(
+	self: Tree,
+	resultType: ResultType,
+	parent: Node,
+	key: any,
+	format: string,
+	...: any
+): Node
+	local node = self:CreateNode(resultType, parent, key)
+	if type(format) ~= "string" then
+		print(format)
+	end
+
 	node:UpdateResult(newResult(node, "errored", string.format(format, ...)))
 	table.freeze(node.Data)
 	return node
@@ -1491,16 +1619,16 @@ type _Parameter<X> = Parameter & {
 --
 -- If called with the non-description form, the description will be nil. If
 -- called with the description form, errors if nil is passed as the description.
-local function newClause<X>(process: (description: string?, closure: X) -> ()): Clause<X>
+local function newClause<X>(processor: (description: string?, closure: X) -> ()): Clause<X>
 	return function(description: any | X): any
 		if type(description) == "function" then
-			process(nil, description)
+			processor(nil, description)
 			return
 		end
 
 		if type(description) == "string" then
 			return function(closure: X)
-				process(description, closure)
+				processor(description, closure)
 			end
 		end
 
@@ -1570,7 +1698,7 @@ end
 --
 -- If called with the non-description form, the description will be nil. If
 -- called with the description form, errors if nil is passed as the description.
-local function newFlagClause<X>(process: (description: string?, flags: Flags, closure: X) -> ()): FlagClause<X>
+local function newFlagClause<X>(processor: (description: string?, flags: Flags, closure: X) -> ()): FlagClause<X>
 	return function(...: any): any
 		if type((...)) == "string" then
 			-- clause (description) ...
@@ -1579,7 +1707,7 @@ local function newFlagClause<X>(process: (description: string?, flags: Flags, cl
 				if type(...) == "function" then
 					-- clause (description) (closure)
 					local closure = ... :: X
-					process(description, parseFlags(), closure)
+					processor(description, parseFlags(), closure)
 					return
 				end
 
@@ -1587,7 +1715,7 @@ local function newFlagClause<X>(process: (description: string?, flags: Flags, cl
 					-- clause (description) (flags...) (closure)
 					local flags = parseFlags(...)
 					return function(closure: X)
-						process(description, flags, closure)
+						processor(description, flags, closure)
 					end
 				end
 
@@ -1598,7 +1726,7 @@ local function newFlagClause<X>(process: (description: string?, flags: Flags, cl
 		if type((...)) == "function" then
 			-- clause (closure)
 			local closure = ...
-			process(nil, parseFlags(), closure)
+			processor(nil, parseFlags(), closure)
 			return
 		end
 
@@ -1606,7 +1734,7 @@ local function newFlagClause<X>(process: (description: string?, flags: Flags, cl
 			-- clause (flags...) (closure)
 			local flags = parseFlags(...)
 			return function(closure: X)
-				process(nil, flags, closure)
+				processor(nil, flags, closure)
 			end
 		end
 
@@ -2024,6 +2152,31 @@ local function planContext(_contextManager: ContextManager<T>, tree: Tree, paren
 	end
 end
 
+local function GetSpekFile(inputPath: LuauPath, fullInputPath: LuauPath): SpekFile?
+	local withCwd = if inputPath:startsWith(CWD) then inputPath else CWD:join(inputPath)
+	local fakeSpekFile: SpekFile = {
+		Path = withCwd;
+		RequirePath = "";
+	}
+	local spekFileIndex = spekFiles:Find(fakeSpekFile, IsSpekFileEqual)
+
+	if spekFileIndex then
+		return spekFiles.Array[spekFileIndex]
+	end
+
+	-- dumbass brute force
+	for _, spekFile in spekFiles.Array do
+		if IsSpekFileEqual(fakeSpekFile, spekFile) then
+			return spekFile
+		end
+	end
+
+	console.warn(
+		`Failed to find entry for:\n{(Chalk.Bold .. Chalk.Green)(fullInputPath:toString())}\nCurrent array:\n{spekFiles}`
+	)
+	return nil
+end
+
 -- Creates nodes under *parent* according to *input*.
 local function processInput(tree: Tree, parent: Node, input: Input)
 	if type(input) == "function" then
@@ -2092,8 +2245,17 @@ local function processInput(tree: Tree, parent: Node, input: Input)
 		end
 
 		local node = tree:CreateNode("node", parent, key)
+		local fullInputPath = CWD:join(inputPath)
+
+		local spekFile = GetSpekFile(inputPath, fullInputPath)
+		if not spekFile then
+			return
+		end
+
+		local requirePath = spekFile.RequirePath
+		-- console.debug(`Requiring {requirePath}`)
 		local success, inner = pcall(function()
-			return require(input) :: never
+			return require(requirePath) :: never
 		end)
 
 		if not success then
@@ -2732,7 +2894,7 @@ local function runUnit(node: Node, state: UnitState)
 	local befores, afters = {}, {}
 	gatherEnvironment(node, befores, afters)
 
-	local result: Result? = nil;
+	local result: Result? = nil
 	(function()
 		for _, before in befores do
 			local beforeSuccess, beforeException = pcall(before :: never)
@@ -3430,14 +3592,6 @@ end
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-local function AsPathToString(asPath: PathFileSystem.AsPath): string
-	if type(asPath) == "string" then
-		return asPath
-	end
-
-	return LuauPath.from(asPath):toString()
-end
-
 --[=[
 	Locates speks under a given path.
 	@param root Components | Path | string -- The path to search.
@@ -3447,14 +3601,14 @@ function export.find(root: PathFileSystem.AsPath): {string}
 	local speks: {string} = {}
 	local length = 0
 
-	for _, fileInstance in FileInstance.Mark(AsPathToString(root)):GetDescendants() do
-		local descendant = fileInstance:GetFullName()
+	for _, descendant in PathFileSystem.GetDescendants(root) do
 		if PathFileSystem.IsFileSafeSilent(descendant) then
-			if not IsMatch(IS_SPEK, descendant) then
+			local asString = descendant:toString()
+			if not IsMatch(IS_SPEK, asString) then
 				continue
 			end
 			length += 1
-			speks[length] = descendant
+			speks[length] = asString
 		end
 	end
 

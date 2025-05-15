@@ -6,11 +6,11 @@
 ]=]
 
 local ArgParse = require("@packages/ArgParse")
+local FormatUtilities = require("@utilities/FormatUtilities")
 local LuauLexer = require("@packages/LuauLexer")
 local LuauPolyfill = require("@packages/LuauPolyfill")
 local PathFileSystem = require("@packages/PathFileSystem")
-local StyluaUtilities = require("@utilities/StyluaUtilities")
-local ThreadUtilities = require("@utilities/ThreadUtilities")
+local ThreadUtilities = require("@packages/ThreadUtilities")
 local process = require("@lune/process")
 
 local Set = LuauPolyfill.Set
@@ -131,6 +131,8 @@ for _, filePath in toTransform do
 		console.log(`Formatting {filePath}...`)
 	end
 	ThreadUtilities.FastDefer(function()
-		StyluaUtilities.FormatFile(filePath)
+		FormatUtilities.FormatAsync(filePath:toString(), {
+			FormatAmount = 5;
+		}):Expect()
 	end)
 end
